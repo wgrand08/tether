@@ -1,0 +1,170 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Here's our idea document, figured we should organize all this.
+
+
+= Idea Document =
+
+This is blue-sky brainstorming right now. Feel free to put whatever you want here. Of course, the more outlandish the feature, the longer it will take to get implemented.
+
+Elements of the original game we want to keep:
+turn-based with round based energy replenishment (this was important to the strategy)
+rotation buttons & power bar (interface mostly the same)
+all units, starting with basic 1 cost.
+"Their shield is down, their bottom is bare! Spank them!" (heheh)
+
+Elements of the original game we want to exclude:
+Silly Networking :)
+Campaign (we could do one but who's going to play it?)
+Compatibility with original game (it's dead)
+only 1 pass on the power bar (that was annoying for me)
+4-player limit
+
+New stuff that wasn't in the original game but would be cool to have:
+tetherless hubs, skyhubs, new weapons (more to come)
+"super" weapons that cost more then 7 energy (see below)
+Difference between 'races'
+    possible advantages: longer range shots, higher powered shots, more accurate shots, better visibility
+Special abilities that cost energy (slower power bar, power bar distance indicator)
+radar unit (bomb destination appears within it's FoV)
+simultaneous turns
+vampire clamp (steals energy, EVIL IDEA!)
+Scout unit (Balloon/crawler combo that flies around discovering map, limited duration?)
+Arbitrary number of players? that way if you wanted you could have a 100 player game *grins*
+Undersea tether (extra cost?)
+True spherical map (original moonbase was torus)
+Full 3D map and buildings, allowing for camera rotation?
+
+What order should we implement features in?
+phase 1:
+pure 2-d to start
+text input for direction and power at first
+algorithm for calculating shots
+Top-down art?
+
+Phase 2:
+Networking
+GUI
+
+Phase 3:
+Sound Effects
+Music?
+Terrain
+More Weapons
+2.5D or 3D
+(at around this point we should have rebuilt all the important sections of the classic game)
+Iso Art?
+
+Phase 4:
+Things not in the original (enhanced game)
+Super Weapons
+Super Buildings
+Special Abilities
+Full 3D?
+
+Useful Links:
+free sound effecs: http://www.stonewashed.net/sfx.html
+original moonbase info: http://mbc.strategyplanet.gamespy.com/unitguide1.shtml
+
+
+Art assets needed:
+List of Art thingers to be made:
+  Icon for the game
+
+  Race/Group Styles:
+    Steam Punk (+1 Jon) (+1 isaac) (+1 Dan)
+    Mystic Pyramids (+1 Jon) (+1 Dan) (+1 David)
+    Living Alien (+1 kevin, I think this would be cool to have something thats a giant organism with tentacles for tethers)
+    High Tech (+1 David) (+1 Kevin)
+    Sandal Punk (+1 Dan) (what's this?)
+    Modernish (+1 David) (+1 Dan)
+    Smooth and Blobby
+    Spikey
+    Star Shaped
+    Random Tech looking with Gears (+1 isaac) (+1 Kevin)
+    Smurfs (-1 Kevin)
+    Wizard Tower things
+
+  Hubs:
+    Main Hub
+    Sub Hub
+    Attack Hub (offense)
+  Weapons:
+    Bomb
+    Cluster bomb
+    Guided missile
+    EMP
+    Virus
+    Crawler
+    Power spike (Sparkly spikey thing?)
+    Mines
+  Power:
+    Power generator
+  Connections:
+    Tether  (matching the style of the base?)
+  Observation:
+    Tower
+    Balloon
+  Defense:
+    Anti-air
+    Shield (building)
+  Misc:
+    Repair (2D wrench works?)
+    Recall (2D targety thing works?)
+    Bridge
+    Shield (around building)
+
+Planet/Moon Details:
+  Power Spots
+  Water
+  Cliffs
+  Normal Ground
+  Broken Ground
+
+Animation:
+Explosions
+"Launch" effect (something hub does when it fires)
+
+Phase 1:
+  main hub thing
+  chuckable hub
+  bomb
+  tether
+
+Super Weapon Ideas:
+Nuke (bomb with the power/radius of a destroyed energy collector)
+Super Virus (Virus still spreads if it hits tether not just building)
+Mass Repair (Repairs multiple buildings within radius)
+Super Repair (Repairs multiple HP per shot)
+
+Other thoughts:
+What should we name this program?
+'FOSS MBC' is what I've been using but it's awkward. 'Moonbase Clone' doesn't really work since we're not actually trying to clone MBC but make a game very very similar to it. Of course if we follow game remake naming tradition (freeciv, freecol, freecraft) we would end up with 'freemoon', 'freemoonbase' or even 'freebase' (heheh).
+
+Maybe if we come up with a theme for the game first we will have a better idea for a name (see below).
+
+I like the name freebase. Not really a good idea though. :) (Isaac)
+Moonies?  Hehe (Jon)
+Spacebase Captain (inspired by Doctor Who) (David)
+Moonfreebase (Dan)
+Moonlinks (Jon)
+moonchuckers (isaac)
+Dinner and a Melee at the New Moon  (Stealing from both Douglas Adams, and Infogrames) (Jon) (+1 Mollie)
+Moon Golf with Bombs? (David)
+Robolink Melee (Jon)
+Linked Bomb Chuckers (David)
+Mecha Bombers of DOOM! (David)
+Happy Ponies! (David) (+1 Mollie)
+TetherWar (Kevin)
+Freebasing Moonrocks (I'm kidding about this one) (Kevin)
+
+Classic mode?
+We've been talking alot about tweaks and enhancements to the game however if we add anything like that I would recommend having 'classic' mode option so that people can always play the original (or as close to the original as we can get) if they don't want the the new 'enhanced' mode.
+
+Theme/Story?
+Admittedly a game like this doesn't really need much of a story but do we want to move away from the 'moon' theme of the game? I think keeping it sci-fi-ish is probably best. The only other themes I can think of for this is either a biological theme (though even with a sci-fi theme a race like this would work) or a mystical theme (with the tethers being ley lines or something similar). Another theme idea I had was for the game to be on an interstellar level with the tethers being wormholes connecting colonies together which are all tied back to a races homeworld (which gives a reason for only having 1 central hub). Things are 'launched' through hyperspace which has inertia and once it runs out of speed it drops back into real space (lands).
+
+Energy production?
+With OMBC you can see the 'energy' flow along the tethers and everything is interconnected. If we were to have seperate hubs should they have seperate energy supplies? This would make it somewhat more realistic and would also make seperate hubs a challenge because having everything interconnected would make you stronger since you can do power attacks from anywhere but also more vulnerable to attacks that go through the grid or in a key location.
