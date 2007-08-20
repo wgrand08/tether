@@ -37,11 +37,14 @@ class InputBox:
     def __init__(self, window):
         self.window = window
 
-        self.rect = Rect(0,0,XSIZE,50)
+        self.rect = Rect(XSIZE/4,YSIZE/2-25,XSIZE/2,50)
+
+        self.background = pygame.Surface(self.rect.size)
+        self.background.blit(window, (0,0), self.rect)
+
         self.font = pygame.font.Font(None, self.rect.height)
 
         self.text = "A picture of Jupiter (type something)"
-        self.drawn = (0,0,0,0)
 
         self.cursor = self.font.render("|", True, color.green)
         self.cursorwidth = self.cursor.get_width()
@@ -57,18 +60,18 @@ class InputBox:
         self.update()
 
     def update(self):
-        self.window.fill(color.black, self.drawn)
+        self.window.blit(self.background, self.rect)
+
         surface = self.font.render(self.text, True, color.white)
         width = surface.get_width()
 
         overage = max(0, width + self.cursorwidth - self.rect.width)
         draw = Rect(overage,0,self.rect.width,self.rect.height)
-        self.drawn = self.window.blit(surface, (0,0), draw)
+        drawn = self.window.blit(surface, self.rect, draw)
 
-        cursorrect = self.window.blit(self.cursor, (self.drawn.right,0))
-        self.drawn.union_ip(cursorrect)
+        self.window.blit(self.cursor, drawn.topright)
 
-        pygame.display.update()
+        pygame.display.update(self.rect)
 
 class color:
     def __getattr__(self, name):
