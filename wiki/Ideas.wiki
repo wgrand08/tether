@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Brainstorming ideas for FOSS MBC project.
 
 = Introduction =
 
@@ -159,6 +159,7 @@ Mecha Bombers of DOOM! (David)
 Happy Ponies! (David) (+1 Mollie)
 TetherWar (Kevin)
 Freebasing Moonrocks (I'm kidding about this one) (Kevin)
+MoonPy (It's accurate and I think it's kind of funny) (Kevin)
 
 Classic mode?
 We've been talking alot about tweaks and enhancements to the game however if we add anything like that I would recommend having 'classic' mode option so that people can always play the original (or as close to the original as we can get) if they don't want the the new 'enhanced' mode.
