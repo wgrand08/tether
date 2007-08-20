@@ -3,11 +3,13 @@ from __future__ import division
 import pygame, sys,os
 from pygame.locals import *
 
-SIZE = 800,800
+SIZE = XSIZE,YSIZE = 800,800
 
 def main():
     pygame.display.init()
     pygame.font.init()
+
+    pygame.key.set_repeat(250, 50)
 
     pygame.display.set_caption("Moonbase Thingy")
     window = pygame.display.set_mode(SIZE)
@@ -15,8 +17,9 @@ def main():
 
     window.fill(color.black)
     image_test = pygame.image.load("jupiter.gif")
-    pygame.display.update()
     screen.blit(image_test, (0, 50))
+
+    pygame.display.update()
 
     inputbox = InputBox(window)
 
@@ -33,12 +36,15 @@ def main():
 class InputBox:
     def __init__(self, window):
         self.window = window
-        self.font = pygame.font.Font(None, 50)
 
-        self.text = "A picture of Jupiter"
-        self.rect = (0,0,0,0)
+        self.rect = Rect(0,0,XSIZE,50)
+        self.font = pygame.font.Font(None, self.rect.height)
+
+        self.text = "A picture of Jupiter (type something)"
+        self.drawn = (0,0,0,0)
 
         self.cursor = self.font.render("|", True, color.green)
+        self.cursorwidth = self.cursor.get_width()
 
         self.update()
 
@@ -51,11 +57,17 @@ class InputBox:
         self.update()
 
     def update(self):
-        self.window.fill(color.black, self.rect)
+        self.window.fill(color.black, self.drawn)
         surface = self.font.render(self.text, True, color.white)
-        self.rect = self.window.blit(surface, (0,0))
-        cursorrect = self.window.blit(self.cursor, (surface.get_width(),0))
-        self.rect.union_ip(cursorrect)
+        width = surface.get_width()
+
+        overage = max(0, width + self.cursorwidth - self.rect.width)
+        draw = Rect(overage,0,self.rect.width,self.rect.height)
+        self.drawn = self.window.blit(surface, (0,0), draw)
+
+        cursorrect = self.window.blit(self.cursor, (self.drawn.right,0))
+        self.drawn.union_ip(cursorrect)
+
         pygame.display.update()
 
 class color:
