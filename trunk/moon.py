@@ -16,7 +16,7 @@ def main():
     screen = pygame.display.get_surface() 
 
     window.fill(color.black)
-    image_test = pygame.image.load("jupiter.gif")
+    image_test = pygame.image.load("images/jupiter.gif")
     screen.blit(image_test, (0, 50))
 
     pygame.display.update()
