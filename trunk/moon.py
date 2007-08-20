@@ -19,9 +19,10 @@ def main():
     image_test = pygame.image.load("images/jupiter.gif")
     screen.blit(image_test, (0, 50))
 
-    pygame.display.update()
+    inputbox = InputBox(window, Rect(XSIZE/4, YSIZE/2-25, XSIZE/2, 50))
+    inputbox.text = "A picture of Jupiter (type something)"
 
-    inputbox = InputBox(window)
+    pygame.display.update()
 
     while True:
         e = pygame.event.wait()
@@ -33,45 +34,55 @@ def main():
         elif e.type == QUIT:
             break
 
-class InputBox:
-    def __init__(self, window):
+class InputBox(object):
+    def __init__(self, window, rect):
         self.window = window
-
-        self.rect = Rect(XSIZE/4,YSIZE/2-25,XSIZE/2,50)
+        self.rect = rect
 
         self.background = pygame.Surface(self.rect.size)
         self.background.blit(window, (0,0), self.rect)
 
         self.font = pygame.font.Font(None, self.rect.height)
-
-        self.text = "A picture of Jupiter (type something)"
+        self._text = ""
 
         self.cursor = self.font.render("|", True, color.green)
-        self.cursorwidth = self.cursor.get_width()
+        self.textwidth = self.rect.width - self.cursor.get_width()
 
         self.update()
 
+    def _get_text(self):
+        return self._text
+
+    def _set_text(self, text):
+        self._text = text
+        self.update()
+
+    text = property(_get_text, _set_text)
+
     def key(self, key):
         if key.key == K_BACKSPACE:
-            self.text = self.text[:-1]
+            self._text = self._text[:-1]
         else:
-            self.text += key.unicode
+            self._text += key.unicode
 
         self.update()
 
     def update(self):
+        surface = self.font.render(self._text, True, color.white)
+        overage = max(0, surface.get_width() - self.textwidth)
+
+        draw = Rect(overage, 0, self.rect.width, self.rect.height)
+
         self.window.blit(self.background, self.rect)
-
-        surface = self.font.render(self.text, True, color.white)
-        width = surface.get_width()
-
-        overage = max(0, width + self.cursorwidth - self.rect.width)
-        draw = Rect(overage,0,self.rect.width,self.rect.height)
         drawn = self.window.blit(surface, self.rect, draw)
-
         self.window.blit(self.cursor, drawn.topright)
 
         pygame.display.update(self.rect)
+
+    def close(self):
+        self.window.blit(self.background, self.rect)
+        pygame.display.update(self.rect)
+        return self._text
 
 class color:
     def __getattr__(self, name):
