@@ -1,13 +1,7 @@
 #summary Brainstorming ideas for FOSS MBC project.
 
-= Introduction =
-
-Here's our idea document, figured we should organize all this.
-
-
-= Idea Document =
-
 This is blue-sky brainstorming right now. Feel free to put whatever you want here. Of course, the more outlandish the feature, the longer it will take to get implemented.
+
 
 Elements of the original game we want to keep:
 turn-based with round based energy replenishment (this was important to the strategy)
