@@ -1,6 +1,6 @@
 from __future__ import division
 
-import pygame
+import pygame, sys,os
 from pygame.locals import *
 
 SIZE = 800,800
@@ -11,9 +11,12 @@ def main():
 
     pygame.display.set_caption("Moonbase Thingy")
     window = pygame.display.set_mode(SIZE)
+    screen = pygame.display.get_surface() 
 
     window.fill(color.black)
+    image_test = pygame.image.load("jupiter.gif")
     pygame.display.update()
+    screen.blit(image_test, (0, 50))
 
     inputbox = InputBox(window)
 
@@ -32,7 +35,7 @@ class InputBox:
         self.window = window
         self.font = pygame.font.Font(None, 50)
 
-        self.text = "Type something"
+        self.text = "A picture of Jupiter"
         self.rect = (0,0,0,0)
 
         self.cursor = self.font.render("|", True, color.green)
