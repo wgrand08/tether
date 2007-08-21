@@ -51,12 +51,12 @@ def main():
             break
 
 def dostuff(window, nextevent):
-    image_test = pygame.image.load("images/jupiter.gif")
+    image_test = pygame.image.load("images/test.png")
     window.blit(image_test, (0, 50))
     pygame.display.update()
 
     inputbox = InputBox(window, Rect(XSIZE/8, YSIZE/2-25, XSIZE*3/4, 50))
-    inputbox.text = "A picture of Jupiter (type something)"
+    inputbox.text = "A pointless picture (type something)"
 
     while True:
         k = nextevent()
