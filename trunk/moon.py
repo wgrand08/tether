@@ -21,15 +21,14 @@ from __future__ import division
 import pygame
 from pygame.locals import *
 import threading
-from threading import Thread
 from Queue import Queue
 
-WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 800,800
+WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 800,600
 
 CALL = USEREVENT + 0
 
 def main(game):
-    game.showimage("images/600px-Jupiter.jpg")
+    game.show(game.loadimage("images/600px-Jupiter.jpg"), (100,0))
     text = game.input()
     print text
 
@@ -47,8 +46,7 @@ class Game:
         self.window.fill(color.black)
         pygame.display.update()
 
-        self.mainfn = mainfn
-        self.gamelogic = Thread(target=self._go)
+        self.gamelogic = threading.Thread(target=self._go, args=(mainfn,))
         self.gamelogic.start()
 
         while True:
@@ -62,25 +60,31 @@ class Game:
             elif e.type == QUIT:
                 break
 
-    def _go(self):
-        self.mainfn(self)
+    def _go(self, mainfn):
+        mainfn(self)
         pygame.event.post(pygame.event.Event(QUIT))
 
-    def showimage(self, filename):
-        call(self._showimage, filename)
+    def loadimage(self, filename):
+        return call(self._loadimage, filename)
 
-    def _showimage(self, filename):
-        image = pygame.image.load(filename).convert()
-        self.window.blit(image, (0,0))
+    def _loadimage(self, filename):
+        return pygame.image.load(filename).convert()
+
+    def show(self, image, pos=(0,0)):
+        call(self._show, image, pos)
+
+    def _show(self, image, pos):
+        self.window.blit(image, pos)
         pygame.display.update()
 
     def input(self):
         inputbox = call(InputBox, self.window)
         old = self.keylistener
         self.keylistener = inputbox.key
-        text = inputbox.result()
+        inputbox.done.wait()
         self.keylistener = old
-        return text
+        inputbox.close()
+        return inputbox.text
 
 def call(fn, *args):
     q = Queue()
@@ -99,7 +103,7 @@ class InputBox(object):
         self.background.blit(window, (0,0), self.rect)
 
         self.font = pygame.font.Font(None, self.rect.height)
-        self._text = text
+        self.text = text
 
         self.cursor = self.font.render("|", True, color.green)
         self.textwidth = self.rect.width - self.cursor.get_width()
@@ -108,27 +112,21 @@ class InputBox(object):
 
         self.update()
 
-    def _get_text(self):
-        return self._text
-
-    def _set_text(self, text):
-        self._text = text
-        self.update()
-
-    text = property(_get_text, _set_text)
-
     def key(self, key):
         if key.key == K_BACKSPACE:
-            self._text = self._text[:-1]
+            self.text = self.text[:-1]
         elif key.key == K_RETURN:
-            self.close()
+            self.done.set()
+        elif key.key == K_ESCAPE:
+            self.text = None
+            self.done.set()
         else:
-            self._text += key.unicode
+            self.text += key.unicode
 
         self.update()
 
     def update(self):
-        surface = self.font.render(self._text, True, color.white)
+        surface = self.font.render(self.text, True, color.white)
         overage = max(0, surface.get_width() - self.textwidth)
 
         draw = Rect(overage, 0, self.rect.width, self.rect.height)
@@ -142,11 +140,6 @@ class InputBox(object):
     def close(self):
         self.window.blit(self.background, self.rect)
         pygame.display.update(self.rect)
-        self.done.set()
-
-    def result(self):
-        self.done.wait()
-        return self._text
 
 class color:
     def __getattr__(self, name):
