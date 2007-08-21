@@ -5,7 +5,9 @@ from pygame.locals import *
 from threading import Thread
 from Queue import Queue
 
-SIZE = XSIZE,YSIZE = 800,800
+window_xsize = 800
+window_ysize = 800
+SIZE = XSIZE,YSIZE = window_xsize,window_ysize
 
 def main():
     pygame.display.init()
