@@ -26,15 +26,17 @@
   # higher powered shots 
   # more accurate shots 
   # better visibility
-Special abilities that cost energy (slower power bar, power bar distance indicator)
-radar unit (bomb destination appears within it's FoV)
-simultaneous turns
-vampire clamp (steals energy, EVIL IDEA!)
-Scout unit (Balloon/crawler combo that flies around discovering map, limited duration?)
-Arbitrary number of players? that way if you wanted you could have a 100 player game *grins*
-Undersea tether (extra cost?)
-True spherical map (original moonbase was torus)
-Full 3D map and buildings, allowing for camera rotation?
+ * Special abilities that cost energy 
+  # slower power bar 
+  # power bar distance indicator
+ * radar unit (bomb destination appears within it's FoV)
+ * simultaneous turns
+ * vampire clamp (steals energy, EVIL IDEA!)
+ * Scout unit (Balloon/crawler combo that flies around discovering map, limited duration?)
+ * Arbitrary number of players? that way if you wanted you could have a 100 player game *grins*
+ * Undersea tether (extra cost?)
+ * True spherical map (original moonbase was torus)
+ * Full 3D map and buildings, allowing for camera rotation?
 
 What order should we implement features in?
 phase 1:
@@ -169,6 +171,7 @@ Admittedly a game like this doesn't really need much of a story but do we want t
 
 Energy production?
 With OMBC you can see the 'energy' flow along the tethers and everything is interconnected. If we were to have seperate hubs should they have seperate energy supplies? This would make it somewhat more realistic and would also make seperate hubs a challenge because having everything interconnected would make you stronger since you can do power attacks from anywhere but also more vulnerable to attacks that go through the grid or in a key location.
+
 
 
 
