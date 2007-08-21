@@ -1,26 +1,31 @@
 #summary Brainstorming ideas for FOSS MBC project.
 
-This is blue-sky brainstorming right now. Feel free to put whatever you want here. Of course, the more outlandish the feature, the longer it will take to get implemented.
+=This is blue-sky brainstorming right now. Feel free to put whatever you want here. Of course, the more outlandish the feature, the longer it will take to get implemented.=
 
 
-Elements of the original game we want to keep:
-turn-based with round based energy replenishment (this was important to the strategy)
-rotation buttons & power bar (interface mostly the same)
-all units, starting with basic 1 cost.
-"Their shield is down, their bottom is bare! Spank them!" (heheh)
+===Elements of the original game we want to keep:===
+ * turn-based with round based energy replenishment (this was important to the strategy)
+ * rotation buttons & power bar (interface mostly the same)
+ * all units, starting with basic 1 cost.
+ * "Their shield is down, their bottom is bare! Spank them!" (heheh)
 
-Elements of the original game we want to exclude:
-Silly Networking :)
-Campaign (we could do one but who's going to play it?)
-Compatibility with original game (it's dead)
-only 1 pass on the power bar (that was annoying for me)
-4-player limit
+===Elements of the original game we want to exclude:===
+ * Silly Networking :)
+ * Campaign (we could do one but who's going to play it?)
+ * Compatibility with original game (it's dead)
+ * only 1 pass on the power bar (that was annoying for me)
+ * 4-player limit
 
-New stuff that wasn't in the original game but would be cool to have:
-tetherless hubs, skyhubs, new weapons (more to come)
-"super" weapons that cost more then 7 energy (see below)
-Difference between 'races'
-    possible advantages: longer range shots, higher powered shots, more accurate shots, better visibility
+===New stuff that wasn't in the original game but would be cool to have:===
+ * tetherless hubs 
+ * skyhubs 
+ * new weapons (more to come)
+  # "super" weapons that cost more then 7 energy (see below)
+ * Difference between 'races'
+  # longer range shots 
+  # higher powered shots 
+  # more accurate shots 
+  # better visibility
 Special abilities that cost energy (slower power bar, power bar distance indicator)
 radar unit (bomb destination appears within it's FoV)
 simultaneous turns
@@ -164,4 +169,13 @@ Admittedly a game like this doesn't really need much of a story but do we want t
 
 Energy production?
 With OMBC you can see the 'energy' flow along the tethers and everything is interconnected. If we were to have seperate hubs should they have seperate energy supplies? This would make it somewhat more realistic and would also make seperate hubs a challenge because having everything interconnected would make you stronger since you can do power attacks from anywhere but also more vulnerable to attacks that go through the grid or in a key location.
+
+
+
+
+
+
+
+
+
 
