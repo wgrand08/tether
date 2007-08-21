@@ -1,83 +1,110 @@
-""" Copyright (C) 2007 Isaac Carroll, Kevin Clement, Jon Handy
+"""Copyright 2007:
+    Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 3 of the License, or
-  (at your option) any later version.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 from __future__ import division
 
-import pygame, sys,os
+import pygame
 from pygame.locals import *
+import threading
 from threading import Thread
 from Queue import Queue
 
-window_xsize = 800
-window_ysize = 800
-SIZE = XSIZE,YSIZE = window_xsize,window_ysize
+WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 800,800
 
-def main():
-    pygame.display.init()
-    pygame.font.init()
+CALL = USEREVENT + 0
 
-    pygame.key.set_repeat(250, 50)
+def main(game):
+    game.showimage("images/600px-Jupiter.jpg")
+    text = game.input()
+    print text
 
-    pygame.display.set_caption("Moonbase Thingy")
-    window = pygame.display.set_mode(SIZE)
+class Game:
+    def __init__(self, mainfn):
+        pygame.display.init()
+        pygame.font.init()
 
-    window.fill(color.black)
-    pygame.display.update()
+        pygame.key.set_repeat(250, 50)
+        self.keylistener = None
 
+        pygame.display.set_caption("Moonbase Thingy")
+        self.window = pygame.display.set_mode(WINDOW_SIZE)
+
+        self.window.fill(color.black)
+        pygame.display.update()
+
+        self.mainfn = mainfn
+        self.gamelogic = Thread(target=self._go)
+        self.gamelogic.start()
+
+        while True:
+            e = pygame.event.wait()
+            if e.type == KEYDOWN:
+                if self.keylistener:
+                    self.keylistener(e)
+            elif e.type == CALL:
+                result = e.fn(*e.args)
+                e.respond(result)
+            elif e.type == QUIT:
+                break
+
+    def _go(self):
+        self.mainfn(self)
+        pygame.event.post(pygame.event.Event(QUIT))
+
+    def showimage(self, filename):
+        call(self._showimage, filename)
+
+    def _showimage(self, filename):
+        image = pygame.image.load(filename).convert()
+        self.window.blit(image, (0,0))
+        pygame.display.update()
+
+    def input(self):
+        inputbox = call(InputBox, self.window)
+        old = self.keylistener
+        self.keylistener = inputbox.key
+        text = inputbox.result()
+        self.keylistener = old
+        return text
+
+def call(fn, *args):
     q = Queue()
-    stuff = Thread(target=dostuff, args=(window, q.get))
-    stuff.setDaemon(True)
-    stuff.start()
-
-    while True:
-        e = pygame.event.wait()
-        if e.type == KEYDOWN:
-            q.put(e)
-        elif e.type == QUIT:
-            break
-
-def dostuff(window, nextevent):
-    image_test = pygame.image.load("images/test.png")
-    window.blit(image_test, (0, 50))
-    pygame.display.update()
-
-    inputbox = InputBox(window, Rect(XSIZE/8, YSIZE/2-25, XSIZE*3/4, 50))
-    inputbox.text = "A pointless picture (type something)"
-
-    while True:
-        k = nextevent()
-        if k.key == K_ESCAPE:
-            pygame.event.post(pygame.event.Event(QUIT))
-        else:
-            inputbox.key(k)
+    e = pygame.event.Event(CALL, fn=fn, args=args, respond=q.put)
+    pygame.event.post(e)
+    return q.get()
 
 class InputBox(object):
-    def __init__(self, window, rect):
+    def __init__(self, window, rect=None, text=""):
         self.window = window
         self.rect = rect
+        if self.rect is None:
+            self.rect = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
 
         self.background = pygame.Surface(self.rect.size)
         self.background.blit(window, (0,0), self.rect)
 
         self.font = pygame.font.Font(None, self.rect.height)
-        self._text = ""
+        self._text = text
 
         self.cursor = self.font.render("|", True, color.green)
         self.textwidth = self.rect.width - self.cursor.get_width()
+
+        self.done = threading.Event()
 
         self.update()
 
@@ -93,6 +120,8 @@ class InputBox(object):
     def key(self, key):
         if key.key == K_BACKSPACE:
             self._text = self._text[:-1]
+        elif key.key == K_RETURN:
+            self.close()
         else:
             self._text += key.unicode
 
@@ -113,6 +142,10 @@ class InputBox(object):
     def close(self):
         self.window.blit(self.background, self.rect)
         pygame.display.update(self.rect)
+        self.done.set()
+
+    def result(self):
+        self.done.wait()
         return self._text
 
 class color:
@@ -122,4 +155,4 @@ class color:
 color = color()
 
 if __name__ == "__main__":
-    main()
+    Game(main)
