@@ -38,109 +38,109 @@
  * True spherical map (original moonbase was torus)
  * Full 3D map and buildings, allowing for camera rotation?
 
-What order should we implement features in?
-phase 1:
-pure 2-d to start
-text input for direction and power at first
-algorithm for calculating shots
-Top-down art?
+===Feature  implementation order:===
+   ====Phase 1:====
+    * Art assets 
+     # main hub thing
+     # chuckable hub
+     # bomb
+     # tether
+    * pure 2-d to start
+    * text input for direction and power at first
+    * algorithm for calculating shots
+    * Top-down art?
+    
+   ====Phase 2:====
+    * Networking
+    * GUI
 
-Phase 2:
-Networking
-GUI
+   ====Phase 3:====
+    * Sound Effects
+    * Music?
+    * Terrain
+    * More Weapons
+    * 2.5D or 3D  _(Iso Art?)_
+    _(at around this point we should have rebuilt all the important sections of the classic game)_
+    
+   ====Phase 4:====
+    * Things not in the original (enhanced game)
+    * Super Weapons
+    * Super Buildings
+    * Special Abilities
+    * Full 3D?
 
-Phase 3:
-Sound Effects
-Music?
-Terrain
-More Weapons
-2.5D or 3D
-(at around this point we should have rebuilt all the important sections of the classic game)
-Iso Art?
-
-Phase 4:
-Things not in the original (enhanced game)
-Super Weapons
-Super Buildings
-Special Abilities
-Full 3D?
-
-Useful Links:
-free sound effecs: http://www.stonewashed.net/sfx.html
-original moonbase info: http://mbc.strategyplanet.gamespy.com/unitguide1.shtml
+===Useful Links:===
+ * free sound effecs: http://www.stonewashed.net/sfx.html
+ * original moonbase info: http://mbc.strategyplanet.gamespy.com/unitguide1.shtml
 
 
-Art assets needed:
-List of Art thingers to be made:
-  Icon for the game
+===Art assets needed:===
 
-  Race/Group Styles:
-    Steam Punk (+1 Jon) (+1 isaac) (+1 Dan)
-    Mystic Pyramids (+1 Jon) (+1 Dan) (+1 David)
-    Living Alien (+1 kevin, I think this would be cool to have something thats a giant organism with tentacles for tethers)
-    High Tech (+1 David) (+1 Kevin)
-    Sandal Punk (+1 Dan) (what's this?)
-    Modernish (+1 David) (+1 Dan)
-    Smooth and Blobby
-    Spikey
-    Star Shaped
-    Random Tech looking with Gears (+1 isaac) (+1 Kevin)
-    Smurfs (-1 Kevin)
-    Wizard Tower things
+ ====List of Art thingers to be made:====
+   * Icon for the game
+   * Race/Group Styles:
+     # Steam Punk (+1 Jon) (+1 isaac) (+1 Dan)
+     # Mystic Pyramids (+1 Jon) (+1 Dan) (+1 David)
+     # Living Alien (+1 kevin, I think this would be cool to have something thats a giant organism with tentacles for tethers)
+     # High Tech (+1 David) (+1 Kevin)
+     # Sandal Punk (+1 Dan) (what's this?)
+     # Modernish (+1 David) (+1 Dan)
+     # Smooth and Blobby
+     # Spikey
+     # Star Shaped
+     # Random Tech looking with Gears (+1 isaac) (+1 Kevin)
+     # Smurfs (-1 Kevin)
+     # Wizard Tower things
 
-  Hubs:
-    Main Hub
-    Sub Hub
-    Attack Hub (offense)
-  Weapons:
-    Bomb
-    Cluster bomb
-    Guided missile
-    EMP
-    Virus
-    Crawler
-    Power spike (Sparkly spikey thing?)
-    Mines
-  Power:
-    Power generator
-  Connections:
-    Tether  (matching the style of the base?)
-  Observation:
-    Tower
-    Balloon
-  Defense:
-    Anti-air
-    Shield (building)
-  Misc:
-    Repair (2D wrench works?)
-    Recall (2D targety thing works?)
-    Bridge
-    Shield (around building)
+  ====Hubs:====
+    * Main Hub
+    * Sub Hub
+    * Attack Hub (offense)
+  ====Weapons:====
+    * Bomb
+    * Cluster bomb
+    * Guided missile
+    * EMP
+    * Virus
+    * Crawler
+    * Power spike (Sparkly spikey thing?)
+    * Mines
+  ====Power:====
+    * Power generator
+  ====Connections:====
+    * Tether  (matching the style of the base?)
+  ====Observation:====
+    * Tower
+    * Balloon
+  ====Defense:====
+    * Anti-air
+    * Shield (building)
+  ====Misc:====
+    * Repair (2D wrench works?)
+    * Recall (2D targety thing works?)
+    * Bridge
+    * Shield (around building)
 
-Planet/Moon Details:
-  Power Spots
-  Water
-  Cliffs
-  Normal Ground
-  Broken Ground
+===Planet/Moon Details:===
+   * Power Spots
+   * Water
+   * Cliffs
+   * Normal Ground
+   * Broken Ground
 
-Animation:
-Explosions
-"Launch" effect (something hub does when it fires)
+===Animation:===
+   * Explosions
+    # "Launch" effect (something hub does when it fires)
 
-Phase 1:
-  main hub thing
-  chuckable hub
-  bomb
-  tether
 
-Super Weapon Ideas:
-Nuke (bomb with the power/radius of a destroyed energy collector)
-Super Virus (Virus still spreads if it hits tether not just building)
-Mass Repair (Repairs multiple buildings within radius)
-Super Repair (Repairs multiple HP per shot)
 
-Other thoughts:
+===Super Weapon Ideas:===
+ * Nuke (bomb with the power/radius of a destroyed energy collector)
+ * Super Virus (Virus still spreads if it hits tether not just building)
+ * Mass Repair (Repairs multiple buildings within radius)
+ * Super Repair (Repairs multiple HP per shot)
+
+===Other thoughts:===
 What should we name this program?
 'FOSS MBC' is what I've been using but it's awkward. 'Moonbase Clone' doesn't really work since we're not actually trying to clone MBC but make a game very very similar to it. Of course if we follow game remake naming tradition (freeciv, freecol, freecraft) we would end up with 'freemoon', 'freemoonbase' or even 'freebase' (heheh).
 
@@ -171,6 +171,21 @@ Admittedly a game like this doesn't really need much of a story but do we want t
 
 Energy production?
 With OMBC you can see the 'energy' flow along the tethers and everything is interconnected. If we were to have seperate hubs should they have seperate energy supplies? This would make it somewhat more realistic and would also make seperate hubs a challenge because having everything interconnected would make you stronger since you can do power attacks from anywhere but also more vulnerable to attacks that go through the grid or in a key location.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
