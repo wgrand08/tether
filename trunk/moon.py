@@ -41,7 +41,8 @@ def main(game):
     else:
 		print ShotDirection
 
-    game.showtext("Enter a power (1-100)", (0,150))
+    game.show(game.loadimage("images/Enceladus.png"), (0,0))
+    game.showtext("Enter a power (1-100)", (0,0))
     ShotPower = int(game.input())
     if (ShotPower < 0) or (ShotPower > 100):
 		print "Invalid Entry"
