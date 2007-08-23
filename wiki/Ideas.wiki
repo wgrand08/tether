@@ -82,6 +82,7 @@
    * Race/Group Styles:
      # Steam Punk (+1 Jon) (+1 isaac) (+1 Dan)
      # Mystic Pyramids (+1 Jon) (+1 Dan) (+1 David)
+       * perhaps the tower and balloon could have a [http://en.wikipedia.org/wiki/Eye_of_Horus wadjet eye]
      # Living Alien (+1 kevin, I think this would be cool to have something thats a giant organism with tentacles for tethers)
      # High Tech (+1 David) (+1 Kevin)
      # Sandal Punk (+1 Dan) (what's this?) (basically, Roman/Greek folks having tech higher then they should, like say steam powered boats, or mirror death rays)
