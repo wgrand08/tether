@@ -1,3 +1,5 @@
+#!/usr/bin/python2.4
+
 """Copyright 2007:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
@@ -22,6 +24,7 @@ import pygame
 from pygame.locals import *
 import threading
 from Queue import Queue
+from time import sleep
 
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 997,568
 
@@ -29,14 +32,36 @@ CALL = USEREVENT + 0
 
 def main(game):
     game.show(game.loadimage("images/Enceladus.png"), (0,0))
-    text = game.input()
-    print text
+
+    game.showtext("Enter a direction (0-360)")
+    print game.input()
+
+    sleep(3)
+
+    game.showtext("Enter a power (1-100)")
+    print game.input()
+
+def mainthread(f):
+    def decorated(*args, **kwargs):
+        if threading.currentThread() != MAIN_THREAD:
+            pygame.event.post(pygame.event.Event(QUIT))
+            raise NotMainThread()
+        else:
+            return f(*args, **kwargs)
+    return decorated
+
+class NotMainThread(Exception):
+    pass
 
 class Game:
     def __init__(self, mainfn):
+        global MAIN_THREAD
+        MAIN_THREAD = threading.currentThread()
+
         pygame.display.init()
         pygame.font.init()
 
+        self.font = pygame.font.Font(None, 50)
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
 
@@ -47,6 +72,7 @@ class Game:
         pygame.display.update()
 
         self.gamelogic = threading.Thread(target=self._go, args=(mainfn,))
+        self.gamelogic.setDaemon(True)
         self.gamelogic.start()
 
         while True:
@@ -67,15 +93,26 @@ class Game:
     def loadimage(self, filename):
         return call(self._loadimage, filename)
 
+    @mainthread
     def _loadimage(self, filename):
         return pygame.image.load(filename).convert()
 
-    def show(self, image, pos=(0,0)):
-        call(self._show, image, pos)
+    def show(self, image, pos):
+        return call(self._show, image, pos)
 
+    @mainthread
     def _show(self, image, pos):
-        self.window.blit(image, pos)
-        pygame.display.update()
+        rect = self.window.blit(image, pos)
+        pygame.display.update(rect)
+        return rect
+
+    def showtext(self, text):
+        return call(self._showtext, text)
+
+    @mainthread
+    def _showtext(self, text):
+        surface = self.font.render(text, True, color.white)
+        return self._show(surface, (0,0))
 
     def input(self):
         inputbox = call(InputBox, self.window)
@@ -83,8 +120,7 @@ class Game:
         self.keylistener = inputbox.key
         inputbox.done.wait()
         self.keylistener = old
-        inputbox.close()
-        return inputbox.text
+        return call(inputbox.close)
 
 def call(fn, *args):
     q = Queue()
@@ -92,7 +128,11 @@ def call(fn, *args):
     pygame.event.post(e)
     return q.get()
 
-class InputBox(object):
+#class TextBox:
+#    def __init__(self, window, 
+
+class InputBox:
+    @mainthread
     def __init__(self, window, rect=None, text=""):
         self.window = window
         self.rect = rect
@@ -112,6 +152,7 @@ class InputBox(object):
 
         self.update()
 
+    @mainthread
     def key(self, key):
         if key.key == K_BACKSPACE:
             self.text = self.text[:-1]
@@ -125,6 +166,7 @@ class InputBox(object):
 
         self.update()
 
+    @mainthread
     def update(self):
         surface = self.font.render(self.text, True, color.white)
         overage = max(0, surface.get_width() - self.textwidth)
@@ -137,9 +179,11 @@ class InputBox(object):
 
         pygame.display.update(self.rect)
 
+    @mainthread
     def close(self):
         self.window.blit(self.background, self.rect)
         pygame.display.update(self.rect)
+        return self.text
 
 class color:
     def __getattr__(self, name):
