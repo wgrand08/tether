@@ -32,16 +32,17 @@ CALL = USEREVENT + 0
 
 def main(game):
     background = game.loadimage("images/Enceladus.png")
+    defaultinput = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
 
     game.show(background, (0,0))
     sleep(2)
 
     game.showtext("Enter a direction (0-360)", (0,0))
-    direction = int(game.input())
+    direction = int(game.input(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50))
 
     game.show(background, (0,0))
     game.showtext("Enter a power (1-100)", (0,0))
-    power = int(game.input())
+    power = int(game.input(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50))
 
     if 0 <= direction <= 360 and 0 <= power <= 100:
         #represents the function for calculating the shot
@@ -126,8 +127,9 @@ class Game:
         surface = self.font.render(text, True, color.white)
         return self._show(surface, (pos))
 
-    def input(self):
-        inputbox = call(InputBox, self.window)
+    def input(self, inputleft, inputtop, inputwidth, inputheight):
+        inputboxsize = Rect(inputleft, inputtop, inputwidth, inputheight)
+        inputbox = call(InputBox, self.window, inputboxsize)
         old = self.keylistener
         self.keylistener = inputbox.key
         inputbox.done.wait()
@@ -146,11 +148,11 @@ def call(fn, *args):
 
 class InputBox:
     @mainthread
-    def __init__(self, window, rect=None, text=""):
+    def __init__(self, window, rectdim, text=""):
         self.window = window
-        self.rect = rect
+        self.rect = rectdim
         if self.rect is None:
-            self.rect = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
+            self.rect = Rect(rectdim) #variables are 'left, top, width, height'
 
         self.background = pygame.Surface(self.rect.size)
         self.background.blit(window, (0,0), self.rect)
