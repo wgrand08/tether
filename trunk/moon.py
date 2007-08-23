@@ -37,19 +37,19 @@ def main(game):
     sleep(2)
 
     game.showtext("Enter a direction (0-360)", (0,0))
-    ShotDirection = int(game.input())
+    direction = int(game.input())
 
     game.show(background, (0,0))
     game.showtext("Enter a power (1-100)", (0,0))
-    ShotPower = int(game.input())
+    power = int(game.input())
 
-    if (ShotDirection < 0) or (ShotDirection > 360) or (ShotPower < 0) or (ShotPower > 100):
-        print "Invalid Entry"
-    else:
+    if 0 <= direction <= 360 and 0 <= power <= 100:
         #represents the function for calculating the shot
-        print "Direction = ", ShotDirection
-        print "Power = ", ShotPower
-        print "Target = ", ShotDirection + ShotPower
+        print "Direction = ", direction
+        print "Power = ", power
+        #??? print "Target = ", ShotDirection + ShotPower
+    else:
+        print "Invalid Entry"
 
 def mainthread(f):
     def decorated(*args, **kwargs):
