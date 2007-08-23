@@ -31,13 +31,15 @@ WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 CALL = USEREVENT + 0
 
 def main(game):
-    game.show(game.loadimage("images/Enceladus.png"), (0,0))
+    background = game.loadimage("images/Enceladus.png")
+
+    game.show(background, (0,0))
     sleep(2)
 
     game.showtext("Enter a direction (0-360)", (0,0))
     ShotDirection = int(game.input())
 
-    game.show(game.loadimage("images/Enceladus.png"), (0,0))
+    game.show(background, (0,0))
     game.showtext("Enter a power (1-100)", (0,0))
     ShotPower = int(game.input())
 
