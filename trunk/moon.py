@@ -32,23 +32,21 @@ CALL = USEREVENT + 0
 
 def main(game):
     game.show(game.loadimage("images/Enceladus.png"), (0,0))
-    TextInput = "Invalid Entry"
-
-    game.showtext("Enter a direction (0-360)")
-    TextInput = int(game.input())
-    if (TextInput < 0) or (TextInput > 360):
-	print "Invalid Entry"
-    else:
-	print TextInput
-
     sleep(2)
 
-    game.showtext("Enter a power (1-100)")
-    TextInput = int(game.input())
-    if (TextInput < 0) or (TextInput > 100):
+    game.showtext("Enter a direction (0-360)", (0,0))
+    ShotDirection = int(game.input())
+    if (ShotDirection < 0) or (ShotDirection > 360):
 	print "Invalid Entry"
     else:
-	print TextInput
+	print ShotDirection
+
+    game.showtext("Enter a power (1-100)", (0,150))
+    ShotPower = int(game.input())
+    if (ShotPower < 0) or (ShotPower > 100):
+	print "Invalid Entry"
+    else:
+	print ShotPower
 
 def mainthread(f):
     def decorated(*args, **kwargs):
@@ -115,13 +113,13 @@ class Game:
         pygame.display.update(rect)
         return rect
 
-    def showtext(self, text):
-        return call(self._showtext, text)
+    def showtext(self, text, pos):
+        return call(self._showtext, text, pos)
 
     @mainthread
-    def _showtext(self, text):
+    def _showtext(self, text, pos):
         surface = self.font.render(text, True, color.white)
-        return self._show(surface, (0,0))
+        return self._show(surface, (pos))
 
     def input(self):
         inputbox = call(InputBox, self.window)
