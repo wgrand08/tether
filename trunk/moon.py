@@ -32,14 +32,23 @@ CALL = USEREVENT + 0
 
 def main(game):
     game.show(game.loadimage("images/Enceladus.png"), (0,0))
+    TextInput = "Invalid Entry"
 
     game.showtext("Enter a direction (0-360)")
-    print game.input()
+    TextInput = int(game.input())
+    if (TextInput < 0) or (TextInput > 360):
+	print "Invalid Entry"
+    else:
+	print TextInput
 
-    sleep(3)
+    sleep(2)
 
     game.showtext("Enter a power (1-100)")
-    print game.input()
+    TextInput = int(game.input())
+    if (TextInput < 0) or (TextInput > 100):
+	print "Invalid Entry"
+    else:
+	print TextInput
 
 def mainthread(f):
     def decorated(*args, **kwargs):
