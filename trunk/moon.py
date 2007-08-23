@@ -46,7 +46,7 @@ def main(game):
     if (ShotDirection < 0) or (ShotDirection > 360) or (ShotPower < 0) or (ShotPower > 100):
         print "Invalid Entry"
     else:
-        presents the function for calculating the shot
+        #represents the function for calculating the shot
         print "Direction = ", ShotDirection
         print "Power = ", ShotPower
         print "Target = ", ShotDirection + ShotPower
