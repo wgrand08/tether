@@ -1,0 +1,11 @@
+game.input:
+Input arguments for game.input must be a Rect with the dimensions being in the following order:
+left, top, width, height
+So for a one-time input box that will not be used again would require something similar to the following two lines:
+rectsname = Rect(left, top, width, height)
+somevar = game.input(rectsname)
+
+game.showtext
+Input arguments for game.showtext is the text to be output followed by the X/Y coordinates where the text will be shown within parenthesis.
+An example of this would be:
+game.showtext(somevar, (Xcoord,Ycoord))

@@ -44,8 +44,6 @@ def main(game):
     game.showtext("Enter a power (1-100)", (0,0))
     power = int(game.input(defaultinput))
 
-#0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50
-
     if 0 <= direction <= 360 and 0 <= power <= 100:
         #represents the function for calculating the shot
         print "Direction = ", direction
