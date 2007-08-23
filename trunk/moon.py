@@ -26,7 +26,7 @@ import threading
 from Queue import Queue
 from time import sleep
 
-WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 997,568
+WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 
 CALL = USEREVENT + 0
 
@@ -65,7 +65,7 @@ class Game:
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
 
-        pygame.display.set_caption("Moonbase Thingy")
+        pygame.display.set_caption("MoonPy")
         self.window = pygame.display.set_mode(WINDOW_SIZE)
 
         self.window.fill(color.black)
