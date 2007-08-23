@@ -36,18 +36,18 @@ def main(game):
 
     game.showtext("Enter a direction (0-360)", (0,0))
     ShotDirection = int(game.input())
-    if (ShotDirection < 0) or (ShotDirection > 360):
-		print "Invalid Entry"
-    else:
-		print ShotDirection
 
     game.show(game.loadimage("images/Enceladus.png"), (0,0))
     game.showtext("Enter a power (1-100)", (0,0))
     ShotPower = int(game.input())
-    if (ShotPower < 0) or (ShotPower > 100):
+
+    if (ShotDirection < 0) or (ShotDirection > 360) or (ShotPower < 0) or (ShotPower > 100):
 		print "Invalid Entry"
     else:
-		print ShotPower
+		#This represents the function for calculating the shot
+		print "Direction = ", ShotDirection
+		print "Power = ", ShotPower
+		print "Target = ", ShotDirection + ShotPower
 	
 def mainthread(f):
     def decorated(*args, **kwargs):
