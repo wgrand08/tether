@@ -23,12 +23,12 @@ from pygame.locals import *
 import threading
 from Queue import Queue
 
-WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 800,600
+WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 997,568
 
 CALL = USEREVENT + 0
 
 def main(game):
-    game.show(game.loadimage("images/600px-Jupiter.jpg"), (100,0))
+    game.show(game.loadimage("images/Enceladus.png"), (0,0))
     text = game.input()
     print text
 
