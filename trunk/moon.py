@@ -52,6 +52,7 @@ def main(game):
         print "Invalid Entry"
 
 def mainthread(f):
+    "Decorator for code which must run in the main thread."
     def decorated(*args, **kwargs):
         if threading.currentThread() != MAIN_THREAD:
             pygame.event.post(pygame.event.Event(QUIT))
@@ -61,7 +62,7 @@ def mainthread(f):
     return decorated
 
 class NotMainThread(Exception):
-    pass
+    "Thrown when code is mistakenly run outside the main thread."
 
 class Game:
     def __init__(self, mainfn):
@@ -97,8 +98,10 @@ class Game:
                 break
 
     def _go(self, mainfn):
-        mainfn(self)
-        pygame.event.post(pygame.event.Event(QUIT))
+        try:
+            mainfn(self)
+        finally:
+            pygame.event.post(pygame.event.Event(QUIT))
 
     def loadimage(self, filename):
         return call(self._loadimage, filename)
@@ -133,6 +136,7 @@ class Game:
         return call(inputbox.close)
 
 def call(fn, *args):
+    "Cause code to be run in the main thread, and return its result."
     q = Queue()
     e = pygame.event.Event(CALL, fn=fn, args=args, respond=q.put)
     pygame.event.post(e)
