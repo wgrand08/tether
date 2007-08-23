@@ -38,11 +38,13 @@ def main(game):
     sleep(2)
 
     game.showtext("Enter a direction (0-360)", (0,0))
-    direction = int(game.input(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50))
+    direction = int(game.input(defaultinput))
 
     game.show(background, (0,0))
     game.showtext("Enter a power (1-100)", (0,0))
-    power = int(game.input(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50))
+    power = int(game.input(defaultinput))
+
+#0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50
 
     if 0 <= direction <= 360 and 0 <= power <= 100:
         #represents the function for calculating the shot
@@ -127,8 +129,7 @@ class Game:
         surface = self.font.render(text, True, color.white)
         return self._show(surface, (pos))
 
-    def input(self, inputleft, inputtop, inputwidth, inputheight):
-        inputboxsize = Rect(inputleft, inputtop, inputwidth, inputheight)
+    def input(self, inputboxsize):
         inputbox = call(InputBox, self.window, inputboxsize)
         old = self.keylistener
         self.keylistener = inputbox.key
