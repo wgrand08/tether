@@ -55,7 +55,6 @@ def mainthread(f):
     "Decorator for code which must run in the main thread."
     def decorated(*args, **kwargs):
         if threading.currentThread() != MAIN_THREAD:
-            pygame.event.post(pygame.event.Event(QUIT))
             raise NotMainThread()
         else:
             return f(*args, **kwargs)
