@@ -148,11 +148,11 @@ def call(fn, *args):
 
 class InputBox:
     @mainthread
-    def __init__(self, window, rectdim, text=""):
+    def __init__(self, window, inputboxdim, text=""):
         self.window = window
-        self.rect = rectdim
+        self.rect = inputboxdim
         if self.rect is None:
-            self.rect = Rect(rectdim) #variables are 'left, top, width, height'
+            self.rect = Rect(inputboxdim) #variables are 'left, top, width, height'
 
         self.background = pygame.Surface(self.rect.size)
         self.background.blit(window, (0,0), self.rect)
