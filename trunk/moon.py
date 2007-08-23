@@ -37,17 +37,17 @@ def main(game):
     game.showtext("Enter a direction (0-360)", (0,0))
     ShotDirection = int(game.input())
     if (ShotDirection < 0) or (ShotDirection > 360):
-	print "Invalid Entry"
+		print "Invalid Entry"
     else:
-	print ShotDirection
+		print ShotDirection
 
     game.showtext("Enter a power (1-100)", (0,150))
     ShotPower = int(game.input())
     if (ShotPower < 0) or (ShotPower > 100):
-	print "Invalid Entry"
+		print "Invalid Entry"
     else:
-	print ShotPower
-
+		print ShotPower
+	
 def mainthread(f):
     def decorated(*args, **kwargs):
         if threading.currentThread() != MAIN_THREAD:
