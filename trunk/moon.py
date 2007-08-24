@@ -32,23 +32,22 @@ CALL = USEREVENT + 0
 
 def main(game):
     background = game.loadimage("images/Enceladus.png")
-    defaultinput = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
 
     game.show(background, (0,0))
     sleep(2)
 
-    game.showtext("Enter a direction (0-360)", (0,0))
-    direction = int(game.input(defaultinput))
+    text = game.showtext("Enter a direction (0-360)", (0,0))
+    direction = int(game.input())
+    game.erasetext(text)
 
-    game.show(background, (0,0))
-    game.showtext("Enter a power (1-100)", (0,0))
-    power = int(game.input(defaultinput))
+    text = game.showtext("Enter a power (1-100)", (0,0))
+    power = int(game.input())
+    game.erasetext(text)
 
     if 0 <= direction <= 360 and 0 <= power <= 100:
-        #represents the function for calculating the shot
-        print "Direction = ", direction
-        print "Power = ", power
-        #??? print "Target = ", ShotDirection + ShotPower
+        # TODO(isaac): calculate the shot
+        print "Direction =", direction
+        print "Power =", power
     else:
         print "Invalid Entry"
 
@@ -56,12 +55,12 @@ def mainthread(f):
     "Decorator for code which must run in the main thread."
     def decorated(*args, **kwargs):
         if threading.currentThread() != MAIN_THREAD:
-            raise NotMainThread()
+            raise NeedsMainThread()
         else:
             return f(*args, **kwargs)
     return decorated
 
-class NotMainThread(Exception):
+class NeedsMainThread(Exception):
     "Thrown when code is mistakenly run outside the main thread."
 
 class Game:
@@ -75,6 +74,8 @@ class Game:
         self.font = pygame.font.Font(None, 50)
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
+
+        self.inputrect = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
 
         pygame.display.set_caption("MoonPy")
         self.window = pygame.display.set_mode(WINDOW_SIZE)
@@ -92,6 +93,7 @@ class Game:
                 if self.keylistener:
                     self.keylistener(e)
             elif e.type == CALL:
+                # TODO(isaac): include caller info in exception tracebacks
                 result = e.fn(*e.args)
                 e.respond(result)
             elif e.type == QUIT:
@@ -120,15 +122,16 @@ class Game:
         return rect
 
     def showtext(self, text, pos):
-        return call(self._showtext, text, pos)
+        return call(TextBox, self.window, text, pos)
 
-    @mainthread
-    def _showtext(self, text, pos):
-        surface = self.font.render(text, True, color.white)
-        return self._show(surface, (pos))
+    def erasetext(self, textbox):
+        return call(textbox.erase)
 
-    def input(self, inputboxsize):
-        inputbox = call(InputBox, self.window, inputboxsize)
+    def input(self, rect=None):
+        if rect is None:
+            rect = self.inputrect
+
+        inputbox = call(InputBox, self.window, rect)
         old = self.keylistener
         self.keylistener = inputbox.key
         inputbox.done.wait()
@@ -142,16 +145,33 @@ def call(fn, *args):
     pygame.event.post(e)
     return q.get()
 
-#class TextBox:
-#    def __init__(self, window, 
+class TextBox:
+    @mainthread
+    def __init__(self, window, text, pos):
+        self.window = window
+        self.text = text
+        self.pos = pos
+
+        self.font = pygame.font.Font(None, 50)
+        surface = self.font.render(self.text, True, color.white)
+        self.rect = Rect(pos, surface.get_size())
+
+        self.background = pygame.Surface(self.rect.size)
+        self.background.blit(window, (0,0), self.rect)
+
+        self.window.blit(surface, self.rect)
+        pygame.display.update(self.rect)
+
+    @mainthread
+    def erase(self):
+        self.window.blit(self.background, self.rect)
+        pygame.display.update(self.rect)
 
 class InputBox:
     @mainthread
-    def __init__(self, window, inputboxdim, text=""):
+    def __init__(self, window, rect, text=""):
         self.window = window
-        self.rect = inputboxdim
-        if self.rect is None:
-            self.rect = Rect(inputboxdim) #variables are 'left, top, width, height'
+        self.rect = Rect(rect)
 
         self.background = pygame.Surface(self.rect.size)
         self.background.blit(window, (0,0), self.rect)
