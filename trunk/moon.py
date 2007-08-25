@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 from __future__ import division
 
+import os
 import pygame
 from pygame.locals import *
 import threading
@@ -32,9 +33,13 @@ CALL = USEREVENT + 0
 
 def main(game):
     background = game.loadimage("images/Enceladus.png")
-
     game.show(background, (0,0))
-    sleep(2)
+
+    directory = "images/AnimTest/"
+    imagenames = [directory + name for name in os.listdir(directory)
+                  if name.endswith(".png")]
+    images = game.loadimages(sorted(imagenames))
+    game.play(images, 100, (100,100))
 
     text = game.showtext("Enter a direction (0-360)", (0,0))
     direction = int(game.input())
@@ -137,6 +142,25 @@ class Game:
         inputbox.done.wait()
         self.keylistener = old
         return call(inputbox.close)
+
+    def loadimages(self, filenames):
+        return [self.loadimage(name) for name in filenames]
+
+    def play(self, images, delay, pos):
+        size = images[0].get_size()
+        rect = Rect(pos, size)
+        background = self.clip(self.window, rect)
+
+        for image in images:
+            self.show(image, pos)
+            sleep(delay/1000)
+
+        self.show(background, pos)
+
+    def clip(self, source, rect):
+        surface = pygame.Surface(rect.size)
+        surface.blit(source, (0,0), rect)
+        return surface
 
 def call(fn, *args):
     "Cause code to be run in the main thread, and return its result."
