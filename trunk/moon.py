@@ -26,28 +26,36 @@ from pygame.locals import *
 import threading
 from Queue import Queue
 from time import sleep
+from time import time as now
 
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 
 CALL = USEREVENT + 0
 
 def main(game):
-    background = game.loadimage("images/Enceladus.png")
-    game.show(background, (0,0))
-
     directory = "images/AnimTest/"
     imagenames = [directory + name for name in os.listdir(directory)
                   if name.endswith(".png")]
     images = game.loadimages(sorted(imagenames))
-    game.play(images, 100, (100,100))
+
+    background = game.loadimage("images/Enceladus.png")
+    game.show(background, (0,0))
+
+    animation1 = game.start(images, 100, (0,100))
 
     text = game.showtext("Enter a direction (0-360)", (0,0))
     direction = int(game.input())
     game.erasetext(text)
 
+    animation2 = game.start(images, 150, (256,100))
+    game.play(images, 200, (0,356))
+    game.stop(animation1)
+
     text = game.showtext("Enter a power (1-100)", (0,0))
     power = int(game.input())
     game.erasetext(text)
+
+    game.stop(animation2)
 
     if 0 <= direction <= 360 and 0 <= power <= 100:
         # TODO(isaac): calculate the shot
@@ -56,20 +64,20 @@ def main(game):
     else:
         print "Invalid Entry"
 
-def mainthread(f):
+def mainthread(fn):
     "Decorator for code which must run in the main thread."
     def decorated(*args, **kwargs):
         if threading.currentThread() != MAIN_THREAD:
             raise NeedsMainThread()
         else:
-            return f(*args, **kwargs)
+            return fn(*args, **kwargs)
     return decorated
 
 class NeedsMainThread(Exception):
     "Thrown when code is mistakenly run outside the main thread."
 
 class Game:
-    def __init__(self, mainfn):
+    def __init__(self, gamelogic):
         global MAIN_THREAD
         MAIN_THREAD = threading.currentThread()
 
@@ -88,7 +96,7 @@ class Game:
         self.window.fill(color.black)
         pygame.display.update()
 
-        self.gamelogic = threading.Thread(target=self._go, args=(mainfn,))
+        self.gamelogic = threading.Thread(target=self._go, args=(gamelogic,))
         self.gamelogic.setDaemon(True)
         self.gamelogic.start()
 
@@ -104,9 +112,9 @@ class Game:
             elif e.type == QUIT:
                 break
 
-    def _go(self, mainfn):
+    def _go(self, gamelogic):
         try:
-            mainfn(self)
+            gamelogic(self)
         finally:
             pygame.event.post(pygame.event.Event(QUIT))
 
@@ -149,7 +157,7 @@ class Game:
     def play(self, images, delay, pos):
         size = images[0].get_size()
         rect = Rect(pos, size)
-        background = self.clip(self.window, rect)
+        background = clip(self.window, rect)
 
         for image in images:
             self.show(image, pos)
@@ -157,10 +165,12 @@ class Game:
 
         self.show(background, pos)
 
-    def clip(self, source, rect):
-        surface = pygame.Surface(rect.size)
-        surface.blit(source, (0,0), rect)
-        return surface
+    def start(self, images, delay, pos):
+        return call(AnimationBox, self.window, images, delay, pos)
+
+    def stop(self, animation):
+        animation.stop()
+        return call(animation.erase)
 
 def call(fn, *args):
     "Cause code to be run in the main thread, and return its result."
@@ -168,6 +178,53 @@ def call(fn, *args):
     e = pygame.event.Event(CALL, fn=fn, args=args, respond=q.put)
     pygame.event.post(e)
     return q.get()
+
+# TODO(isaac): replace all background captures with clip()
+def clip(source, rect):
+    surface = pygame.Surface(rect.size)
+    surface.blit(source, (0,0), rect)
+    return surface
+
+class AnimationBox:
+    @mainthread
+    def __init__(self, window, images, delay, pos):
+        self.window = window
+        self.images = images
+        self.delay = delay
+        self.pos = pos
+
+        self.rect = Rect(pos, images[0].get_size())
+        self.background = pygame.Surface(self.rect.size)
+        self.background.blit(window, (0,0), self.rect)
+
+        self.done = False
+        self.finish = threading.Event()
+        self.start()
+
+    def start(self):
+        self.thread = threading.Thread(target=self._go)
+        self.thread.setDaemon(True)
+        self.thread.start()
+
+    def _go(self):
+        for image in self.images:
+            if self.done:
+                self.finish.set()
+                break
+            call(self.window.blit, image, self.pos)
+            call(pygame.display.update, self.rect)
+            sleep(self.delay/1000)
+        else:
+            self.start()
+
+    def stop(self):
+        self.done = True
+        self.finish.wait()
+
+    @mainthread
+    def erase(self):
+        self.window.blit(self.background, self.pos)
+        pygame.display.update(self.rect)
 
 class TextBox:
     @mainthread
@@ -188,7 +245,7 @@ class TextBox:
 
     @mainthread
     def erase(self):
-        self.window.blit(self.background, self.rect)
+        self.window.blit(self.background, self.pos)
         pygame.display.update(self.rect)
 
 class InputBox:
