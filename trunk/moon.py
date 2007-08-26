@@ -26,7 +26,7 @@ from pygame.locals import *
 import threading
 from Queue import Queue
 from time import sleep
-from time import time as now
+from itertools import chain, cycle
 
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 
@@ -41,28 +41,24 @@ def main(game):
     background = game.loadimage("images/Enceladus.png")
     game.show(background, (0,0))
 
-    animation1 = game.start(images, 100, (0,100))
+    animation1 = game.start(cycle(images), 100, (0,100))
 
     text = game.showtext("Enter a direction (0-360)", (0,0))
-    direction = int(game.input())
+    direction = game.input()
     game.erasetext(text)
 
-    animation2 = game.start(images, 150, (256,100))
-    game.play(images, 200, (0,356))
+    animation2 = game.start(cycle(images), 150, (256,100))
+    game.play(backandforth(images), 50, (0,356))
     game.stop(animation1)
 
     text = game.showtext("Enter a power (1-100)", (0,0))
-    power = int(game.input())
+    power = game.input()
     game.erasetext(text)
 
     game.stop(animation2)
 
-    if 0 <= direction <= 360 and 0 <= power <= 100:
-        # TODO(isaac): calculate the shot
-        print "Direction =", direction
-        print "Power =", power
-    else:
-        print "Invalid Entry"
+    print "Direction =", direction
+    print "Power =", power
 
 def mainthread(fn):
     "Decorator for code which must run in the main thread."
@@ -106,7 +102,7 @@ class Game:
                 if self.keylistener:
                     self.keylistener(e)
             elif e.type == CALL:
-                # TODO(isaac): include caller info in exception tracebacks
+                #TODO(isaac): include caller info in exception tracebacks
                 result = e.fn(*e.args)
                 e.respond(result)
             elif e.type == QUIT:
@@ -155,22 +151,18 @@ class Game:
         return [self.loadimage(name) for name in filenames]
 
     def play(self, images, delay, pos):
-        size = images[0].get_size()
-        rect = Rect(pos, size)
-        background = clip(self.window, rect)
-
-        for image in images:
-            self.show(image, pos)
-            sleep(delay/1000)
-
-        self.show(background, pos)
+        animation = self.start(images, delay, pos)
+        animation.wait()
 
     def start(self, images, delay, pos):
-        return call(AnimationBox, self.window, images, delay, pos)
+        return call(AnimationBox, self.show, self.window, images, delay, pos)
 
-    def stop(self, animation):
-        animation.stop()
-        return call(animation.erase)
+    def stop(self, *animations):
+        for animation in animations:
+            animation.done = True
+
+        for animation in animations:
+            animation.wait()
 
 def call(fn, *args):
     "Cause code to be run in the main thread, and return its result."
@@ -179,7 +171,7 @@ def call(fn, *args):
     pygame.event.post(e)
     return q.get()
 
-# TODO(isaac): replace all background captures with clip()
+#TODO(isaac): replace all background captures with clip()
 def clip(source, rect):
     surface = pygame.Surface(rect.size)
     surface.blit(source, (0,0), rect)
@@ -187,13 +179,16 @@ def clip(source, rect):
 
 class AnimationBox:
     @mainthread
-    def __init__(self, window, images, delay, pos):
+    def __init__(self, show, window, images, delay, pos):
+        self.show = show
         self.window = window
-        self.images = images
-        self.delay = delay
+        self.delay = delay/1000
         self.pos = pos
 
-        self.rect = Rect(pos, images[0].get_size())
+        self.images = Peekable(iter(images))
+        image = self.images.peek()
+
+        self.rect = Rect(pos, image.get_size())
         self.background = pygame.Surface(self.rect.size)
         self.background.blit(window, (0,0), self.rect)
 
@@ -209,17 +204,16 @@ class AnimationBox:
     def _go(self):
         for image in self.images:
             if self.done:
-                self.finish.set()
                 break
-            call(self.window.blit, image, self.pos)
-            call(pygame.display.update, self.rect)
-            sleep(self.delay/1000)
-        else:
-            self.start()
+            self.show(image, self.pos)
+            sleep(self.delay) #TODO(isaac): use event instead
 
-    def stop(self):
-        self.done = True
+        self.finish.set()
+
+    def wait(self):
         self.finish.wait()
+        #TODO(isaac): return values from erase
+        call(self.erase)
 
     @mainthread
     def erase(self):
@@ -305,6 +299,28 @@ class color:
         return pygame.Color(name)
     __getitem__ = __getattr__
 color = color()
+
+class Peekable:
+    def __init__(self, iterator):
+        self.iterator = iterator
+        self.buffer = []
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.buffer:
+            return self.buffer.pop(0)
+        else:
+            return self.iterator.next()
+
+    def peek(self):
+        if not self.buffer:
+            self.buffer.append(self.iterator.next())
+        return self.buffer[0]
+
+def backandforth(iterator):
+    return chain(iterator, reversed(iterator))
 
 if __name__ == "__main__":
     Game(main)
