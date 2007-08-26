@@ -28,6 +28,10 @@ from Queue import Queue
 from time import sleep
 from itertools import chain, cycle
 
+#TODO(isaac): scrollable map surface
+#TODO(isaac): scrolling multiline text box
+#TODO(isaac): erasable image
+
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 
 CALL = USEREVENT + 0
@@ -39,23 +43,23 @@ def main(game):
     images = game.loadimages(sorted(imagenames))
 
     background = game.loadimage("images/Enceladus.png")
-    game.show(background, (0,0))
+    game.showimage(background, (0,0))
 
-    animation1 = game.start(cycle(images), 100, (0,100))
+    animation1 = game.startanimation(cycle(images), 100, (0,100))
 
     text = game.showtext("Enter a direction (0-360)", (0,0))
     direction = game.input()
     game.erasetext(text)
 
-    animation2 = game.start(cycle(images), 150, (256,100))
-    game.play(backandforth(images), 50, (0,356))
-    game.stop(animation1)
+    animation2 = game.startanimation(cycle(images), 150, (256,100))
+    game.playanimation(backandforth(images), 50, (0,356))
+    game.stopanimation(animation1)
 
     text = game.showtext("Enter a power (1-100)", (0,0))
     power = game.input()
     game.erasetext(text)
 
-    game.stop(animation2)
+    game.stopanimation(animation2)
 
     print "Direction =", direction
     print "Power =", power
@@ -121,11 +125,11 @@ class Game:
     def _loadimage(self, filename):
         return pygame.image.load(filename).convert()
 
-    def show(self, image, pos):
-        return call(self._show, image, pos)
+    def showimage(self, image, pos):
+        return call(self._showimage, image, pos)
 
     @mainthread
-    def _show(self, image, pos):
+    def _showimage(self, image, pos):
         rect = self.window.blit(image, pos)
         pygame.display.update(rect)
         return rect
@@ -150,14 +154,14 @@ class Game:
     def loadimages(self, filenames):
         return [self.loadimage(name) for name in filenames]
 
-    def play(self, images, delay, pos):
-        animation = self.start(images, delay, pos)
+    def playanimation(self, images, delay, pos):
+        animation = self.startanimation(images, delay, pos)
         animation.wait()
 
-    def start(self, images, delay, pos):
-        return call(AnimationBox, self.show, self.window, images, delay, pos)
+    def startanimation(self, images, delay, pos):
+        return call(AnimationBox, self.showimage, self.window, images, delay, pos)
 
-    def stop(self, *animations):
+    def stopanimation(self, *animations):
         for animation in animations:
             animation.done = True
 
@@ -179,8 +183,8 @@ def clip(source, rect):
 
 class AnimationBox:
     @mainthread
-    def __init__(self, show, window, images, delay, pos):
-        self.show = show
+    def __init__(self, showimage, window, images, delay, pos):
+        self.showimage = showimage
         self.window = window
         self.delay = delay/1000
         self.pos = pos
@@ -205,7 +209,7 @@ class AnimationBox:
         for image in self.images:
             if self.done:
                 break
-            self.show(image, self.pos)
+            self.showimage(image, self.pos)
             sleep(self.delay) #TODO(isaac): use event instead
 
         self.finish.set()
