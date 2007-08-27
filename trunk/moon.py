@@ -54,6 +54,7 @@ def main(game):
     text = game.showtext("Enter a direction (0-360)", (0,0))
     direction = game.input()
     game.erasetext(text)
+    #pointless comment for testing subversion
 
     animation2 = game.startanimation(cycle(AnimTestimages), 150, (256,100))
     animation3 = game.startanimation(cycle(AnimTorchimages), 50, (256,356))
