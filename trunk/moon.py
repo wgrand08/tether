@@ -37,22 +37,27 @@ WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 CALL = USEREVENT + 0
 
 def main(game):
-    directory = "images/AnimTest/"
-    imagenames = [directory + name for name in os.listdir(directory)
+    AnimTestdirectory = "images/AnimTest/"
+    AnimTorchdirectory = "images/AnimTorch/"
+    AnimTestimagenames = [AnimTestdirectory + name for name in os.listdir(AnimTestdirectory)
                   if name.endswith(".png")]
-    images = game.loadimages(sorted(imagenames))
+    AnimTorchimagenames = [AnimTorchdirectory + name for name in os.listdir(AnimTorchdirectory)
+                  if name.endswith(".png")]
+    AnimTestimages = game.loadimages(sorted(AnimTestimagenames))
+    AnimTorchimages = game.loadimages(sorted(AnimTorchimagenames))
 
     background = game.loadimage("images/Enceladus.png")
     game.showimage(background, (0,0))
 
-    animation1 = game.startanimation(cycle(images), 100, (0,100))
+    animation1 = game.startanimation(cycle(AnimTestimages), 100, (0,100))
 
     text = game.showtext("Enter a direction (0-360)", (0,0))
     direction = game.input()
     game.erasetext(text)
 
-    animation2 = game.startanimation(cycle(images), 150, (256,100))
-    game.playanimation(backandforth(images), 50, (0,356))
+    animation2 = game.startanimation(cycle(AnimTestimages), 150, (256,100))
+    animation3 = game.startanimation(cycle(AnimTorchimages), 50, (256,356))
+    game.playanimation(backandforth(AnimTestimages), 50, (0,356))
     game.stopanimation(animation1)
 
     text = game.showtext("Enter a power (1-100)", (0,0))
@@ -60,10 +65,11 @@ def main(game):
     game.erasetext(text)
 
     game.stopanimation(animation2)
+    game.stopanimation(animation3)
 
     print "Direction =", direction
     print "Power =", power
-    sleep(2)
+    sleep(1)
 
 def mainthread(fn):
     "Decorator for code which must run in the main thread."

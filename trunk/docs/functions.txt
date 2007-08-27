@@ -9,3 +9,11 @@ game.showtext
 Input arguments for game.showtext is the text to be output followed by the X/Y coordinates where the text will be shown within parenthesis.
 An example of this would be:
 game.showtext(somevar, (Xcoord,Ycoord))
+
+game.startanimation
+Input arguments for game.statanimation is iteration with the options of cycle, backandforth, or <blank> which perform the animation only once. Following this within paranthesis is the name of the images to be displayed which must have been loaded by a previous game.loadimages function. After this is the delay between each frame. After this within paranthesis is the X/Y coordinates where the animation will be placed on screen. General format appears as this:
+animation = game.startanimation(iteration(imagenames), delay, (Xcoord,Ycoord))
+An example of a one-time animation would be:
+animation = game.startanimation((imagenames), delay, (Xcoord,Ycoord))
+as compared to cycling (looping) animation like this:
+animation = game.startanimation(cycle(imagenames), delay, (Xcoord,Ycoord))
