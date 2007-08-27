@@ -38,13 +38,9 @@ CALL = USEREVENT + 0
 
 def main(game):
     AnimTestdirectory = "images/AnimTest/"
-    AnimTorchdirectory = "images/AnimTorch/"
     AnimTestimagenames = [AnimTestdirectory + name for name in os.listdir(AnimTestdirectory)
                   if name.endswith(".png")]
-    AnimTorchimagenames = [AnimTorchdirectory + name for name in os.listdir(AnimTorchdirectory)
-                  if name.endswith(".png")]
     AnimTestimages = game.loadimages(sorted(AnimTestimagenames))
-    AnimTorchimages = game.loadimages(sorted(AnimTorchimagenames))
 
     background = game.loadimage("images/Enceladus.png")
     game.showimage(background, (0,0))
@@ -56,7 +52,6 @@ def main(game):
     game.erasetext(text)
 
     animation2 = game.startanimation(cycle(AnimTestimages), 150, (256,100))
-    animation3 = game.startanimation(cycle(AnimTorchimages), 50, (256,356))
     game.playanimation(backandforth(AnimTestimages), 50, (0,356))
     game.stopanimation(animation1)
 
