@@ -63,6 +63,7 @@ def main(game):
 
     print "Direction =", direction
     print "Power =", power
+    sleep(2)
 
 def mainthread(fn):
     "Decorator for code which must run in the main thread."
