@@ -60,10 +60,10 @@ def main(game):
     game.erasetext(text)
 
     game.stopanimation(animation2)
-    game.stopanimation(animation3)
 
     print "Direction =", direction
     print "Power =", power
+    test = game.showtext("Successfull Finish", (0,0))
     sleep(1)
 
 def mainthread(fn):
