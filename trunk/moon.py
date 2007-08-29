@@ -73,6 +73,8 @@ def main(game):
     """
 
     map = game.createmap((2560,384), Rect((19,550-384-19), (512,384)))
+    call(map.canvas.fill, color.darkblue)
+    map.scrollto(0,0)
     delay = 200
     y = 0
     anims = []
@@ -81,7 +83,7 @@ def main(game):
         anim = map.startanimation(loop, delay, (x,y))
         anims.append(anim)
         delay -= 10
-        y = 128 - y
+        y += 50
 
     for _ in range(2560-256):
         sleep(.01)
@@ -221,6 +223,26 @@ class Map(Canvas):
 
     @mainthread
     def _showimage(self, image, pos):
+        sizex,_ = image.get_size()
+        posx,posy = pos
+        canvaswidth,_ = self.canvas.get_size()
+        if sizex + posx > canvaswidth:
+            self._showimage2(image, (posx-canvaswidth, posy))
+
+        return self._showimage2(image, pos)
+
+    @mainthread
+    def _showimage2(self, image, pos):
+        _,sizey = image.get_size()
+        posx,posy = pos
+        _,canvasheight = self.canvas.get_size()
+        if sizey + posy > canvasheight:
+            self._showimage3(image, (posx, posy-canvasheight))
+
+        return self._showimage3(image, pos)
+
+    @mainthread
+    def _showimage3(self, image, pos):
         rect = self.canvas.blit(image, pos)
         self._updateview(rect)
         return rect
