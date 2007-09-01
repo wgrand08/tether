@@ -28,11 +28,10 @@ import threading
 from Queue import Queue
 from time import sleep
 from itertools import chain, cycle
+import settings
 
 #TODO(isaac): scrolling multiline text box
 #TODO(isaac): remove local backgrounds
-
-WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 
 CALL = USEREVENT + 0
 
@@ -160,10 +159,10 @@ class Game(Canvas):
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
 
-        self.inputrect = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
+        self.inputrect = Rect(0, settings.WINDOW_YSIZE-50, settings.WINDOW_XSIZE, 50)
 
         pygame.display.set_caption("MoonPy")
-        self.surface = pygame.display.set_mode(WINDOW_SIZE)
+        self.surface = pygame.display.set_mode(settings.WINDOW_SIZE)
 
         self.gamelogic = threading.Thread(target=self._go, args=(gamelogic,))
         self.gamelogic.setDaemon(True)
