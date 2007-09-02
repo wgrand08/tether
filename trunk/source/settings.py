@@ -16,9 +16,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 import pygame
-import os
-import sys
+import moon
 
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 
+"""
+This code works when replacing function call in moon.py directly however I am currently unable to successfully call
+the showtext function from settings.py, once this this is corrected then this will be able to be fully implemented
+"""
+def change_resolution():
+    text = game.showtext("Enter X dimension", (0,0))
+    WINDOW_XSIZE = game.input()
+    game.erasetext(text)
+    text = game.showtext("Enter Y dimension", (0,0))
+    WINDOW_YSIZE = game.input()
+    WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE
+    pygame.display.set_mode(WINDOW_SIZE)
+    pygame.display.flip()
+    print("Resolution Modified")
 

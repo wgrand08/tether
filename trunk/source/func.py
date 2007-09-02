@@ -16,4 +16,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-#this is where we will put commonly used functions such as showtext to keep program organized
+#this is where we will put generic commonly used functions 
+#such as showtext to help keep program from getting cluttered

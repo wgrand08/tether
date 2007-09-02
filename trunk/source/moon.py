@@ -43,6 +43,22 @@ def main(game):
 
     background = game.loadimage("images/Enceladus.png")
     game.showimage(background, (0,0))
+    sleep(2)
+    
+    text = game.showtext("Enter 1 for main game", (0,0))
+    text2 = game.showtext("Enter 2 to change resolution", (0,125))
+    maininput = game.input()
+    game.erasetext(text)
+    game.erasetext(text2)
+    if maininput == "2": #I could use int(maininput) however that creates problems if a non-integer is entered
+        #settings.change_resolution()
+        text = game.showtext("Resolution changes temporarily", (0,0))
+        text2 = game.showtext("disabled", (0,75))
+        sleep(1)
+        game.erasetext(text)
+        game.erasetext(text2)
+    else:
+        print("Default settings used")
 
     animation1 = game.startanimation(cycle(images), 100, (0,100))
 
