@@ -1,3 +1,5 @@
+All functions not located within moon.py must be passed the 'game' object in order to work properly. This was done to avoid the necessity of having global variables. 
+
 game.input:
 Input arguments for game.input must be a Rect with the dimensions being in the following order:
 left, top, width, height
