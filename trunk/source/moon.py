@@ -51,9 +51,7 @@ def main(game):
     game.erasetext(text)
     game.erasetext(text2)
     if maininput == "2": #I could use int(maininput) however that creates problems if a non-integer is entered
-        #settings.change_resolution()
-        text = game.showtext("Resolution changes temporarily", (0,0))
-        text2 = game.showtext("disabled", (0,75))
+        settings.change_resolution(game)
         sleep(1)
         game.erasetext(text)
         game.erasetext(text2)
