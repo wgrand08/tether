@@ -75,7 +75,8 @@
 ===Useful Links:===
  * free sound effecs: http://www.stonewashed.net/sfx.html
  * original moonbase info: http://mbc.strategyplanet.gamespy.com/unitguide1.shtml
-
+ * Website dedicated to creative commons licensed sound effects: http://freesound.iua.upf.edu/index.php
+ * Website dedicated to creative commons licensed music: http://www.ccmixter.org/
 
 ===Art assets needed:===
 
