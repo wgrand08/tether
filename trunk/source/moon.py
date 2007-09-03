@@ -51,7 +51,7 @@ def main(game):
     game.erasetext(text)
     game.erasetext(text2)
     if maininput == "2": #I could use int(maininput) however that creates problems if a non-integer is entered
-        settings.change_resolution(game)
+        settings.main_settings(game)
         sleep(1)
     else:
         print("Default settings used")
@@ -163,6 +163,7 @@ class Game(Canvas):
         global MAIN_THREAD
         MAIN_THREAD = threading.currentThread()
         WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
+        FULLSCREEN = 0
         pygame.display.init()
         pygame.font.init()
 

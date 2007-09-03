@@ -18,8 +18,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import pygame
 import moon
 
-def settings_menu(game):
-    print("Settings menu placeholder")
+def main_settings(game):
+    #this is the 'main' settings menu
+    settingsinput = int(game.input())
+    if settingsinput == 6:
+        #toggle_fullscreen(game)
+        print("toggle fullscreen placeholder")
+    print("Main settings menu placeholder")
+
+def game_settings(game):
+    #this will be for mid-game settings
+    print("Game settings menu placeholder")
 
 def change_resolution(game):
     text = game.showtext("Enter X dimension", (0,0))
@@ -31,3 +40,12 @@ def change_resolution(game):
     pygame.display.set_mode(game.WINDOW_SIZE)
     pygame.display.flip()
 
+def toggle_fullscreen(game):
+    if game.FULLSCREEN == 1:
+        game.FULLSCREEN = 0
+        game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE
+        pygame.display.set_mode(game.WINDOW_SIZE)
+        #pygame.display.flip()
+    else:
+        game.FULLSCREEN = 1
+        pygame.display.set_mode(game.WINDOW_SIZE, pygame.FULLSCREEN)
