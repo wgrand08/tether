@@ -20,10 +20,6 @@ import moon
 
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
 
-"""
-This code works when replacing function call in moon.py directly however I am currently unable to successfully call
-the showtext function from settings.py, once this this is corrected then this will be able to be fully implemented
-"""
 def change_resolution(game):
     text = game.showtext("Enter X dimension", (0,0))
     global WINDOW_XSIZE
