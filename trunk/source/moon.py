@@ -46,15 +46,13 @@ def main(game):
     sleep(2)
     
     text = game.showtext("Enter 1 for main game", (0,0))
-    text2 = game.showtext("Enter 2 to change resolution", (0,125))
+    text2 = game.showtext("Enter 2 to access settings", (0,125))
     maininput = game.input()
     game.erasetext(text)
     game.erasetext(text2)
     if maininput == "2": #I could use int(maininput) however that creates problems if a non-integer is entered
         settings.change_resolution(game)
         sleep(1)
-        game.erasetext(text)
-        game.erasetext(text2)
     else:
         print("Default settings used")
 
@@ -164,7 +162,7 @@ class Game(Canvas):
     def __init__(self, gamelogic):
         global MAIN_THREAD
         MAIN_THREAD = threading.currentThread()
-
+        WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
         pygame.display.init()
         pygame.font.init()
 
@@ -173,10 +171,10 @@ class Game(Canvas):
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
 
-        self.inputrect = Rect(0, settings.WINDOW_YSIZE-50, settings.WINDOW_XSIZE, 50)
+        self.inputrect = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
 
         pygame.display.set_caption("MoonPy")
-        self.surface = pygame.display.set_mode(settings.WINDOW_SIZE)
+        self.surface = pygame.display.set_mode(WINDOW_SIZE)
 
         self.gamelogic = threading.Thread(target=self._go, args=(gamelogic,))
         self.gamelogic.setDaemon(True)

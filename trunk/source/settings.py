@@ -18,18 +18,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import pygame
 import moon
 
-WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
+def settings_menu(game):
+    print("Settings menu placeholder")
 
 def change_resolution(game):
     text = game.showtext("Enter X dimension", (0,0))
-    global WINDOW_XSIZE
-    WINDOW_XSIZE = int(game.input())
+    game.WINDOW_XSIZE = int(game.input())
     game.erasetext(text)
     text = game.showtext("Enter Y dimension", (0,0))
-    global WINDOW_YSIZE
-    WINDOW_YSIZE = int(game.input())
-    global WINDOW_SIZE
-    WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE
-    pygame.display.set_mode(WINDOW_SIZE)
+    game.WINDOW_YSIZE = int(game.input())
+    game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE
+    pygame.display.set_mode(game.WINDOW_SIZE)
     pygame.display.flip()
 
