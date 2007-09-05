@@ -1,4 +1,4 @@
-#summary Proposed coding idea
+#summary Proposed coding ideas
 
 = Introduction =
 
@@ -20,6 +20,5 @@ I'm not certain if this can be done or not but I was thinking it would be useful
     * isdisabled = bool (whether unit is active or disabled)
     * isvirused = bool (whether unit is currently infected)
     * beenvirused = int (determines ID# of last virus to infect unit so unit only gets infected with a particular virus once)
-
 
 
