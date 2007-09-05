@@ -76,9 +76,9 @@ def main(game):
 
     animation1 = map.startanimation(cycle(backandforth(images)), 75, (0,0))
     animation2 = map.startanimation(cycle(images), 80, (256,128))
-    sleep(5)
+    sleep(3)
     stopanimation(animation1, animation2)
-
+"""
     map = game.createmap((2560,384), Rect((19,550-384-19), (512,384)))
     call(map.surface.fill, color.darkblue)
     map.scrollto(0,0)
@@ -97,7 +97,7 @@ def main(game):
         map.scroll(1,0)
 
     stopanimation(*anims)
-
+"""
 def mainthread(fn):
     "Decorator for code which must run in the main thread."
     def decorated(*args, **kwargs):
@@ -162,8 +162,8 @@ class Game(Canvas):
     def __init__(self, gamelogic):
         global MAIN_THREAD
         MAIN_THREAD = threading.currentThread()
-        WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
-        FULLSCREEN = 0
+        self.WINDOW_SIZE = self.WINDOW_XSIZE,self.WINDOW_YSIZE = 550,550
+        self.FULLSCREEN = 0
         pygame.display.init()
         pygame.font.init()
 
@@ -172,10 +172,10 @@ class Game(Canvas):
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
 
-        self.inputrect = Rect(0, WINDOW_YSIZE-50, WINDOW_XSIZE, 50)
+        self.inputrect = Rect(0, self.WINDOW_YSIZE-50, self.WINDOW_XSIZE, 50)
 
         pygame.display.set_caption("MoonPy")
-        self.surface = pygame.display.set_mode(WINDOW_SIZE)
+        self.surface = pygame.display.set_mode(self.WINDOW_SIZE)
 
         self.gamelogic = threading.Thread(target=self._go, args=(gamelogic,))
         self.gamelogic.setDaemon(True)

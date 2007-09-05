@@ -20,11 +20,21 @@ import moon
 
 def main_settings(game):
     #this is the 'main' settings menu
-    settingsinput = int(game.input())
-    if settingsinput == 6:
-        #toggle_fullscreen(game)
-        print("toggle fullscreen placeholder")
-    print("Main settings menu placeholder")
+    settingsloop = True
+    while settingsloop == True:
+        text = game.showtext("Enter 1 for resolution", (0,100))
+        text2 = game.showtext("Enter 2 to toggle fullscreen", (0,125))
+        text3 = game.showtext("Enter 0 to return to Main Menu", (0,150))
+        settingsinput = int(game.input())
+        if settingsinput == 0:
+            settingsloop = False
+        if settingsinput == 1:
+            change_resolution(game)
+        if settingsinput == 2:
+            toggle_fullscreen(game)
+    game.erasetext(text)
+    game.erasetext(text2)
+    game.erasetext(text3)
 
 def game_settings(game):
     #this will be for mid-game settings
@@ -39,6 +49,8 @@ def change_resolution(game):
     game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE
     pygame.display.set_mode(game.WINDOW_SIZE)
     pygame.display.flip()
+    background = game.loadimage("images/Enceladus.png")
+    game.showimage(background, (0,0))
 
 def toggle_fullscreen(game):
     if game.FULLSCREEN == 1:
@@ -49,3 +61,5 @@ def toggle_fullscreen(game):
     else:
         game.FULLSCREEN = 1
         pygame.display.set_mode(game.WINDOW_SIZE, pygame.FULLSCREEN)
+        background = game.loadimage("images/Enceladus.png")
+    game.showimage(background, (0,0))
