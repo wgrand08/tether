@@ -163,7 +163,7 @@ class Game(Canvas):
         global MAIN_THREAD
         MAIN_THREAD = threading.currentThread()
         self.WINDOW_SIZE = self.WINDOW_XSIZE,self.WINDOW_YSIZE = 550,550
-        self.FULLSCREEN = 0
+        self.FULLSCREEN = False
         pygame.display.init()
         pygame.font.init()
 

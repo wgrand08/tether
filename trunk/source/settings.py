@@ -32,9 +32,8 @@ def main_settings(game):
             change_resolution(game)
         if settingsinput == 2:
             toggle_fullscreen(game)
-    game.erasetext(text)
-    game.erasetext(text2)
-    game.erasetext(text3)
+    background = game.loadimage("images/Enceladus.png")
+    game.showimage(background, (0,0))
 
 def game_settings(game):
     #this will be for mid-game settings
@@ -53,13 +52,13 @@ def change_resolution(game):
     game.showimage(background, (0,0))
 
 def toggle_fullscreen(game):
-    if game.FULLSCREEN == 1:
-        game.FULLSCREEN = 0
+    if game.FULLSCREEN == True:
+        game.FULLSCREEN = False
         game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE
         pygame.display.set_mode(game.WINDOW_SIZE)
         #pygame.display.flip()
     else:
-        game.FULLSCREEN = 1
+        game.FULLSCREEN = True
         pygame.display.set_mode(game.WINDOW_SIZE, pygame.FULLSCREEN)
-        background = game.loadimage("images/Enceladus.png")
+    background = game.loadimage("images/Enceladus.png")
     game.showimage(background, (0,0))
