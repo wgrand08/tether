@@ -16,7 +16,7 @@ I'm not certain if this can be done or not but I was thinking it would be useful
     * currentHP = int (current health of unit)
     * unitID = int (ID# for multiples of same unit)
     * parentID = int (variable identifying inbound unit for tether dependencies)
-    * childID = int (variable identifying outbound units for tether dependencies)
+    * childID = array (variable identifying outbound units for tether dependencies)
     * istethered = bool (determines if 'tether attacks' such as spike or virus must be passed along and also if connection to 'parent' unit is lost for reqtether)
     * isdisabled = bool (whether unit is active or disabled)
     * isvirused = bool (whether unit is currently infected)
