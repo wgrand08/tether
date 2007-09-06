@@ -15,9 +15,9 @@ Units will be defined by objects with attributes describing them. Some general a
 I'm not certain if this can be done or not but I was thinking it would be useful to be able for all units to be objects similar to the game object. The difficulty I see in this is how to determine the difference between hub1 and hub2. I don't currently know enough python but something along the lines of someobject(somevar).someattribute would be nice for coding purposes. *If* this can be done then we could have everything describing the units as attributes including some general attributes such as:
     * currentHP = int (current health of unit)
     * unitID = int (ID# for multiples of same unit)
-    * parentID = int (variable identifying originating unit for tether dependencies)
+    * parentID = int (variable identifying inbound unit for tether dependencies)
+    * childID = int (variable identifying outbound units for tether dependencies)
     * istethered = bool (determines if 'tether attacks' such as spike or virus must be passed along and also if connection to 'parent' unit is lost for reqtether)
     * isdisabled = bool (whether unit is active or disabled)
     * isvirused = bool (whether unit is currently infected)
     * beenvirused = int (determines ID# of last virus to infect unit so unit only gets infected with a particular virus once)
-
