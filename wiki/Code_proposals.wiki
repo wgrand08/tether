@@ -12,7 +12,7 @@ Units will be defined by objects with attributes describing them. Some general a
     * reqtether = bool (whether or not this unit must be tethered to survive)
     * sightrange = int (distance this unit can see in FoW)
 
-I'm not certain if this can be done or not but I was thinking it would be useful to be able for all units to be objects similar to the game object. The difficulty I see in this is how to determine the difference between hub1 and hub2. I don't currently know enough python but something along the lines of hub(somevar).someattribute would be nice for coding purposes. *If* this can be done then we could have everything describing the units as attributes including some general attributes such as:
+I'm not certain if this can be done or not but I was thinking it would be useful to be able for all units to be objects similar to the game object. The difficulty I see in this is how to determine the difference between hub1 and hub2. I don't currently know enough python but something along the lines of someobject(somevar).someattribute would be nice for coding purposes. *If* this can be done then we could have everything describing the units as attributes including some general attributes such as:
     * currentHP = int (current health of unit)
     * unitID = int (ID# for multiples of same unit)
     * parentID = int (variable identifying originating unit for tether dependencies)
@@ -20,5 +20,4 @@ I'm not certain if this can be done or not but I was thinking it would be useful
     * isdisabled = bool (whether unit is active or disabled)
     * isvirused = bool (whether unit is currently infected)
     * beenvirused = int (determines ID# of last virus to infect unit so unit only gets infected with a particular virus once)
-
 
