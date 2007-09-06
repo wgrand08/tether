@@ -8,10 +8,9 @@ This game requires Python2.4 and Pygame in order to run successfully. Here are t
 http://www.python.org/download/
 http://www.pygame.org/download.shtml
 
-*WARNING* The latest version of Python, Python2.5, does not work with MoonPy and has resulted in partially locking up computer systems during testing. Do not use MoonPy with other versions of Python besides Python2.4.
+*WARNING* The latest version of Python, Python2.5, does not work with MoonPy and has resulted in partially locking up computer systems during testing. Do not use MoonPy with other versions of Python besides 2.4.
 
 RUNNING UNDER GNU/LINUX
 ---------------------
-To run MoonPy simply CD into the directory where MoonPy is located and type:
-python2.4 moon.py
-
+To run MoonPy simply CD into the tether directory and run:
+./MoonPy_linux
