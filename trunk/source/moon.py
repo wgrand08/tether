@@ -178,6 +178,8 @@ class Game(Canvas):
 
         self.inputrect = Rect(0, self.WINDOW_YSIZE-50, self.WINDOW_XSIZE, 50)
 
+        self.playername = "Commander"
+
         pygame.display.set_caption("MoonPy")
         self.surface = pygame.display.set_mode(self.WINDOW_SIZE)
 

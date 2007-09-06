@@ -36,7 +36,7 @@ def main_settings(game):
 
 def game_settings(game):
     #this will be for mid-game settings
-    print("Game settings menu placeholder")
+    print("placeholder")
 
 def change_resolution(game):
     text = game.showtext("Enter X dimension", (0,0))
@@ -59,3 +59,9 @@ def toggle_fullscreen(game):
         game.FULLSCREEN = True
         pygame.display.set_mode(game.WINDOW_SIZE, pygame.FULLSCREEN)
         game.surface.fill(color.black)
+
+def load_settings(game):
+    print("placeholder")
+
+def save_settings(game):
+    print("placeholder")
