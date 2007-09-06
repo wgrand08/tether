@@ -7,17 +7,14 @@ This page is a place to put code snippets and ideas on code logic for features t
 
 = Unit descriptions =
 
-Units will be defined by objects with attributes describing them. Some general attributes all units will have are:
-    * maxHP = int (max HP of the unit)
-    * reqtether = bool (whether or not this unit must be tethered to survive)
-    * sightrange = int (distance this unit can see in FoW)
-
-I'm not certain if this can be done or not but I was thinking it would be useful to be able for all units to be objects similar to the game object. The difficulty I see in this is how to determine the difference between hub1 and hub2. I don't currently know enough python but something along the lines of someobject(somevar).someattribute would be nice for coding purposes. *If* this can be done then we could have everything describing the units as attributes including some general attributes such as:
-    * currentHP = int (current health of unit)
-    * unitID = int (ID# for multiples of same unit)
-    * parentID = int (variable identifying inbound unit for tether dependencies)
-    * childID = array (variable identifying outbound units for tether dependencies)
-    * istethered = bool (determines if 'tether attacks' such as spike or virus must be passed along and also if connection to 'parent' unit is lost for reqtether)
-    * isdisabled = bool (whether unit is active or disabled)
-    * isvirused = bool (whether unit is currently infected)
-    * beenvirused = int (determines ID# of last virus to infect unit so unit only gets infected with a particular virus once)
+Units will be defined by objects with the following attributes:
+  * maxHP = int (max HP of the unit)
+  * currentHP = int (current health of unit)
+    * OMBC allowed health in half-HP increments (from cluster bomb and possibly from splash damage)
+  * needstether = bool (whether or not this unit must be tethered to survive)
+  * sightrange = int (distance this unit can see in FoW)
+  * parent = reference (unit which this unit's tether comes from)
+  * children = array of references (units which are tethered from this unit)
+  * isdisabled = bool (whether unit is active or disabled)
+  * isvirused = bool (whether unit is currently infected)
+    * information about virus propagation needs to be stored, but this may not be the best place
