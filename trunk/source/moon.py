@@ -41,12 +41,16 @@ def main(game):
                   if name.endswith(".png")]
     images = game.loadimages(sorted(imagenames))
 
-    background = game.loadimage("images/Enceladus.png")
+    background = game.loadimage("images/Enceladus.png")# this is used as splash screen only
     game.showimage(background, (0,0))
     sleep(2)
     
+    game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE = 640,480
+    pygame.display.set_mode(game.WINDOW_SIZE)
+    pygame.display.flip()
+    game.surface.fill(color.black)
     text = game.showtext("Enter 1 for main game", (0,0))
-    text2 = game.showtext("Enter 2 to access settings", (0,125))
+    text2 = game.showtext("Enter 2 to access settings", (0,25))
     maininput = game.input()
     game.erasetext(text)
     game.erasetext(text2)
