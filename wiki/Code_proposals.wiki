@@ -18,3 +18,17 @@ Units will be defined by objects with the following attributes:
   * isdisabled = bool (whether unit is active or disabled)
   * isvirused = bool (whether unit is currently infected)
     * information about virus propagation needs to be stored, but this may not be the best place
+
+
+= Widgets = 
+
+Button widgets can be coded as an object with at least the following 4 attributes:
+  * Xlocation
+  * Ylocation
+  * Height
+  * Width
+Determination of whether or not the button is pushed can be done via a combination of pygames mouse.get_pressed and mouse.get_position functions or by another similar function if we do end up changing libraries. I was thinking something along the lines of:
+def moon_button:
+if (mouse.get_pressed == True) and (mouse.get_position =><= (Xlocation and Xlocation + height) and (Ylocation and Ylocation + width)):
+    return True
+This of couse is very rough idea on how to do this. Two other possible attributes for moon_button is name (button ID) and 'active' which would be a bool for whether or not the button has been pressed. Mostly likely these last two attributes won't really be attributes and will use some other method to perform their inteded uses.
