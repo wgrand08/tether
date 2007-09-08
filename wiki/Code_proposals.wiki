@@ -28,6 +28,7 @@ Button widgets can be coded as an object with at least the following 4 attribute
   * Height
   * Width
 Determination of whether or not the button is pushed can be done via a combination of pygames mouse.get_pressed and mouse.get_position functions or by another similar function if we do end up changing libraries. I was thinking something along the lines of:
+
 def moon_button:
 if (mouse.get_pressed == True) and (mouse.get_position =><= (Xlocation and Xlocation + height) and (Ylocation and Ylocation + width)):
     return True
