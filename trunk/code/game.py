@@ -82,6 +82,8 @@ def main(game):
     animation2 = map.startanimation(cycle(images), 80, (256,128))
     sleep(3)
     stopanimation(animation1, animation2)
+    #TODO(isaac): close map
+
 """
     map = game.createmap((2560,384), Rect((19,550-384-19), (512,384)))
     call(map.surface.fill, color.darkblue)
@@ -102,6 +104,8 @@ def main(game):
 
     stopanimation(*anims)
 """
+
+#TODO(isaac): transparently call to main thread instead of raising exception
 def mainthread(fn):
     "Decorator for code which must run in the main thread."
     def decorated(*args, **kwargs):
@@ -114,6 +118,7 @@ def mainthread(fn):
 class NeedsMainThread(Exception):
     "Raised when code is mistakenly run outside the main thread."
 
+#TODO(isaac): merge with mainthread
 #TODO(isaac): fix intermittant exception silence
 def call(fn, *args):
     "Cause code to be run in the main thread, and return its result."
