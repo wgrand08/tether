@@ -41,8 +41,8 @@ def main(game):
                   if name.endswith(".png")]
     images = game.loadimages(sorted(imagenames))
 
-    background = game.loadimage("images/Enceladus.png")# this is used as splash screen only
-    game.showimage(background, (0,0))
+    splash = game.loadimage("images/Enceladus.png")
+    game.showimage(splash, (0,0))
     sleep(2)
     
     game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE = 640,480
@@ -86,7 +86,7 @@ def main(game):
 
 """
     map = game.createmap((2560,384), Rect((19,550-384-19), (512,384)))
-    call(map.surface.fill, color.darkblue)
+    #doesn't work anymore# call(map.surface.fill, color.darkblue)
     map.scrollto(0,0)
     delay = 200
     y = 0
@@ -105,60 +105,48 @@ def main(game):
     stopanimation(*anims)
 """
 
-#TODO(isaac): transparently call to main thread instead of raising exception
 def mainthread(fn):
     "Decorator for code which must run in the main thread."
     def decorated(*args, **kwargs):
-        if threading.currentThread() != MAIN_THREAD:
-            raise NeedsMainThread()
-        else:
+        if threading.currentThread() == MAIN_THREAD:
+            # in main thread, so call normally
             return fn(*args, **kwargs)
+        else:
+            # not in main thread, so call through event queue
+            #TODO(isaac): fix intermittant exception silence
+            q = Queue()
+            e = pygame.event.Event(CALL, fn=fn, args=args, respond=q.put)
+            pygame.event.post(e)
+            raised,outcome = q.get()
+            if raised:
+                raise outcome
+            else:
+                return outcome
     return decorated
-
-class NeedsMainThread(Exception):
-    "Raised when code is mistakenly run outside the main thread."
-
-#TODO(isaac): merge with mainthread
-#TODO(isaac): fix intermittant exception silence
-def call(fn, *args):
-    "Cause code to be run in the main thread, and return its result."
-    if threading.currentThread() == MAIN_THREAD:
-        return fn(*args)
-    q = Queue()
-    e = pygame.event.Event(CALL, fn=fn, args=args, respond=q.put)
-    pygame.event.post(e)
-    raised,outcome = q.get()
-    if raised:
-        raise outcome
-    else:
-        return outcome
 
 class Canvas:
     @mainthread
     def __init__(self):
         self.font = pygame.font.Font(None, 50)
 
-    def showimage(self, image, pos):
-        return call(self._showimage, image, pos)
-
     @mainthread
-    def _showimage(self, image, pos):
+    def showimage(self, image, pos):
         rect = self.surface.blit(image, pos)
         pygame.display.update(rect)
         return rect
 
     def showtext(self, text, pos):
-        return call(TextBox, self, text, pos)
+        return TextBox(self, text, pos)
 
     def erasetext(self, textbox):
-        return call(textbox.erase)
+        return textbox.erase()
 
     def playanimation(self, images, delay, pos):
         animation = self.startanimation(images, delay, pos)
         animation.wait()
 
     def startanimation(self, images, delay, pos):
-        return call(AnimationBox, self, images, delay, pos)
+        return AnimationBox(self, images, delay, pos)
 
 def stopanimation(*animations):
     for animation in animations:
@@ -213,11 +201,8 @@ class Game(Canvas):
         finally:
             pygame.event.post(pygame.event.Event(QUIT))
 
-    def loadimage(self, filename):
-        return call(self._loadimage, filename)
-
     @mainthread
-    def _loadimage(self, filename):
+    def loadimage(self, filename):
         return pygame.image.load(filename).convert()
 
     def loadimages(self, filenames):
@@ -227,15 +212,15 @@ class Game(Canvas):
         if rect is None:
             rect = self.inputrect
 
-        inputbox = call(InputBox, self, rect)
+        inputbox = InputBox(self, rect)
         old = self.keylistener
         self.keylistener = inputbox.key
         inputbox.done.wait()
         self.keylistener = old
-        return call(inputbox.close)
+        return inputbox.close()
 
     def createmap(self, size, viewrect):
-        return call(Map, size, self.surface, viewrect)
+        return Map(size, self.surface, viewrect)
 
 #TODO(isaac): wrapped updates
 class Map(Canvas):
@@ -286,13 +271,10 @@ class Map(Canvas):
 
     def scroll(self, dx, dy):
         x,y = self.viewxy
-        call(self._scrollto, x+dx, y+dy)
-
-    def scrollto(self, x, y):
-        call(self._scrollto, x, y)
+        self.scrollto(x+dx, y+dy)
 
     @mainthread
-    def _scrollto(self, x, y):
+    def scrollto(self, x, y):
         self.viewxy = x,y
         rect = pygame.Rect(self.viewxy, self.view.get_size())
         self.view.blit(self.surface, (0,0), rect)
@@ -338,7 +320,7 @@ class AnimationBox:
     def wait(self):
         self.finish.wait()
         #TODO(isaac): return values from erase
-        call(self.erase)
+        self.erase()
 
     @mainthread
     def erase(self):
