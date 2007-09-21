@@ -43,22 +43,27 @@ def main(game):
 
     splash = game.loadimage("images/Enceladus.png")
     game.showimage(splash, (0,0))
-    sleep(2)
+    if False:
+        sleep(2)
     
-    game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE = 640,480
-    pygame.display.set_mode(game.WINDOW_SIZE)
-    pygame.display.flip()
-    game.surface.fill(color.black)
-    text = game.showtext("Enter 1 for main game", (0,0))
-    text2 = game.showtext("Enter 2 to access settings", (0,25))
-    maininput = game.input()
-    game.erasetext(text)
-    game.erasetext(text2)
-    if maininput == "2": #I could use int(maininput) however that creates problems if a non-integer is entered
-        settings.main_settings(game)
-        sleep(1)
-    else:
-        print("Default settings used")
+        game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE = 640,480
+        pygame.display.set_mode(game.WINDOW_SIZE)
+        pygame.display.flip()
+        game.surface.fill(color.black)
+        text = game.showtext("Enter 1 for main game", (0,0))
+        text2 = game.showtext("Enter 2 to access settings", (0,25))
+        maininput = game.input()
+        game.erasetext(text)
+        game.erasetext(text2)
+        if maininput == "2": #I could use int(maininput) however that creates problems if a non-integer is entered
+            settings.main_settings(game)
+            sleep(1)
+        else:
+            print("Default settings used")
+
+    buttons = [((10,10+n*100), textbutton(str(n)), n) for n in range(5)]
+    n = game.buttoninput(buttons)
+    print n
 
     animation1 = game.startanimation(cycle(images), 100, (0,100))
 
@@ -76,6 +81,8 @@ def main(game):
 
     stopanimation(animation2)
 
+    """
+    # why does this silently exit the program?
     map = game.createmap((512,512), Rect((19,550-384-19), (512,384)))
 
     animation1 = map.startanimation(cycle(backandforth(images)), 75, (0,0))
@@ -84,7 +91,6 @@ def main(game):
     stopanimation(animation1, animation2)
     #TODO(isaac): close map
 
-"""
     map = game.createmap((2560,384), Rect((19,550-384-19), (512,384)))
     #doesn't work anymore# call(map.surface.fill, color.darkblue)
     map.scrollto(0,0)
@@ -103,7 +109,7 @@ def main(game):
         map.scroll(1,0)
 
     stopanimation(*anims)
-"""
+    """
 
 def mainthread(fn):
     "Decorator for code which must run in the main thread."
@@ -113,9 +119,10 @@ def mainthread(fn):
             return fn(*args, **kwargs)
         else:
             # not in main thread, so call through event queue
-            #TODO(isaac): fix intermittant exception silence
+            #TODO(isaac): fix exception reporting problems
             q = Queue()
-            e = pygame.event.Event(CALL, fn=fn, args=args, respond=q.put)
+            e = pygame.event.Event(CALL, fn=fn, args=args, kwargs=kwargs,
+                                   respond=q.put)
             pygame.event.post(e)
             raised,outcome = q.get()
             if raised:
@@ -148,6 +155,12 @@ class Canvas:
     def startanimation(self, images, delay, pos):
         return AnimationBox(self, images, delay, pos)
 
+    @mainthread
+    def erase(self, *rects):
+        for rect in rects:
+            self.surface.fill(color.black, rect)
+        pygame.display.update(rects)
+
 def stopanimation(*animations):
     for animation in animations:
         animation.done = True
@@ -169,6 +182,8 @@ class Game(Canvas):
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
 
+        self.clicklistener = None
+
         self.inputrect = Rect(0, self.WINDOW_YSIZE-50, self.WINDOW_XSIZE, 50)
 
         self.playername = "Commander"
@@ -185,12 +200,16 @@ class Game(Canvas):
             if e.type == KEYDOWN:
                 if self.keylistener:
                     self.keylistener(e)
+            elif e.type == MOUSEBUTTONDOWN:
+                if self.clicklistener:
+                    self.clicklistener(e)
             elif e.type == CALL:
                 try:
-                    result = e.fn(*e.args)
+                    result = e.fn(*e.args, **e.kwargs)
                     e.respond((False, result))
                 except:
                     _,exception,_ = sys.exc_info()
+                    print exception
                     e.respond((True, exception))
             elif e.type == QUIT:
                 break
@@ -221,6 +240,53 @@ class Game(Canvas):
 
     def createmap(self, size, viewrect):
         return Map(size, self.surface, viewrect)
+
+    def buttoninput(self, buttons):
+        """Display buttons and wait for user to click one.
+
+        Takes a list of (<pos>, <image>, <value>) tuples, where <image> is
+        the appearance of the button, <pos> is the x,y coordinates of the
+        button's upper left corner, and <value> is the value to be returned
+        if the button is clicked. After the user clicks one, the buttons
+        are erased and the value corresponding to the clicked button is
+        returned."""
+        sentinel = object()
+        rectvalues = []
+        for pos,image,value in buttons:
+            rect = self.showimage(image, pos)
+            if value is None:
+                value = sentinel
+            rectvalues.append((rect, value))
+
+        old = self.clicklistener
+        q = Queue()
+        self.clicklistener = q.put
+
+        gotvalue = None
+        while gotvalue is None:
+            click = q.get()
+            for rect,value in rectvalues:
+                if rect.collidepoint(*click.pos):
+                    self.clicklistener = old
+                    gotvalue = value
+
+        self.erase(*[rect for rect,_ in rectvalues])
+
+        if gotvalue is sentinel:
+            gotvalue = None
+        return gotvalue
+
+def textbutton(text):
+    font = pygame.font.Font(None, 50)
+    textimage = font.render(text, True, color.white)
+    xsize,ysize = textimage.get_size()
+
+    buttonimage = pygame.Surface((xsize+40, ysize+40))
+    buttonimage.blit(textimage, (20,20))
+    rect = buttonimage.get_rect()
+    pygame.draw.rect(buttonimage, color.white, rect, 4)
+
+    return buttonimage
 
 #TODO(isaac): wrapped updates
 class Map(Canvas):
