@@ -42,7 +42,8 @@ def main(game):
     images = game.loadimages(sorted(imagenames))
 
     splash = game.loadimage("images/Enceladus.png")
-    game.showimage(splash, (0,0))
+    game.setbackgroundimage(splash)
+
     if False:
         sleep(2)
     
@@ -131,7 +132,12 @@ def mainthread(fn):
                 return outcome
     return decorated
 
+#TODO(isaac): make Canvas create a surface
 class Canvas:
+    """A surface with convenient drawing functions.
+
+    Note: Canvas does not create its own surface. Subclasses must do so.
+    """
     @mainthread
     def __init__(self):
         self.font = pygame.font.Font(None, 50)
@@ -139,6 +145,7 @@ class Canvas:
     @mainthread
     def showimage(self, image, pos):
         rect = self.surface.blit(image, pos)
+        #TODO(isaac): move update out of Canvas (perhaps overloaded method?)
         pygame.display.update(rect)
         return rect
 
@@ -168,7 +175,30 @@ def stopanimation(*animations):
     for animation in animations:
         animation.wait()
 
-class Game(Canvas):
+class BGCanvas(Canvas):
+    """A Canvas with a background Canvas for erasing.
+
+    Note: BGCanvas does not create a foreground surface. Subclasses must
+          do so.
+    """
+    def __init__(self, size):
+        Canvas.__init__(self)
+
+        self.background = Canvas()
+        self.background.surface = pygame.Surface(size)
+
+    def setbackgroundimage(self, image):
+        self.background.showimage(image, (0,0))
+        self.showimage(image, (0,0))
+
+    @mainthread
+    def erase(self, *rects):
+        for rect in rects:
+            self.surface.blit(self.background.surface, rect, rect)
+        pygame.display.update(rects)
+
+#TODO(isaac): have Game pass the window to canvas to override its surface
+class Game(BGCanvas):
     def __init__(self, gamelogic):
         global MAIN_THREAD
         MAIN_THREAD = threading.currentThread()
@@ -176,8 +206,6 @@ class Game(Canvas):
         self.FULLSCREEN = False
         pygame.display.init()
         pygame.font.init()
-
-        Canvas.__init__(self)
 
         pygame.key.set_repeat(250, 50)
         self.keylistener = None
@@ -190,6 +218,8 @@ class Game(Canvas):
 
         pygame.display.set_caption("MoonPy")
         self.surface = pygame.display.set_mode(self.WINDOW_SIZE)
+
+        BGCanvas.__init__(self, self.WINDOW_SIZE)
 
         self.gamelogic = threading.Thread(target=self._go, args=(gamelogic,))
         self.gamelogic.setDaemon(True)
@@ -289,13 +319,13 @@ def textbutton(text):
     return buttonimage
 
 #TODO(isaac): wrapped updates
-class Map(Canvas):
+class Map(BGCanvas):
     @mainthread
     def __init__(self, size, viewsurface, viewrect):
         self.surface = pygame.Surface(size)
         self.view = viewsurface.subsurface(viewrect)
 
-        Canvas.__init__(self)
+        BGCanvas.__init__(self)
 
         self._scrollto(0,0)
 
