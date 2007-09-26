@@ -63,7 +63,6 @@ def main(game):
             print("Default settings used")
 
     buttons = [((10,10+n*100), textbutton(str(n)), n) for n in range(5)]
-    """
     sologamebutton = [((10,10), textbutton(str("Solo Game")), True)]
     sologamebutton = game.buttoninput(sologamebutton)
     multigamebutton = [((10,100), textbutton(str("Multiplayer Game")), True)]
@@ -72,7 +71,6 @@ def main(game):
     settingsbutton = game.buttoninput(settingsbutton)
     quitbutton = [((10,300), textbutton(str("Quit")), True)]
     quitbutton = game.buttoninput(quitbutton)
-    """
     n = game.buttoninput(buttons)
     print n
 
