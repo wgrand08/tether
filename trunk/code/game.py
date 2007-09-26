@@ -62,18 +62,14 @@ def main(game):
         else:
             print("Default settings used")
 
-    buttons = [((10,10+n*100), textbutton(str(n)), n) for n in range(5)]
-    sologamebutton = [((10,10), textbutton(str("Solo Game")), True)]
-    sologamebutton = game.buttoninput(sologamebutton)
-    multigamebutton = [((10,100), textbutton(str("Multiplayer Game")), True)]
-    multigamebutton = game.buttoninput(multigamebutton)
-    settingsbutton = [((10,200), textbutton(str("Settings")), True)]
-    settingsbutton = game.buttoninput(settingsbutton)
-    quitbutton = [((10,300), textbutton(str("Quit")), True)]
-    quitbutton = game.buttoninput(quitbutton)
-    n = game.buttoninput(buttons)
-    print n
+    buttons = [((10,10), textbutton("Solo Game"), "Solo"),
+               ((10,100), textbutton("Multiplayer Game"), "Multi"),
+               ((10,200), textbutton("Settings"), "Set"),
+               ((10,300), textbutton("Quit"), "Quit")]
+    result = game.buttoninput(buttons)
+    print result
 
+    """
     animation1 = game.startanimation(cycle(images), 100, (0,100))
 
     text = game.showtext("Enter a direction (0-360)", (0,0))
@@ -89,6 +85,7 @@ def main(game):
     game.erasetext(text)
 
     stopanimation(animation2)
+    """
 
     """
     # why does this silently exit the program?
