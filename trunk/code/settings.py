@@ -19,18 +19,32 @@ import pygame
 
 def main_settings(game):
     #this is the 'main' settings menu
+    if False:    
+        settingsloop = True
+        while settingsloop == True:
+            text = game.showtext("Enter 1 for resolution", (0,0))
+            text2 = game.showtext("Enter 2 to toggle fullscreen", (0,25))
+            text3 = game.showtext("Enter 0 to return to Main Menu", (0,50))
+            settingsinput = int(game.input())
+            if settingsinput == 0:
+                settingsloop = False
+            if settingsinput == 1:
+                change_resolution(game)
+            if settingsinput == 2:
+                toggle_fullscreen(game)
+        game.surface.fill(color.black)
     settingsloop = True
     while settingsloop == True:
-        text = game.showtext("Enter 1 for resolution", (0,0))
-        text2 = game.showtext("Enter 2 to toggle fullscreen", (0,25))
-        text3 = game.showtext("Enter 0 to return to Main Menu", (0,50))
-        settingsinput = int(game.input())
-        if settingsinput == 0:
-            settingsloop = False
-        if settingsinput == 1:
+        buttons = [((10,10), game.textbutton("Change Resolution"), "resolution"),
+                  ((10,100), game.textbutton("Toggle Fullscreen"), "fullscreen"),
+                  ((10,200), game.textbutton("return to Main Menu"), "quit")]
+        setinput = game.buttoninput(buttons)
+        if setinput == "resolution":
             change_resolution(game)
-        if settingsinput == 2:
+        if setinput == "fullscreen":
             toggle_fullscreen(game)
+        if setinput == "quit":
+           settingsloop = False
     game.surface.fill(color.black)
 
 def game_settings(game):
@@ -64,3 +78,12 @@ def load_settings(game):
 
 def save_settings(game):
     print("placeholder")
+
+def default_settings(game):
+    print("placeholder")
+
+class color:#fixme: this is an ugly hack to get it up and running. 
+    def __getattr__(self, name):
+        return pygame.Color(name)
+    __getitem__ = __getattr__
+color = color()

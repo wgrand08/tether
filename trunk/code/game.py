@@ -43,33 +43,18 @@ def main(game):
 
     splash = game.loadimage("images/Enceladus.png")
     game.setbackgroundimage(splash)
-
-    if False:
-        sleep(2)
-    
-        game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE = 640,480
-        pygame.display.set_mode(game.WINDOW_SIZE)
-        pygame.display.flip()
-        game.surface.fill(color.black)
-        text = game.showtext("Enter 1 for main game", (0,0))
-        text2 = game.showtext("Enter 2 to access settings", (0,25))
-        maininput = game.input()
-        game.erasetext(text)
-        game.erasetext(text2)
-        if maininput == "2": #I could use int(maininput) however that creates problems if a non-integer is entered
+    mainloop = True
+    while mainloop == True:
+        buttons = [((10,10), game.textbutton("Solo Game"), "Solo"),
+                   ((10,100), game.textbutton("Multiplayer Game"), "Multi"),
+                   ((10,200), game.textbutton("Settings"), "Set"),
+                   ((10,300), game.textbutton("Quit"), "Quit")]
+        maininput = game.buttoninput(buttons)
+        print maininput
+        if maininput == "Set":
             settings.main_settings(game)
-            sleep(1)
-        else:
-            print("Default settings used")
-
-    buttons = [((10,10), game.textbutton("Solo Game"), "Solo"),
-               ((10,100), game.textbutton("Multiplayer Game"), "Multi"),
-               ((10,200), game.textbutton("Settings"), "Set"),
-               ((10,300), game.textbutton("Quit"), "Quit")]
-    maininput = game.buttoninput(buttons)
-    print maininput
-    if maininput == "Set":
-        settings.main_settings(game)
+        if maininput == "Quit":
+            mainloop = False
 
     """
     animation1 = game.startanimation(cycle(images), 100, (0,100))
@@ -497,7 +482,7 @@ class InputBox:
         self.canvas.showimage(self.background, self.rect)
         return self.text
 
-class color:
+class color:#todo: make this global in scope so it can be used by other modules
     def __getattr__(self, name):
         return pygame.Color(name)
     __getitem__ = __getattr__
