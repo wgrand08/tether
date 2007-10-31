@@ -62,12 +62,14 @@ def main(game):
         else:
             print("Default settings used")
 
-    buttons = [((10,10), textbutton("Solo Game"), "Solo"),
-               ((10,100), textbutton("Multiplayer Game"), "Multi"),
-               ((10,200), textbutton("Settings"), "Set"),
-               ((10,300), textbutton("Quit"), "Quit")]
-    result = game.buttoninput(buttons)
-    print result
+    buttons = [((10,10), game.textbutton("Solo Game"), "Solo"),
+               ((10,100), game.textbutton("Multiplayer Game"), "Multi"),
+               ((10,200), game.textbutton("Settings"), "Set"),
+               ((10,300), game.textbutton("Quit"), "Quit")]
+    maininput = game.buttoninput(buttons)
+    print maininput
+    if maininput == "Set":
+        settings.main_settings(game)
 
     """
     animation1 = game.startanimation(cycle(images), 100, (0,100))
@@ -311,17 +313,16 @@ class Game(BGCanvas):
             gotvalue = None
         return gotvalue
 
-def textbutton(text):
-    font = pygame.font.Font(None, 50)
-    textimage = font.render(text, True, color.white)
-    xsize,ysize = textimage.get_size()
+    def textbutton(self, text):
+        font = pygame.font.Font(None, 50)
+        textimage = font.render(text, True, color.white)
+        xsize,ysize = textimage.get_size()
 
-    buttonimage = pygame.Surface((xsize+40, ysize+40))
-    buttonimage.blit(textimage, (20,20))
-    rect = buttonimage.get_rect()
-    pygame.draw.rect(buttonimage, color.white, rect, 4)
-
-    return buttonimage
+        buttonimage = pygame.Surface((xsize+40, ysize+40))
+        buttonimage.blit(textimage, (20,20))
+        rect = buttonimage.get_rect()
+        pygame.draw.rect(buttonimage, color.white, rect, 4)
+        return buttonimage
 
 #TODO(isaac): wrapped updates
 class Map(BGCanvas):
