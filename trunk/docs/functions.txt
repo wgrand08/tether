@@ -19,3 +19,11 @@ An example of a one-time animation would be:
 animation = game.startanimation((imagenames), delay, (Xcoord,Ycoord))
 as compared to cycling (looping) animation like this:
 animation = game.startanimation(cycle(imagenames), delay, (Xcoord,Ycoord))
+
+Color
+color is a class located within the game module. With the way it is currently coded it is not global in scope and can only be used within the game module. As a temporary hack this class is being copied verbatim into all other modules it is needed in. A copy of this code is listed below for any new modules that may be developed before this is fixed:
+class color:
+    def __getattr__(self, name):
+        return pygame.Color(name)
+    __getitem__ = __getattr__
+color = color()
