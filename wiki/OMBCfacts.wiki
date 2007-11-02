@@ -1,0 +1,17 @@
+#Information about the original moonbase commander
+
+= Details about the original moonbase commander =
+
+OMBC map editor uses a grid system for placing objects such as buildings, water, and energy. Small energy pools only take up one grid square each. By creating a special map with small energy pools being used to mark distance I was able to measure roughly how far shots travel without the aspect of wind. Be aware that a single screen (not a map) is an exact 8x8 grid. 
+  * Hub maximum = just under 8.5 grids (though definitely higher then 8 grids)
+  * Hub minimum = exactly 2 grids
+  * Offense maximum = exactly 15 grids
+  * Offense minimum = exactly 2 grids
+  * AA's = exactly 3 grids
+
+= Unit HP =
+
+Add your content here.  Format your content with:
+  * Hub = 
+  * Tower = 
+  * Balloon = 
