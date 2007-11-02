@@ -1,4 +1,3 @@
-#Information about the original moonbase commander
 
 = Details about the original moonbase commander =
 
@@ -8,10 +7,26 @@ OMBC map editor uses a grid system for placing objects such as buildings, water,
   * Offense maximum = exactly 15 grids
   * Offense minimum = exactly 2 grids
   * AA's = exactly 3 grids
+  * mine = exactly 1 grid
 
 = Unit HP =
 
-Add your content here.  Format your content with:
-  * Hub = 
-  * Tower = 
-  * Balloon = 
+Amount of HP each unit has
+  * Hub = 5
+  * Tower = 3
+  * Balloon = 1
+  * Energy = 5
+  * AA = 3
+  * Offense = 3
+  * Shield = 3
+  * Crawler = 3
+
+= Weapon Damage =
+
+Amount of damage each weapon does with a direct hit
+  * Bomb = 3
+  * Missile = 3
+  * Crawler = 5
+  * Energy = 6
+  * EMP = 2
+  * Spike = 3
