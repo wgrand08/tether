@@ -1,5 +1,4 @@
-= Details about the original moonbase commander =
-
+= Hub and offense firing stats =
 OMBC map editor uses a grid system for placing objects such as buildings, water, and energy. Small energy pools only take up one grid square each. By creating a special map with small energy pools being used to mark distance I was able to measure roughly how far shots travel without wind or height differences. Be aware that a single screen (not a map) is an exact 8x8 grid. 
   * Hub maximum = just under 8.5 grids (though definitely higher then 8 grids)
   * Hub minimum = exactly 2 grids
@@ -7,6 +6,10 @@ OMBC map editor uses a grid system for placing objects such as buildings, water,
   * Offense minimum = exactly 2 grids
   * AA's = exactly 3 grids
   * mine = exactly 1 grid
+
+= Tether spacing stats =
+Tethers can not overlap each other. In OMBC if a player attempts to launch a tethered projectile to close to another tether a warning circle appears and the game will not allow the hub to fire. Using a special map and firing tethers in a circle 
+
 
 = Unit HP =
 
