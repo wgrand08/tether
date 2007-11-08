@@ -26,15 +26,17 @@ Button widgets can be coded as an object with at least the following 4 attribute
   * Width
 Determination of whether or not the button is pushed can be done via a combination of pygames mouse.get_pressed and mouse.get_position functions or by another similar function if we do end up changing libraries. I was thinking something along the lines of:
 
-def moon_button:
+{{{def moon_button:
 if (mouse.get_pressed == True) and (mouse.get_position =><= (Xlocation and Xlocation + height) and (Ylocation and Ylocation + width)):
-    return True
-This of couse is very rough idea on how to do this. Two other possible attributes for moon_button is name (button ID) and 'active' which would be a bool for whether or not the button has been pressed. Mostly likely these last two attributes won't really be attributes and will use some other method to perform their inteded uses.
+    return True}}}
+
+This of couse is very rough idea on how to do this. Two other possible attributes for moon_button is name (button ID) and 'active' which would be a bool for whether or not the button has been pressed. Mostly likely these last two attributes won't 
+really be attributes and will use some other method to perform their inteded uses.
 
 
-= Game Versions =
+= Version System =
 As the game progresses different versions will be made as upgrades occur. As features are implemented or changed is highly likely that networking, maps, save and preferences files will become incompatible. In order to prevent errors due to incompatibilities a version number will be hardcoded for each of these systems. In the event the game finds an incompatible version (such as for a recent update) then the game will be capable of taking the appropriate actions. The names of these variables and their values currently are:
-  *self.settingsversion = 1 (for game settings)
-  *self.networkversion = 0 (for networking)
-  *self.mapversion = 0 (for maps)
-  *self.savegameversion = 0 (for game saves)
+  * game.settingsversion = 1 (for game settings)
+  * game.networkversion = 0 (for networking)
+  * game.mapversion = 0 (for maps)
+  * game.savegameversion = 0 (for game saves)
