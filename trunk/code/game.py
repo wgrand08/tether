@@ -43,6 +43,8 @@ def main(game):
 
     splash = game.loadimage("images/Enceladus.png")
     game.setbackgroundimage(splash)
+    sleep(2)
+    settings.load_settings(game)
     mainloop = True
     while mainloop == True:
         buttons = [((10,10), game.textbutton("Solo Game"), "Solo"),

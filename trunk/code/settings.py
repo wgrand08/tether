@@ -58,8 +58,7 @@ def change_username(game):
     #sets custom user name for player
     text = game.showtext("Enter new user name", (0,0))
     game.playername = (game.input())
-    splash = game.loadimage("images/Enceladus.png")#this is an ugly hack to remove showtext and textinput 
-    game.setbackgroundimage(splash)
+    game.surface.fill(color.black)
     print(game.playername)
     
 def change_resolution(game):
@@ -70,7 +69,6 @@ def change_resolution(game):
     game.WINDOW_YSIZE = int(game.input())
     game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE
     pygame.display.set_mode(game.WINDOW_SIZE)
-    pygame.display.flip()
     game.surface.fill(color.black)
 
 def toggle_fullscreen(game):
@@ -78,22 +76,28 @@ def toggle_fullscreen(game):
         game.FULLSCREEN = False
         game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE
         pygame.display.set_mode(game.WINDOW_SIZE)
-        #pygame.display.flip()
     else:
         game.FULLSCREEN = True
         pygame.display.set_mode(game.WINDOW_SIZE, pygame.FULLSCREEN)
         game.surface.fill(color.black)
 
 def load_settings(game):
-    print("placeholder")
+    existing_prefs = False #eventually game will be set to automatically search for and load custom settings
+    if existing_prefs == False:
+        default_settings(game)
+    if game.FULLSCREEN == True:
+        pygame.display.set_mode(game.WINDOW_SIZE, pygame.FULLSCREEN)
 
 def save_settings(game):
-    print("placeholder")
+    print("save settings placeholder")
 
 def default_settings(game):
-    print("placeholder")
+    print("default settings placeholder")
+    game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE = 640,480
+    game.FULLSCREEN = False
+    game.playername = "Commander"
 
-class color:#fixme: this is an ugly hack to get it up and running. 
+class color:#fixme: this is an ugly hack to get settings up and running. 
     def __getattr__(self, name):
         return pygame.Color(name)
     __getitem__ = __getattr__
