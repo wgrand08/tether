@@ -56,9 +56,10 @@ def game_settings(game):
 
 def change_username(game):
     #sets custom user name for player
-    game.surface.fill(color.black)
     text = game.showtext("Enter new user name", (0,0))
     game.playername = (game.input())
+    splash = game.loadimage("images/Enceladus.png")#this is an ugly hack to remove showtext and textinput 
+    game.setbackgroundimage(splash)
     print(game.playername)
     
 def change_resolution(game):
