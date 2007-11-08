@@ -33,3 +33,12 @@ def moon_button:
 if (mouse.get_pressed == True) and (mouse.get_position =><= (Xlocation and Xlocation + height) and (Ylocation and Ylocation + width)):
     return True
 This of couse is very rough idea on how to do this. Two other possible attributes for moon_button is name (button ID) and 'active' which would be a bool for whether or not the button has been pressed. Mostly likely these last two attributes won't really be attributes and will use some other method to perform their inteded uses.
+
+
+= Game Versions =
+
+As the game progresses different versions will be made as upgrades occur. As features are implemented or changed is highly likely that networking, maps, save and preferences files will become incompatible. In order to prevent errors due to incompatibilities a version number will be hardcoded for each of these systems. In the event the game finds an incompatible version (such as for a recent update) then the game will be capable of taking the appropriate actions. The names of these variables and their values currently are:
+  *self.settingsversion = 1 (for game settings)
+  *self.networkversion = 0 (for networking)
+  *self.mapversion = 0 (for maps)
+  *self.savegameversion = 0 (for game saves)
