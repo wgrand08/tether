@@ -37,12 +37,15 @@ def main_settings(game):
     while settingsloop == True:
         buttons = [((10,10), game.textbutton("Change Resolution"), "resolution"),
                   ((10,100), game.textbutton("Toggle Fullscreen"), "fullscreen"),
-                  ((10,200), game.textbutton("return to Main Menu"), "quit")]
+                  ((10,200), game.textbutton("Change User Name"), "username"),
+                  ((10,300), game.textbutton("return to Main Menu"), "quit")]
         setinput = game.buttoninput(buttons)
         if setinput == "resolution":
             change_resolution(game)
         if setinput == "fullscreen":
             toggle_fullscreen(game)
+        if setinput == "username":
+            change_username(game)
         if setinput == "quit":
            settingsloop = False
     game.surface.fill(color.black)
@@ -51,6 +54,13 @@ def game_settings(game):
     #this will be for mid-game settings
     print("placeholder")
 
+def change_username(game):
+    #sets custom user name for player
+    game.surface.fill(color.black)
+    text = game.showtext("Enter new user name", (0,0))
+    game.playername = (game.input())
+    print(game.playername)
+    
 def change_resolution(game):
     text = game.showtext("Enter X dimension", (0,0))
     game.WINDOW_XSIZE = int(game.input())
