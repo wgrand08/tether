@@ -1,35 +1,35 @@
 #labels Featured
 = FAQs of project tether =
 
-  # What is project tether?
-  * Project tether is an open source project focused on recreating the classic strategy game Moonbase commander
+  * What is project tether?
+  Project tether is an open source project focused on recreating the classic strategy game Moonbase commander
 
-  # What is Moonbase Commander?
-  * Moonbase Commander has quite often been called the best game no one has ever heard of. Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
+  * What is Moonbase Commander?
+  Moonbase Commander has quite often been called the best game no one has ever heard of. Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
 
-  # Well then where can I go to play the game?
-  * Sadly project tether is currently not far enough along for us to give you an idea of what Moonbase Commander is really like. Your best option at this time would be to play the original Moonbase Commander. Although not open source we do have a copy of the original Moonbase Commander demo of which is located [http://tether.googlecode.com/files/moonbasecommanderdemo.exe here].
+  * Well then where can I go to play the game?
+  Sadly project tether is currently not far enough along for us to give you an idea of what Moonbase Commander is really like. Your best option at this time would be to play the original Moonbase Commander. Although not open source we do have a copy of the original Moonbase Commander demo of which is located [http://tether.googlecode.com/files/moonbasecommanderdemo.exe here].
 
-  # Yeah that is a cool game, so why are you trying to recreate it?
-  * While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 5 years we assume that they will never be resolved. Rather then live with it we started this project to fix it ourselves
+  * Yeah that is a cool game, so why are you trying to recreate it?
+  While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 5 years we assume that they will never be resolved. Rather then live with it we started this project to fix it ourselves
 
- # What is MoonPy
- * MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
+ * What is MoonPy?
+ MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
 
-  # Why are you using python, why not a real language like C++?
-  * There are many reasons we're using python, it's simple to code, easily portable to different OS's, and more then capable of doing what we require. There is an experimental branch called MoonX written in C++ but it is much less developed then MoonPy. MoonX is not available on SVN and there are currently no plans on ever releasing it.
+  * Why are you using python, why not a real language like C++?
+  There are many reasons we're using python, it's simple to code, easily portable to different OS's, and more then capable of doing what we require. There is an experimental branch called MoonX written in C++ but it is much less developed then MoonPy. MoonX is not available on SVN and there are currently no plans on ever releasing it.
 
-  # What OS are you developing MoonPy for?
-  * We are intentionally making MoonPY to be fully compatible with Linux, osX, and Windows. It should work on any OS capable of using python with little extra effort. 
+  * What OS are you developing MoonPy for?
+  We are intentionally making MoonPY to be fully compatible with Linux, osX, and Windows. It should work on any OS capable of using python with little extra effort. 
 
-  # Will MoonPy be compatible with Moonbase Commander?
-  * No.
+  * Will MoonPy be compatible with Moonbase Commander?
+  No.
 
-  # Really? Why not?
-  * Mostly because we don't have the exact formulas for calculating the shots. Sure it looks simple but there are a lot of factors involved, especially when you start looping missiles around the back side of an enemy base. While we can make our own formulas that *look* identical there will be slight differences that would desync the clients and make it unplayable. We also want to make some changes that would make it incompatible with the original.
+  * Really? Why not?
+  Mostly because we don't have the exact formulas for calculating the shots. Sure it looks simple but there are a lot of factors involved, especially when you start looping missiles around the back side of an enemy base. While we can make our own formulas that *look* identical there will be slight differences that would desync the clients and make it unplayable. We also want to make some changes that would make it incompatible with the original.
 
-  # What changes are you planning?
-  * The biggest change we want to make is the number of players. Moonbase Commander can not have more then 4 players per game which we find annoying. We would also like to add smarter AI, hotseat capabilities, and the ability to make mods. 
+  * What changes are you planning?
+  The biggest change we want to make is the number of players. Moonbase Commander can not have more then 4 players per game which we find annoying. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
 
-  # How can I help out with the project?
-  * Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/clanoflan introduce yourself].
+  * How can I help out with the project?
+  Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/clanoflan introduce yourself].
