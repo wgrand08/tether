@@ -16,23 +16,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 import pygame
+import os
 
 def main_settings(game):
     #this is the 'main' settings menu
-    if False:    
-        settingsloop = True
-        while settingsloop == True:
-            text = game.showtext("Enter 1 for resolution", (0,0))
-            text2 = game.showtext("Enter 2 to toggle fullscreen", (0,25))
-            text3 = game.showtext("Enter 0 to return to Main Menu", (0,50))
-            settingsinput = int(game.input())
-            if settingsinput == 0:
-                settingsloop = False
-            if settingsinput == 1:
-                change_resolution(game)
-            if settingsinput == 2:
-                toggle_fullscreen(game)
-        game.surface.fill(color.black)
     settingsloop = True
     while settingsloop == True:
         buttons = [((10,10), game.textbutton("Change Resolution"), "resolution"),
@@ -48,7 +35,7 @@ def main_settings(game):
             change_username(game)
         if setinput == "quit":
            settingsloop = False
-    game.surface.fill(color.black)
+    save_settings(game)
 
 def game_settings(game):
     #this will be for mid-game settings
@@ -82,20 +69,52 @@ def toggle_fullscreen(game):
         game.surface.fill(color.black)
 
 def load_settings(game):
-    existing_prefs = False #eventually game will be set to automatically search for and load custom settings
-    if existing_prefs == False:
+    badsettings = True
+    if os.path.exists("moon.sys"):
+        settingsfile=open("moon.sys", 'r')
+        for line in settingsfile:
+            line=line.strip()
+            if line == "" or line[0] == "#":
+                continue
+            input_array = line.split("=", 1)
+            if input_array[0].strip() == "version":
+                if int(input_array[1].strip()) == game.settingsversion: #checking file version to avoid incompatibilities
+                    badsettings = False #confirmation that file exists and has correct version
+            if badsettings == False:
+                if input_array[0].strip() == "fullscreen":
+                    if input_array[1].strip() == "True":
+                        game.FULLSCREEN = True
+                    elif input_array[1].strip() == "False":
+                        game.FULLSCREEN = False
+                if input_array[0].strip() == "xres":
+                    game.WINDOW_XSIZE = int(input_array[1].strip())
+                if input_array[0].strip() == "yres":
+                    game.WINDOW_YSIZE = int(input_array[1].strip())
+                if input_array[0].strip() == "name":
+                    game.playername = input_array[1].strip()
+    if badsettings == True:
         default_settings(game)
+    else:
+        game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE
     if game.FULLSCREEN == True:
         pygame.display.set_mode(game.WINDOW_SIZE, pygame.FULLSCREEN)
+    else:
+        pygame.display.set_mode(game.WINDOW_SIZE)
 
 def save_settings(game):
-    print("save settings placeholder")
+    savesettings=open("moon.sys", 'w')
+    savesettings.write("version="+str(game.settingsversion)+"\n")
+    savesettings.write("fullscreen="+str(game.FULLSCREEN)+"\n")
+    savesettings.write("xres="+str(game.WINDOW_XSIZE)+"\n")
+    savesettings.write("yres="+str(game.WINDOW_YSIZE)+"\n")
+    savesettings.write("name="+str(game.playername)+"\n")
 
 def default_settings(game):
-    print("default settings placeholder")
     game.WINDOW_SIZE = game.WINDOW_XSIZE,game.WINDOW_YSIZE = 640,480
     game.FULLSCREEN = False
     game.playername = "Commander"
+    save_settings(game)
+
 
 class color:#fixme: this is an ugly hack to get settings up and running. 
     def __getattr__(self, name):

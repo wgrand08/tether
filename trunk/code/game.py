@@ -52,7 +52,6 @@ def main(game):
                    ((10,200), game.textbutton("Settings"), "Set"),
                    ((10,300), game.textbutton("Quit"), "Quit")]
         maininput = game.buttoninput(buttons)
-        print maininput
         if maininput == "Set":
             settings.main_settings(game)
         if maininput == "Quit":
@@ -210,6 +209,11 @@ class Game(BGCanvas):
 
         self.playername = "Commander"
 
+        self.settingsversion = 1 #to be updated with changes to the way settings are saved
+        self.networkversion = 0 #to be updated with changes to the way the clients communicate
+        self.mapversion = 0 #to be updated with changes to the way maps are read
+        self.savegameversion = 0 #to be updated with changes to the way games are saved
+        
         pygame.display.set_caption("MoonPy")
         self.surface = pygame.display.set_mode(self.WINDOW_SIZE)
 
