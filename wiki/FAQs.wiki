@@ -17,10 +17,19 @@
  * MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
 
   # Why are you using python, why not a real language like C++?
-  * There are many reasons we're using python, it's simple to code, easily portable to different OS's, and more then capable of doing what we require. There is an experimental branch called MoonX written in C++ but it is much less developed then MoonPy. MoonX is not available on SVN and there are currently no plans on releasing ever releasing it.
+  * There are many reasons we're using python, it's simple to code, easily portable to different OS's, and more then capable of doing what we require. There is an experimental branch called MoonX written in C++ but it is much less developed then MoonPy. MoonX is not available on SVN and there are currently no plans on ever releasing it.
+
+  # What OS are you developing MoonPy for?
+  * We are intentionally making MoonPY to be fully compatible with Linux, osX, and Windows. It should work on any OS capable of using python with little extra effort. 
 
   # Will MoonPy be compatible with Moonbase Commander?
-  * No
+  * No.
 
   # Really? Why not?
-  * Mostly because we don't have the exact formulas for calculating the shots. Sure it looks simple but there are a lot of factors involved, especially when you start looping missiles around the back side of an enemy base. While we can make our own formulas that *look* identical there would be slight differences that would desync the clients and make it unplayable. Moonbase Commander also has some serious network bugs we want to avoid
+  * Mostly because we don't have the exact formulas for calculating the shots. Sure it looks simple but there are a lot of factors involved, especially when you start looping missiles around the back side of an enemy base. While we can make our own formulas that *look* identical there will be slight differences that would desync the clients and make it unplayable. We also want to make some changes that would make it incompatible with the original.
+
+  # What changes are you planning?
+  * The biggest change we want to make is the number of players. Moonbase Commander can not have more then 4 players per game which we find annoying. We would also like to add smarter AI, hotseat capabilities, and the ability to make mods. 
+
+  # How can I help out with the project?
+  * Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/clanoflan introduce yourself].
