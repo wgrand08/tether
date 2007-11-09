@@ -44,6 +44,7 @@ def main(game):
     splash = game.loadimage("images/Enceladus.png")
     game.setbackgroundimage(splash)
     sleep(2)
+    test = True
     settings.load_settings(game)
     mainloop = True
     while mainloop == True:
