@@ -42,10 +42,12 @@ def main(game):
     images = game.loadimages(sorted(imagenames))
 
     splash = game.loadimage("images/Enceladus.png")
-    game.setbackgroundimage(splash)
+    #disabling splash screen until image can be properly destroyed
+    #game.setbackgroundimage(splash)
     sleep(2)
     settings.load_settings(game)
     mainloop = True
+    pygame.mouse.set_visible(True)
     while mainloop == True:
         buttons = [((10,10), game.textbutton("Solo Game"), "Solo"),
                    ((10,100), game.textbutton("Multiplayer Game"), "Multi"),
