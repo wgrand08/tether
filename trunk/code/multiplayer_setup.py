@@ -19,7 +19,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import pygame
 
 def multiplayer_screen(game)
-    print("multiplayer_screen placeholder")
+    menuloop = True
+    while menuloop == True:
+        buttons = [((10,10), game.textbutton("Host game"), "host"),
+                  ((10,100), game.textbutton("Join game"), "join"),
+                  ((10,200), game.textbutton("Cancel"), "quit")]
+        menuinput = game.buttoninput(buttons)
+        if menuinput == "host":
+            host_screen(game)
+        if menuinput == "join":
+            join_screen(game)
+        if menuinput == "quit":
+            menuloop = False
+
+def host_screen(game)
+    print("host_screen placeholder")
+
+def join_screen(game)
+    print("join_screen placeholder")
 
 def debug_game(game)
     #this is to allow 'cheating' for debugging purposes

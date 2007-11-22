@@ -44,7 +44,6 @@ def main(game):
     splash = game.loadimage("images/Enceladus.png")
     game.setbackgroundimage(splash)
     sleep(2)
-    test = True
     settings.load_settings(game)
     mainloop = True
     while mainloop == True:
@@ -53,6 +52,10 @@ def main(game):
                    ((10,200), game.textbutton("Settings"), "Set"),
                    ((10,300), game.textbutton("Quit"), "Quit")]
         maininput = game.buttoninput(buttons)
+        if maininput == "Solo":
+            solo_setup.solo_screen(game)
+        if maininput == "Multi":
+            multiplayer_setup.multiplayer_screen(game)
         if maininput == "Set":
             settings.main_settings(game)
         if maininput == "Quit":
