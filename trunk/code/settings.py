@@ -70,8 +70,8 @@ def toggle_fullscreen(game):
 
 def load_settings(game):
     badsettings = True
-    if os.path.exists("moon.sys"):
-        settingsfile=open("moon.sys", 'r')
+    if os.path.exists("settings.cfg"):
+        settingsfile=open("settings.cfg", 'r')
         for line in settingsfile:
             line=line.strip()
             if line == "" or line[0] == "#":
@@ -102,7 +102,7 @@ def load_settings(game):
         pygame.display.set_mode(game.WINDOW_SIZE)
 
 def save_settings(game):
-    savesettings=open("moon.sys", 'w')
+    savesettings=open("settings.cfg", 'w')
     savesettings.write("version="+str(game.settingsversion)+"\n")
     savesettings.write("fullscreen="+str(game.FULLSCREEN)+"\n")
     savesettings.write("xres="+str(game.WINDOW_XSIZE)+"\n")

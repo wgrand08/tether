@@ -210,6 +210,8 @@ class Game(BGCanvas):
 
         self.playername = "Commander"
 
+        self.debugmode = False
+
         self.settingsversion = 1 #to be updated with changes to the way settings are saved
         self.networkversion = 0 #to be updated with changes to the way the clients communicate
         self.mapversion = 0 #to be updated with changes to the way maps are read
