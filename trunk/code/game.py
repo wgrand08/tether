@@ -52,7 +52,8 @@ def main(game):
         buttons = [((10,10), game.textbutton("Solo Game"), "Solo"),
                    ((10,100), game.textbutton("Multiplayer Game"), "Multi"),
                    ((10,200), game.textbutton("Settings"), "Set"),
-                   ((10,300), game.textbutton("Quit"), "Quit")]
+                   ((10,300), game.textbutton("Editor"), "Editor"),
+                   ((10,400), game.textbutton("Quit"), "Quit")]
         maininput = game.buttoninput(buttons)
         if maininput == "Solo":
             solo_setup.solo_screen(game)
@@ -60,6 +61,8 @@ def main(game):
             multiplayer_setup.multiplayer_screen(game)
         if maininput == "Set":
             settings.main_settings(game)
+        if maininput == "Editor":
+            editor.editor_screen(game)
         if maininput == "Quit":
             mainloop = False
 
