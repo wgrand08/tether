@@ -29,6 +29,9 @@ from Queue import Queue
 from time import sleep
 from itertools import chain, cycle
 import settings
+import moonedit
+import multiplayer_setup
+import solo_setup
 
 #TODO(isaac): scrolling multiline text box
 #TODO(isaac): remove local backgrounds
@@ -44,7 +47,7 @@ def main(game):
     splash = game.loadimage("images/Enceladus.png")
     #disabling splash screen until image can be properly destroyed
     #game.setbackgroundimage(splash)
-    sleep(2)
+    #sleep(2)
     settings.load_settings(game)
     mainloop = True
     pygame.mouse.set_visible(True)
@@ -62,7 +65,7 @@ def main(game):
         if maininput == "Set":
             settings.main_settings(game)
         if maininput == "Editor":
-            editor.editor_screen(game)
+            moonedit.editor_screen(game)
         if maininput == "Quit":
             mainloop = False
 
