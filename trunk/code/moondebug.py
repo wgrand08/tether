@@ -16,25 +16,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import pygame
+def debug_toggle(game):
+    if game.debugmode == False:
+        game.debugmode = True
+    else:
+        game.debugmode = False
 
-def multiplayer_screen(game):
-    menuloop = True
-    while menuloop == True:
-        buttons = [((10,10), game.textbutton("Host game"), "host"),
-                  ((10,100), game.textbutton("Join game"), "join"),
-                  ((10,200), game.textbutton("Cancel"), "quit")]
-        menuinput = game.buttoninput(buttons)
-        if menuinput == "host":
-            host_screen(game)
-        if menuinput == "join":
-            join_screen(game)
-        if menuinput == "quit":
-            menuloop = False
-
-def host_screen(game):
-    print("host_screen placeholder")
-
-def join_screen(game):
-    print("join_screen placeholder")
-
+def debug_game(game):
+    game.debugmode = True
+    game.imagemapsize = game.imagemapx,game.imagemapy = 3000,3000
+    print("debug game")

@@ -18,9 +18,5 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import pygame
 
-def solo_screen(game)
+def solo_screen(game):
     print("solo_screen placeholder")
-
-def debug_game(game)
-    #this is to allow 'cheating' for debugging purposes
-    game.debugmode = True

@@ -32,6 +32,7 @@ import settings
 import moonedit
 import multiplayer_setup
 import solo_setup
+import moondebug
 
 #TODO(isaac): scrolling multiline text box
 #TODO(isaac): remove local backgrounds
@@ -56,6 +57,7 @@ def main(game):
                    ((10,100), game.textbutton("Multiplayer Game"), "Multi"),
                    ((10,200), game.textbutton("Settings"), "Set"),
                    ((10,300), game.textbutton("Editor"), "Editor"),
+                   ((200, 200), game.textbutton("Debugger"), "debugger"), #remove this once game becomes stable
                    ((10,400), game.textbutton("Quit"), "Quit")]
         maininput = game.buttoninput(buttons)
         if maininput == "Solo":
@@ -68,6 +70,8 @@ def main(game):
             moonedit.editor_screen(game)
         if maininput == "Quit":
             mainloop = False
+        if maininput == "debugger":
+            moondebug.debug_game(game)
 
     """
     animation1 = game.startanimation(cycle(images), 100, (0,100))
@@ -230,6 +234,8 @@ class Game(BGCanvas):
         
         pygame.display.set_caption("MoonPy")
         self.surface = pygame.display.set_mode(self.WINDOW_SIZE)
+
+        self.imagemapsize = self.imagemapx,self.imagemapy = 0,0
 
         BGCanvas.__init__(self, self.WINDOW_SIZE)
 
