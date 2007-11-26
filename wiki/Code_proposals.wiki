@@ -40,3 +40,6 @@ As the game progresses different versions will be made as upgrades occur. As fea
   * game.networkversion = 0 (for networking)
   * game.mapversion = 0 (for maps)
   * game.savegameversion = 0 (for game saves)
+
+= Map System =
+For each game map there will actually be two maps that will be synced to each other. First there will be a 'logicmap' which will be the location of terrain the computer reads from the map file. There will also be an 'imagemap' which will be nothing more then a PNG file created from the logicmap. The imagemap is what the player will see when playing the game and moving around the map will function by simply showing different sections of the image. The computer will continue to use the logicmap in order to determine collisions between objects and the terrain. This brings up the question of how this will affect FoW though. If the map the player sees is nothing more then standard image being moved around will the FoW be part of that image or will we need have to have another 'map' that moves around identically to the imagemap but is shadowed for the parts the FoW covers?
