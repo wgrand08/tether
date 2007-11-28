@@ -16,16 +16,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-def debug_toggle(game):
-    if game.debugmode == False:
-        game.debugmode = True
-    else:
-        game.debugmode = False
+import pygame
 
-def debug_game(game):
-    print("debug game")
-    #this function is to allow hardcoding of settings that will be configurable in solo and multiplayer setup
-    game.debugmode = True
-    game.imagemapsize = game.imagemapx,game.imagemapy = 3000,3000
-    moongame.screen(game)
+def screen(game):
+    print("game screen placeholder")
+    
 
+def screen_init(game):
+    #initialize screen for gameplay
+    print("game screen init placeholder")
