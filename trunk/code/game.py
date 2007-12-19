@@ -48,7 +48,7 @@ def main(game):
     splash = game.loadimage("images/Enceladus.png")
     #disabling splash screen until image can be properly destroyed
     #game.setbackgroundimage(splash)
-    #sleep(2)
+    #sleep(2) 
     settings.load_settings(game)
     mainloop = True
     pygame.mouse.set_visible(True)
