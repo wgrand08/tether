@@ -8,7 +8,7 @@
   Moonbase Commander has quite often been called the best game no one has ever heard of. Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
 
   * Well then where can I go to play the game?
-  Sadly project tether is currently not far enough along for us to give you an idea of what Moonbase Commander is really like. Your best option at this time would be to play the original Moonbase Commander. Although not open source we do have a copy of the original Moonbase Commander demo of which is located [http://tether.googlecode.com/files/moonbasecommanderdemo.exe here].
+  Sadly project tether is currently not far enough along for us to give you an idea of what Moonbase Commander is really like. Your best option at this time would be to play the original Moonbase Commander. Although not open source we do have a copy of the original Moonbase Commander demo which is located [http://tether.googlecode.com/files/moonbasecommanderdemo.exe here].
 
   * Yeah that is a cool game, so why are you trying to recreate it?
   While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 5 years we assume that they will never be resolved. Rather then live with it we started this project to fix it ourselves
