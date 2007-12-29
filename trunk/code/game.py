@@ -71,7 +71,7 @@ def main(game):
         if maininput == "Quit":
             mainloop = False
         if maininput == "debugger":
-            moondebug.debug_game(game)
+            moondebug.debug_toggle(game)
 
     """
     animation1 = game.startanimation(cycle(images), 100, (0,100))

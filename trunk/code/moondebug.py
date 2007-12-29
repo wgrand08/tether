@@ -15,15 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
+import moongame
+import pygame
 
 def debug_toggle(game):
     if game.debugmode == False:
-        game.debugmode = True
+        debug_game(game)
     else:
         game.debugmode = False
+        pygame.display.set_caption("MoonPy")
 
 def debug_game(game):
-    print("debug game")
+    pygame.display.set_caption("MoonPy Debug")
     #this function is to allow hardcoding of settings that will be configurable in solo and multiplayer setup
     game.debugmode = True
     game.imagemapsize = game.imagemapx,game.imagemapy = 3000,3000
