@@ -17,6 +17,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import pygame
+import moongame
 
 def multiplayer_screen(game):
     menuloop = True
@@ -34,7 +35,9 @@ def multiplayer_screen(game):
 
 def host_screen(game):
     print("host_screen placeholder")
+    game.isHost = True
+    game.playerID = 1
 
 def join_screen(game):
     print("join_screen placeholder")
-
+    game.isHost = False

@@ -29,6 +29,5 @@ def debug_game(game):
     pygame.display.set_caption("MoonPy Debug")
     #this function is to allow hardcoding of settings that will be configurable in solo and multiplayer setup
     game.debugmode = True
-    game.imagemapsize = game.imagemapx,game.imagemapy = 3000,3000
-    moongame.screen(game)
+    game.imagemapsize = game.imagemapx,game.imagemapy = 3000,3000
 

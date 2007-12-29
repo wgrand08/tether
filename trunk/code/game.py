@@ -227,6 +227,9 @@ class Game(BGCanvas):
 
         self.debugmode = False
 
+        self.PlayerID = 0
+        self.isHost = False
+
         self.settingsversion = 1 #to be updated with changes to the way settings are saved
         self.networkversion = 0 #to be updated with changes to the way the clients communicate
         self.mapversion = 0 #to be updated with changes to the way maps are read

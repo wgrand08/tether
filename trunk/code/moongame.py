@@ -18,7 +18,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import pygame
 
-def screen(game):
+def playgame(game):
+    print("playgame placeholder")
+
+def gamescreen(game):
     print("game screen placeholder")
     
 

@@ -17,6 +17,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import pygame
+import moongame
 
 def solo_screen(game):
-    print("solo_screen placeholder")
+    game.isHost = True #in single player games the client also acts as the host
+    game.playerID = 1
+    print("solo_screen placeholder")    if game.debugmode == True:
+        moongame.playgame(game)
+    else:
+        print("solo_screen placeholder")
+        #this section will be for properly configuring map settings once implemented
