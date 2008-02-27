@@ -21,5 +21,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import os
 import sys
+import globalvars
+from time import sleep
+import random
 
+background = None
+splashScreen = None
+
+def drawSplashScreen():
+	global splashScreen
+	image = "images/Enceladus.png"
+	splashScreen = pygame.image.load(image).convert_alpha()
+	splashSize = (550, 550)
+	screen.blit(splashscreen, splashSize)
 print "ending placeholder"
