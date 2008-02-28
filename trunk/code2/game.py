@@ -25,11 +25,14 @@ import gvars
 from time import sleep
 import random
 import pygame
+import settings
 
 def main():
 	pygame.init()
 	drawSplashScreen()
-	print "end placeholder"	
+	pygame.display.init()
+	settings.load_settings()
+	print "successful end"	
 
 def drawSplashScreen():
 	image = "images/Enceladus.png"
@@ -41,8 +44,7 @@ def drawSplashScreen():
 		print 'Cannot load splash image'
 		raise SystemExit, message
 	splashScreen = splashScreen.convert()
-	splashSize = (550, 550)
 	screen.blit(splashScreen, (0,0))
 	pygame.display.flip()
-	pygame.display.set_caption('MoonPy')
 	sleep(2)
+	pygame.display.quit()
