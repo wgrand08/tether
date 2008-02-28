@@ -33,6 +33,16 @@ def main():
 
 def drawSplashScreen():
 	image = "images/Enceladus.png"
-	splashScreen = pygame.image.load(image).convert_alpha()
+	screen = pygame.display.set_mode((550,550))
+	pygame.display.set_caption('MoonPy')
+	try:
+		splashScreen = pygame.image.load(image)
+	except pygame.error, message:
+		print 'Cannot load splash image'
+		raise SystemExit, message
+	splashScreen = splashScreen.convert()
 	splashSize = (550, 550)
+	screen.blit(splashScreen, (0,0))
+	pygame.display.flip()
+	pygame.display.set_caption('MoonPy')
 	sleep(2)

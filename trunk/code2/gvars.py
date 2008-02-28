@@ -19,3 +19,4 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 background = None
 splashScreen = None
 playername = "commander"
+screenSize = (640, 480)
