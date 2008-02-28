@@ -23,21 +23,23 @@ import os
 import sys
 import gvars
 from time import sleep
-import random
+#import random
 import pygame
 import settings
 
 def main():
 	pygame.init()
+	pygame.display.set_caption("MoonPy")
 	drawSplashScreen()
-	pygame.display.init()
 	settings.load_settings()
+	screen = pygame.display.set_mode(gvars.WINDOW_SIZE)
+	pygame.display.flip()
+	sleep(2)
 	print "successful end"	
 
 def drawSplashScreen():
 	image = "images/Enceladus.png"
 	screen = pygame.display.set_mode((550,550))
-	pygame.display.set_caption('MoonPy')
 	try:
 		splashScreen = pygame.image.load(image)
 	except pygame.error, message:
@@ -47,4 +49,3 @@ def drawSplashScreen():
 	screen.blit(splashScreen, (0,0))
 	pygame.display.flip()
 	sleep(2)
-	pygame.display.quit()
