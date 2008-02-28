@@ -21,16 +21,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import os
 import sys
-import globalvars
+import gvars
 from time import sleep
 import random
+import pygame
 
 def main():
-	print "main placeholder"
-	print globalvars.playername	
+	pygame.init()
+	drawSplashScreen()
+	print "end placeholder"	
 
 def drawSplashScreen():
 	image = "images/Enceladus.png"
 	splashScreen = pygame.image.load(image).convert_alpha()
 	splashSize = (550, 550)
-	screen.blit(splashscreen, splashSize)
+	sleep(2)
