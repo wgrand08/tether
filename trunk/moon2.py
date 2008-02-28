@@ -1,4 +1,5 @@
 #!/usr/bin/python2.4
 
 import os
-import code2.game
+from code2.game import main
+main()
