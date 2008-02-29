@@ -1,3 +1,4 @@
+#!/usr/bin/python2.4
 #
 #  Copyright 2001 - 2006 Ludek Smid [http://www.ospace.net/]
 #
