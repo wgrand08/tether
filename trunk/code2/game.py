@@ -1,5 +1,3 @@
-#!/usr/bin/python2.4
-
 """Copyright 2007:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
@@ -23,10 +21,9 @@ import os
 import sys
 import gvars
 from time import sleep
-#import random
 import pygame
+from pygame.locals import *
 import settings
-import pygameui as ui
 
 def main():
 	pygame.init()
@@ -37,9 +34,7 @@ def main():
 	pygame.mouse.set_visible(1)
 	blackScreen = screen.map_rgb((0x00, 0x00, 0x00))
 	pygame.display.flip()
-	ui.SkinableTheme.setSkin("./images/OSSkin")
-	app = ui.Application(update, theme = ui.SkinableTheme)
-	app.windowSurfaceFlags = SWSURFACE
+	
 	sleep(2)
 	print "successful end"	
 
