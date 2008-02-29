@@ -23,7 +23,6 @@ from pygame.locals import *
 from Const import *
 from Fonts import *
 import os, os.path, sys, ConfigParser
-from ige import log
 import time
 
 try:

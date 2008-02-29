@@ -26,6 +26,7 @@ from time import sleep
 #import random
 import pygame
 import settings
+import pygameui as ui
 
 def main():
 	pygame.init()
