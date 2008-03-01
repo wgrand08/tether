@@ -16,8 +16,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-
 settingsversion = 1
 playername = ""
 fullcreen = False
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
+running = True
+debug = False

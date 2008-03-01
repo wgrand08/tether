@@ -36,7 +36,7 @@ def main():
 	pygame.mouse.set_visible(1)
 	blackScreen = screen.map_rgb((0x00, 0x00, 0x00))
 	pygame.display.flip()
-	guitest()
+	mainMenu()
 	sleep(2)
 	print "successful end"	
 
@@ -53,23 +53,22 @@ def drawSplashScreen():
 	pygame.display.flip()
 	sleep(2)
 
-def guitest():
+def mainMenu():
 	clock = pygame.time.Clock()
 	gui.init(640, 480)
-	app = gui.App(width=640, height=480)
-	w1 = gui.Button("reset", x=20, y=30)
-	w2 = gui.Input(x=100, y=30, width=240)
-	w3 = gui.Switch(x=500, y=30)
-	w4 = gui.HSlider(min_value=20, length=10, x=200, y=160)
-	w9 = gui.VSlider(length=40, x=600, y=160, step=False)
-	l1 = gui.Label(value="Pulsate:", x=395, y=30, font_size=25)
-	data = """This example is to demonstrate GooeyPy's widgets and functionality.
-
-	You can also have line breaks."""
-	tb = gui.TextBlock(value=data, x=200, y=350, width=300)
-	app.add(w1,w2,w3,w4,w9,l1,tb)
-	quit = False
-	while not quit:
+	menuScreen = gui.App(width=640, height=480)
+	solo = gui.Button("Solo", x=20, y=130)
+	multi = gui.Button("Multi", x=20, y=180)
+	settings = gui.Button("Settings", x=20, y=230)
+	debug = gui.Button("Debug", x=20, y=280)
+	quit = gui.Button("quit", x=20, y=330)
+	menuScreen.add(solo,multi,settings,debug,quit)
+	solo.connect(CLICK, soloButton)
+	multi.connect(CLICK, multiButton)
+	settings.connect(CLICK, settingsButton)
+	debug.connect(CLICK, debugButton)
+	quit.connect(CLICK, quitButton)
+	while gvars.running:
 	    clock.tick(30)
 
 	    # We do this so we can share the events with the gui.
@@ -77,11 +76,29 @@ def guitest():
 
 	    for event in events:
 		if event.type == QUIT:
-		    quit = True
+		    gvars.running = False
 
-	    app.run(events)
-	    app.draw()
+	    menuScreen.run(events)
+	    menuScreen.draw()
 
 	    gui.update_display()
 
-#main()
+def soloButton():
+	print "solo button placeholder"
+
+def multiButton():
+	print "multi button placeholder"
+
+def settingsButton():
+	print "settings button placeholder"
+
+def debugButton():
+	if gvars.debug == False:
+		gvars.debug = True
+		print "Debug On"
+	else:
+		gvars.debug = False
+		print "Debug Off"
+
+def quitButton():
+	gvars.running = False
