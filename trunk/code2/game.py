@@ -24,6 +24,8 @@ from time import sleep
 import pygame
 from pygame.locals import *
 import settings
+import gooeypy as gui
+from gooeypy.const import *
 
 def main():
 	pygame.init()
@@ -34,7 +36,7 @@ def main():
 	pygame.mouse.set_visible(1)
 	blackScreen = screen.map_rgb((0x00, 0x00, 0x00))
 	pygame.display.flip()
-	
+	guitest()
 	sleep(2)
 	print "successful end"	
 
@@ -50,3 +52,36 @@ def drawSplashScreen():
 	screen.blit(splashScreen, (0,0))
 	pygame.display.flip()
 	sleep(2)
+
+def guitest():
+	clock = pygame.time.Clock()
+	gui.init(640, 480)
+	app = gui.App(width=640, height=480)
+	w1 = gui.Button("reset", x=20, y=30)
+	w2 = gui.Input(x=100, y=30, width=240)
+	w3 = gui.Switch(x=500, y=30)
+	w4 = gui.HSlider(min_value=20, length=10, x=200, y=160)
+	w9 = gui.VSlider(length=40, x=600, y=160, step=False)
+	l1 = gui.Label(value="Pulsate:", x=395, y=30, font_size=25)
+	data = """This example is to demonstrate GooeyPy's widgets and functionality.
+
+	You can also have line breaks."""
+	tb = gui.TextBlock(value=data, x=200, y=350, width=300)
+	app.add(w1,w2,w3,w4,w9,l1,tb)
+	quit = False
+	while not quit:
+	    clock.tick(30)
+
+	    # We do this so we can share the events with the gui.
+	    events = pygame.event.get()
+
+	    for event in events:
+		if event.type == QUIT:
+		    quit = True
+
+	    app.run(events)
+	    app.draw()
+
+	    gui.update_display()
+
+#main()
