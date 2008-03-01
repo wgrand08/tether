@@ -4,7 +4,7 @@ import util
 from const import *
 
 from cellulose import *
-from cellulose.extra.restrictions import StringRestriction
+from restrictions import StringRestriction
 
 
 class TextBlock(util.widgets.Widget):

@@ -8,7 +8,7 @@ except NameError:
     from sets import Set as set # Python 2.3 fallback
 
 from cellulose import *
-from cellulose.extra.restrictions import *
+from restrictions import *
 
 screen = None
 screen_width = 0

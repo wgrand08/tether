@@ -3,7 +3,7 @@ import util
 from const import *
 from pygame.locals import *
 
-from cellulose.extra.restrictions import StringRestriction
+from restrictions import StringRestriction
 from cellulose import *
 
 

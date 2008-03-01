@@ -12,19 +12,19 @@ import threading, weakref, types, warnings
 
 
 # The core components of cellulose:
-from cellulose.cells import DependantCell, DependencyCell, InputCell, \
+from cells import DependantCell, DependencyCell, InputCell, \
         ComputedCell
-from cellulose.cells import get_dependant_stack, CyclicDependencyError
+from cells import get_dependant_stack, CyclicDependencyError
 
 # Descriptors for using cells as if they were class instance attributes:
-from cellulose.descriptors import InputCellDescriptor, ComputedCellDescriptor, \
+from descriptors import InputCellDescriptor, ComputedCellDescriptor, \
         wake_cell_descriptors
 
 # cellulose enabled mutable data types:
-from cellulose.celltypes import CellList, CellDict, CellSet, ComputedDict
+from celltypes import CellList, CellDict, CellSet, ComputedDict
 
 # A method of watching changes inside the cellulose network from the outside:
-from cellulose.observers import ObserverBank, default_observer_bank, Observer
+from observers import ObserverBank, default_observer_bank, Observer
 
 
 # This needs to be placed somewhere else... (if it is even worth keeping.)

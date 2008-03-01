@@ -8,8 +8,8 @@ This module contains some cellulose enabled mutable data types.
 """
 
 
-from cellulose.cells import DependencyCell, ComputedCell, get_dependant_stack
-from cellulose.descriptors import ComputedCellDescriptor, InputCellDescriptor
+from cells import DependencyCell, ComputedCell, get_dependant_stack
+from descriptors import ComputedCellDescriptor, InputCellDescriptor
 
 try:
     set # Only available in Python 2.4+

@@ -14,7 +14,7 @@ This is basically how it works:
 If that doesn't make sense, read the code.  It might be clearer :)
 """
 
-from cellulose.cells import DependantCell, get_dependant_stack
+from cells import DependantCell, get_dependant_stack
 
 try:
     set # Only available in Python 2.4+
