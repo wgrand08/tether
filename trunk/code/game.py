@@ -57,16 +57,18 @@ def mainMenu():
 	clock = pygame.time.Clock()
 	gui.init(640, 480)
 	menuScreen = gui.App(width=640, height=480)
+	debug = gui.Button("Debug", x=20, y=30)
 	solo = gui.Button("Solo", x=20, y=130)
 	multi = gui.Button("Multi", x=20, y=180)
 	settings = gui.Button("Settings", x=20, y=230)
-	debug = gui.Button("Debug", x=20, y=280)
+	editor = gui.Button("Editor", x=20, y=280)
 	quit = gui.Button("quit", x=20, y=330)
-	menuScreen.add(solo,multi,settings,debug,quit)
+	menuScreen.add(solo,multi,settings,debug,editor,quit)
+	debug.connect(CLICK, debugButton)
 	solo.connect(CLICK, soloButton)
 	multi.connect(CLICK, multiButton)
 	settings.connect(CLICK, settingsButton)
-	debug.connect(CLICK, debugButton)
+	editor.connect(CLICK, editorButton)
 	quit.connect(CLICK, quitButton)
 	while gvars.running:
 	    clock.tick(30)
@@ -99,6 +101,9 @@ def debugButton():
 	else:
 		gvars.debug = False
 		print "Debug Off"
+
+def editorButton():
+	print "editor button placeholder"
 
 def quitButton():
 	gvars.running = False
