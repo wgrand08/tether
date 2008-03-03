@@ -28,6 +28,7 @@ import gooeypy as gui
 from gooeypy.const import *
 
 def main():
+	gvars.clock = pygame.time.Clock()
 	pygame.init()
 	pygame.display.set_caption("MoonPy")
 	drawSplashScreen()
@@ -36,9 +37,29 @@ def main():
 	pygame.mouse.set_visible(1)
 	blackScreen = screen.map_rgb((0x00, 0x00, 0x00))
 	pygame.display.flip()
-	mainMenu()
-	sleep(2)
-	print "successful end"	
+	gui.init()
+	gvars.appRunning = True
+	while gvars.appRunning:
+		gvars.moonPyApp = gui.App(width=640, height=480)
+		gvars.activeScreen = mainMenu()
+		gvars.moonPyApp.add(gvars.activeScreen)
+		gvars.screenRunning = True
+		while gvars.screenRunning:
+		    if gvars.appRunning == False:
+			gvars.screenRunning = False
+		    gvars.clock.tick(30)
+
+		    # We do this so we can share the events with the gui.
+		    events = pygame.event.get()
+
+		    for event in events:
+			if event.type == QUIT:
+			    gvars.appRunning = False
+
+		    gvars.moonPyApp.run(events)
+		    gvars.moonPyApp.draw()
+
+		    gui.update_display()
 
 def drawSplashScreen():
 	image = "images/Enceladus.png"
@@ -54,36 +75,22 @@ def drawSplashScreen():
 	sleep(2)
 
 def mainMenu():
-	clock = pygame.time.Clock()
-	gui.init(640, 480)
-	menuScreen = gui.App(width=640, height=480)
+	#clock = pygame.time.Clock()
+	mainMenuScreen = gui.Container(width=640, height=480)
 	debug = gui.Button("Debug", x=20, y=30)
 	solo = gui.Button("Solo", x=20, y=130)
 	multi = gui.Button("Multi", x=20, y=180)
 	settings = gui.Button("Settings", x=20, y=230)
 	editor = gui.Button("Editor", x=20, y=280)
 	quit = gui.Button("quit", x=20, y=330)
-	menuScreen.add(solo,multi,settings,debug,editor,quit)
+	mainMenuScreen.add(solo,multi,settings,debug,editor,quit)
 	debug.connect(CLICK, debugButton)
 	solo.connect(CLICK, soloButton)
 	multi.connect(CLICK, multiButton)
 	settings.connect(CLICK, settingsButton)
 	editor.connect(CLICK, editorButton)
 	quit.connect(CLICK, quitButton)
-	while gvars.running:
-	    clock.tick(30)
-
-	    # We do this so we can share the events with the gui.
-	    events = pygame.event.get()
-
-	    for event in events:
-		if event.type == QUIT:
-		    gvars.running = False
-
-	    menuScreen.run(events)
-	    menuScreen.draw()
-
-	    gui.update_display()
+	return mainMenuScreen
 
 def soloButton():
 	print "solo button placeholder"
@@ -92,7 +99,10 @@ def multiButton():
 	print "multi button placeholder"
 
 def settingsButton():
-	print "settings button placeholder"
+	gvars.moonPyApp.remove(gvars.activeScreen)
+	settings.settings_menu()
+	#gvars.activeScreen = mainMenu()
+	#gvars.moonPyApp.add(gvars.activeScreen)
 
 def debugButton():
 	if gvars.debug == False:
@@ -106,4 +116,4 @@ def editorButton():
 	print "editor button placeholder"
 
 def quitButton():
-	gvars.running = False
+	gvars.appRunning = False

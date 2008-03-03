@@ -18,6 +18,34 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import pygame
 import os
 import gvars
+import gooeypy as gui
+from gooeypy.const import *
+
+def settings_menu():
+	gvars.activeScreen = gui.Container(width=640, height=480)
+	gvars.moonPyApp.add(gvars.activeScreen)
+	playernamebutton = gui.Button("Playername", x=20, y=30)
+	backButton = gui.Button("Back", x=400, y=30)
+	gvars.activeScreen.add(playernamebutton,backButton)
+	playernamebutton.connect(CLICK, set_playername)
+	backButton.connect(CLICK, endSettings)	
+	gvars.moonPyApp.add(gvars.activeScreen)
+	gvars.screenRunning = True
+	while gvars.screenRunning:
+	    gvars.clock.tick(30)
+
+	    # We do this so we can share the events with the gui.
+	    events = pygame.event.get()
+
+	    for event in events:
+		if event.type == QUIT:
+		    gvars.running = False
+
+	    gvars.moonPyApp.run(events)
+	    gvars.moonPyApp.draw()
+
+	    gui.update_display()
+
 
 def load_settings():
     badsettings = True
@@ -66,9 +94,9 @@ def default_settings():
     gvars.playername = "Commander"
     save_settings()
 
+def set_playername():
+	print"set player name"
 
-class color:#fixme: this is an ugly hack to get settings up and running. 
-    def __getattr__(self, name):
-        return pygame.Color(name)
-    __getitem__ = __getattr__
-color = color()
+def endSettings():
+	gvars.moonPyApp.remove(gvars.activeScreen)
+	gvars.screenRunning = False
