@@ -20,7 +20,7 @@ clock = 1
 settingsversion = 1
 playername = ""
 fullcreen = False
-WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 550,550
+WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 800,600
 appRunning = True
 screenRunning = True
 debug = False

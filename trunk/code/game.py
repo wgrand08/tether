@@ -40,7 +40,7 @@ def main():
 	gui.init()
 	gvars.appRunning = True
 	while gvars.appRunning:
-		gvars.moonPyApp = gui.App(width=640, height=480)
+		gvars.moonPyApp = gui.App(width=800, height=600)
 		gvars.activeScreen = mainMenu()
 		gvars.moonPyApp.add(gvars.activeScreen)
 		gvars.screenRunning = True
@@ -76,7 +76,7 @@ def drawSplashScreen():
 
 def mainMenu():
 	#clock = pygame.time.Clock()
-	mainMenuScreen = gui.Container(width=640, height=480)
+	mainMenuScreen = gui.Container(width=800, height=600)
 	debug = gui.Button("Debug", x=20, y=30)
 	solo = gui.Button("Solo", x=20, y=130)
 	multi = gui.Button("Multi", x=20, y=180)

@@ -22,10 +22,10 @@ import gooeypy as gui
 from gooeypy.const import *
 
 def settings_menu():
-	gvars.activeScreen = gui.Container(width=640, height=480)
+	gvars.activeScreen = gui.Container(width=800, height=600)
 	gvars.moonPyApp.add(gvars.activeScreen)
 	playernamebutton = gui.Button("Playername", x=20, y=30)
-	backButton = gui.Button("Back", x=400, y=30)
+	backButton = gui.Button("Back", x=20, y=400)
 	gvars.activeScreen.add(playernamebutton,backButton)
 	playernamebutton.connect(CLICK, set_playername)
 	backButton.connect(CLICK, endSettings)	
