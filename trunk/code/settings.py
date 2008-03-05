@@ -22,15 +22,16 @@ import gooeypy as gui
 from gooeypy.const import *
 
 def settings_menu():
-	gvars.activeScreen = gui.Container(width=800, height=600)
+	gvars.activeScreen = gui.Container(width=640, height=480)
 	gvars.moonPyApp.add(gvars.activeScreen)
-	playernamebutton = gui.Button("Playername", x=20, y=30)
 	backButton = gui.Button("Back", x=20, y=400)
-	gvars.activeScreen.add(playernamebutton,backButton)
-	playernamebutton.connect(CLICK, set_playername)
-	backButton.connect(CLICK, endSettings)	
+	playernameInput = gui.Input(x=300, y=30, width=150)
+	playernameInput.value = gvars.playername
+	gvars.activeScreen.add(playernameInput,backButton)
+	backButton.connect(CLICK, endSettings)
+	gvars.playername = playernameInput
 	gvars.moonPyApp.add(gvars.activeScreen)
-	gvars.screenRunning = True
+	gvars.screenRunning = True 
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
 
@@ -42,9 +43,10 @@ def settings_menu():
 		    gvars.running = False
 
 	    gvars.moonPyApp.run(events)
-	    gvars.moonPyApp.draw()
-
+	    gvars.moonPyApp.draw()	
+	    gvars.playername = playernameInput.value
 	    gui.update_display()
+
 
 
 def load_settings():
@@ -94,9 +96,8 @@ def default_settings():
     gvars.playername = "Commander"
     save_settings()
 
-def set_playername():
-	print"set player name"
-
 def endSettings():
+	save_settings()
 	gvars.moonPyApp.remove(gvars.activeScreen)
 	gvars.screenRunning = False
+	print gvars.playername
