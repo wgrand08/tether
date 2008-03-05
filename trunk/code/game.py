@@ -99,7 +99,7 @@ def multiButton():
 	print "multi button placeholder"
 
 def settingsButton():
-	gvars.moonPyApp.remove(gvars.activeScreen)
+	#gvars.moonPyApp.remove(gvars.activeScreen)
 	settings.settings_menu()
 
 def debugButton():
