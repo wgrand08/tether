@@ -37,8 +37,10 @@ def main():
 	pygame.mouse.set_visible(1)
 	blackScreen = screen.map_rgb((0x00, 0x00, 0x00))
 	pygame.display.flip()
+	#gui.init(gvars.WINDOW_SIZE)
 	gui.init()
 	gvars.appRunning = True
+	#gvars.moonPyApp = gui.App(width=640, height=480)
 	while gvars.appRunning:
 		gvars.moonPyApp = gui.App(width=640, height=480)
 		gvars.activeScreen = mainMenu()
@@ -99,8 +101,6 @@ def multiButton():
 def settingsButton():
 	gvars.moonPyApp.remove(gvars.activeScreen)
 	settings.settings_menu()
-	#gvars.activeScreen = mainMenu()
-	#gvars.moonPyApp.add(gvars.activeScreen)
 
 def debugButton():
 	if gvars.debug == False:
