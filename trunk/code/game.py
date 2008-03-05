@@ -40,9 +40,9 @@ def main():
 	#gui.init(gvars.WINDOW_SIZE)
 	gui.init()
 	gvars.appRunning = True
-	#gvars.moonPyApp = gui.App(width=640, height=480)
+	gvars.moonPyApp = gui.App(width=640, height=480)
 	while gvars.appRunning:
-		gvars.moonPyApp = gui.App(width=640, height=480)
+		#gvars.moonPyApp = gui.App(width=640, height=480)
 		gvars.activeScreen = mainMenu()
 		gvars.moonPyApp.add(gvars.activeScreen)
 		gvars.screenRunning = True
@@ -99,7 +99,7 @@ def multiButton():
 	print "multi button placeholder"
 
 def settingsButton():
-	#gvars.moonPyApp.remove(gvars.activeScreen)
+	gvars.moonPyApp.remove(gvars.activeScreen)
 	settings.settings_menu()
 
 def debugButton():
