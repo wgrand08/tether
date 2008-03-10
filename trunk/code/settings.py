@@ -102,6 +102,4 @@ def endSettings():
 	gvars.screenRunning = False
 	print gvars.playername
 
-def changeSize(width, height):
-	gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE = width,height
 	
