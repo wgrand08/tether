@@ -21,6 +21,8 @@ settingsversion = 1
 playername = ""
 fullcreen = False
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 640,480
+ooga = "width=640"
+booga = "height=480"
 appRunning = True
 screenRunning = True
 debug = False
