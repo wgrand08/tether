@@ -25,10 +25,12 @@ def settings_menu():
 	gvars.activeScreen = gui.Container(width=640, height=480)
 	gvars.moonPyApp.add(gvars.activeScreen)
 	backButton = gui.Button("Back", x=20, y=400)
+	fullscreenbutton = gui.Button("fullscreen", x=20, y=200)
 	playernameInput = gui.Input(x=300, y=30, width=150)
 	playernameInput.value = gvars.playername
-	gvars.activeScreen.add(playernameInput,backButton)
+	gvars.activeScreen.add(playernameInput,backButton,fullscreenbutton)
 	backButton.connect(CLICK, endSettings)
+	fullscreenbutton.connect(CLICK, toggle_fullscreen)
 	gvars.playername = playernameInput
 	gvars.screenRunning = True 
 	while gvars.screenRunning:
@@ -100,4 +102,12 @@ def endSettings():
 	gvars.moonPyApp.remove(gvars.activeScreen)
 	gvars.screenRunning = False
 
-	
+def toggle_fullscreen():
+	if gvars.FULLSCREEN == True:
+        	gvars.FULLSCREEN = False
+	        gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE
+        	pygame.display.set_mode(gvars.WINDOW_SIZE)
+	else:
+        	gvars.FULLSCREEN = True
+	        pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
+
