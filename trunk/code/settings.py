@@ -36,7 +36,6 @@ def settings_menu():
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
 
-	    # We do this so we can share the events with the gui.
 	    events = pygame.event.get()
 
 	    for event in events:
@@ -92,7 +91,7 @@ def save_settings():
     savesettings.write("name="+str(gvars.playername)+"\n")
 
 def default_settings():
-    gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE = 640,480
+    gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE = 800,600
     gvars.FULLSCREEN = False
     gvars.playername = "Commander"
     save_settings()
@@ -110,4 +109,3 @@ def toggle_fullscreen():
 	else:
         	gvars.FULLSCREEN = True
 	        pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
-

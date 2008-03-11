@@ -60,6 +60,7 @@ def glinit(sw=640, sh=480):
     screen_height = sh
 
 
+
 update_rects = []
 
 def blit(surf, (x,y), clip_rect=None):

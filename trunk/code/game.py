@@ -33,13 +33,11 @@ def main():
 	pygame.display.set_caption("MoonPy")
 	drawSplashScreen()
 	settings.load_settings()
-	screen = pygame.display.set_mode(gvars.WINDOW_SIZE, SWSURFACE, 32)
 	pygame.mouse.set_visible(1)
-	blackScreen = screen.map_rgb((0x00, 0x00, 0x00))
-	pygame.display.flip()
-	gui.init(gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE)
+	#gui.init(gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE)
+	gui.init(800,600)
 	gvars.appRunning = True
-	gvars.moonPyApp = gui.App(width=640, height=480)
+	gvars.moonPyApp = gui.App(width=800, height=600)
 	while gvars.appRunning:
 		gvars.activeScreen = mainMenu()
 		gvars.moonPyApp.add(gvars.activeScreen)
