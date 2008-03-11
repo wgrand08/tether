@@ -39,9 +39,8 @@ def main():
 	pygame.display.flip()
 	gui.init(gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE)
 	gvars.appRunning = True
+	gvars.moonPyApp = gui.App(width=640, height=480)
 	while gvars.appRunning:
-		#gvars.moonPyApp = gui.App(width=640, height=480)
-		gvars.moonPyApp = gui.App(gvars.ooga)
 		gvars.activeScreen = mainMenu()
 		gvars.moonPyApp.add(gvars.activeScreen)
 		gvars.screenRunning = True

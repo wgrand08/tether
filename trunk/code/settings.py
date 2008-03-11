@@ -30,7 +30,6 @@ def settings_menu():
 	gvars.activeScreen.add(playernameInput,backButton)
 	backButton.connect(CLICK, endSettings)
 	gvars.playername = playernameInput
-	gvars.moonPyApp.add(gvars.activeScreen)
 	gvars.screenRunning = True 
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
@@ -100,6 +99,5 @@ def endSettings():
 	save_settings()
 	gvars.moonPyApp.remove(gvars.activeScreen)
 	gvars.screenRunning = False
-	print gvars.playername
 
 	
