@@ -17,12 +17,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 clock = 1
-settingsversion = 1
+settingsversion = 2
 playername = ""
 fullcreen = False
 WINDOW_SIZE = WINDOW_XSIZE,WINDOW_YSIZE = 640,480
-ooga = 640
-booga = 480
+theme = ""
 appRunning = True
 screenRunning = True
 debug = False

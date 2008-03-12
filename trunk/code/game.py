@@ -37,7 +37,7 @@ def main():
 	#gui.init(gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE)
 	gui.init(800,600)
 	gvars.appRunning = True
-	gvars.moonPyApp = gui.App(width=800, height=600)
+	gvars.moonPyApp = gui.App(gvars.theme, width=800, height=600)
 	while gvars.appRunning:
 		gvars.activeScreen = mainMenu()
 		gvars.moonPyApp.add(gvars.activeScreen)

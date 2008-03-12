@@ -73,6 +73,8 @@ def load_settings():
                     gvars.WINDOW_YSIZE = int(input_array[1].strip())
                 if input_array[0].strip() == "name":
                     gvars.playername = input_array[1].strip()
+		if input_array[0].strip() == "theme":
+		    gvars.theme = input_array[1].strip()
     if badsettings == True:
         default_settings()
     else:
@@ -89,11 +91,13 @@ def save_settings():
     savesettings.write("xres="+str(gvars.WINDOW_XSIZE)+"\n")
     savesettings.write("yres="+str(gvars.WINDOW_YSIZE)+"\n")
     savesettings.write("name="+str(gvars.playername)+"\n")
+    savesettings.write("theme="+str(gvars.theme)+"\n")
 
 def default_settings():
     gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE = 800,600
     gvars.FULLSCREEN = False
     gvars.playername = "Commander"
+    gvars.theme = "default"
     save_settings()
 
 def endSettings():
