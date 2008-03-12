@@ -120,7 +120,7 @@ def change_resolution():
 	gvars.WINDOW_XSIZE = input_placeholder
 	gvars.WINDOW_YSIZE = input_placeholder
 	gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE
-	if gvars.FULLSCREEN = False:
+	if gvars.FULLSCREEN == False:
 		pygame.display.set_mode(gvars.WINDOW_SIZE)
 	else:
 		pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
