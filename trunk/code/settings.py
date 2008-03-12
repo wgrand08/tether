@@ -22,7 +22,7 @@ import gooeypy as gui
 from gooeypy.const import *
 
 def settings_menu():
-	gvars.activeScreen = gui.Container(width=640, height=480)
+	gvars.activeScreen = gui.Container(width=800, height=600)
 	gvars.moonPyApp.add(gvars.activeScreen)
 	backButton = gui.Button("Back", x=20, y=400)
 	fullscreenToggle = gui.Switch(gvars.FULLSCREEN, labels=("Fullscreen", "Windowed"), options=(False, True),  x=20, y=200)
