@@ -36,6 +36,8 @@ def main():
 	pygame.mouse.set_visible(1)
 	#gui.init(gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE)
 	gui.init(800,600)
+    	if gvars.FULLSCREEN == True:
+        	pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
 	gvars.appRunning = True
 	gvars.moonPyApp = gui.App(gvars.theme, width=800, height=600)
 	while gvars.appRunning:

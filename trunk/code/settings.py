@@ -79,10 +79,6 @@ def load_settings():
         default_settings()
     else:
         gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE
-    if gvars.FULLSCREEN == True:
-        pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
-    else:
-        pygame.display.set_mode(gvars.WINDOW_SIZE)
 
 def save_settings():
     savesettings=open("settings.cfg", 'w')
@@ -108,7 +104,6 @@ def endSettings():
 def toggle_fullscreen():
 	if gvars.FULLSCREEN == True:
         	gvars.FULLSCREEN = False
-	        gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE
         	pygame.display.set_mode(gvars.WINDOW_SIZE)
 	else:
         	gvars.FULLSCREEN = True
