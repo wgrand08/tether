@@ -26,6 +26,9 @@ from pygame.locals import *
 import settings
 import gooeypy as gui
 from gooeypy.const import *
+import solo_setup
+import multi_setup
+import editor
 
 def main():
 	gvars.clock = pygame.time.Clock()
@@ -91,10 +94,10 @@ def mainMenu():
 	return mainMenuScreen
 
 def soloButton():
-	print "solo button placeholder"
+	solo_setup.menu()
 
 def multiButton():
-	print "multi button placeholder"
+	multi_setup.menu()
 
 def settingsButton():
 	gvars.moonPyApp.remove(gvars.activeScreen)
@@ -109,7 +112,7 @@ def debugButton():
 		print "Debug Off"
 
 def editorButton():
-	print "editor button placeholder"
+	editor.menu()
 
 def quitButton():
 	gvars.appRunning = False
