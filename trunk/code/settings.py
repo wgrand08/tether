@@ -25,10 +25,12 @@ def settings_menu():
 	gvars.activeScreen = gui.Container(width=800, height=600)
 	gvars.moonPyApp.add(gvars.activeScreen)
 	backButton = gui.Button("Back", x=20, y=400)
-	fullscreenToggle = gui.Switch(gvars.FULLSCREEN, labels=("Fullscreen", "Windowed"), options=(False, True),  x=20, y=200)
-	playernameInput = gui.Input(x=300, y=30, width=150)
+	nameLabel = gui.Label(value="Player Name:", x=20, y=30, font_size=25)
+	fullscreenLabel = gui.Label(value="Fullscreen/Windowed:", x=20, y=200, font_size=25)
+	fullscreenToggle = gui.Switch(gvars.FULLSCREEN, labels=("Fullscreen", "Windowed"), options=(False, True),  x=20, y=240)
+	playernameInput = gui.Input(x=200, y=30, width=150)
 	playernameInput.value = gvars.playername
-	gvars.activeScreen.add(playernameInput,backButton,fullscreenToggle)
+	gvars.activeScreen.add(playernameInput,backButton,fullscreenToggle,nameLabel,fullscreenLabel)
 	backButton.connect(CLICK, endSettings)
 	fullscreenToggle.connect(CHANGE, toggle_fullscreen)
 	gvars.playername = playernameInput
