@@ -31,7 +31,6 @@ def settings_menu():
 	gvars.activeScreen.add(playernameInput,backButton,fullscreenToggle)
 	backButton.connect(CLICK, endSettings)
 	fullscreenToggle.connect(CHANGE, toggle_fullscreen)
-	#fullscreenbutton.connect(CLICK, toggle_fullscreen)
 	gvars.playername = playernameInput
 	gvars.screenRunning = True 
 	while gvars.screenRunning:
@@ -115,3 +114,13 @@ def toggle_fullscreen():
         	gvars.FULLSCREEN = True
 	        pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
 	
+def change_resolution():
+	# this is currently fails due to problems updating the background. We would need to change gui.App() but this currently can not be done. Code has been saved for future development but is disabled. 
+	input_placeholder = 0
+	gvars.WINDOW_XSIZE = input_placeholder
+	gvars.WINDOW_YSIZE = input_placeholder
+	gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE
+	if gvars.FULLSCREEN = False:
+		pygame.display.set_mode(gvars.WINDOW_SIZE)
+	else:
+		pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
