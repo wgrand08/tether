@@ -72,7 +72,7 @@ def drawSplashScreen():
 	sleep(2)
 
 def mainMenu():
-	mainMenuScreen = gui.Container(width=640, height=480)
+	mainMenuScreen = gui.Container(width=800, height=600)
 	debug = gui.Button("Debug", x=20, y=30)
 	solo = gui.Button("Solo", x=20, y=130)
 	multi = gui.Button("Multi", x=20, y=180)
