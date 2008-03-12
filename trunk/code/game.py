@@ -106,10 +106,10 @@ def settingsButton():
 def debugButton():
 	if gvars.debug == False:
 		gvars.debug = True
-		print "Debug On"
+		pygame.display.set_caption("Debug")
 	else:
 		gvars.debug = False
-		print "Debug Off"
+		pygame.display.set_caption("MoonPy")
 
 def editorButton():
 	editor.menu()
