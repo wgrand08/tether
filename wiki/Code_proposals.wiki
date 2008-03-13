@@ -18,22 +18,6 @@ Units will be defined by objects with the following attributes:
     * information about virus propagation needs to be stored, but this may not be the best place
 
 
-= Widgets = 
-Button widgets can be coded as an object with at least the following 4 attributes:
-  * Xlocation
-  * Ylocation
-  * Height
-  * Width
-Determination of whether or not the button is pushed can be done via a combination of pygames mouse.get_pressed and mouse.get_position functions or by another similar function if we do end up changing libraries. I was thinking something along the lines of:
-
-{{{def moon_button:
-if (mouse.get_pressed == True) and (mouse.get_position =><= (Xlocation and Xlocation + height) and (Ylocation and Ylocation + width)):
-    return True}}}
-
-This of couse is very rough idea on how to do this. Two other possible attributes for moon_button is name (button ID) and 'active' which would be a bool for whether or not the button has been pressed. Mostly likely these last two attributes won't 
-really be attributes and will use some other method to perform their inteded uses.
-
-
 = Version System =
 As the game progresses different versions will be made as upgrades occur. As features are implemented or changed it is highly likely that networking protocols, map files, save files and preference files will become incompatible. In order to prevent errors due to incompatibilities a version number will be hardcoded for each of these systems. In the event the game finds an incompatible version (such as for a recent update) then the game will be capable of taking the appropriate actions. The names of these variables and their values currently are:
   * game.settingsversion = 2 (for game settings)
@@ -45,4 +29,4 @@ As the game progresses different versions will be made as upgrades occur. As fea
 For each game map there will actually be two maps that will be synced to each other. First there will be a 'logicmap' which will be the location of terrain the computer reads from the map file. There will also be an 'imagemap' which will be nothing more then a PNG file created from the logicmap. The imagemap is what the player will see when playing the game and moving around the map will function by simply showing different sections of the image. The computer will continue to use the logicmap in order to determine collisions between objects and the terrain. This brings up the question of how this will affect FoW though. If the map the player sees is nothing more then standard image being moved around will the FoW be part of that image or will we need have to have another 'map' that moves around identically to the imagemap but is shadowed for the parts the FoW covers?
 
 = Hosting =
-We need a system whereby if the host goes down one of the clients will automatically pick it up and keep the game going. I was thinking of a system where each player has a playerID sequentially assigned to them by the host. The host also keeps track of the IP's of the clients and distributes it to all clients along with the playerID's. If the host goes down each client will automatically attempt to connect to the IP of the next active computer in line which takes over hosting duties. 
+We need a system whereby if the host goes down one of the clients will automatically pick it up and keep the game going. I was thinking of a system where each player has a playerID sequentially assigned to them by the host. The host also keeps track of the IP's of the clients and distributes it to all clients along with the playerID's. If the host goes down each client will automatically attempt to connect to the IP of the next active computer in line which takes over hosting duties. Another option would be to have a ring host where the 'host' is the person who's turn it is.
