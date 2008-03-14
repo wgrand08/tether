@@ -16,5 +16,101 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
+import gvars
+import host
+import client
+import gooeypy as gui
+from gooeypy.const import *
+
+
 def menu():
-	print"multiplayer setup placeholder"
+	gvars.activeScreen = gui.Container(width=800, height=600)
+	gvars.moonPyApp.add(gvars.activeScreen)
+	backButton = gui.Button("Back", x=20, y=400)
+	joinButton = gui.Button("Join", x=20, y=100)
+	hostButton = gui.Button("Host", x=20, y=200)
+	
+	gvars.activeScreen.add(backButton, joinButton, hostButton)
+	backButton.connect(CLICK, cancel)
+	joinButton.connect(CLICK, joinMenu)
+	hostButton.connect(CLICK, hostMenu)
+	gvars.screenRunning = True
+	while gvars.screenRunning:
+	    gvars.clock.tick(30)
+
+	    events = pygame.event.get()
+
+	    for event in events:
+		if event.type == QUIT:
+		    gvars.running = False
+
+	    gvars.moonPyApp.run(events)
+	    gvars.moonPyApp.draw()	
+	    gui.update_display()
+
+
+def cancel():
+	gvars.moonPyApp.remove(gvars.activeScreen)
+	gvars.screenRunning = False
+
+
+def back():
+	gvars.moonPyApp.remove(gvars.activeScreen)
+
+
+def mainMenu():
+	mainMenuScreen = gui.Container(width=800, height=600)
+	backButton = gui.Button("Back", x=20, y=400)
+	joinButton = gui.Button("Join", x=20, y=100)
+	hostButton = gui.Button("Host", x=20, y=200)
+	
+	mainMenuScreen.add(backButton, joinButton, hostButton)
+	backButton.connect(CLICK, cancel)
+	joinButton.connect(CLICK, joinMenu)
+	hostButton.connect(CLICK, hostMenu)
+
+
+def joinMenu():
+	gvars.moonPyApp.remove(gvars.activeScreen)
+	gvars.activeScreen = gui.Container(width=800, height=600)
+	gvars.moonPyApp.add(gvars.activeScreen)
+	backButton = gui.Button("Back", x=20, y=400)
+	
+	gvars.activeScreen.add(backButton)
+	backButton.connect(CLICK, back)
+	gvars.screenRunning = True
+	while gvars.screenRunning:
+	    gvars.clock.tick(30)
+
+	    events = pygame.event.get()
+
+	    for event in events:
+		if event.type == QUIT:
+		    gvars.running = False
+
+	    gvars.moonPyApp.run(events)
+	    gvars.moonPyApp.draw()	
+	    gui.update_display()
+
+
+def hostMenu():
+	gvars.moonPyApp.remove(gvars.activeScreen)
+	gvars.activeScreen = gui.Container(width=800, height=600)
+	gvars.moonPyApp.add(gvars.activeScreen)
+	backButton = gui.Button("Back", x=20, y=400)
+	
+	gvars.activeScreen.add(backButton)
+	backButton.connect(CLICK, back)
+	gvars.screenRunning = True
+	while gvars.screenRunning:
+	    gvars.clock.tick(30)
+
+	    events = pygame.event.get()
+
+	    for event in events:
+		if event.type == QUIT:
+		    gvars.running = False
+
+	    gvars.moonPyApp.run(events)
+	    gvars.moonPyApp.draw()	
+	    gui.update_display()

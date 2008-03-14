@@ -16,7 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-
 import os
 import sys
 import gvars
@@ -29,6 +28,7 @@ from gooeypy.const import *
 import solo_setup
 import multi_setup
 import editor
+
 
 def main():
 	gvars.clock = pygame.time.Clock()
@@ -84,7 +84,7 @@ def mainMenu():
 	settings = gui.Button("Settings", x=20, y=230)
 	editor = gui.Button("Editor", x=20, y=280)
 	quit = gui.Button("quit", x=20, y=330)
-	mainMenuScreen.add(solo,multi,settings,debug,editor,quit)
+	mainMenuScreen.add(solo, multi, settings, debug, editor, quit)
 	debug.connect(CLICK, debugButton)
 	solo.connect(CLICK, soloButton)
 	multi.connect(CLICK, multiButton)
@@ -96,23 +96,29 @@ def mainMenu():
 def soloButton():
 	solo_setup.menu()
 
+
 def multiButton():
+	gvars.moonPyApp.remove(gvars.activeScreen)
 	multi_setup.menu()
+
 
 def settingsButton():
 	gvars.moonPyApp.remove(gvars.activeScreen)
 	settings.settings_menu()
 
+
 def debugButton():
 	if gvars.debug == False:
 		gvars.debug = True
-		pygame.display.set_caption("Debug")
+		pygame.display.set_caption("MoonPy Debug")
 	else:
 		gvars.debug = False
 		pygame.display.set_caption("MoonPy")
 
+
 def editorButton():
 	editor.menu()
+
 
 def quitButton():
 	gvars.appRunning = False

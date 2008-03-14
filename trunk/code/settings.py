@@ -15,11 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
+
 import pygame
 import os
 import gvars
 import gooeypy as gui
 from gooeypy.const import *
+
 
 def settings_menu():
 	gvars.activeScreen = gui.Container(width=800, height=600)
@@ -30,7 +32,7 @@ def settings_menu():
 	fullscreenToggle = gui.Switch(gvars.FULLSCREEN, labels=("Fullscreen", "Windowed"), options=(False, True),  x=20, y=240)
 	playernameInput = gui.Input(x=200, y=30, width=150)
 	playernameInput.value = gvars.playername
-	gvars.activeScreen.add(playernameInput,backButton,fullscreenToggle,nameLabel,fullscreenLabel)
+	gvars.activeScreen.add(playernameInput, backButton, fullscreenToggle, nameLabel, fullscreenLabel)
 	backButton.connect(CLICK, endSettings)
 	fullscreenToggle.connect(CHANGE, toggle_fullscreen)
 	gvars.playername = playernameInput
@@ -48,7 +50,6 @@ def settings_menu():
 	    gvars.moonPyApp.draw()	
 	    gvars.playername = playernameInput.value
 	    gui.update_display()
-
 
 
 def load_settings():
@@ -82,6 +83,7 @@ def load_settings():
     else:
         gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE
 
+
 def save_settings():
     savesettings=open("settings.cfg", 'w')
     savesettings.write("version="+str(gvars.settingsversion)+"\n")
@@ -91,6 +93,7 @@ def save_settings():
     savesettings.write("name="+str(gvars.playername)+"\n")
     savesettings.write("theme="+str(gvars.theme)+"\n")
 
+
 def default_settings():
     gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE = 800,600
     gvars.FULLSCREEN = False
@@ -98,10 +101,12 @@ def default_settings():
     gvars.theme = "default"
     save_settings()
 
+
 def endSettings():
 	save_settings()
 	gvars.moonPyApp.remove(gvars.activeScreen)
 	gvars.screenRunning = False
+
 
 def toggle_fullscreen():
 	if gvars.FULLSCREEN == True:
@@ -111,6 +116,7 @@ def toggle_fullscreen():
         	gvars.FULLSCREEN = True
 	        pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)
 	
+
 def change_resolution():
 	# this is currently fails due to problems updating the background. We would need to change gui.App() but this currently can not be done. Code has been saved for future development but is disabled. 
 	input_placeholder = 0
