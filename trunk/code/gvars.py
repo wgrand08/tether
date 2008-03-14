@@ -27,3 +27,5 @@ screenRunning = True
 debug = False
 moonPyApp = ""
 activeScreen = ""
+hostIP = "127.0.0.1"
+playerID = 0
