@@ -17,7 +17,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import gvars
+import socket
+import threading
 
 
-def placeholder():
-	print"host placeholder"
+#useful example located at:
+# http://www.devshed.com/c/a/Python/Basic-Threading-in-Python/1/
+class moonHost(threading.Thread):
+	def __init__ ( self, channel, details ):
+		threading.Thread.__init__ ( self )
+
+	def runhost(self):
+		print"placeholder"
