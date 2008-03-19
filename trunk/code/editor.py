@@ -17,7 +17,41 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import gvars
+import gooeypy as gui
+from gooeypy.const import *
 
 
 def menu():
-	print"editor placeholder"
+	gvars.activeScreen = mainMenu()
+	gvars.moonPyApp.add(gvars.activeScreen)
+	gvars.screenRunning = True
+	while gvars.screenRunning:
+		if gvars.appRunning == False:
+			gvars.screenRunning = False
+		gvars.clock.tick(30)
+
+		events = pygame.event.get()
+
+		for event in events:
+			if event.type == QUIT:
+				gvars.appRunning = False
+
+		gvars.moonPyApp.run(events)
+		gvars.moonPyApp.draw()
+
+		gui.update_display()
+
+
+def mainMenu():
+	mainMenuScreen = gui.Container(width=800, height=600)
+	backButton = gui.Button("Back", x=20, y=400)
+	incompleteError = gui.Label(value="Editor not implemented yet!", x=20, y=200, font_size=30)
+	mainMenuScreen.add(backButton, incompleteError)
+	backButton.connect(CLICK, cancel)
+	return mainMenuScreen
+
+
+def cancel():
+	gvars.moonPyApp.remove(gvars.activeScreen)
+	gvars.screenRunning = False
+	

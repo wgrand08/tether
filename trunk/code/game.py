@@ -48,20 +48,20 @@ def main():
 		gvars.moonPyApp.add(gvars.activeScreen)
 		gvars.screenRunning = True
 		while gvars.screenRunning:
-		    if gvars.appRunning == False:
-			gvars.screenRunning = False
-		    gvars.clock.tick(30)
+			if gvars.appRunning == False:
+				gvars.screenRunning = False
+			gvars.clock.tick(30)
 
-		    events = pygame.event.get()
+			events = pygame.event.get()
 
-		    for event in events:
-			if event.type == QUIT:
-			    gvars.appRunning = False
+			for event in events:
+				if event.type == QUIT:
+					gvars.appRunning = False
 
-		    gvars.moonPyApp.run(events)
-		    gvars.moonPyApp.draw()
+			gvars.moonPyApp.run(events)
+			gvars.moonPyApp.draw()
 
-		    gui.update_display()
+			gui.update_display()
 
 def drawSplashScreen():
 	image = "images/Enceladus.png"
@@ -118,6 +118,7 @@ def debugButton():
 
 
 def editorButton():
+	gvars.moonPyApp.remove(gvars.activeScreen)
 	editor.menu()
 
 

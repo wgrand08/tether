@@ -24,23 +24,25 @@ from gooeypy.const import *
 
 
 def menu():
-	#gvars.activeScreen = gui.Container(width=800, height=600)
 	gvars.activeScreen = mainMenu()
 	gvars.moonPyApp.add(gvars.activeScreen)
 	gvars.screenRunning = True
 
 	while gvars.screenRunning:
-	    gvars.clock.tick(30)
+		if gvars.appRunning == False:
+			gvars.screenRunning = False
+		gvars.clock.tick(30)
 
-	    events = pygame.event.get()
+		events = pygame.event.get()
 
-	    for event in events:
-		if event.type == QUIT:
-		    gvars.running = False
+		for event in events:
+			if event.type == QUIT:
+				gvars.appRunning = False
 
-	    gvars.moonPyApp.run(events)
-	    gvars.moonPyApp.draw()	
-	    gui.update_display()
+		gvars.moonPyApp.run(events)
+		gvars.moonPyApp.draw()
+
+		gui.update_display()
 
 
 def cancel():
