@@ -94,6 +94,7 @@ def mainMenu():
 	return mainMenuScreen
 
 def soloButton():
+	gvars.moonPyApp.remove(gvars.activeScreen)
 	solo_setup.menu()
 
 

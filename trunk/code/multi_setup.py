@@ -24,17 +24,11 @@ from gooeypy.const import *
 
 
 def menu():
-	gvars.activeScreen = gui.Container(width=800, height=600)
+	#gvars.activeScreen = gui.Container(width=800, height=600)
+	gvars.activeScreen = mainMenu()
 	gvars.moonPyApp.add(gvars.activeScreen)
-	backButton = gui.Button("Back", x=20, y=400)
-	joinButton = gui.Button("Join", x=20, y=100)
-	hostButton = gui.Button("Host", x=20, y=200)
-	
-	gvars.activeScreen.add(backButton, joinButton, hostButton)
-	backButton.connect(CLICK, cancel)
-	joinButton.connect(CLICK, joinMenu)
-	hostButton.connect(CLICK, hostMenu)
 	gvars.screenRunning = True
+
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
 
@@ -56,6 +50,8 @@ def cancel():
 
 def back():
 	gvars.moonPyApp.remove(gvars.activeScreen)
+	gvars.activeScreen = mainMenu()
+	gvars.moonPyApp.add(gvars.activeScreen)
 
 
 def mainMenu():
@@ -68,6 +64,7 @@ def mainMenu():
 	backButton.connect(CLICK, cancel)
 	joinButton.connect(CLICK, joinMenu)
 	hostButton.connect(CLICK, hostMenu)
+	return mainMenuScreen
 
 
 def joinMenu():
@@ -75,9 +72,10 @@ def joinMenu():
 	gvars.activeScreen = gui.Container(width=800, height=600)
 	gvars.moonPyApp.add(gvars.activeScreen)
 	backButton = gui.Button("Back", x=20, y=400)
-	
-	gvars.activeScreen.add(backButton)
+	cancelButton = gui.Button("Cancel", x=20, y=450)
+	gvars.activeScreen.add(backButton, cancelButton)
 	backButton.connect(CLICK, back)
+	cancelButton.connect(CLICK, cancel)
 	gvars.screenRunning = True
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
@@ -98,9 +96,10 @@ def hostMenu():
 	gvars.activeScreen = gui.Container(width=800, height=600)
 	gvars.moonPyApp.add(gvars.activeScreen)
 	backButton = gui.Button("Back", x=20, y=400)
-	
-	gvars.activeScreen.add(backButton)
+	cancelButton = gui.Button("Cancel", x=20, y=450)
+	gvars.activeScreen.add(backButton, cancelButton)
 	backButton.connect(CLICK, back)
+	cancelButton.connect(CLICK, cancel)
 	gvars.screenRunning = True
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
