@@ -1,5 +1,3 @@
-#!/usr/bin/python2.4
-
 """Copyright 2007:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
@@ -18,17 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import hostgvars
-import socket
-import threading
-import pickle
 
-
-#useful example located at:
-# http://www.devshed.com/c/a/Python/Basic-Threading-in-Python/1/
-class moonHost(threading.Thread):
-	def __init__ ( self, channel, details ):
-		threading.Thread.__init__ ( self )
-
-	def runhost(self):
-		print"placeholder"
+clock = 1
+networkversion = 0

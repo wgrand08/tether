@@ -35,7 +35,7 @@ def settings_menu():
 	gvars.activeScreen.add(playernameInput, backButton, fullscreenToggle, nameLabel, fullscreenLabel)
 	backButton.connect(CLICK, endSettings)
 	fullscreenToggle.connect(CHANGE, toggle_fullscreen)
-	gvars.playername = playernameInput
+	gvars.playername = playernameInput.value
 	gvars.screenRunning = True 
 	while gvars.screenRunning:
 		if gvars.appRunning == False:
