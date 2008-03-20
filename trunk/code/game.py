@@ -37,7 +37,6 @@ def main():
 	drawSplashScreen()
 	settings.load_settings()
 	pygame.mouse.set_visible(1)
-	#gui.init(gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE)
 	gui.init(800,600)
     	if gvars.FULLSCREEN == True:
         	pygame.display.set_mode(gvars.WINDOW_SIZE, pygame.FULLSCREEN)

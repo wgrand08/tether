@@ -86,21 +86,21 @@ def load_settings():
 
 
 def save_settings():
-    savesettings=open("settings.cfg", 'w')
-    savesettings.write("version="+str(gvars.settingsversion)+"\n")
-    savesettings.write("fullscreen="+str(gvars.FULLSCREEN)+"\n")
-    savesettings.write("xres="+str(gvars.WINDOW_XSIZE)+"\n")
-    savesettings.write("yres="+str(gvars.WINDOW_YSIZE)+"\n")
-    savesettings.write("name="+str(gvars.playername)+"\n")
-    savesettings.write("theme="+str(gvars.theme)+"\n")
+	savesettings=open("settings.cfg", 'w')
+	savesettings.write("version="+str(gvars.settingsversion)+"\n")
+	savesettings.write("fullscreen="+str(gvars.FULLSCREEN)+"\n")
+	savesettings.write("xres="+str(gvars.WINDOW_XSIZE)+"\n")
+	savesettings.write("yres="+str(gvars.WINDOW_YSIZE)+"\n")
+	savesettings.write("name="+str(gvars.playername)+"\n")
+	savesettings.write("theme="+str(gvars.theme)+"\n")
 
 
 def default_settings():
-    gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE = 800,600
-    gvars.FULLSCREEN = False
-    gvars.playername = "Commander"
-    gvars.theme = "default"
-    save_settings()
+	gvars.WINDOW_SIZE = gvars.WINDOW_XSIZE,gvars.WINDOW_YSIZE = 800,600
+	gvars.FULLSCREEN = False
+	gvars.playername = "Commander"
+	gvars.theme = "default"
+	save_settings()
 
 
 def endSettings():
