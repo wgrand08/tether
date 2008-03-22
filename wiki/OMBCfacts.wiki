@@ -37,3 +37,6 @@ Amount of damage each weapon does with a direct hit
   * Energy = 6
   * EMP = 2
   * Spike = 3
+
+= Power Bar =
+The power bar has 18 increments for power levels. It takes just under 3 seconds for it to make one complete pass (both up and down), sadly we unable to be more accurate in our timing. Based off our best estimates though his means it will take about 1.5 seconds for the bar to make one incomplete pass (one way). Divide this by 18 and you get 0.083+ seconds for each increment. OMBC most likely works by running the power bar at about .08 seconds per increment. This comes to 2.88 seconds for one complete pass which is would explain why it is just under 3 seconds instead of being 3 seconds exactly.
