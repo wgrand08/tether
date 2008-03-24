@@ -19,3 +19,4 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 clock = 1
 networkversion = 0
+runhost = False
