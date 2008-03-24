@@ -114,8 +114,9 @@ class Input(util.widgets.Widget):
         # Key repeating. Better way to do this?
         k = pygame.key.get_pressed()
         if k[K_BACKSPACE] and util.get_ticks()-self.last_press[K_BACKSPACE] > 300:
-            self.value = self.value[:self.cur_pos-1] + self.value[self.cur_pos:]
-            self.cur_pos -= 1
+            if self.cur_pos > 0:
+                self.value = self.value[:self.cur_pos-1] + self.value[self.cur_pos:]
+                self.cur_pos -= 1
         elif k[K_DELETE] and util.get_ticks()-self.last_press[K_DELETE] > 300:
             if len(self.value) > self.cur_pos:
                 self.value = self.value[:self.cur_pos] + self.value[self.cur_pos+1:]
@@ -129,14 +130,15 @@ class Input(util.widgets.Widget):
     def event(self,e):
         if e.type == KEYDOWN:
             if e.key == K_BACKSPACE:
-                if self.cur_pos:
+                if self.cur_pos > 0:
                     self.value = self.value[:self.cur_pos-1] + self.value[self.cur_pos:]
                     self.cur_pos -= 1
                     self.last_press[K_BACKSPACE] = util.get_ticks()
             elif e.key == K_DELETE:
                 if len(self.value) > self.cur_pos:
                     self.value = self.value[:self.cur_pos] + self.value[self.cur_pos+1:]
-                self.last_press[K_DELETE] = util.get_ticks()
+                self.last_press[K_DELETE] = util.get_ticks() 
+
             elif e.key == K_HOME: 
                 self.cur_pos = 0
             elif e.key == K_END:
