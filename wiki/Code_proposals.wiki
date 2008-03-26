@@ -36,7 +36,7 @@ I am thinking about making the server/hosting system a seperate process from the
 
 Here's my take (zaak):
 
-When the game starts, the host sends everyone's IP address to all the
+"When the game starts, the host sends everyone's IP address to all the
 clients. If the host drops, the clients will get a button that lets
 them take over as host, and a field to enter a new host address. The
 players can communicate outside of the game to determine who will
@@ -53,4 +53,6 @@ whose computer crashed) wants to join, he can get the auto-password
 from the new host.
 
 I think that takes care of recovery. It's a bit complex, but not more
-than necessary I hope.
+than necessary I hope."
+
+Based on whats been discussed it seems like zaaks idea is the best balance between stability, ease of coding and host recovery in the event of a system failure. We'll go ahead with this plan for developing the host/client system. 
