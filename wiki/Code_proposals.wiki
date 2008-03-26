@@ -54,4 +54,4 @@ from the new host.
 I think that takes care of recovery. It's a bit complex, but not more
 than necessary I hope."
 
-Based on whats been discussed it seems like zaaks idea is the best balance between stability, ease of coding and host recovery in the event of a system failure. We'll go ahead with this plan for developing the host/client system. 
+Based on whats been discussed both here and in the mailing lists it seems like zaaks idea is the best balance between stability, ease of coding and host recovery in the event of a system failure. We'll go ahead with this plan for developing the host/client system. 
