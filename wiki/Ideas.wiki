@@ -148,28 +148,6 @@
  * Super Repair (Repairs multiple HP per shot)
 
 ===Other thoughts:===
-What should we name this program?
-'FOSS MBC' is what I've been using but it's awkward. 'Moonbase Clone' doesn't really work since we're not actually trying to clone MBC but make a game very very similar to it. Of course if we follow game remake naming tradition (freeciv, freecol, freecraft) we would end up with 'freemoon', 'freemoonbase' or even 'freebase' (heheh).
-
-Maybe if we come up with a theme for the game first we will have a better idea for a name (see below).
-
-I like the name freebase. Not really a good idea though. :) (Isaac)
-Moonies?  Hehe (Jon)
-Spacebase Captain (inspired by Doctor Who) (David)
-Moonfreebase (Dan)
-Moonlinks (Jon)
-moonchuckers (isaac)
-Dinner and a Melee at the New Moon  (Stealing from both Douglas Adams, and Infogrames) (Jon) (+1 Mollie)
-Moon Golf with Bombs? (David)
-Robolink Melee (Jon)
-Linked Bomb Chuckers (David)
-Mecha Bombers of DOOM! (David)
-Happy Ponies! (David) (+1 Mollie)
-Tether (I don't like it but it's what we're registered as with google) (Kevin)
-TetherWar (Or a variant of tether-something) (Kevin)
-Freebasing Moonrocks (I'm kidding about this one) (Kevin)
-MoonPy (It's accurate and I think it's kind of funny) (Kevin)
-
 Classic mode?
 We've been talking alot about tweaks and enhancements to the game however if we add anything like that I would recommend having 'classic' mode option so that people can always play the original (or as close to the original as we can get) if they don't want the the new 'enhanced' mode.
 
@@ -181,8 +159,6 @@ With OMBC you can see the 'energy' flow along the tethers and everything is inte
 
 Wireless aspects?
 This is similar to the energy production idea but if you figure any unconnected devices must transmist data wirelessly then that could be intercepted. Maybe if we have many 'untethered' objects we can have an option where those things can be 'detected' from their transmissions. Maybe along the lines that they show up in FoW no matter what. This would definitely be a variant since that would drastically affect the usage of balloons. 
-
-
 
 
 
