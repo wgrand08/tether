@@ -158,9 +158,7 @@ Energy production?
 With OMBC you can see the 'energy' flow along the tethers and everything is interconnected. If we were to have seperate hubs should they have seperate energy supplies? This would make it somewhat more realistic and would also make seperate hubs a challenge because having everything interconnected would make you stronger since you can do power attacks from anywhere but also more vulnerable to attacks that go through the grid or in a key location.
 
 Wireless aspects?
-This is similar to the energy production idea but if you figure any unconnected devices must transmist data wirelessly then that could be intercepted. Maybe if we have many 'untethered' objects we can have an option where those things can be 'detected' from their transmissions. Maybe along the lines that they show up in FoW no matter what. This would definitely be a variant since that would drastically affect the usage of balloons. 
-
-
+This is similar to the energy production idea but if you figure any unconnected devices must transmist data wirelessly then that could be intercepted. Maybe if we have many 'untethered' objects we can have an option where those things can be 'detected' from their transmissions (radar building maybe?). Maybe along the lines that they show up in FoW no matter what. This would definitely be a variant since that would drastically affect the usage of balloons. 
 
 
 
