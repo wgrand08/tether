@@ -32,4 +32,4 @@
   The biggest change we want to make is the number of players. Moonbase Commander can not have more then 4 players per game which we find annoying. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
 
   * How can I help out with the project?
-  Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/clanoflan introduce yourself].
+  Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/project-tether introduce yourself].
