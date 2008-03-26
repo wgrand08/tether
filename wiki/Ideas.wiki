@@ -10,7 +10,7 @@
  * "Their shield is down, their bottom is bare! Spank them!" (heheh)
 
 ===Elements of the original game we want to exclude:===
- * Silly Networking :)
+ * Glitchy code :)
  * Campaign (we could do one but who's going to play it?)
  * Compatibility with original game (it's dead)
  * only 1 pass on the power bar (that was annoying for me)
@@ -180,8 +180,6 @@ With OMBC you can see the 'energy' flow along the tethers and everything is inte
 
 Wireless aspects?
 This is similar to the energy production idea but if you figure any unconnected devices must transmist data wirelessly then that could be intercepted. Maybe if we have many 'untethered' objects we can have an option where those things can be 'detected' from their transmissions. Maybe along the lines that they show up in FoW no matter what. This would definitely be a variant since that would drastically affect the usage of balloons. 
-
-
 
 
 
