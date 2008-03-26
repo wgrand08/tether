@@ -34,13 +34,13 @@ class moonHost(threading.Thread):
 	def run(self):
 		print"start runhost"
 		while True:
-		client = clientPool.get()
-		if client != None:
-		print"Recieved connection: ", client [1] [0]
-		for x in xrange (10):
-			print client [0].recv (1024)
-		client [0].close()
-		print"Closed connection: ", client [1] [0]
+			client = clientPool.get()
+			if client != None:
+				print"Recieved connection: ", client [1] [0]
+				for x in xrange (10):
+					print client [0].recv (1024)
+				client [0].close()
+				print"Closed connection: ", client [1] [0]
 
 clientPool = Queue.Queue (0)
 for x in xrange(2):
