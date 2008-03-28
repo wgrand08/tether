@@ -103,7 +103,7 @@ def hostMenu():
 	backButton.connect(CLICK, back)
 	cancelButton.connect(CLICK, cancel)
 	if gvars.debug == True:
-		os.system ("code/host.py")
+		os.system ("python2.4 code/host.py")
 	gvars.screenRunning = True
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
