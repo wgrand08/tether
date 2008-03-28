@@ -42,7 +42,7 @@ class moonHost(threading.Thread):
 				client [0].close()
 				print"Closed connection: ", client [1] [0]
 
-clientPool = Queue.Queue (0)
+"""clientPool = Queue.Queue (0)
 for x in xrange(2):
 	moonHost().start()
 server = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
@@ -50,4 +50,5 @@ server.bind (('', 2727))
 server.listen (5)
 while True:
 	channel, details = server.accept
-	moonHost (channel, details ).start()
+	moonHost (channel, details ).start()"""
+print"host started"

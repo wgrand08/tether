@@ -20,6 +20,7 @@ import gvars
 import client
 import gooeypy as gui
 from gooeypy.const import *
+import os
 
 
 def menu():
@@ -97,10 +98,12 @@ def hostMenu():
 	gvars.activeScreen = gui.Container(width=800, height=600)
 	gvars.moonPyApp.add(gvars.activeScreen)
 	backButton = gui.Button("Back", x=20, y=400)
-	cancelButton = gui.Button("Cancel", x=20, y=450)
+	cancelButton = gui.Button("Canc./el", x=20, y=450)
 	gvars.activeScreen.add(backButton, cancelButton)
 	backButton.connect(CLICK, back)
 	cancelButton.connect(CLICK, cancel)
+	if gvars.debug == True:
+		os.system ("code/host.py")
 	gvars.screenRunning = True
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
