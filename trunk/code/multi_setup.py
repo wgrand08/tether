@@ -21,6 +21,7 @@ import client
 import gooeypy as gui
 from gooeypy.const import *
 import os
+import subprocess
 
 
 def menu():
@@ -103,7 +104,7 @@ def hostMenu():
 	backButton.connect(CLICK, back)
 	cancelButton.connect(CLICK, cancel)
 	if gvars.debug == True:
-		os.system ("python2.4 code/host.py &")
+		subprocess.Popen(["python2.4","code/host.py"])
 	gvars.screenRunning = True
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)

@@ -52,3 +52,7 @@ while True:
 	channel, details = server.accept
 	moonHost (channel, details ).start()"""
 print"host started"
+testhost = True
+while testhost == True:
+	for x in range(1, 100):
+		print x
