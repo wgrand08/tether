@@ -106,7 +106,7 @@ def hostMenu():
 	if gvars.debug == True:
 		if os.name == "posix":
 			subprocess.Popen(["python2.4","code/host.py"])
-		elif osname == "nt":
+		elif os.name == "nt":
 			subprocess.Popen(["c:\python24\python","code/host.py"])
 	gvars.screenRunning = True
 	while gvars.screenRunning:
