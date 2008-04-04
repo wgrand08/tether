@@ -23,20 +23,14 @@ import socket
 import threading
 import pickle
 import Queue
-import pygame
-from pygame.locals import *
 
 
 #useful example located at:
 # http://www.devshed.com/c/a/Python/Basic-Threading-in-Python/1/
 
 
-pygame.init()
 print"host started"
 runhost = True
 while runhost == True:
 	for x in range(1, 100):
 		print x
-	for event in pygame.event.get():
-		if event.type == pygame.KEYDOWN:
-			runhost = False
