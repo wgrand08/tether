@@ -23,36 +23,20 @@ import socket
 import threading
 import pickle
 import Queue
+import pygame
+from pygame.locals import *
 
 
 #useful example located at:
 # http://www.devshed.com/c/a/Python/Basic-Threading-in-Python/1/
-class moonHost(threading.Thread):
-	#def __init__ ( self, channel, details ):
-		#threading.Thread.__init__ ( self )
 
-	def run(self):
-		print"start runhost"
-		while True:
-			client = clientPool.get()
-			if client != None:
-				print"Recieved connection: ", client [1] [0]
-				for x in xrange (10):
-					print client [0].recv (1024)
-				client [0].close()
-				print"Closed connection: ", client [1] [0]
 
-"""clientPool = Queue.Queue (0)
-for x in xrange(2):
-	moonHost().start()
-server = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
-server.bind (('', 2727))
-server.listen (5)
-while True:
-	channel, details = server.accept
-	moonHost (channel, details ).start()"""
-#print"host started"
-testhost = True
-while testhost == True:
+pygame.init()
+print"host started"
+runhost = True
+while runhost == True:
 	for x in range(1, 100):
 		print x
+	for event in pygame.event.get():
+		if event.type == pygame.KEYDOWN:
+			runhost = False
