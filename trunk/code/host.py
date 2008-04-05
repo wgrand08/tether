@@ -18,19 +18,19 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import hostgvars
-import socket
-import threading
-import pickle
-import Queue
+
+# example code located: http://www.devshed.com/c/a/Python/Sockets-in-Python-Into-the-World-of-Python-Network-Programming/2/
+
+from socket import *
 
 
-#useful example located at:
-# http://www.devshed.com/c/a/Python/Basic-Threading-in-Python/1/
 
+def starthost():	HOST = 'localhost'	PORT = 21567	BUFSIZ = 1024	ADDR = (HOST, PORT)
+	serversock = socket(AF_INET, SOCK_STREAM)	serversock.bind(ADDR)	serversock.listen(2)
 
-print"host started"
-runhost = True
-while runhost == True:
-	for x in range(1, 100):
-		print x
+	while 1:		print 'waiting for connection... '		clientsock, addr = serversock.accept()		print 'connected from:', addr
+		while 1:
+			data = clientsock.recv(BUFSIZ)			if not data: 
+				break				clientsock.send('echoed', data)  		clientsock.close()	serversock.close()
+
+starthost()

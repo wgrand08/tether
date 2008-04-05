@@ -1,1 +1,6 @@
-    import pickle    import socket    import threading    # Here's our thread:    class ConnectionThread ( threading.Thread ):       def run ( self ):          # Connect to the server:          client = socket.socket ( socket.AF_INET, socket.SOCK_STREAM )          client.connect ( ( 'localhost', 2727 ) )          # Retrieve and unpickle the list object:          print pickle.loads ( client.recv ( 1024 ) )          # Send some messages:          for x in xrange ( 10 ):             client.send ( 'Hey. ' + str ( x ) + '\n' )          # Close the connection          client.close()    # Let's spawn a few threads:    for x in xrange ( 5 ):       ConnectionThread().start()
+from socket import *
+
+def runclient():
+	HOST = 'localhost'	PORT = 21567	BUFSIZ = 1024	ADDR = (HOST, PORT)	tcpCliSock = socket(AF_INET, SOCK_STREAM)	tcpCliSock.connect(ADDR)
+
+	while True:		data = raw_input('> ')		if not data: break 		tcpCliSock.send(data)		data = tcpCliSock.recv(1024)		if not data: break 	print data	tcpCliSock.close()runclient()

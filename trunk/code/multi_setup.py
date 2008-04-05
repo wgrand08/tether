@@ -105,9 +105,9 @@ def hostMenu():
 	cancelButton.connect(CLICK, cancel)
 	if gvars.debug == True:
 		if os.name == "posix":
-			subprocess.Popen(["python2.4","code/host.py"])
+			subprocess.call(["python2.4","code/host.py"])
 		elif os.name == "nt":
-			subprocess.Popen(["c:\python24\python","code/host.py"])
+			subprocess.call(["c:\python24\python","code/host.py"])
 	gvars.screenRunning = True
 	while gvars.screenRunning:
 	    gvars.clock.tick(30)
