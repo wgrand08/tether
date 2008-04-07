@@ -19,18 +19,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 
-# example code located: http://www.devshed.com/c/a/Python/Sockets-in-Python-Into-the-World-of-Python-Network-Programming/2/
+# example code located: http://www.devshed.com/c/a/Python/Sockets-in-Python-Into-the-World-of-Python-Network-Programming/2/ & http://ilab.cs.byu.edu/python/socketmodule.html
 
-from socket import *
+import socket
 
 
-
-def starthost():	HOST = 'localhost'	PORT = 21567	BUFSIZ = 1024	ADDR = (HOST, PORT)
-	serversock = socket(AF_INET, SOCK_STREAM)	serversock.bind(ADDR)	serversock.listen(2)
-
-	while 1:		print 'waiting for connection... '		clientsock, addr = serversock.accept()		print 'connected from:', addr
-		while 1:
-			data = clientsock.recv(BUFSIZ)			if not data: 
-				break				clientsock.send('echoed', data)  		clientsock.close()	serversock.close()
+def starthost():	host = ''
+	port = 50000
+	backlog = 5
+	size = 1024
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.bind((host,port))
+	s.listen(backlog)
+	while 1:
+		client, address = s.accept()
+		data = client.recv(size)
+		if data:
+			client.send(data)
+			print"sent: ", data
+		client.close()
 
 starthost()
