@@ -30,7 +30,7 @@ import threading
 class Server:
     def __init__(self):
         self.host = ''
-        self.port = 50000
+        self.port = 47624
         self.backlog = 5
         self.size = 1024
         self.server = None
