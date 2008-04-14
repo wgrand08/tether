@@ -1,4 +1,5 @@
 #!/usr/bin/python2.4
+
 #
 # OpenRTS - Copyright (C) 2006 The OpenRTS Project
 #
