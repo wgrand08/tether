@@ -15,12 +15,12 @@ from pygame.locals import *
 import string
 import sys, os, os.path
 import logging
-import Image
-import JpegImagePlugin
-import PngImagePlugin
-import BmpImagePlugin
-import GifImagePlugin 
-import TgaImagePlugin 
+import PIL
+import PIL.JpegImagePlugin
+import PIL.PngImagePlugin
+import PIL.BmpImagePlugin
+import PIL.GifImagePlugin 
+import PIL.TgaImagePlugin 
 
 
 

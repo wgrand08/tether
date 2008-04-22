@@ -31,8 +31,8 @@ def dependencyCheck():
     logging.error('Loading dependency "pygame" failed: ' + str(err));
     sys.exit(1);
   try :
-    import Image
-    logging.info('Python Image Library version ' + Image.VERSION);
+    import PIL
+    #logging.info('Python Image Library version ' + Image.VERSION);
   except ImportError, err:
     logging.error('Loading dependency "PIL" failed: ' + str(err));
     sys.exit(1);
