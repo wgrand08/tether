@@ -15,7 +15,7 @@ from pygame.locals import *
 import string
 import sys, os, os.path
 import logging
-import PIL
+import PIL.Image as Image
 import PIL.JpegImagePlugin
 import PIL.PngImagePlugin
 import PIL.BmpImagePlugin
