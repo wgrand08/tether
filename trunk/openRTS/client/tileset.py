@@ -16,11 +16,11 @@ import string
 import sys, os, os.path
 import logging
 import PIL.Image as Image
-import PIL.JpegImagePlugin
-import PIL.PngImagePlugin
-import PIL.BmpImagePlugin
-import PIL.GifImagePlugin 
-import PIL.TgaImagePlugin 
+import PIL.JpegImagePlugin as JpegImagePlugin
+import PIL.PngImagePlugin as PngImagePlugin
+import PIL.BmpImagePlugin as BmpImagePlugin
+import PIL.GifImagePlugin as GifImagePlugin 
+import PIL.TgaImagePlugin as TgaImagePlugin
 
 
 

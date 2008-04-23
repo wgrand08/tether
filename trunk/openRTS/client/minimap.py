@@ -15,8 +15,8 @@ import pygame
 import time
 import logging
 from pygame.locals import *
-import PIL as Image 
-import PIL.ImageDraw
+import PIL.Image as Image 
+import PIL.ImageDraw as ImageDraw
 
 import tileset
 
