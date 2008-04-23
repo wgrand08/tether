@@ -1,0 +1,14 @@
+recursive-include data *.*
+recursive-exclude data *.xcf
+recursive-include buildings *.py*
+recursive-exclude buildings *.pyc*
+recursive-include maps *.zip
+recursive-include maps *.py
+recursive-include plugins *.*
+recursive-exclude plugins *.pyc
+include *.py
+exclude *.pyc
+include LICENSE
+include README
+include AUTHORS
+include *.txt MANIFEST.in MANIFEST
