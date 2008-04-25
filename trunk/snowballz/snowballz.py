@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 from __future__ import division
 import sys
+import rabbyt
 
-try:
+"""try:
     import rabbyt
 except ImportError:
     print "Could not find the rabbyt library! You can get it at the python cheese shop.\nTry running:\n\n$ sudo easy_install rabbyt"
-    sys.exit()
+    sys.exit()"""
 
 
 from player import Player
