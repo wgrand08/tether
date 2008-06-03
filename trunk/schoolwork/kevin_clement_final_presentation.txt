@@ -1,0 +1,33 @@
+Welcome to our presentation on how we can improve PC club's VEGA system.
+
+next slide
+
+PC club isn't just another computer supercenter. We focus on serving customers who care about their computers and want the best service available. PC club opened their first store in 1992 and in our 16 years of service we have expanded to include 37 stores located throughout arizona, california, nevada, new mexico, oregon, washington, utah, and even out to oklahoma now.
+
+next slide
+
+Our long-term goals can be summed up by our Our mission statement which is: "To focus on Customer Values by offering Quality Computer Products and Services in the Most Effective and Innovative Way to Computer Professionals."
+
+Next Slide
+
+Currently we are using our own system named VEGA to keep track of our in store inventory. Although a valuable tool to our employees, it has some limitations to it that are not meeting our goals and we believe that a review of the system is required at this time.
+
+Next Slide
+
+Our objectives for this project is to
+1: Improve communication between our distribution center and point of sale stores. 
+	Currently there is a lack of communication between our stores and our distribution center. Specifically, the sales people do not know the current inventory status of items in our distribution center. This leads to lost sales by customers unable to purchase items temporarily out of stock in our stores that are uncomfortable releasing credit card information online. By integrating the systems, we could have our store representatives place orders for our customers online and allow our customers to pay for their orders directly in the store. Our sales representatives would also be able to help trace order and give information on delivery times much more efficently then they currently do now. 
+
+Our second objective is to: Improve scalability in the inventory system
+	PC Club's current inventory system was not designed to handle the amount of inventory items currently being processed by it. With the amount of inventory we handle we occasionally experience delays and errors when our employees process product changes. Not only do we need a system capable of handling our current level of inventory but it must be capable of growing with us as we open new stores and handle greater amounts of inventory in the future. 
+
+While finally our third objective is: Reduce inventory shrinkage
+	Currently products sold directly from our stores requires that the sales department scan serial numbers from each sold item before invoicing items to keep track of individual parts. Incorrect serialization of items leads to about $3000 worth of inventory being lost or mis-sold each month. Although some loss is to be expected in any large chain, by implementing some error detection and correction we can limit the amount of inventory lost this way.
+
+Next Slide
+
+We investigated several possible options. One was to keep our current system as is. Although there are some immediate benefits to this option such as not costing us any money initially.
+
+Next Slide
+
+The long-term consequences of this solution make it cost prohibitive. As I mentioned previously, flaws in our current system already cause us to lose about $3000 per month due to lost or mis-sold inventory alone. Also, VEGA is working beyond it's original design specifications which is resulting in delays and database errors to our system. Although these errors are currently within acceptable limits, if we attempt to increase our inventory level by adding either more stores or services then the cost due to these problems will increase exponentially. This is completely unacceptable as we must be able to grow in order to meet the demands of future customers. Not only do we need to remove this barrier to our future but we need to make certain that we do not inadvertendly create new barriers that will put us in the position we are in now at a later time. 
