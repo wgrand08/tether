@@ -43,6 +43,10 @@ class Mappanel:
     self.minimap = Minimap(clientstate, self.minimap_rect.left , self.minimap_rect.top, 
                            120, 107);
 
+    self.inputcontrols_table = guid.Table(width=200,height=220)
+    self.testbutton = gui.Button(_("Test Button"));
+    self.inputcontrols_table.add(testbutton, 0, 0);
+
     self.input_rect = pygame.Rect(3, self.client.screen_height - 14,
                                   self.client.screen_width - 159, 14);
     self.msgview_rect = pygame.Rect(3, self.client.screen_height - 104, 
@@ -66,7 +70,7 @@ class Mappanel:
     self.chat_table.tr()
     self.chat_table.td(MySpacer(1,1, self.box))
 
-    container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top);
+    container.add(self.inputcontrols_table, self.chat_table, self.msgview_rect.left, self.msgview_rect.top);
     self.app.init(container); 
     self.draw_panel();
 
