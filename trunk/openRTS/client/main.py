@@ -63,7 +63,7 @@ class Main:
   def create_main_window(self):
     screen_width = self.gameclient.settings.screen_width; 
     screen_height = self.gameclient.settings.screen_height; 
-
+#settings code is ultimately located in file common > settings.py
     if (self.gameclient.settings.fullscreen):
       screen_mode = pygame.FULLSCREEN;
     else:

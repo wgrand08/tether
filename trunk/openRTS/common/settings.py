@@ -34,7 +34,7 @@ class GameSettings:
     self.version = settingNode.getAttribute('version');
 
     settingNode = rootNode.getElementsByTagName('fullscreen').item(0);
-    self.fullscreen = settingNode.getAttribute('enabled') == 'true';
+    self.fullscreen = settingNode.getAttribute('enabled') == 'false';
 
     settingNode = rootNode.getElementsByTagName('tileset').item(0);
     self.tileset = settingNode.getAttribute('src');

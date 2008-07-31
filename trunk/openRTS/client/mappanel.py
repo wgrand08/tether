@@ -36,6 +36,9 @@ class Mappanel:
     container.add(test_label, self.client.screen.get_width() * 0.3,
                                self.client.screen.get_height() * 0.71);"""
 
+    """test_label = gui.label(_("This is a test"));
+    container.add(test_label, self.client.screen.get_width() * 0.3,
+                               self.client.screen.get_height() * 0.71);"""
 
     self.minimap_rect = pygame.Rect(self.client.screen_width - 124 , 9,
                                    120, 107);
