@@ -38,6 +38,11 @@ class MainMenu:
     network_start_button.connect(gui.CLICK, self.network_start, None);
     menu_table.add(network_start_button, 0, 0);
     menu_table.add(gui.Widget(width=1, height=5), 0, 1);
+    """
+    testbutton = gui.Button(_("Test Button"));
+    menu_table.add(testbutton, 0, 11);
+    menu_table.add(gui.Widget(width=1, height=5), 0, 12);
+    """
 
     network_join_button = gui.Button(_("Join Multiplayer Game"));
     network_join_button.connect(gui.CLICK, self.network_join, None);

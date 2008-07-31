@@ -36,19 +36,12 @@ class Mappanel:
     container.add(test_label, self.client.screen.get_width() * 0.3,
                                self.client.screen.get_height() * 0.71);"""
 
-    """test_label = gui.label(_("This is a test"));
-    container.add(test_label, self.client.screen.get_width() * 0.3,
-                               self.client.screen.get_height() * 0.71);"""
 
     self.minimap_rect = pygame.Rect(self.client.screen_width - 124 , 9,
                                    120, 107);
 
     self.minimap = Minimap(clientstate, self.minimap_rect.left , self.minimap_rect.top, 
                            120, 107);
-
-    self.inputcontrols_table = guid.Table(width=200,height=220)
-    self.testbutton = gui.Button(_("Test Button"));
-    self.inputcontrols_table.add(testbutton, 0, 0);
 
     self.input_rect = pygame.Rect(3, self.client.screen_height - 14,
                                   self.client.screen_width - 159, 14);
@@ -73,7 +66,16 @@ class Mappanel:
     self.chat_table.tr()
     self.chat_table.td(MySpacer(1,1, self.box))
 
-    container.add(self.inputcontrols_table, self.chat_table, self.msgview_rect.left, self.msgview_rect.top);
+    self.firebutton = gui.Button(_(" Fire "));
+    container.add(self.firebutton, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.7);
+
+    self.rotate_leftbutton = gui.Button(_("  <  "));
+    container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.65);
+
+    self.rotate_rightbutton = gui.Button(_("  >  "));
+    container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.65);
+
+    container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top);
     self.app.init(container); 
     self.draw_panel();
 
