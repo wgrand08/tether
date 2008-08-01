@@ -19,6 +19,8 @@ from pygame.locals import *
 import gui
 
 from minimap import *
+from common.unit import Unit
+#import common.unit
 
 #****************************************************************************
 # The Mappanel has the minimap, chatline etc. 
@@ -71,12 +73,15 @@ class Mappanel:
 
     self.rotate_leftbutton = gui.Button(_("  <  "));
     container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.65);
+    self.rotate_leftbutton.connect(gui.CLICK, self.rotateleft, None);
 
     self.rotate_rightbutton = gui.Button(_("  >  "));
     container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.65);
+    self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None);
 
-    rotate_position = 0
-    rotate_position = str(rotate_position)
+    #rotate_position = Unit.rotate;
+    rotate_position = Unit.calc_dir(1);
+    rotate_position = str(rotate_position);
     self.rotate_display = gui.Label(_(rotate_position));
     container.add(self.rotate_display, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.3);
 
@@ -163,6 +168,17 @@ class Mappanel:
 
 
 #****************************************************************************
+# Handle button inputs
+#****************************************************************************
+  def rotateright(self, obj):
+    print("first rotateright")
+    
+
+  def rotateleft(self, obj):
+    print("placeholder left")
+
+
+#****************************************************************************
 # Hack, to scroll to the latest new message.
 #****************************************************************************
 class MySpacer(gui.Spacer):
@@ -189,3 +205,4 @@ class StringStream:
   def write(self,data):
     self.lines.tr()
     self.lines.td(gui.Label(str(data)),align=-1)
+
