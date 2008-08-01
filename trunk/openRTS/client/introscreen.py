@@ -1,19 +1,26 @@
-# OpenRTS - Copyright (C) 2006 The OpenRTS Project
-#
-# OpenRTS is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# OpenRTS is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+"""Copyright 2008:
+    Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+"""
 
 import os
 import pygame
 import logging
 import tileset
+from time import sleep
 
 #****************************************************************************
 #  The Introscreen shows a splash image. FIXME: Video, sound etc...
@@ -21,11 +28,19 @@ import tileset
 
 class IntroScreen:
   def __init__(self, screen):
-    filename = os.path.join('data', 'graphics', 'intro.png');
-    surface = tileset.load(filename);
-    scale = float(screen.get_width()) / surface.get_width();
-    intro = pygame.transform.rotozoom(surface, 0, scale);
-    screen.blit(intro, (0,0));
-    pygame.display.flip();
-    pygame.time.delay(1500);
+    pygame.display.set_caption("MoonPy")
+    image = "data/graphics/Enceladus.png"
+    screen = pygame.display.set_mode((500,500))
+    try:
+        splashScreen = pygame.image.load(image)
+    except pygame.error, message:
+        print 'Cannot load splash image'
+        raise SystemExit, message
+    splashScreen = splashScreen.convert()
+    screen.blit(splashScreen, (0,0))
+    pygame.display.flip()
+    sleep(2)
+    screen = pygame.display.set_mode((1024,768))
+
+
 

@@ -65,7 +65,7 @@ class MainMenu:
     quit_button.connect(gui.CLICK, self.client.quit);
     menu_table.add(quit_button, 0, 10);
 
-    intro_label = gui.Label(_("Open Source Real-Time Strategy Game"));
+    intro_label = gui.Label(_("Welcome to MoonPy"));
     tip_label = gui.Label(_("Tip of the day:"));
 
     container.add(MenuBackground(client=self.client, 
@@ -73,7 +73,7 @@ class MainMenu:
                    height = self.client.screen.get_height()), 0, 0);
     container.add(menu_table, self.client.screen.get_width() / 2 - 100,
                               self.client.screen.get_height() / 2 - 100);
-    container.add(intro_label, self.client.screen.get_width() / 2 - 160,
+    container.add(intro_label, self.client.screen.get_width() / 2 - 65,
                               self.client.screen.get_height() * 0.315);
     container.add(tip_label, self.client.screen.get_width() * 0.3,
                               self.client.screen.get_height() * 0.71);
