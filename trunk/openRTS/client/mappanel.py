@@ -19,8 +19,6 @@ from pygame.locals import *
 import gui
 
 from minimap import *
-from common.unit import Unit
-#import common.unit
 
 #****************************************************************************
 # The Mappanel has the minimap, chatline etc. 
@@ -79,10 +77,8 @@ class Mappanel:
     container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.65);
     self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None);
 
-    #rotate_position = Unit.rotate;
-    rotate_position = Unit.calc_dir(1);
-    rotate_position = str(rotate_position);
-    self.rotate_display = gui.Label(_(rotate_position));
+    self.rotate_position = 0
+    self.rotate_display = gui.Label(_(str(self.rotate_position)));
     container.add(self.rotate_display, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.3);
 
     container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top);
@@ -171,11 +167,18 @@ class Mappanel:
 # Handle button inputs
 #****************************************************************************
   def rotateright(self, obj):
-    print("first rotateright")
-    
+    print("first rotateright");
+    self.rotate_position = self.rotate_position + 1;
+    if (self.rotate_position > 360):
+        self.rotate_position = 0;
+    print(self.rotate_position);
 
   def rotateleft(self, obj):
-    print("placeholder left")
+    print("placeholder left");
+    self.rotate_position = self.rotate_position - 1;
+    if (self.rotate_position < 0):
+        self.rotate_position = 360;
+    print(self.rotate_position);
 
 
 #****************************************************************************

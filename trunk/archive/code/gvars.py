@@ -30,3 +30,4 @@ moonPyApp = ""
 activeScreen = ""
 hostIP = "127.0.0.1"
 playerID = 0
+rotate = 3
