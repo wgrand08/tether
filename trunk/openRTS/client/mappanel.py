@@ -68,6 +68,7 @@ class Mappanel:
 
     self.firebutton = gui.Button(_(" Fire "));
     container.add(self.firebutton, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.7);
+    self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.firebutton, None);
 
     self.rotate_leftbutton = gui.Button(_("  <  "));
     container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.65);
@@ -167,18 +168,19 @@ class Mappanel:
 # Handle button inputs
 #****************************************************************************
   def rotateright(self, obj):
-    print("first rotateright");
     self.rotate_position = self.rotate_position + 1;
     if (self.rotate_position > 360):
         self.rotate_position = 0;
     print(self.rotate_position);
 
   def rotateleft(self, obj):
-    print("placeholder left");
     self.rotate_position = self.rotate_position - 1;
     if (self.rotate_position < 0):
         self.rotate_position = 360;
     print(self.rotate_position);
+
+  def firebutton(self, obj):
+    print("BOOM!!!");
 
 
 #****************************************************************************
