@@ -14,13 +14,13 @@
   While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 5 years we assume that they will never be resolved. Rather then live with it we started this project to fix it ourselves
 
  * What is MoonPy?
- MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
+ MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing. It is still in the alpha stage but we are hoping to release our first beta version in a few months.
 
   * Why are you using python, why not a real language like C++?
   There are many reasons we're using python but the top 3 reasons are: it's simple to code, easily portable to different OS's, and more then capable of doing what we require.
 
   * What OS are you developing MoonPy for?
-  We are intentionally making MoonPy to be fully compatible with Linux, osX, and Windows. Theoreticaly it should work on any OS that has python installed with little extra effort however we are not planning on doing any compatibility testing for other systems. 
+  We are intentionally making MoonPy to be fully compatible with Linux, osX, and Windows. Theoretically it should work on any OS that has python installed with little extra effort however we are not planning on doing any compatibility testing for other systems. 
 
   * Will MoonPy be compatible with Moonbase Commander?
   No.
@@ -33,3 +33,6 @@
 
   * How can I help out with the project?
   Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/project-tether introduce yourself].
+
+  * I've been looking through the source code and keep seeing mention of openRTS, is project tether a part of openRTS?
+  openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of moon.py. openRTS happens to be the single biggest source of code integrated into moon.py. 
