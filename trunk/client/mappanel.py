@@ -19,6 +19,9 @@ from pygame.locals import *
 import gui
 
 from minimap import *
+from common.game import *
+from common.ruleset import *
+from common.settings import *
 
 #****************************************************************************
 # The Mappanel has the minimap, chatline etc. 
@@ -27,6 +30,12 @@ class Mappanel:
 
   def __init__(self, clientstate):
     self.client = clientstate;
+
+    self.settings = GameSettings();
+    ruleset_src = self.settings.get_ruleset_src(self.settings.ruleset_name);
+    self.ruleset = Ruleset(ruleset_src);
+    self.map = Map(self);
+    self.game = Game(self.map, self.ruleset);
 
     self.app = gui.App();
     self.app.connect(gui.QUIT, self.app.quit, None);
@@ -184,7 +193,7 @@ class Mappanel:
     #following is ugly hack just to get things going
     self.firepower = self.firepower + 1;
     print('firepower = ', self.firepower);
-
+    self.game.create_unit('drone', (25, 25));
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.

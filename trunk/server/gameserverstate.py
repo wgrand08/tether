@@ -49,11 +49,11 @@ class ServerState:
 
       #FIXME: These are just for tests.
 
-      self.game.create_unit('drone', (20,22));
-      self.game.create_unit('drone', (25,25));
-      self.game.create_unit('drone', (40,12));
-      self.game.create_unit('drone', (70,80));
-      self.game.create_unit('drone', (64,82));
+      self.game.create_unit('hub', (20,22));
+      #self.game.create_unit('drone', (25,25));
+      #self.game.create_unit('drone', (40,12));
+      #self.game.create_unit('drone', (70,80));
+      #self.game.create_unit('drone', (64,82));
 
       #Initialize main loop callback.
       self.loop = task.LoopingCall(self.mainloop);
