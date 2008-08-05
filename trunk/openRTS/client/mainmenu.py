@@ -75,22 +75,22 @@ class MainMenu:
                               self.client.screen.get_height() / 2 - 100);
     container.add(intro_label, self.client.screen.get_width() / 2 - 65,
                               self.client.screen.get_height() * 0.315);
-    container.add(tip_label, self.client.screen.get_width() * 0.3,
-                              self.client.screen.get_height() * 0.71);
-    container.add(self.get_tip_of_the_day(), self.client.screen.get_width() * 0.3,
-                              self.client.screen.get_height() * 0.74);
+    #container.add(tip_label, self.client.screen.get_width() * 0.3,
+                              #self.client.screen.get_height() * 0.71);
+    #container.add(self.get_tip_of_the_day(), self.client.screen.get_width() * 0.3,
+                              #self.client.screen.get_height() * 0.74);
 
     self.app.run(container);
 
 #****************************************************************************
 #  Each tip must not be more than 80 characters (fit on one line). 
 #****************************************************************************
-  def get_tip_of_the_day(self):
+  """def get_tip_of_the_day(self):
     tips = [];
     tips.append(_("To get updates of OpenRTS, visit www.openrts.org."));
     tips.append(_("OpenRTS is licensed under the GNU General Public License."));
     tips.append(_("The game can be translated to several languages."));
-    return gui.Label(choice(tips)); 
+    return gui.Label(choice(tips)); """
 
 #****************************************************************************
 #  Start a network game.
