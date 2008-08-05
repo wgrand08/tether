@@ -68,7 +68,7 @@ class Mappanel:
 
     self.firebutton = gui.Button(_(" Fire "));
     container.add(self.firebutton, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.7);
-    self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.firebutton, None);
+    self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_firebutton, None);
 
     self.rotate_leftbutton = gui.Button(_("  <  "));
     container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.65);
@@ -78,7 +78,8 @@ class Mappanel:
     container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.65);
     self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None);
 
-    self.rotate_position = 0
+    self.rotate_position = 0;
+    self.firepower = 0;
     self.rotate_display = gui.Label(_(str(self.rotate_position)));
     container.add(self.rotate_display, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.3);
 
@@ -171,16 +172,18 @@ class Mappanel:
     self.rotate_position = self.rotate_position + 1;
     if (self.rotate_position > 360):
         self.rotate_position = 0;
-    print(self.rotate_position);
+    print('rotate = ', self.rotate_position);
 
   def rotateleft(self, obj):
     self.rotate_position = self.rotate_position - 1;
     if (self.rotate_position < 0):
         self.rotate_position = 360;
-    print(self.rotate_position);
+    print('rotate = ', self.rotate_position);
 
-  def firebutton(self, obj):
-    print("BOOM!!!");
+  def use_firebutton(self, obj):
+    #following is ugly hack just to get things going
+    self.firepower = self.firepower + 1;
+    print('firepower = ', self.firepower);
 
 
 #****************************************************************************
