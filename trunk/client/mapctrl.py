@@ -57,6 +57,9 @@ class Mapctrl:
   def handle_mouse_click(self, pos, button):
     if button == 1:
       (x, y) = pos; 
+      """map_pos = self.client.mapview.canvas_to_map((x, y));
+      end_tile = self.client.map.get_tile(map_pos);
+      print("end tile = ", end_tile);"""
       if self.mouse_state == "default":
         self.select_pos_start = pygame.mouse.get_pos(); 
         self.select_pos_end = pygame.mouse.get_pos(); 
@@ -134,7 +137,8 @@ class Mapctrl:
         unit = self.client.map.get_unit(map_pos);
         if unit: 
           self.client.selected_unit.update({map_pos:unit});
-          self.set_mouse_state('goto');
+          print("start maptile = ", self.client.map.get_tile_from_unit(unit));
+          #self.set_mouse_state('goto');
         yy += 1;
         y += inc_y;
         xx += 1;
