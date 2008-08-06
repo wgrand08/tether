@@ -22,7 +22,7 @@ class Mapctrl:
 
   def __init__(self, gameclient):
     self.client = gameclient;
-    self.selected_units = {};
+    #self.selected_units = {};
     self.mouse_state = "default";
 
 #****************************************************************************
@@ -83,7 +83,7 @@ class Mapctrl:
   def handle_goto(self, canvas_x, canvas_y):
     self.set_mouse_state('default');
     map_pos = self.client.mapview.canvas_to_map((canvas_x, canvas_y));
-    for unit in self.selected_units.values():
+    for unit in self.client.selected_unit.values():
       logging.info("Selected unit id %r" % unit.id);
       start_tile = self.client.map.get_tile_from_unit(unit);
       end_tile = self.client.map.get_tile(map_pos);
@@ -110,7 +110,7 @@ class Mapctrl:
     rec_h = y2 - y1;
     segments_x = abs(rec_w/ half_w);
     segments_y = abs(rec_h/ half_h);
-    self.selected_units = {};
+    self.client.selected_unit = {};
 
     self.set_mouse_state('default')         
   
@@ -133,13 +133,13 @@ class Mapctrl:
         map_pos = self.client.mapview.canvas_to_map((x, y));
         unit = self.client.map.get_unit(map_pos);
         if unit: 
-          self.selected_units.update({map_pos:unit});
+          self.client.selected_unit.update({map_pos:unit});
           self.set_mouse_state('goto');
         yy += 1;
         y += inc_y;
         xx += 1;
         x += inc_x;
-    logging.info("Selected %r units" % len(self.selected_units.values()));
+    logging.info("Selected %r units" % len(self.selected_unit.values()));
 
 
 #****************************************************************************
