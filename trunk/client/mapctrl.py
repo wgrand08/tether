@@ -63,7 +63,8 @@ class Mapctrl:
         self.set_mouse_state('select');
       
         """if self.mouse_state == 'goto':
-        self.handle_goto(x, y); """
+          self.handle_goto(x, y); """
+          
     elif button == 3:
       map_pos = self.client.mapview.canvas_to_map(pos); 
       self.client.mapview.center_view_on_tile(map_pos);
@@ -134,7 +135,7 @@ class Mapctrl:
         unit = self.client.map.get_unit(map_pos);
         if unit: 
           self.selected_units.update({map_pos:unit});
-          self.set_mouse_state('goto');
+          #self.set_mouse_state('goto');
         yy += 1;
         y += inc_y;
         xx += 1;
@@ -160,10 +161,11 @@ class Mapctrl:
 #****************************************************************************
   def set_mouse_state(self, state):
 
-    if state == 'default':
+    """if state == 'default':
       self.client.mapview.cursor.disable();
     else:
-      self.client.mapview.cursor.set_cursor_type(state);
-
+      self.client.mapview.cursor.set_cursor_type(state);"""
+    self.client.mapview.cursor.disable();
+    print("mouse state = ", state);
     self.mouse_state = state;
 

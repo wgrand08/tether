@@ -19,10 +19,7 @@ from pygame.locals import *
 import gui
 
 from minimap import *
-from common.game import *
-from common.ruleset import *
-from common.settings import *
-from common.map import *
+
 
 #****************************************************************************
 # The Mappanel has the minimap, chatline etc. 
@@ -32,19 +29,9 @@ class Mappanel:
   def __init__(self, clientstate):
     self.client = clientstate;
 
-    self.settings = GameSettings();
-    ruleset_src = self.settings.get_ruleset_src(self.settings.ruleset_name);
-    self.ruleset = Ruleset(ruleset_src);
-    self.map = Map(self);
-    self.game = Game(self.map, self.ruleset);
-
     self.app = gui.App();
     self.app.connect(gui.QUIT, self.app.quit, None);
     container = gui.Container(align=-1, valign=-1);
-
-    """test_label = gui.Label(_("This is a test"));
-    container.add(test_label, self.client.screen.get_width() * 0.3,
-                               self.client.screen.get_height() * 0.71);"""
 
 
     self.minimap_rect = pygame.Rect(self.client.screen_width - 124 , 9,
@@ -194,7 +181,7 @@ class Mappanel:
     #following is ugly hack just to get things going
     self.firepower = self.firepower + 1;
     print('firepower = ', self.firepower);
-    self.game.create_unit('hub', (25, 25));
+    #self.client.game.create_unit('hub', (25, 25));
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
