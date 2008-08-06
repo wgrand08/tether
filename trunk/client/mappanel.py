@@ -22,6 +22,7 @@ from minimap import *
 from common.game import *
 from common.ruleset import *
 from common.settings import *
+from common.map import *
 
 #****************************************************************************
 # The Mappanel has the minimap, chatline etc. 
@@ -193,7 +194,7 @@ class Mappanel:
     #following is ugly hack just to get things going
     self.firepower = self.firepower + 1;
     print('firepower = ', self.firepower);
-    self.game.create_unit('drone', (25, 25));
+    self.game.create_unit('hub', (25, 25));
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
