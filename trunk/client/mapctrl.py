@@ -38,8 +38,8 @@ class Mapctrl:
         self.client.mappanel.send_chat();
       elif event.type == KEYDOWN and event.key == K_f:
         logging.info(self.client.clock.get_fps());
-      #elif event.type == KEYDOWN and event.key == K_a:
-        #self.set_mouse_state('attack');
+      elif event.type == KEYDOWN and event.key == K_a:
+        self.set_mouse_state('attack');
       elif event.type == MOUSEBUTTONDOWN:
         self.handle_mouse_click(pygame.mouse.get_pos(), event.button);
       elif event.type == MOUSEBUTTONUP:
@@ -62,9 +62,8 @@ class Mapctrl:
         self.select_pos_end = pygame.mouse.get_pos(); 
         self.set_mouse_state('select');
       
-        """if self.mouse_state == 'goto':
-          self.handle_goto(x, y); """
-          
+      if self.mouse_state == 'goto':
+        self.handle_goto(x, y); 
     elif button == 3:
       map_pos = self.client.mapview.canvas_to_map(pos); 
       self.client.mapview.center_view_on_tile(map_pos);
@@ -135,7 +134,7 @@ class Mapctrl:
         unit = self.client.map.get_unit(map_pos);
         if unit: 
           self.selected_units.update({map_pos:unit});
-          #self.set_mouse_state('goto');
+          self.set_mouse_state('goto');
         yy += 1;
         y += inc_y;
         xx += 1;
@@ -166,6 +165,6 @@ class Mapctrl:
     else:
       self.client.mapview.cursor.set_cursor_type(state);"""
     self.client.mapview.cursor.disable();
-    print("mouse state = ", state);
     self.mouse_state = state;
+    print("mouse state = ", self.mouse_state);
 

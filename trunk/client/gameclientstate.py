@@ -46,6 +46,8 @@ class GameClientState:
     self.fps = 40;
     self.loop = task.LoopingCall(self.mainloop);
 
+    self.selected_unit = {};
+
 
 
 #****************************************************************************
