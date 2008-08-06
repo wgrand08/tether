@@ -139,7 +139,7 @@ class Mapctrl:
         y += inc_y;
         xx += 1;
         x += inc_x;
-    logging.info("Selected %r units" % len(self.selected_unit.values()));
+    logging.info("Selected %r units" % len(self.client.selected_unit.values()));
 
 
 #****************************************************************************
