@@ -21,7 +21,7 @@ from random import *
 from networkscreen import *
 import tileset
 
-import settings
+import settingsmenu
 
 #****************************************************************************
 # The MainMenu class shows buttons with choices for what game-mode
@@ -115,7 +115,7 @@ class MainMenu:
 #****************************************************************************
   def settings_menu(self, obj):
     self.app.quit();
-    settings.settings_menu();
+    settingsmenu.settings_menu();
 
 
 #****************************************************************************
