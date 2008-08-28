@@ -33,14 +33,14 @@ class Main:
     pygame.init();
   
     self.gameclient = GameClientState();    
-    logging.info("OpenRTS %s" % (self.gameclient.settings.version));
-    if self.gameclient.settings.psyco:
+    #logging.info("OpenRTS %s" % (self.gameclient.settings.version));
+    """if self.gameclient.settings.psyco:
       try:
         import psyco
         logging.info('Enabled "psyco" just-in-time Python compiler.')
         psyco.full()
       except ImportError:
-        logging.info('"Psyco" just-in-time Python compiler not found.');
+        logging.info('"Psyco" just-in-time Python compiler not found.');"""
 
 
     self.initialize_locale();

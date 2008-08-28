@@ -23,7 +23,7 @@ import logging
 #****************************************************************************
 class GameSettings:
 
-  def __init__(self):
+    """  def __init__(self):
     filename = os.path.join('data', 'settings.xml');
     self.rulesets = {};
 
@@ -60,5 +60,84 @@ class GameSettings:
 
   def get_ruleset_src(self, rulesetname):
     return self.rulesets[rulesetname];
+    """
+    def __init__(self):
+
+        self.dependent = False
+        self.clock = 1
+        self.version = 0.3
+        self.playername = ""
+        self.fullscreen = False
+        self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
+        self.theme = ""
+        self.appRunning = True
+        self.screenRunning = True
+        self.debug = False
+        self.moonPyApp = ""
+        self.activeScreen = ""
+        self.hostIP = "127.0.0.1"
+        self.playerID = 0
+        self.language = "en"
+
+        def load_settings():
+            badsettings = True
+            if os.path.exists("settings.cfg"):
+                settingsfile=open("settings.cfg", 'r')
+                for line in settingsfile:
+                    line=line.strip()
+                    if line == "" or line[0] == "#":
+                        continue
+                    input_array = line.split("=", 1)
+                    if input_array[0].strip() == "version":
+                        if int(input_array[1].strip()) == self.settingsversion: #checking file version to avoid incompatibilities
+                            badsettings = False #confirmation that file exists and has correct version
+                    if badsettings == False:
+                        if input_array[0].strip() == "fullscreen":
+                            if input_array[1].strip() == "True":
+                                self.FULLSCREEN = True
+                            elif input_array[1].strip() == "False":
+                                self.FULLSCREEN = False
+                        if input_array[0].strip() == "xres":
+                            self.WINDOW_XSIZE = int(input_array[1].strip())
+                        if input_array[0].strip() == "yres":
+                            self.WINDOW_YSIZE = int(input_array[1].strip())
+                        if input_array[0].strip() == "name":
+                            self.playername = input_array[1].strip()
+		        if input_array[0].strip() == "theme":
+		            self.theme = input_array[1].strip()
+            if badsettings == True:
+	            self.WINDOW_SIZE = self.WINDOW_XSIZE,self.WINDOW_YSIZE = 800,600;
+	            self.FULLSCREEN = False;
+	            self.playername = "Commander";
+	            self.theme = "default";
+	            save_settings();
+            else:
+                self.WINDOW_SIZE = self.WINDOW_XSIZE,self.WINDOW_YSIZE
+
+
+        def save_settings():
+	        savesettings=open("settings.cfg", 'w')
+	        savesettings.write("version="+str(self.settingsversion)+"\n")
+	        savesettings.write("fullscreen="+str(self.FULLSCREEN)+"\n")
+	        savesettings.write("xres="+str(self.WINDOW_XSIZE)+"\n")
+	        savesettings.write("yres="+str(self.WINDOW_YSIZE)+"\n")
+	        savesettings.write("name="+str(self.playername)+"\n")
+	        savesettings.write("theme="+str(self.theme)+"\n")
+
+
+        def endSettings():
+	        save_settings()
+	        self.moonPyApp.remove(self.activeScreen)
+	        self.screenRunning = False
+
+
+        def toggle_fullscreen():
+	        if self.FULLSCREEN == True:
+                	self.FULLSCREEN = False
+                	pygame.display.set_mode(self.WINDOW_SIZE)
+	        else:
+                	self.FULLSCREEN = True
+	                pygame.display.set_mode(self.WINDOW_SIZE, pygame.FULLSCREEN)
+	
 
 
