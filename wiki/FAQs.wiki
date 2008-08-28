@@ -35,4 +35,4 @@
   Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/project-tether introduce yourself].
 
   * I've been looking through the source code and keep seeing mention of openRTS, is project tether a part of openRTS?
-  openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of moon.py. openRTS happens to be the single biggest source of code integrated into moon.py. 
+  openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of moon.py. OpenRTS happens to currently be the single biggest source of code integrated into moon.py and so is the most obvious.
