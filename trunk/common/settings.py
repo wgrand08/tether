@@ -66,7 +66,7 @@ class GameSettings:
         self.dependent = False
         self.clock = 1
         self.version = 0.3
-        self.playername = ""
+        self.playername = "Commander"
         self.fullscreen = False
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
         self.theme = ""

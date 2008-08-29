@@ -48,13 +48,14 @@ class NetworkScreen:
 
     nickname_label = gui.Label(_("Username:"));
     table.add(nickname_label,0,1);
-    self.nickname_input = gui.Input(_("Player"));
+    self.nickname_input = gui.Input(_(self.client.settings.playername));
     table.add(self.nickname_input,1,1);
     table.add(gui.Widget(width=1, height=5), 0, 2);
 
     hostname_label = gui.Label(_("Server address:"));
     table.add(hostname_label,0,2);
-    self.hostname_input = gui.Input(_("localhost"));
+    #self.hostname_input = gui.Input(_("localhost"));
+    self.hostname_input = gui.Input(_(self.client.settings.hostIP));
     table.add(self.hostname_input,1,2);
     table.add(gui.Widget(width=1, height=5), 0, 3);
 
@@ -95,7 +96,7 @@ class NetworkScreen:
 
     nickname_label = gui.Label(_("Username:"));
     table.add(nickname_label,0,1);
-    self.nickname_input = gui.Input(_("Player"));
+    self.nickname_input = gui.Input(_(self.client.settings.playername));
     table.add(self.nickname_input,1,1);
     table.add(gui.Widget(width=1, height=5), 0, 2);
 
