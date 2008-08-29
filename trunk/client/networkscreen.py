@@ -54,7 +54,6 @@ class NetworkScreen:
 
     hostname_label = gui.Label(_("Server address:"));
     table.add(hostname_label,0,2);
-    #self.hostname_input = gui.Input(_("localhost"));
     self.hostname_input = gui.Input(_(self.client.settings.hostIP));
     table.add(self.hostname_input,1,2);
     table.add(gui.Widget(width=1, height=5), 0, 3);
@@ -128,6 +127,7 @@ class NetworkScreen:
   def connect_callback(self, obj):
     server = self.hostname_input.value;
     nick = self.nickname_input.value;
+    self.client.settings.hostIP = server;
     self.app.quit();
     self.client.connect_network_game(server, nick);
 

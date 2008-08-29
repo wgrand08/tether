@@ -78,6 +78,7 @@ class GameSettings:
         self.hostIP = "127.0.0.1"
         self.playerID = 0
         self.language = "en"
+        self.psyco = True
 
         def load_settings():
             badsettings = True
