@@ -26,10 +26,27 @@ class SettingsScreen:
         self.client = client;
 
     def settings_menu(self):
-        print("settings menu placeholder");
         self.app = gui.Desktop();
         self.app.connect(gui.QUIT, self.app.quit, None);
-        self.quit_settings_menu()
+        container = gui.Container(align=-1, valign=-1);
+        table = gui.Table(width=300, height=220);
+        table.add(gui.Widget(),0,0);
+
+        nickname_label = gui.Label(_("Username:"));
+        table.add(nickname_label,0,1);
+        self.nickname_input = gui.Input(_(self.client.settings.playername));
+        table.add(self.nickname_input,1,1);
+        table.add(gui.Widget(width=1, height=5), 0, 2);
+
+        cancel_button = gui.Button(_("Cancel"));
+        cancel_button.connect(gui.CLICK, self.quit_settings_menu, None);
+        table.add(cancel_button, 200,200)
+
+        container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0);
+        container.add(table, self.client.screen.get_width() / 2 - 150, self.client.screen.get_height() / 2 - 120);
+
+        self.app.run(container);
+        #self.quit_settings_menu()
 
     def quit_settings_menu(self):
         self.app.quit();
