@@ -56,6 +56,7 @@ class MainMenu:
     menu_table.add(gui.Widget(width=1, height=5), 0, 5);
 
     settings_button = gui.Button(_("Settings"));
+    settings_button.connect(gui.CLICK, self.settings_menu, None);
     menu_table.add(settings_button, 0, 6);
     menu_table.add(gui.Widget(width=1, height=5), 0, 7);
 

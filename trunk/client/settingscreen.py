@@ -18,11 +18,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import pygame
 import os
+import gui
+import mainmenu
 
 class SettingsScreen:
-  def __init__(self, client):
+    def __init__(self, client):
+        self.client = client;
 
-    self.client = client;
+    def settings_menu(self):
+        print("settings menu placeholder");
+        self.app = gui.Desktop();
+        self.app.connect(gui.QUIT, self.app.quit, None);
+        self.quit_settings_menu()
 
-    def settings_menu():
-        print("placeholder");
+    def quit_settings_menu(self):
+        self.app.quit();
+        mainmenu.MainMenu(self.client);

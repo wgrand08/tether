@@ -72,7 +72,6 @@ class GameSettings:
         self.hostIP = "127.0.0.1"
         self.playerID = 0
         self.language = "en"
-        self.psyco = False
 
 
     def get_ruleset_src(self, rulesetname):

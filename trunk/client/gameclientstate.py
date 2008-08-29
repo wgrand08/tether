@@ -45,6 +45,7 @@ class GameClientState:
     self.clock = pygame.time.Clock();
     self.fps = 40;
     self.loop = task.LoopingCall(self.mainloop);
+    self.placed = False;
 
     self.selected_unit = {};
 
@@ -80,7 +81,7 @@ class GameClientState:
 #****************************************************************************
   def game_next_phase(self):
     if self.game:
-      self.game.game_next_phase();
+        self.game.game_next_phase();
 
 #****************************************************************************
 #
