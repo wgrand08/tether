@@ -8,9 +8,9 @@ This game requires Python2.4 and Pygame in order to run successfully. Here are t
 http://www.python.org/download/
 http://www.pygame.org/download.shtml
 
-This game also requires having the python imaging library (PIL) installed. On linux this can generally be installed through your distros repository. For windows and osX we have included the PIL binary installers. 
+This game also requires having the python imaging library (PIL) installed. On linux this can generally be installed through your distros repository. For windows and osX we have included the PIL binary installers on our downloads page. 
 
-*WARNING* The latest version of Python, Python2.5, does not work with MoonPy and has resulted in partially locking up computer systems during testing. Do not use MoonPy with other versions of Python besides 2.4.
+*WARNING* Because some of MoonPy's dependencies do not work with Python2.5 on osX we specifically design and test MoonPy to work with Python2.4 only. Be aware that while MoonPy may work with Python2.5 we do not recommend doing this.
 
 RUNNING Moon.Py
 ---------------------
