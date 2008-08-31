@@ -48,8 +48,9 @@ class NetworkScreen:
 
     nickname_label = gui.Label(_("Username:"));
     table.add(nickname_label,0,1);
-    self.nickname_input = gui.Input(_(self.client.settings.playername));
-    table.add(self.nickname_input,1,1);
+
+    playername_label = gui.Label(_(self.client.settings.playername));
+    table.add(playername_label,1,1);
     table.add(gui.Widget(width=1, height=5), 0, 2);
 
     hostname_label = gui.Label(_("Server address:"));
@@ -95,8 +96,8 @@ class NetworkScreen:
 
     nickname_label = gui.Label(_("Username:"));
     table.add(nickname_label,0,1);
-    self.nickname_input = gui.Input(_(self.client.settings.playername));
-    table.add(self.nickname_input,1,1);
+    playername_label = gui.Label(_(self.client.settings.playername));
+    table.add(playername_label,1,1);
     table.add(gui.Widget(width=1, height=5), 0, 2);
 
     connect_button = gui.Button(_("Start Hosting"));
@@ -126,7 +127,7 @@ class NetworkScreen:
 #****************************************************************************
   def connect_callback(self, obj):
     server = self.hostname_input.value;
-    nick = self.nickname_input.value;
+    nick = self.client.settings.playername;
     self.client.settings.hostIP = server;
     self.app.quit();
     self.client.connect_network_game(server, nick);
@@ -136,7 +137,7 @@ class NetworkScreen:
 #
 #****************************************************************************
   def host_callback(self, obj):
-    nick = self.nickname_input.value;
+    nick = self.client.settings.playername;
     self.app.quit();
     self.client.host_network_game("localhost", nick);
    

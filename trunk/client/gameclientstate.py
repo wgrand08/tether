@@ -32,6 +32,7 @@ class GameClientState:
 
 
     self.settings = GameSettings();
+    self.settings.load_settings();
     self.screen_width = self.settings.screen_width;
     self.screen_height = self.settings.screen_height;
     self.screen = None;
@@ -129,7 +130,7 @@ class GameClientState:
 #
 #****************************************************************************
   def enter_pregame(self):
-    import networkscreen 
+    import networkscreen
     self.pregame = networkscreen.PregameScreen(self); 
 
 

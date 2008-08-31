@@ -38,16 +38,32 @@ class SettingsScreen:
         table.add(self.nickname_input,1,1);
         table.add(gui.Widget(width=1, height=5), 0, 2);
 
+
         cancel_button = gui.Button(_("Cancel"));
-        cancel_button.connect(gui.CLICK, self.quit_settings_menu, None);
-        table.add(cancel_button, 200,200)
+        cancel_button.connect(gui.CLICK, self.cancel_settings, None);
+        #table.add(cancel_button, 1,2);
+
+        ok_button = gui.Button(_("Ok"));
+        ok_button.connect(gui.CLICK, self.accept_settings, None);
+        #table.add(ok_button, 2, 2);
+
+        table.add(gui.Widget(), 0, 4);
+        sub_table = gui.Table(width=140, height=35);
+        table.add(sub_table, 1, 4);
+        sub_table.add(cancel_button, 0,0);
+        sub_table.add(ok_button, 1,0);
 
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0);
         container.add(table, self.client.screen.get_width() / 2 - 150, self.client.screen.get_height() / 2 - 120);
 
         self.app.run(container);
-        #self.quit_settings_menu()
 
-    def quit_settings_menu(self):
+    def cancel_settings(self, obj):
+        self.app.quit();
+        mainmenu.MainMenu(self.client);
+
+    def accept_settings(self, obj):
+        self.client.settings.playername = self.nickname_input.value;
+        self.client.settings.save_settings();
         self.app.quit();
         mainmenu.MainMenu(self.client);
