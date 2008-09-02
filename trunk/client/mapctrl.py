@@ -86,11 +86,14 @@ class Mapctrl:
   def handle_goto(self, canvas_x, canvas_y):
     self.set_mouse_state('default');
     map_pos = self.client.mapview.canvas_to_map((canvas_x, canvas_y));
+
     for unit in self.client.selected_unit.values():
       logging.info("Selected unit id %r" % unit.id);
       start_tile = self.client.map.get_tile_from_unit(unit);
       end_tile = self.client.map.get_tile(map_pos);
       logging.info("dist %r" % self.client.map.get_distance(start_tile, end_tile));
+      print("start tile = ", start_tile);
+      print("end tile = ", end_tile);
       if self.client.map.get_distance(start_tile, end_tile) > 40:
         logging.info("Distance is too long.");
         return;
@@ -138,7 +141,7 @@ class Mapctrl:
         if unit: 
           self.client.selected_unit.update({map_pos:unit});
           print("start maptile = ", self.client.map.get_tile_from_unit(unit));
-          #self.set_mouse_state('goto');
+          self.set_mouse_state('goto');
         yy += 1;
         y += inc_y;
         xx += 1;

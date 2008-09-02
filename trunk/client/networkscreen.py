@@ -209,7 +209,7 @@ class PregameScreen:
     container.add(self.message_label, self.client.screen.get_width() / 2 - 160,
                               self.client.screen.get_height() * 0.315);
 
-    self.message_out.write("Connected sucessfully to OpenRTS server.");
+    self.message_out.write("Connected sucessfully to MoonPy server.");
 
     self.app.init(container);
     self.loop = task.LoopingCall(self.pregame_loop);

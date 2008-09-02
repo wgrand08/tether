@@ -181,7 +181,8 @@ class Mappanel:
     #following is ugly hack just to get things going
     self.firepower = self.firepower + 1;
     print('firepower = ', self.firepower);
-    #self.client.game.create_unit("hub", (25, 25));
+    self.client.game.create_unit('hub', (25, 25));
+
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
