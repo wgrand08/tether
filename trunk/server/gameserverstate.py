@@ -50,7 +50,7 @@ class ServerState:
       #FIXME: These are just for tests.
 
       self.game.create_unit('hub', (20,22));
-      self.game.create_unit('hub', (25,25));
+      #self.game.create_unit('hub', (25,25));
       #self.game.create_unit('hub', (40,12));
       #self.game.create_unit('hub', (70,80));
       #self.game.create_unit('hub', (64,82));

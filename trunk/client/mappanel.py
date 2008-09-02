@@ -182,7 +182,6 @@ class Mappanel:
     self.firepower = self.firepower + 1;
     print('firepower = ', self.firepower);
 
-
 #****************************************************************************
 # Hack, to scroll to the latest new message.
 #****************************************************************************
