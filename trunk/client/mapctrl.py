@@ -141,7 +141,7 @@ class Mapctrl:
         if unit: 
           self.client.selected_unit.update({map_pos:unit});
           print("start maptile = ", self.client.map.get_tile_from_unit(unit));
-          self.set_mouse_state('goto');
+          #self.set_mouse_state('goto');
         yy += 1;
         y += inc_y;
         xx += 1;
