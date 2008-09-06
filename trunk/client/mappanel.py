@@ -166,22 +166,25 @@ class Mappanel:
 # Handle button inputs
 #****************************************************************************
   def rotateright(self, obj):
-    self.rotate_position = self.rotate_position + 1;
-    if (self.rotate_position > 360):
-        self.rotate_position = 0;
-    print('rotate = ', self.rotate_position);
+    if self.client.myturn == True:
+        self.rotate_position = self.rotate_position + 1;
+        if (self.rotate_position > 360):
+            self.rotate_position = 0;
+        print('rotate = ', self.rotate_position);
 
   def rotateleft(self, obj):
-    self.rotate_position = self.rotate_position - 1;
-    if (self.rotate_position < 0):
-        self.rotate_position = 360;
-    print('rotate = ', self.rotate_position);
+    if self.client.myturn == True:
+        self.rotate_position = self.rotate_position - 1;
+        if (self.rotate_position < 0):
+            self.rotate_position = 360;
+        print('rotate = ', self.rotate_position);
 
   def use_firebutton(self, obj):
     #following is ugly hack just to get things going
-    self.firepower = self.firepower + 1;
-    print('firepower = ', self.firepower);
-    #self.client.game.create_unit('hub', (25,25));
+    if self.client.myturn == True:
+        self.firepower = self.firepower + 1;
+        print('firepower = ', self.firepower);
+        #self.client.game.create_unit('hub', (25,25));
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.

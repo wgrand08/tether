@@ -47,6 +47,7 @@ class GameClientState:
     self.fps = 40;
     self.loop = task.LoopingCall(self.mainloop);
     self.placed = False;
+    self.myturn = True;
 
     self.selected_unit = {};
 

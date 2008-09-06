@@ -67,6 +67,7 @@ class Mapctrl:
       
             if self.mouse_state == 'goto':
                 self.handle_goto(x, y); 
+                self.set_mouse_state('default');
         elif button == 3:
             map_pos = self.client.mapview.canvas_to_map(pos); 
             self.client.mapview.center_view_on_tile(map_pos);
