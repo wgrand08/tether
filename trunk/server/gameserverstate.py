@@ -50,10 +50,10 @@ class ServerState:
       #FIXME: These are just for tests.
 
       self.game.create_unit('hub', (20,22));
-      #self.game.create_unit('hub', (25,25));
-      #self.game.create_unit('hub', (40,12));
-      #self.game.create_unit('hub', (70,80));
-      #self.game.create_unit('hub', (64,82));
+      self.game.create_unit('hub', (25,25));
+      self.game.create_unit('hub', (40,12));
+      self.game.create_unit('hub', (70,80));
+      self.game.create_unit('hub', (64,82));
       self.ooga = 0;
 
       #Initialize main loop callback.
@@ -65,10 +65,10 @@ class ServerState:
 # This method is called every second.
 #****************************************************************************
   def mainloop(self):
-    if (self.ooga == 0):
+    """if (self.ooga == 0):
         self.game.create_unit('hub', (25,25));
     self.ooga = self.ooga + 1;
-    print ("ooga = ", self.ooga);
+    print ("ooga = ", self.ooga);"""
     self.connections.remote_all('network_sync');
 
 #****************************************************************************
