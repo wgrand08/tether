@@ -48,6 +48,8 @@ class GameClientState:
     self.loop = task.LoopingCall(self.mainloop);
     self.placed = False;
     self.myturn = True;
+    self.current_energy = 0;
+    self.stored_energy = 0;
 
     self.selected_unit = {};
 
