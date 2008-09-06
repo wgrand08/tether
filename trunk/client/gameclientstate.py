@@ -98,7 +98,9 @@ class GameClientState:
 #****************************************************************************
   def start_game(self):
     logging.info("Init game state")
-    self.game = Game(self.map, self.ruleset);
+    #ruleset_src = self.settings.get_ruleset_src(self.settings.ruleset_name);
+    #self.ruleset = Ruleset(ruleset_src);
+    #self.game = Game(self.map, self.ruleset);
 
     self.tileset.load_tileset();
     self.mapctrl = Mapctrl(self);
