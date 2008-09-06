@@ -24,38 +24,26 @@ import logging
 class GameSettings:
 
     def __init__(self):
-        filename = os.path.join('data', 'settings.xml');
         self.rulesets = {};
 
-        doc = minidom.parse(filename);
-        rootNode = doc.documentElement;
+        self.version = 0.2; #settingNode.getAttribute('version');
 
-        settingNode = rootNode.getElementsByTagName('openrts').item(0);
-        self.version = settingNode.getAttribute('version');
+        self.fullscreen = False; #settingNode.getAttribute('enabled') == 'true';
 
-        settingNode = rootNode.getElementsByTagName('fullscreen').item(0);
-        self.fullscreen = settingNode.getAttribute('enabled') == 'true';
+        self.tileset = "data/graphics/tileset.xml"; #settingNode.getAttribute('src');
 
-        settingNode = rootNode.getElementsByTagName('tileset').item(0);
-        self.tileset = settingNode.getAttribute('src');
+        self.ruleset_name = "OpenRTS Default"; #settingNode.getAttribute('name');
 
-        settingNode = rootNode.getElementsByTagName('ruleset_default').item(0);
-        self.ruleset_name = settingNode.getAttribute('name');
+        rulesetname = "OpenRTS Default"; #settingNode.getAttribute('name');
+        rulesetsrc = "data/ruleset/ruleset.xml"; #settingNode.getAttribute('src');
+        self.rulesets.update({rulesetname:rulesetsrc});
 
-        for settingNode in rootNode.getElementsByTagName('ruleset'):
-            rulesetname = settingNode.getAttribute('name');
-            rulesetsrc = settingNode.getAttribute('src');
-            self.rulesets.update({rulesetname:rulesetsrc});
+        self.screen_width = 1024; #int(settingNode.getAttribute('width'));
+        self.screen_height = 768; #int(settingNode.getAttribute('height'));
 
-        settingNode = rootNode.getElementsByTagName('screen').item(0);
-        self.screen_width = int(settingNode.getAttribute('width'));
-        self.screen_height = int(settingNode.getAttribute('height'));
+        self.language = "en" #settingNode.getAttribute('locale');
 
-        settingNode = rootNode.getElementsByTagName('language').item(0);
-        self.language = settingNode.getAttribute('locale');
-
-        settingNode = rootNode.getElementsByTagName('psyco-jit').item(0);
-        self.psyco = settingNode.getAttribute('enabled') == 'true';
+        self.psyco = "true"; #settingNode.getAttribute('enabled') == 'true';
 
         self.dependent = False;
         self.clock = 1;
