@@ -34,7 +34,7 @@ class GameSettings:
         self.version = settingNode.getAttribute('version');
 
         settingNode = rootNode.getElementsByTagName('fullscreen').item(0);
-        self.fullscreen = settingNode.getAttribute('enabled') == 'false';
+        self.fullscreen = settingNode.getAttribute('enabled') == 'true';
 
         settingNode = rootNode.getElementsByTagName('tileset').item(0);
         self.tileset = settingNode.getAttribute('src');
@@ -59,11 +59,10 @@ class GameSettings:
 
         self.dependent = False;
         self.clock = 1;
-        self.version = 0.3;
+        self.version = 0.31;
         self.playername = "Commander";
         self.fullscreen = False;
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768;
-        self.theme = "";
         self.appRunning = True;
         self.screenRunning = True;
         self.debug = False;
@@ -100,14 +99,8 @@ class GameSettings:
                     if input_array[0].strip() == "yres":
                         self.screen_height = int(input_array[1].strip());
                     if input_array[0].strip() == "name":
-                        self.playername = input_array[1].strip();
-                if input_array[0].strip() == "theme":
-                    self.theme = input_array[1].strip();
+                        self.playername = input_array[1].strip();
         if badsettings == True:
-            self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768;
-            self.fullscreen = False;
-            self.playername = "Commander";
-            self.theme = "default";
             self.save_settings();
         else:
             self.WINDOW_SIZE = self.screen_width,self.screen_height;
@@ -120,7 +113,6 @@ class GameSettings:
         self.savesettings.write("xres="+str(self.screen_width)+"\n");
         self.savesettings.write("yres="+str(self.screen_height)+"\n");
         self.savesettings.write("name="+str(self.playername)+"\n");
-        self.savesettings.write("theme="+str(self.theme)+"\n");
 
 
     def toggle_fullscreen():

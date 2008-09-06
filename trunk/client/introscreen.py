@@ -28,7 +28,6 @@ from time import sleep
 
 class IntroScreen:
   def __init__(self, screen):
-    pygame.display.set_caption("MoonPy")
     image = "data/graphics/Enceladus.png"
     screen = pygame.display.set_mode((500,500))
     try:

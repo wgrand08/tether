@@ -63,14 +63,10 @@ class Main:
   def create_main_window(self):
     screen_width = self.gameclient.settings.screen_width; 
     screen_height = self.gameclient.settings.screen_height; 
-#settings code is ultimately located in file common > settings.py
-    if (self.gameclient.settings.fullscreen):
-      screen_mode = pygame.FULLSCREEN;
-    else:
-      screen_mode = 0;
+    screen_mode = 0;
     screen = pygame.display.set_mode((screen_width, screen_height), screen_mode);
 
-    pygame.display.set_caption("OpenRTS %s" % (self.gameclient.settings.version));
+    pygame.display.set_caption("Welcome to MoonPy");
     self.gameclient.screen = screen;
 
 

@@ -30,7 +30,19 @@ from settingscreen import *
 class MainMenu:
   def __init__(self, client):
 
+
     self.client = client;
+
+    if (self.client.settings.fullscreen):
+      screen_mode = pygame.FULLSCREEN;
+    else:
+      screen_mode = 0;
+    screen_width = self.client.settings.screen_width; 
+    screen_height = self.client.settings.screen_height; 
+    screen = pygame.display.set_mode((screen_width, screen_height), screen_mode);
+    pygame.display.set_caption("MoonPy %s" % (self.client.settings.version));
+    self.client.screen = screen;
+
     self.app = gui.Desktop();
     self.app.connect(gui.QUIT, self.app.quit, None);
     container = gui.Container(align=-1, valign=-1);
@@ -69,7 +81,7 @@ class MainMenu:
     menu_table.add(quit_button, 0, 10);
 
     intro_label = gui.Label(_("Welcome to MoonPy"));
-    tip_label = gui.Label(_("Tip of the day:"));
+    #tip_label = gui.Label(_("Tip of the day:"));
 
     container.add(MenuBackground(client=self.client, 
                    width = self.client.screen.get_width(),
