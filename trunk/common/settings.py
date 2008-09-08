@@ -24,6 +24,7 @@ import logging
 class GameSettings:
 
     def __init__(self):
+        #following is leftover openRTS settings, they are being kept for now as removing them can create instabilities
         self.rulesets = {};
 
         self.version = 0.2; #settingNode.getAttribute('version');
@@ -44,6 +45,8 @@ class GameSettings:
         self.language = "en" #settingNode.getAttribute('locale');
 
         self.psyco = "true"; #settingNode.getAttribute('enabled') == 'true';
+
+        #following is real moonpy settings actually used by the game
 
         self.dependent = False;
         self.clock = 1;
@@ -101,13 +104,7 @@ class GameSettings:
         self.savesettings.write("xres="+str(self.screen_width)+"\n");
         self.savesettings.write("yres="+str(self.screen_height)+"\n");
         self.savesettings.write("name="+str(self.playername)+"\n");
-
-
-    def toggle_fullscreen():
-        if self.fullscreen == True:
-            self.fullscreen = False;
-            pygame.display.set_mode(self.WINDOW_SIZE);        else:
-            self.fullscreen = True;            pygame.display.set_mode(self.WINDOW_SIZE, pygame.FULLSCREEN);
+
 	
 
 
