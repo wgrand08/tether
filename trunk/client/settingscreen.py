@@ -42,11 +42,11 @@ class SettingsScreen:
         table.add(self.fullscreen_label, 0,2);
 
         if self.client.settings.fullscreen == True:
-            self.fullscreen_select = gui.Select(value="True");
+            self.fullscreen_select = gui.Select(value=True);
         else:
-            self.fullscreen_select = gui.Select(value="False");
-        self.fullscreen_select.add("True","True");
-        self.fullscreen_select.add("False","False");
+            self.fullscreen_select = gui.Select(value=False);
+        self.fullscreen_select.add("True",True);
+        self.fullscreen_select.add("False",False);
         table.add(self.fullscreen_select, 1,2);
 
         cancel_button = gui.Button(_("Cancel"));
