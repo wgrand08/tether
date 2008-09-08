@@ -71,6 +71,17 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
 #
 #****************************************************************************
+  def perspective_update_map(self):
+    self.state.add_unit();
+    net_map = self.network_prepare(self.state.map.mapstore); 
+    net_unit_list = self.network_prepare(self.state.map.unitstore); 
+    self.handler.remote_all('map', net_map);
+    self.handler.remote_all('unit_list', net_unit_list);
+    print("map updated");
+
+#****************************************************************************
+#
+#****************************************************************************
   def perspective_send_chat(self, data):
     message = self.conn_info.username + ": " + self.network_handle(data);
     self.handler.remote_all('chat', message);
@@ -128,6 +139,5 @@ class ConnectionHandler:
       return (pb.IPerspective, perspective, perspective.logout); 
     else:
       raise NotImplementedError("no interface");
-
 
 

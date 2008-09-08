@@ -184,6 +184,7 @@ class Mappanel:
     if self.client.myturn == True:
         self.firepower = self.firepower + 1;
         print('firepower = ', self.firepower);
+        self.client.netclient.test_update_map();
         #self.client.game.create_unit('hub', (25,25));
 
 #****************************************************************************

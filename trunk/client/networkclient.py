@@ -59,6 +59,9 @@ class NetworkClient(pb.Referenceable):
   def start_server_game(self):
     self.perspective.callRemote('init_game')
 
+  def test_update_map(self):
+    self.perspective.callRemote('update_map')
+
   def success(self, message):
     logging.info("Message received: %s" % message);
 

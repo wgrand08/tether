@@ -54,7 +54,7 @@ class ServerState:
       #self.game.create_unit('hub', (40,12));
       #self.game.create_unit('hub', (70,80));
       #self.game.create_unit('hub', (64,82));
-      self.ooga = 0;
+      self.serverloop = 0;
 
       #Initialize main loop callback.
       self.loop = task.LoopingCall(self.mainloop);
@@ -65,11 +65,13 @@ class ServerState:
 # This method is called every second.
 #****************************************************************************
   def mainloop(self):
-    """if (self.ooga == 0):
-        self.game.create_unit('hub', (25,25));
-    self.ooga = self.ooga + 1;
-    print ("ooga = ", self.ooga);"""
     self.connections.remote_all('network_sync');
+
+#****************************************************************************
+#
+#****************************************************************************
+  def add_unit(self):
+    self.game.create_unit('hub', (25,25));
 
 #****************************************************************************
 #
