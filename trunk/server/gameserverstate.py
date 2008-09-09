@@ -32,6 +32,8 @@ class ServerState:
   def __init__(self):
     self.settings = GameSettings();
     self.game = None; 
+    self.currentplayer = 1;
+    self.maxplayer = 1;
 
  
 #****************************************************************************
@@ -71,7 +73,9 @@ class ServerState:
 #
 #****************************************************************************
   def add_unit(self):
-    self.game.create_unit('hub', (25,25));
+    unit_type = 'hub';
+    unit_loc = (25,25);
+    self.game.create_unit(unit_type, unit_loc);
 
 #****************************************************************************
 #

@@ -55,6 +55,7 @@ class ClientPerspective(pb.Avatar):
       self.conn_info.username = username;
       join_message = "%s has joined the game" % username;
       self.handler.remote_all('chat', join_message);
+      self.state.maxplayer = self.state.maxplayer + 1;
       return "login_accept"; 
 
 #****************************************************************************
@@ -106,7 +107,7 @@ class ClientPerspective(pb.Avatar):
   def logout(self):
     logging.info("logged out");
     del self.handler.clients[self.conn_info.ref];
-
+    #need to add code to handle players that are no longer in the game
 
 
 #****************************************************************************
