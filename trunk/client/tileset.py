@@ -186,6 +186,7 @@ class Tileset:
         #  Crop tile from image.
         image = image.crop((x, y, x + width, y + height));
 
+        #color = (100, 100, 50);
         if color:
           data_orig = image.getdata();
           data_color = [];

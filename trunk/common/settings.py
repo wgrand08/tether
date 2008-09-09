@@ -24,32 +24,18 @@ import logging
 class GameSettings:
 
     def __init__(self):
-        #following is leftover openRTS settings, they are being kept for now as removing them can create instabilities
         self.rulesets = {};
 
-        self.version = 0.2; #settingNode.getAttribute('version');
-
-        self.fullscreen = False; #settingNode.getAttribute('enabled') == 'true';
-
-        self.tileset = "data/graphics/tileset.xml"; #settingNode.getAttribute('src');
-
-        self.ruleset_name = "OpenRTS Default"; #settingNode.getAttribute('name');
-
-        rulesetname = "OpenRTS Default"; #settingNode.getAttribute('name');
-        rulesetsrc = "data/ruleset/ruleset.xml"; #settingNode.getAttribute('src');
+        self.tileset = "data/graphics/tileset.xml"; 
+        self.ruleset_name = "MoonPy Default"; 
+        rulesetname = "MoonPy Default";
+        rulesetsrc = "data/ruleset/ruleset.xml"; 
         self.rulesets.update({rulesetname:rulesetsrc});
+        self.screen_width = 1024; 
+        self.screen_height = 768;
+        self.language = "en" 
+        self.psyco = "true";
 
-        self.screen_width = 1024; #int(settingNode.getAttribute('width'));
-        self.screen_height = 768; #int(settingNode.getAttribute('height'));
-
-        self.language = "en" #settingNode.getAttribute('locale');
-
-        self.psyco = "true"; #settingNode.getAttribute('enabled') == 'true';
-
-        #following is real moonpy settings actually used by the game
-
-        self.dependent = False;
-        self.clock = 1;
         self.version = 0.31;
         self.playername = "Commander";
         self.fullscreen = False;
@@ -57,8 +43,6 @@ class GameSettings:
         self.appRunning = True;
         self.screenRunning = True;
         self.debug = False;
-        self.moonPyApp = "";
-        self.activeScreen = "";
         self.hostIP = "127.0.0.1";
         self.playerID = 0;
         self.language = "en";

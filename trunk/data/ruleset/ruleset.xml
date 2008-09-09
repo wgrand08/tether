@@ -1,4 +1,4 @@
-<ruleset name="OpenRTS Default">
+<ruleset name="MoonPy Default">
   <terrain type="ocean" full_name="Ocean"/>
   <terrain type="plains" full_name="Plains"/>
   <terrain type="coast" full_name="Coast"/>
