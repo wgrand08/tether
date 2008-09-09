@@ -71,13 +71,19 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
 #
 #****************************************************************************
-  def perspective_update_map(self):
+  def perspective_end_turn(self):
     self.state.add_unit();
     net_map = self.network_prepare(self.state.map.mapstore); 
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
     self.handler.remote_all('unit_list', net_unit_list);
     print("map updated");
+
+#****************************************************************************
+#
+#****************************************************************************
+  def perspective_skip_round(self):
+    print("Round skipped");
 
 #****************************************************************************
 #
