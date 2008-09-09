@@ -33,7 +33,7 @@ class Main:
     pygame.init();
   
     self.gameclient = GameClientState();    
-    logging.info("OpenRTS %s" % (self.gameclient.settings.version));
+    logging.info("MoonPy %s" % (self.gameclient.settings.version));
     if self.gameclient.settings.psyco:
       try:
         import psyco
