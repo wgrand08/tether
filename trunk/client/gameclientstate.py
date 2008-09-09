@@ -94,7 +94,7 @@ class GameClientState:
 
     self.username = username;
     self.netclient = NetworkClient(self); 
-    self.netclient.connect(address, 9071, username);
+    self.netclient.connect(address, 6112, username);
 
 #****************************************************************************
 #

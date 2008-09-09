@@ -33,8 +33,6 @@ class ServerState:
     self.settings = GameSettings();
     self.game = None; 
     self.currentplayer = 1;
-    self.maxplayer = 1;
-
  
 #****************************************************************************
 #
@@ -56,7 +54,6 @@ class ServerState:
       #self.game.create_unit('hub', (40,12));
       #self.game.create_unit('hub', (70,80));
       #self.game.create_unit('hub', (64,82));
-      self.serverloop = 0;
 
       #Initialize main loop callback.
       self.loop = task.LoopingCall(self.mainloop);
@@ -78,13 +75,22 @@ class ServerState:
 #****************************************************************************
 #
 #****************************************************************************
+  def max_players(self, clients):
+    q = 0;
+    placeholder = 0
+    for q in clients:
+        placeholder = placeholder + 1;
+    return placeholder
+#****************************************************************************
+#
+#****************************************************************************
   def setup_network(self):
     self.connections = ConnectionHandler(self)
     portal = Portal(self.connections);
     checker = InMemoryUsernamePasswordDatabaseDontUse();
     checker.addUser("guest", "guest");
     portal.registerChecker(checker);
-    reactor.listenTCP(9071, pb.PBServerFactory(portal));
+    reactor.listenTCP(6112, pb.PBServerFactory(portal));
 
 #****************************************************************************
 #

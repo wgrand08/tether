@@ -53,9 +53,11 @@ class ClientPerspective(pb.Avatar):
       return "login_failed";
     else:
       self.conn_info.username = username;
+      self.conn_info.playerID = self.state.max_players(self.handler.clients);
       join_message = "%s has joined the game" % username;
       self.handler.remote_all('chat', join_message);
-      self.state.maxplayer = self.state.maxplayer + 1;
+      join_message = "as playerID %s" % self.conn_info.playerID;
+      self.handler.remote_all('chat', join_message);
       return "login_accept"; 
 
 #****************************************************************************
@@ -139,7 +141,8 @@ class ConnectionHandler:
     logging.info("Client connected.");
     if pb.IPerspective in interfaces:
       address = client_ref.broker.transport.getPeer()
-      conn_info = ConnInfo(client_ref, name, address);
+      playerID = 1;
+      conn_info = ConnInfo(client_ref, name, address, playerID);
       perspective = ClientPerspective(conn_info, self, self.state);
       self.clients[client_ref] = conn_info;
       return (pb.IPerspective, perspective, perspective.logout); 

@@ -59,7 +59,7 @@ class NetworkScreen:
     table.add(self.hostname_input,1,2);
     table.add(gui.Widget(width=1, height=5), 0, 3);
 
-    connect_button = gui.Button(_("Start"));
+    connect_button = gui.Button(_("Connect"));
     connect_button.connect(gui.CLICK, self.connect_callback, None);
     cancel_button = gui.Button(_("Cancel"));
     cancel_button.connect(gui.CLICK, self.cancel_callback, None);
