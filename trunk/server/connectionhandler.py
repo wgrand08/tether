@@ -72,13 +72,12 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
 #
 #****************************************************************************
-  def perspective_end_turn(self):
-    self.state.add_unit();
+  def perspective_end_turn(self, unit, coord):
+    self.state.add_unit(unit, coord);
     net_map = self.network_prepare(self.state.map.mapstore); 
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
     self.handler.remote_all('unit_list', net_unit_list);
-    print("map updated");
 
 #****************************************************************************
 #

@@ -59,8 +59,8 @@ class NetworkClient(pb.Referenceable):
   def start_server_game(self):
     self.perspective.callRemote('init_game')
 
-  def end_turn(self):
-    self.perspective.callRemote('end_turn')
+  def end_turn(self, unit, coord):
+    self.perspective.callRemote('end_turn', unit, coord)
 
   def skip_round(self):
     self.perspective.callRemote('skip_round')

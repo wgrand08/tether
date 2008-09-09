@@ -184,7 +184,7 @@ class Mappanel:
     if self.client.myturn == True:
         self.firepower = self.firepower + 1;
         print('firepower = ', self.firepower);
-        self.client.netclient.end_turn();
+        self.client.netclient.end_turn('hub', (25, 25));
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
