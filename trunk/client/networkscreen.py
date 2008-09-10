@@ -181,15 +181,15 @@ class PregameScreen:
 
     #self.chat_table.td(self.box);
 
-    #self.chat_table.tr();
+    self.chat_table.tr();
     self.line = gui.Input();
     self.line.style.width = width;
-    #self.chat_table.td(self.line)
+    self.chat_table.td(self.line)
 
-    #self.chat_table.tr()
+    self.chat_table.tr()
     #self.chat_table.td(MySpacer(1,1, self.box))
 
-    #table.add(self.chat_table, 0, 1);
+    table.add(self.chat_table, 0, 1);
     connect_button = gui.Button(_("Start Game"));
     connect_button.connect(gui.CLICK, self.start_callback);
     cancel_button = gui.Button(_("Cancel"));

@@ -52,7 +52,7 @@ class Mappanel:
     self.message_out = StringStream(self.lines);
     self.box = gui.ScrollArea(self.lines, self.msgview_rect.width, self.msgview_rect.height)
 
-    self.chat_table.td(self.box)
+    #self.chat_table.td(self.box)
 
     self.chat_table.tr()
     self.line = gui.Input()
@@ -61,7 +61,7 @@ class Mappanel:
     self.chat_table.td(self.line)
 
     self.chat_table.tr()
-    self.chat_table.td(MySpacer(1,1, self.box))
+    #self.chat_table.td(MySpacer(1,1, self.box))
 
     self.firebutton = gui.Button(_(" Fire "));
     container.add(self.firebutton, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.7);
