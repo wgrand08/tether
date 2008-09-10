@@ -131,8 +131,7 @@ class Tileset:
           key = name + dir + frame;
           sub_x = x + slotx * width + slotx;
           sub_y = y + sloty * height + sloty;
-          self.tileset_add_image(image_full, key, sub_x, 
-                                 sub_y, width, height, per_pixel_alpha, (255,10,10));
+          self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, (255,10,10));
 
       # Load bullet graphic
       for tileNode in fileNode.getElementsByTagName('bullet'):

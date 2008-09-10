@@ -75,7 +75,7 @@ class ClientPerspective(pb.Avatar):
 #
 #****************************************************************************
   def perspective_end_turn(self, unit, coord):
-    self.state.add_unit(unit, coord);
+    self.state.add_unit(unit, coord, self.conn_info.playerID);
     net_map = self.network_prepare(self.state.map.mapstore); 
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
@@ -141,7 +141,7 @@ class ConnectionHandler:
     logging.info("Client connected.");
     if pb.IPerspective in interfaces:
       address = client_ref.broker.transport.getPeer()
-      playerID = 1;
+      playerID = 0
       conn_info = ConnInfo(client_ref, name, address, playerID);
       perspective = ClientPerspective(conn_info, self, self.state);
       self.clients[client_ref] = conn_info;
