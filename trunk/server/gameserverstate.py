@@ -71,7 +71,7 @@ class ServerState:
 #****************************************************************************
   def add_unit(self, unit_type, unit_loc, playerID):
     print("player ", playerID, " added a unit");
-    self.game.create_unit(unit_type, unit_loc);
+    self.game.create_unit(unit_type, unit_loc, playerID);
 
 #****************************************************************************
 #

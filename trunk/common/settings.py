@@ -36,15 +36,14 @@ class GameSettings:
         self.language = "en" 
         self.psyco = "true";
 
-        self.version = 0.31;
+        self.version = 0.311;
         self.playername = "Commander";
         self.fullscreen = False;
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768;
         self.appRunning = True;
         self.screenRunning = True;
         self.debug = False;
-        self.hostIP = "127.0.0.1";
-        self.playerID = 0;
+        self.defaultIP = "127.0.0.1";
         self.language = "en";
 
 
