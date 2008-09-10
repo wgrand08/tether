@@ -187,7 +187,7 @@ class PregameScreen:
     self.chat_table.td(self.line)
 
     self.chat_table.tr()
-    #self.chat_table.td(MySpacer(1,1, self.box))
+    self.chat_table.td(MySpacer(1,1, self.box))
 
     table.add(self.chat_table, 0, 1);
     connect_button = gui.Button(_("Start Game"));
