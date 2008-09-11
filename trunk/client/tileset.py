@@ -131,7 +131,8 @@ class Tileset:
           key = name + dir + frame;
           sub_x = x + slotx * width + slotx;
           sub_y = y + sloty * height + sloty;
-          self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, (255,10,10));
+          color = (255,10,10);
+          self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);
 
       # Load bullet graphic
       for tileNode in fileNode.getElementsByTagName('bullet'):
@@ -185,7 +186,6 @@ class Tileset:
         #  Crop tile from image.
         image = image.crop((x, y, x + width, y + height));
 
-        #color = (100, 100, 50);
         if color:
           data_orig = image.getdata();
           data_color = [];
