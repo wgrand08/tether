@@ -36,7 +36,7 @@
  * simultaneous turns
  * vampire clamp (steals energy, EVIL IDEA!)
  * Scout unit (Balloon/crawler combo that flies around discovering map, limited duration?)
- * Arbitrary number of players? that way if you wanted you could have a 100 player game *grins*
+ * Arbitrary number of players? that way if you wanted you could have a 100 player game *grins* -- Because player color has to be uniquely designated for each player there will be a player limit cap. However we are planning to have the cap easily extended by simply adding more player colors into the code.
  * Undersea tether (extra cost?)
  * True spherical map (original moonbase was torus)
  * Full 3D map and buildings, allowing for camera rotation?
@@ -159,8 +159,6 @@ With OMBC you can see the 'energy' flow along the tethers and everything is inte
 
 Wireless aspects?
 This is similar to the energy production idea but if you figure any unconnected devices must transmist data wirelessly then that could be intercepted. Maybe if we have many 'untethered' objects we can have an option where those things can be 'detected' from their transmissions (radar building maybe?). Maybe along the lines that they show up in FoW no matter what. This would definitely be a variant since that would drastically affect the usage of balloons. 
-
-
 
 
 
