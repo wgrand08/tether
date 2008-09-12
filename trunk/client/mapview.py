@@ -109,6 +109,7 @@ class Mapview:
 
     gui_x, gui_y = self.map_to_gui(map_pos);
 
+    print("displayed playerID = ", unit.playerID);
     unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, unit.dir, unit.playerID);
 
     dx, dy = unit.offset;

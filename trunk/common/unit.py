@@ -17,9 +17,10 @@ import logging
 #
 #****************************************************************************
 class Unit:
-  def __init__(self, id, type):
+  def __init__(self, id, type, playerID):
     self.id = id;
-    self.type = type;       
+    self.type = type;
+    self.playerID = playerID;    
     self.dir = 3;
     self.owner = None;
     self.path = None;
@@ -28,7 +29,6 @@ class Unit:
     self.offset = (0,0);
     self.speed = (0,0);
     self.rotate = 3;
-    self.playerID = 0;
 
 #****************************************************************************
 #

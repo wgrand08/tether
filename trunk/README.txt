@@ -1,17 +1,18 @@
 Project Tether: MoonPy
-
 http://code.google.com/p/tether/
+
 
 REQUIREMENTS
 ---------------------
-This game requires Python2.4 and Pygame in order to run successfully. Here are the links for both:
-http://www.python.org/download/
-http://www.pygame.org/download.shtml
+This game requires Python2.5, Pygame1.8.1 or higher and PIL1.1.6 or higher in order to run successfully. The official websites for these are at:
+http://www.python.org
+http://www.pygame.org
+http://www.pythonware.com/products/pil/
 
-This game also requires having the python imaging library (PIL) installed. On linux this can generally be installed through your distros repository. For windows and osX we have included the PIL binary installers on our downloads page. 
+On linux these dependencies can be installed directly from repository on most distro's. On windows and osX these must be downloaded and installed from the internet. To assist users with verifying the correct version we host these files on our downloads page at:
+http://code.google.com/p/tether/downloads/list
 
-*WARNING* Because some of MoonPy's dependencies do not work with Python2.5 on osX we specifically design and test MoonPy to work with Python2.4 only. Be aware that while MoonPy may work with Python2.5 we do not recommend doing this.
 
 RUNNING Moon.Py
 ---------------------
-Simply run moon.py
+On all OS's simply run moon.py

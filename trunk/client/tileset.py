@@ -123,40 +123,24 @@ class Tileset:
         per_pixel_alpha = ("true" == str(tileNode.getAttribute('pixelalpha')));
         self.animstore.update({name: frames});
 
-        for frameNode in tileNode.getElementsByTagName('frame'):
-          slotx = int(frameNode.getAttribute('slot-x'));
-          sloty = int(frameNode.getAttribute('slot-y'));
-          dir = frameNode.getAttribute('dir');
-          frame = frameNode.getAttribute('anim_frame');
-          """for self.playerID in range(1,3): #setting up player colors
-            key = name + dir + frame + str(self.playerID);
-            sub_x = x + slotx * width + slotx;
-            sub_y = y + sloty * height + sloty;
-            if self.playerID == 1:
+        for playerNode in tileNode.getElementsByTagName('player'): #fixme: this isn't efficient as a player entry is required within each unit listing within tileset.xml for each unique player. 
+            playerID = playerNode.getAttribute('id');
+            tempcolor = playerNode.getAttribute('color');
+            if tempcolor == 'red':
                 color = (255,10,10);
-            elif self.playerID == 2:
+            elif tempcolor == 'brown':
                 color = (100,100,50);
-            self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);"""
-          self.playerID = 1;
-          key = name + dir + frame + str(self.playerID);
-          sub_x = x + slotx * width + slotx;
-          sub_y = y + sloty * height + sloty;
-          if self.playerID == 1:
-              color = (255,10,10);
-          elif self.playerID == 2:
-              color = (100,100,50);
-          self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);
-
-          self.playerID = 2;
-          key = name + dir + frame + str(self.playerID);
-          sub_x = x + slotx * width + slotx;
-          sub_y = y + sloty * height + sloty;
-          if self.playerID == 1:
-              color = (255,10,10);
-          elif self.playerID == 2:
-              color = (100,100,50);
-          self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);
-
+            else:
+                logging.error("Player color %s not configured" % (tempcolor));
+            for frameNode in playerNode.getElementsByTagName('frame'):
+              slotx = int(frameNode.getAttribute('slot-x'));
+              sloty = int(frameNode.getAttribute('slot-y'));
+              dir = frameNode.getAttribute('dir');
+              frame = frameNode.getAttribute('anim_frame');
+              key = name + dir + frame + playerID;
+              sub_x = x + slotx * width + slotx;
+              sub_y = y + sloty * height + sloty;
+              self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);
 
 
 
@@ -326,7 +310,6 @@ class Tileset:
   def get_unit_surf_from_tile(self, unit_sprite, dir, playerID):
     frames_max = self.animstore[unit_sprite];
     frame = int(self.animation_frame) % frames_max;
-    playerID = 1;
     tile_key = "%s%s%r%s" % (unit_sprite, dir, frame, playerID);
     try:
       return self.imagestore[tile_key];

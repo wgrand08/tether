@@ -45,5 +45,5 @@ class Game:
   def create_unit(self, unit_type_id, pos, playerID):
     self.unit_counter += 1;
     unit_type = self.ruleset.get_unit_type(unit_type_id);
-    self.map.set_unit(Unit(self.unit_counter, unit_type), pos, playerID);
+    self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos);
 

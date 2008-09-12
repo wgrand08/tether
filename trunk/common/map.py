@@ -136,7 +136,7 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-  def set_unit(self, unit, pos, playerID):
+  def set_unit(self, unit, pos):
     if self.get_unit(pos) == None:
       #ensure that the map position is empty.
       self.unitstore.update({unit.id:unit});
