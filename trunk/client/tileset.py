@@ -128,11 +128,37 @@ class Tileset:
           sloty = int(frameNode.getAttribute('slot-y'));
           dir = frameNode.getAttribute('dir');
           frame = frameNode.getAttribute('anim_frame');
-          key = name + dir + frame;
+          """for self.playerID in range(1,3): #setting up player colors
+            key = name + dir + frame + str(self.playerID);
+            sub_x = x + slotx * width + slotx;
+            sub_y = y + sloty * height + sloty;
+            if self.playerID == 1:
+                color = (255,10,10);
+            elif self.playerID == 2:
+                color = (100,100,50);
+            self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);"""
+          self.playerID = 1;
+          key = name + dir + frame + str(self.playerID);
           sub_x = x + slotx * width + slotx;
           sub_y = y + sloty * height + sloty;
-          color = (255,10,10);
+          if self.playerID == 1:
+              color = (255,10,10);
+          elif self.playerID == 2:
+              color = (100,100,50);
           self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);
+
+          self.playerID = 2;
+          key = name + dir + frame + str(self.playerID);
+          sub_x = x + slotx * width + slotx;
+          sub_y = y + sloty * height + sloty;
+          if self.playerID == 1:
+              color = (255,10,10);
+          elif self.playerID == 2:
+              color = (100,100,50);
+          self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color);
+
+
+
 
       # Load bullet graphic
       for tileNode in fileNode.getElementsByTagName('bullet'):
@@ -297,10 +323,11 @@ class Tileset:
 #****************************************************************************
 #
 #****************************************************************************
-  def get_unit_surf_from_tile(self, unit_sprite, dir):
+  def get_unit_surf_from_tile(self, unit_sprite, dir, playerID):
     frames_max = self.animstore[unit_sprite];
     frame = int(self.animation_frame) % frames_max;
-    tile_key = "%s%s%r" % (unit_sprite, dir, frame);
+    playerID = 1;
+    tile_key = "%s%s%r%s" % (unit_sprite, dir, frame, playerID);
     try:
       return self.imagestore[tile_key];
     except KeyError:
