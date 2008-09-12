@@ -5,6 +5,6 @@ moon.py is (sort of) at the alpha stage, the following is a list of what needs t
 
 = beta quality TODO list =
 
-  * Ability for at least 2 players to connect to the same game at once
+  * Ability for at least 2 players to connect to the same game at once - complete!
   * Ability for the main hub to fire basic bombs capable of dealing damage
   * Ability for hubs to launch other hubs with tethers connecting them
