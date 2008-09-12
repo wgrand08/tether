@@ -46,18 +46,18 @@
 ===Feature  implementation order:===
    ====Phase 1:====
     * Art assets 
-     # main hub thing
-     # chuckable hub
+     # main hub thing -- complete
+     # chuckable hub -- in progress
      # bomb
      # tether
-    * pure 2-d to start
+    * pure 2-d to start -- complete
     * text input for direction and power at first
     * algorithm for calculating shots
     * Top-down art?
     
    ====Phase 2:====
-    * Networking
-    * GUI
+    * Networking -- complete
+    * GUI -- complete
 
    ====Phase 3:====
     * Sound Effects
@@ -159,5 +159,3 @@ With OMBC you can see the 'energy' flow along the tethers and everything is inte
 
 Wireless aspects?
 This is similar to the energy production idea but if you figure any unconnected devices must transmist data wirelessly then that could be intercepted. Maybe if we have many 'untethered' objects we can have an option where those things can be 'detected' from their transmissions (radar building maybe?). Maybe along the lines that they show up in FoW no matter what. This would definitely be a variant since that would drastically affect the usage of balloons. 
-
-
