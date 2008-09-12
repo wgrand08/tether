@@ -93,8 +93,6 @@ class Mapctrl:
             start_tile = self.client.map.get_tile_from_unit(unit);
             end_tile = self.client.map.get_tile(map_pos);
             logging.info("dist %r" % self.client.map.get_distance(start_tile, end_tile));
-            print("start tile = ", start_tile);
-            print("end tile = ", end_tile);
             if self.client.map.get_distance(start_tile, end_tile) > 40:
                 logging.info("Distance is too long.");
                 return;
@@ -138,9 +136,9 @@ class Mapctrl:
                 map_pos = self.client.mapview.canvas_to_map((x, y));
                 unit = self.client.map.get_unit(map_pos);
                 if unit: 
-                    self.client.selected_unit.update({map_pos:unit});
-                    print("start maptile = ", self.client.map.get_tile_from_unit(unit));
-                    #self.set_mouse_state('goto');
+                    if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+                        self.client.selected_unit.update({map_pos:unit});
+                        self.set_mouse_state('goto'); #enable to test unit movement
                 yy += 1;
                 y += inc_y;
                 xx += 1;

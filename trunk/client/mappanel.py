@@ -184,7 +184,16 @@ class Mappanel:
     if self.client.myturn == True:
         self.firepower = self.firepower + 1;
         print('firepower = ', self.firepower);
-        self.client.netclient.end_turn('hub', (25, 25));
+        for unit in self.client.selected_unit.values():
+            start_tile = self.client.map.get_tile_from_unit(unit);
+            startX = start_tile.x + 1; #todo: calculate starting position based off rotation and firepower
+            startY = start_tile.y - 1;
+        endX = 25; #calculate endtile based off rotation and firepower
+        endY = 25;
+        self.client.netclient.end_turn('hub', (startX, startY));
+        start_tile = self.client.map.get_tile((startX, startY));
+        end_tile = self.client.map.get_tile((endX, endY));
+        self.client.map.find_path(unit, self.client.ruleset, start_tile, end_tile);
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
