@@ -126,4 +126,3 @@ class NetworkClient(pb.Referenceable):
     unit_id = self.network_handle(net_unit);
     unit = self.client.map.get_unit_from_id(unit_id);
     unit.path = path;
-

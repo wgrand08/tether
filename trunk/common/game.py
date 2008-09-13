@@ -28,8 +28,9 @@ class Game:
 #****************************************************************************
 #
 #****************************************************************************
-  def game_next_phase(self):
+  def game_next_phase(self): #this function does not appear to be running for some reason
     self.time = (self.time + 1) % 1024;
+    print("processing next phase");
     self.move_units();
 
 #****************************************************************************
@@ -37,6 +38,7 @@ class Game:
 #****************************************************************************
   def move_units(self):
    for unit in self.map.get_unit_list():
+     print("moving unit ", unit);
      self.map.move_unit(unit); 
 
 #****************************************************************************
