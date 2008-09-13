@@ -112,6 +112,12 @@ class NetworkClient(pb.Referenceable):
     logging.info("* Network sync");
     self.client.game_next_phase();
 
+  def remote_confirmation(self):
+    self.client.confirmed();
+
+  def remote_begin_turn(self):
+    self.client.myturn = True;
+
   def remote_unit_list(self, net_unit_list):
     self.client.map.unitstore = self.network_handle(net_unit_list);
 

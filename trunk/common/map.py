@@ -108,7 +108,6 @@ class Map:
 #****************************************************************************
   def move_unit(self, unit):
     current_tile = self.get_tile_from_unit(unit);
-    print("processing path");
     if unit.path:
       #Goto next tile in path.
       next_tile = self.get_tile(unit.path[0]);

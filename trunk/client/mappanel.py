@@ -52,7 +52,7 @@ class Mappanel:
     self.message_out = StringStream(self.lines);
     self.box = gui.ScrollArea(self.lines, self.msgview_rect.width, self.msgview_rect.height)
 
-    #self.chat_table.td(self.box)
+    self.chat_table.td(self.box) #this line is broken in windows
 
     self.chat_table.tr()
     self.line = gui.Input()
@@ -181,19 +181,23 @@ class Mappanel:
 
   def use_firebutton(self, obj):
     #following is ugly hack just to get things going
+    #self.client.netclient.end_turn('hub', (25, 22));
     if self.client.myturn == True:
         self.firepower = self.firepower + 1;
         print('firepower = ', self.firepower);
         for unit in self.client.selected_unit.values():
             start_tile = self.client.map.get_tile_from_unit(unit);
             startX = start_tile.x + 1; #todo: calculate starting position based off rotation and firepower
-            startY = start_tile.y - 1;
+            startY = start_tile.y;
         endX = 25; #calculate endtile based off rotation and firepower
-        endY = 25;
+        endY = 22;
         self.client.netclient.end_turn('hub', (startX, startY));
-        start_tile = self.client.map.get_tile((startX, startY));
-        end_tile = self.client.map.get_tile((endX, endY));
-        self.client.map.find_path(unit, self.client.ruleset, start_tile, end_tile);
+        #following is to give time for server to process network commands
+        self.client.process_confirmation = True;
+        self.client.conf_startX = startX;
+        self.client.conf_startY = startY;
+        self.client.conf_endX = endX;
+        self.client.conf_endY = endY;
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.

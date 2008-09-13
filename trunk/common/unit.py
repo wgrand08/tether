@@ -58,6 +58,7 @@ class Unit:
     if new_x == self.x + 1 and new_y == self.y:
       self.dir = 7; 
       self.offset = (-0.5, -0.5);
+    self.dir = 3;
     ox, oy = self.offset;
     self.speed = (-ox, -oy);
     #logging.info("unit dir %r" % (self.dir));

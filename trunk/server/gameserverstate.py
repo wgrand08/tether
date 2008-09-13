@@ -50,11 +50,7 @@ class ServerState:
       #FIXME: These are just for tests.
 
       self.game.create_unit('hub', (20,22), 1);
-      self.game.create_unit('hub', (25,22), 2);
-      #self.game.create_unit('hub', (25,25));
-      #self.game.create_unit('hub', (40,12));
-      #self.game.create_unit('hub', (70,80));
-      #self.game.create_unit('hub', (64,82));
+      #self.game.create_unit('hub', (25,22), 2);
 
       #Initialize main loop callback.
       self.loop = task.LoopingCall(self.mainloop);
@@ -71,7 +67,6 @@ class ServerState:
 #
 #****************************************************************************
   def add_unit(self, unit_type, unit_loc, playerID):
-    print("player ", playerID, " added a unit");
     self.game.create_unit(unit_type, unit_loc, playerID);
 
 #****************************************************************************

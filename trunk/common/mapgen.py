@@ -71,6 +71,7 @@ class MapGen:
       for y in range(self.map.ysize):
         tile = self.map.get_tile((x, y));
         if (int(heightmap_a[x,y]) == 0):
-          tile.type = self.ruleset.get_terrain_type('ocean');
+          #tile.type = self.ruleset.get_terrain_type('ocean'); #enable/disable water for debug purpose
+          tile.type = self.ruleset.get_terrain_type('plains');
         else:
           tile.type = self.ruleset.get_terrain_type('plains');

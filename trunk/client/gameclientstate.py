@@ -46,10 +46,14 @@ class GameClientState:
     self.clock = pygame.time.Clock();
     self.fps = 40;
     self.loop = task.LoopingCall(self.mainloop);
-    self.placed = False;
-    self.myturn = True;
+    self.process_confirmation = False;
+    self.myturn = True; #this needs to be changed to default false when turn system is implemented
     self.current_energy = 0;
     self.stored_energy = 0;
+    self.conf_startX = 0;
+    self.conf_startY = 0;
+    self.conf_endX = 0;
+    self.conf_endY = 0;
 
     self.selected_unit = {};
 
@@ -101,9 +105,7 @@ class GameClientState:
 #****************************************************************************
   def start_game(self):
     logging.info("Init game state")
-    #ruleset_src = self.settings.get_ruleset_src(self.settings.ruleset_name);
-    #self.ruleset = Ruleset(ruleset_src);
-    #self.game = Game(self.map, self.ruleset);
+    self.game = Game(self.map, self.ruleset);
 
     self.tileset.load_tileset();
     self.mapctrl = Mapctrl(self);
@@ -138,4 +140,20 @@ class GameClientState:
     import networkscreen
     self.pregame = networkscreen.PregameScreen(self); 
 
+#****************************************************************************
+#
+#****************************************************************************
+  def confirmed(self):
+    if self.process_confirmation == True:
+        self.conf_unit = self.map.get_unit((self.conf_startX, self.conf_startY));
+        start_tile = self.map.get_tile((self.conf_startX, self.conf_startY));
+        end_tile = self.map.get_tile((self.conf_endX, self.conf_endY));
+        self.map.find_path(self.conf_unit, self.ruleset, start_tile, end_tile);
+
+    #clearing confirmation once complete
+    self.process_confirmation = False;
+    self.conf_startX = 0;
+    self.conf_startY = 0;
+    self.conf_endX = 0;
+    self.conf_endY = 0;
 
