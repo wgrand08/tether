@@ -80,7 +80,6 @@ class ClientPerspective(pb.Avatar):
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
     self.handler.remote_all('unit_list', net_unit_list);
-    message = "test worked"
     self.handler.remote(self.conn_info.ref, 'confirmation');
 
 #****************************************************************************

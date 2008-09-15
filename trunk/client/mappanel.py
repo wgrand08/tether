@@ -184,7 +184,6 @@ class Mappanel:
     #self.client.netclient.end_turn('hub', (25, 22));
     if self.client.myturn == True:
         self.firepower = self.firepower + 1;
-        print('firepower = ', self.firepower);
         for unit in self.client.selected_unit.values():
             start_tile = self.client.map.get_tile_from_unit(unit);
             startX = start_tile.x + 1; #todo: calculate starting position based off rotation and firepower

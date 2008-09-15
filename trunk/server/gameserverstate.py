@@ -47,7 +47,7 @@ class ServerState:
 
       MapGen(self.map, self.ruleset);
 
-      #FIXME: These are just for tests.
+      #FIXME: Need some sort of randomization for the starting hubs
 
       self.game.create_unit('hub', (20,22), 1);
       #self.game.create_unit('hub', (25,22), 2);
