@@ -138,7 +138,7 @@ class Mapctrl:
                 if unit: 
                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                         self.client.selected_unit.update({map_pos:unit});
-                        #self.set_mouse_state('goto'); #enable to test unit movement
+                        self.set_mouse_state('goto'); #enable to test unit movement
                 yy += 1;
                 y += inc_y;
                 xx += 1;
@@ -168,7 +168,8 @@ class Mapctrl:
             self.client.mapview.cursor.disable();
         else:
             self.client.mapview.cursor.set_cursor_type(state);
-        #self.client.mapview.cursor.disable();
+        self.client.mapview.cursor.disable();
         self.mouse_state = state;
+
         print("mouse state = ", self.mouse_state);
 
