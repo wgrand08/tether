@@ -1,5 +1,5 @@
 #summary Proposed coding ideas
-#labels Phase-Requirements
+#labels Phase-Design
 
 = Introduction =
 This page is a place to put code snippets and ideas on code logic for features that will be implemented later. 
