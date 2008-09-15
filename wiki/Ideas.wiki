@@ -1,4 +1,5 @@
 #summary Brainstorming ideas for FOSS MBC project.
+#labels Phase-Requirements
 
 =This is blue-sky brainstorming right now. Feel free to put whatever you want here. Of course, the more outlandish the feature, the longer it will take to get implemented.=
 
