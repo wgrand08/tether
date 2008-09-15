@@ -52,7 +52,7 @@ class Mappanel:
     self.message_out = StringStream(self.lines);
     self.box = gui.ScrollArea(self.lines, self.msgview_rect.width, self.msgview_rect.height)
 
-    self.chat_table.td(self.box) #this line is broken in windows
+    #self.chat_table.td(self.box) #this line is broken in windows
 
     self.chat_table.tr()
     self.line = gui.Input()

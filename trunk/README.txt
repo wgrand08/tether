@@ -16,3 +16,7 @@ http://code.google.com/p/tether/downloads/list
 RUNNING Moon.Py
 ---------------------
 On all OS's simply run moon.py
+
+**Special osX compatibility notes**
+Because osX 10.5.x has python2.5 automatically integrated installing the dependencies isn't as straight forward as it is on other OS's. If all dependencies are installed but dependency errors are recieved try running localmoon.py instead. Further information on this issue can be found at:
+http://code.google.com/p/tether/wiki/Running_MoonPy_on_osX
