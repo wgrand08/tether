@@ -6,4 +6,7 @@
   <unit type="hub" full_name="hub" speed="10">
     <movement type="plains" movecost="10"/>
   </unit>
+  <unit type="bomb" full_name="bomb" speed="10">
+    <movement type="all" movecost="10"/>
+  </unit>
 </ruleset>
