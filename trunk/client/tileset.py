@@ -130,6 +130,8 @@ class Tileset:
                 color = (255,10,10);
             elif tempcolor == 'brown':
                 color = (100,100,50);
+            elif tempcolor == 'clear': #for non player units
+                color = None;
             else:
                 logging.error("Player color %s not configured" % (tempcolor));
             for frameNode in playerNode.getElementsByTagName('frame'):

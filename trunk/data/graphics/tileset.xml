@@ -63,142 +63,27 @@
   </edgeterrain>
 </file>
 
+<file src="boom.png">
+  <unit name="bomb" frames="1" x="1" y="1" 
+        width="96" height="64" pixalalpha="true">
+    <player id="1" color="clear">
+        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+    </player>
+    <player id="2" color="clear">
+        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+    </player>
+  </unit>
+</file>
+
 <file src="unit_hub.png">
-  <unit name="hub" frames="8" x="1" y="1" 
+  <unit name="hub" frames="1" x="1" y="1" 
         width="96" height="64" pixelalpha="true">
     <player id="1" color="red">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-        <frame dir="0" anim_frame="1" slot-x="0" slot-y="1"/>
-        <frame dir="0" anim_frame="2" slot-x="0" slot-y="2"/>
-        <frame dir="0" anim_frame="3" slot-x="0" slot-y="3"/>
-        <frame dir="0" anim_frame="4" slot-x="0" slot-y="4"/>
-        <frame dir="0" anim_frame="5" slot-x="0" slot-y="5"/>
-        <frame dir="0" anim_frame="6" slot-x="0" slot-y="6"/>
-        <frame dir="0" anim_frame="7" slot-x="0" slot-y="7"/>
-        <frame dir="1" anim_frame="0" slot-x="1" slot-y="0"/>
-        <frame dir="1" anim_frame="1" slot-x="1" slot-y="1"/>
-        <frame dir="1" anim_frame="2" slot-x="1" slot-y="2"/>
-        <frame dir="1" anim_frame="3" slot-x="1" slot-y="3"/>
-        <frame dir="1" anim_frame="4" slot-x="1" slot-y="4"/>
-        <frame dir="1" anim_frame="5" slot-x="1" slot-y="5"/>
-        <frame dir="1" anim_frame="6" slot-x="1" slot-y="6"/>
-        <frame dir="1" anim_frame="7" slot-x="1" slot-y="7"/>
-        <frame dir="2" anim_frame="0" slot-x="2" slot-y="0"/>
-        <frame dir="2" anim_frame="1" slot-x="2" slot-y="1"/>
-        <frame dir="2" anim_frame="2" slot-x="2" slot-y="2"/>
-        <frame dir="2" anim_frame="3" slot-x="2" slot-y="3"/>
-        <frame dir="2" anim_frame="4" slot-x="2" slot-y="4"/>
-        <frame dir="2" anim_frame="5" slot-x="2" slot-y="5"/>
-        <frame dir="2" anim_frame="6" slot-x="2" slot-y="6"/>
-        <frame dir="2" anim_frame="7" slot-x="2" slot-y="7"/>
-        <frame dir="3" anim_frame="0" slot-x="3" slot-y="0"/>
-        <frame dir="3" anim_frame="1" slot-x="3" slot-y="1"/>
-        <frame dir="3" anim_frame="2" slot-x="3" slot-y="2"/>
-        <frame dir="3" anim_frame="3" slot-x="3" slot-y="3"/>
-        <frame dir="3" anim_frame="4" slot-x="3" slot-y="4"/>
-        <frame dir="3" anim_frame="5" slot-x="3" slot-y="5"/>
-        <frame dir="3" anim_frame="6" slot-x="3" slot-y="6"/>
-        <frame dir="3" anim_frame="7" slot-x="3" slot-y="7"/>
-        <frame dir="4" anim_frame="0" slot-x="4" slot-y="0"/>
-        <frame dir="4" anim_frame="1" slot-x="4" slot-y="1"/>
-        <frame dir="4" anim_frame="2" slot-x="4" slot-y="2"/>
-        <frame dir="4" anim_frame="3" slot-x="4" slot-y="3"/>
-        <frame dir="4" anim_frame="4" slot-x="4" slot-y="4"/>
-        <frame dir="4" anim_frame="5" slot-x="4" slot-y="5"/>
-        <frame dir="4" anim_frame="6" slot-x="4" slot-y="6"/>
-        <frame dir="4" anim_frame="7" slot-x="4" slot-y="7"/>
-        <frame dir="5" anim_frame="0" slot-x="5" slot-y="0"/>
-        <frame dir="5" anim_frame="1" slot-x="5" slot-y="1"/>
-        <frame dir="5" anim_frame="2" slot-x="5" slot-y="2"/>
-        <frame dir="5" anim_frame="3" slot-x="5" slot-y="3"/>
-        <frame dir="5" anim_frame="4" slot-x="5" slot-y="4"/>
-        <frame dir="5" anim_frame="5" slot-x="5" slot-y="5"/>
-        <frame dir="5" anim_frame="6" slot-x="5" slot-y="6"/>
-        <frame dir="5" anim_frame="7" slot-x="5" slot-y="7"/>
-        <frame dir="6" anim_frame="0" slot-x="6" slot-y="0"/>
-        <frame dir="6" anim_frame="1" slot-x="6" slot-y="1"/>
-        <frame dir="6" anim_frame="2" slot-x="6" slot-y="2"/>
-        <frame dir="6" anim_frame="3" slot-x="6" slot-y="3"/>
-        <frame dir="6" anim_frame="4" slot-x="6" slot-y="4"/>
-        <frame dir="6" anim_frame="5" slot-x="6" slot-y="5"/>
-        <frame dir="6" anim_frame="6" slot-x="6" slot-y="6"/>
-        <frame dir="6" anim_frame="7" slot-x="6" slot-y="7"/>
-        <frame dir="7" anim_frame="0" slot-x="7" slot-y="0"/>
-        <frame dir="7" anim_frame="1" slot-x="7" slot-y="1"/>
-        <frame dir="7" anim_frame="2" slot-x="7" slot-y="2"/>
-        <frame dir="7" anim_frame="3" slot-x="7" slot-y="3"/>
-        <frame dir="7" anim_frame="4" slot-x="7" slot-y="4"/>
-        <frame dir="7" anim_frame="5" slot-x="7" slot-y="5"/>
-        <frame dir="7" anim_frame="6" slot-x="7" slot-y="6"/>
-        <frame dir="7" anim_frame="7" slot-x="7" slot-y="7"/>
     </player>
     <player id="2" color="brown">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-        <frame dir="0" anim_frame="1" slot-x="0" slot-y="1"/>
-        <frame dir="0" anim_frame="2" slot-x="0" slot-y="2"/>
-        <frame dir="0" anim_frame="3" slot-x="0" slot-y="3"/>
-        <frame dir="0" anim_frame="4" slot-x="0" slot-y="4"/>
-        <frame dir="0" anim_frame="5" slot-x="0" slot-y="5"/>
-        <frame dir="0" anim_frame="6" slot-x="0" slot-y="6"/>
-        <frame dir="0" anim_frame="7" slot-x="0" slot-y="7"/>
-        <frame dir="1" anim_frame="0" slot-x="1" slot-y="0"/>
-        <frame dir="1" anim_frame="1" slot-x="1" slot-y="1"/>
-        <frame dir="1" anim_frame="2" slot-x="1" slot-y="2"/>
-        <frame dir="1" anim_frame="3" slot-x="1" slot-y="3"/>
-        <frame dir="1" anim_frame="4" slot-x="1" slot-y="4"/>
-        <frame dir="1" anim_frame="5" slot-x="1" slot-y="5"/>
-        <frame dir="1" anim_frame="6" slot-x="1" slot-y="6"/>
-        <frame dir="1" anim_frame="7" slot-x="1" slot-y="7"/>
-        <frame dir="2" anim_frame="0" slot-x="2" slot-y="0"/>
-        <frame dir="2" anim_frame="1" slot-x="2" slot-y="1"/>
-        <frame dir="2" anim_frame="2" slot-x="2" slot-y="2"/>
-        <frame dir="2" anim_frame="3" slot-x="2" slot-y="3"/>
-        <frame dir="2" anim_frame="4" slot-x="2" slot-y="4"/>
-        <frame dir="2" anim_frame="5" slot-x="2" slot-y="5"/>
-        <frame dir="2" anim_frame="6" slot-x="2" slot-y="6"/>
-        <frame dir="2" anim_frame="7" slot-x="2" slot-y="7"/>
-        <frame dir="3" anim_frame="0" slot-x="3" slot-y="0"/>
-        <frame dir="3" anim_frame="1" slot-x="3" slot-y="1"/>
-        <frame dir="3" anim_frame="2" slot-x="3" slot-y="2"/>
-        <frame dir="3" anim_frame="3" slot-x="3" slot-y="3"/>
-        <frame dir="3" anim_frame="4" slot-x="3" slot-y="4"/>
-        <frame dir="3" anim_frame="5" slot-x="3" slot-y="5"/>
-        <frame dir="3" anim_frame="6" slot-x="3" slot-y="6"/>
-        <frame dir="3" anim_frame="7" slot-x="3" slot-y="7"/>
-        <frame dir="4" anim_frame="0" slot-x="4" slot-y="0"/>
-        <frame dir="4" anim_frame="1" slot-x="4" slot-y="1"/>
-        <frame dir="4" anim_frame="2" slot-x="4" slot-y="2"/>
-        <frame dir="4" anim_frame="3" slot-x="4" slot-y="3"/>
-        <frame dir="4" anim_frame="4" slot-x="4" slot-y="4"/>
-        <frame dir="4" anim_frame="5" slot-x="4" slot-y="5"/>
-        <frame dir="4" anim_frame="6" slot-x="4" slot-y="6"/>
-        <frame dir="4" anim_frame="7" slot-x="4" slot-y="7"/>
-        <frame dir="5" anim_frame="0" slot-x="5" slot-y="0"/>
-        <frame dir="5" anim_frame="1" slot-x="5" slot-y="1"/>
-        <frame dir="5" anim_frame="2" slot-x="5" slot-y="2"/>
-        <frame dir="5" anim_frame="3" slot-x="5" slot-y="3"/>
-        <frame dir="5" anim_frame="4" slot-x="5" slot-y="4"/>
-        <frame dir="5" anim_frame="5" slot-x="5" slot-y="5"/>
-        <frame dir="5" anim_frame="6" slot-x="5" slot-y="6"/>
-        <frame dir="5" anim_frame="7" slot-x="5" slot-y="7"/>
-        <frame dir="6" anim_frame="0" slot-x="6" slot-y="0"/>
-        <frame dir="6" anim_frame="1" slot-x="6" slot-y="1"/>
-        <frame dir="6" anim_frame="2" slot-x="6" slot-y="2"/>
-        <frame dir="6" anim_frame="3" slot-x="6" slot-y="3"/>
-        <frame dir="6" anim_frame="4" slot-x="6" slot-y="4"/>
-        <frame dir="6" anim_frame="5" slot-x="6" slot-y="5"/>
-        <frame dir="6" anim_frame="6" slot-x="6" slot-y="6"/>
-        <frame dir="6" anim_frame="7" slot-x="6" slot-y="7"/>
-        <frame dir="7" anim_frame="0" slot-x="7" slot-y="0"/>
-        <frame dir="7" anim_frame="1" slot-x="7" slot-y="1"/>
-        <frame dir="7" anim_frame="2" slot-x="7" slot-y="2"/>
-        <frame dir="7" anim_frame="3" slot-x="7" slot-y="3"/>
-        <frame dir="7" anim_frame="4" slot-x="7" slot-y="4"/>
-        <frame dir="7" anim_frame="5" slot-x="7" slot-y="5"/>
-        <frame dir="7" anim_frame="6" slot-x="7" slot-y="6"/>
-        <frame dir="7" anim_frame="7" slot-x="7" slot-y="7"/>
     </player>
-
   </unit>
 </file>
 

@@ -179,10 +179,22 @@ class Mappanel:
             self.rotate_position = 12;
         print('rotate = ', self.rotate_position);
 
-  def use_firebutton(self, obj):
+  def increasepower(self, obj):
     if self.client.myturn == True:
         self.firepower = self.firepower + 1;
-        self.firepower = 15;
+        if self.firepower > 15:
+            self.firepower = 15;
+
+  def choosehub(self, obj):
+    if self.client.myturn == True:
+        self.client.selected_weap = 'hub';
+
+  def choosebomb(self, obj):
+    if self.client.myturn == True:
+        self.client.selected_weap = 'bomb';
+
+  def use_firebutton(self, obj):
+    if self.client.myturn == True:
         for unit in self.client.selected_unit.values():
             start_tile = self.client.map.get_tile_from_unit(unit);
             endX = start_tile.x; #todo: need to add true 360 degrees of rotation

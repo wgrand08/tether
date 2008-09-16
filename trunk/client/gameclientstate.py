@@ -50,7 +50,7 @@ class GameClientState:
     self.myturn = True; #this needs to be changed to default false when turn system is implemented
     self.current_energy = 0;
     self.stored_energy = 0;
-    self.selected_weap = 'hub';
+    self.selected_weap = 'bomb';
     self.conf_startX = 0;
     self.conf_startY = 0;
     self.conf_endX = 0;
