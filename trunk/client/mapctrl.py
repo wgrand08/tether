@@ -33,7 +33,10 @@ class Mapctrl:
             if event.type == QUIT:
                 self.client.quit()
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
-                self.client.quit();
+                if self.mouse_state == 'goto':
+                    self.mouse_state = 'default'
+                else:
+                    self.client.quit();
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 self.client.mappanel.send_chat();
             elif event.type == KEYDOWN and event.key == K_f:
@@ -113,8 +116,6 @@ class Mapctrl:
         rec_h = y2 - y1;
         segments_x = abs(rec_w/ half_w);
         segments_y = abs(rec_h/ half_h);
-        self.client.selected_unit = {};
-
         self.set_mouse_state('default')         
   
         # Iteration direction   
@@ -136,14 +137,15 @@ class Mapctrl:
                 map_pos = self.client.mapview.canvas_to_map((x, y));
                 unit = self.client.map.get_unit(map_pos);
                 if unit: #todo: add code to prevent users from selecting enemy units
+                    self.client.selected_unit = {};
                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                         self.client.selected_unit.update({map_pos:unit});
                         #self.set_mouse_state('goto'); #enable to test unit movement
+                        logging.info("Selected unit ID %r" % unit.id);
                 yy += 1;
                 y += inc_y;
                 xx += 1;
                 x += inc_x;
-        logging.info("Selected %r units" % len(self.client.selected_unit.values()));
 
 
 #****************************************************************************
@@ -168,6 +170,6 @@ class Mapctrl:
             self.client.mapview.cursor.disable();
         else:
             self.client.mapview.cursor.set_cursor_type(state);
-        self.client.mapview.cursor.disable();
+        self.client.mapview.cursor.disable(); #disable to show mouse cursors
         self.mouse_state = state;
 

@@ -145,8 +145,11 @@ class GameClientState:
 #****************************************************************************
   def confirmed(self):
     if self.process_confirmation == True:
+        self.conf_unit = {};
         self.conf_unit = self.map.get_unit((self.conf_startX, self.conf_startY));
-        start_tile = self.map.get_tile((self.conf_startX, self.conf_startY));
+        logging.info("confirmed movement of unit %s" % self.conf_unit.id);
+        start_tile = self.map.get_tile_from_unit(self.conf_unit);
+        #start_tile = self.map.get_tile((self.conf_startX, self.conf_startY));
         end_tile = self.map.get_tile((self.conf_endX, self.conf_endY));
         self.map.find_path(self.conf_unit, self.ruleset, start_tile, end_tile);
 

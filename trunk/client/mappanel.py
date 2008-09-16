@@ -75,7 +75,7 @@ class Mappanel:
     container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.65);
     self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None);
 
-    self.rotate_position = 0;
+    self.rotate_position = 1;
     self.firepower = 0;
     self.rotate_display = gui.Label(_(str(self.rotate_position)));
     container.add(self.rotate_display, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.3);
@@ -168,28 +168,98 @@ class Mappanel:
   def rotateright(self, obj):
     if self.client.myturn == True:
         self.rotate_position = self.rotate_position + 1;
-        if (self.rotate_position > 360):
-            self.rotate_position = 0;
+        if (self.rotate_position > 12):
+            self.rotate_position = 1;
         print('rotate = ', self.rotate_position);
 
   def rotateleft(self, obj):
     if self.client.myturn == True:
         self.rotate_position = self.rotate_position - 1;
-        if (self.rotate_position < 0):
-            self.rotate_position = 360;
+        if (self.rotate_position < 1):
+            self.rotate_position = 12;
         print('rotate = ', self.rotate_position);
 
   def use_firebutton(self, obj):
-    #following is ugly hack just to get things going
-    #self.client.netclient.end_turn('hub', (25, 22));
     if self.client.myturn == True:
         self.firepower = self.firepower + 1;
+        self.firepower = 15;
         for unit in self.client.selected_unit.values():
             start_tile = self.client.map.get_tile_from_unit(unit);
-            startX = start_tile.x + 1; #todo: calculate starting position based off rotation and firepower
-            startY = start_tile.y;
-        endX = 25; #calculate endtile based off rotation and firepower
-        endY = 22;
+            endX = start_tile.x; #todo: need to add true 360 degrees of rotation
+            endY = start_tile.y;
+            for find_target in range(1, self.firepower):
+                if self.rotate_position == 1:
+                    endX = endX + 0;
+                    endY = endY - 1;
+                    startX = start_tile.x + 0;
+                    startY = start_tile.y - 1;
+                elif self.rotate_position == 2:
+                    endX = endX + .25;
+                    endY = endY - .75;
+                    startX = start_tile.x + 0;
+                    startY = start_tile.y - 1;
+                elif self.rotate_position == 3:
+                    endX = endX + .75;
+                    endY = endY - .25;
+                    startX = start_tile.x + 1;
+                    startY = start_tile.y + 0;
+                elif self.rotate_position == 4:
+                    endX = endX + 1;
+                    endY = endY + 0;
+                    startX = start_tile.x + 1;
+                    startY = start_tile.y + 0;
+                elif self.rotate_position == 5:
+                    endX = endX + .75;
+                    endY = endY + .25;
+                    startX = start_tile.x + 1;
+                    startY = start_tile.y + 0;
+                elif self.rotate_position == 6:
+                    endX = endX + .25;
+                    endY = endY + .75;
+                    startX = start_tile.x + 0;
+                    startY = start_tile.y + 1;
+                elif self.rotate_position == 7:
+                    endX = endX + 0;
+                    endY = endY + 1;
+                    startX = start_tile.x + 0;
+                    startY = start_tile.y + 1;
+                elif self.rotate_position == 8:
+                    endX = endX - .25;
+                    endY = endY + .75;
+                    startX = start_tile.x + 0;
+                    startY = start_tile.y + 1;
+                elif self.rotate_position == 9:
+                    endX = endX - .75;
+                    endY = endY + .25;
+                    startX = start_tile.x - 1;
+                    startY = start_tile.y + 0;
+                elif self.rotate_position == 10:
+                    endX = endX - 1;
+                    endY = endY + 0;
+                    startX = start_tile.x - 1;
+                    startY = start_tile.y + 0
+                elif self.rotate_position == 11:
+                    endX = endX - .75;
+                    endY = endY - .25;
+                    startX = start_tile.x - 1;
+                    startY = start_tile.y - 0;
+                elif self.rotate_position == 12:
+                    endX = endX - .25;
+                    endY = endY - .75;
+                    startX = start_tile.x - 0;
+                    startY = start_tile.y - 1;
+                if endX == 0:
+                    endX = 90;
+                if endX == 91:
+                    endX = 1;
+                if endY == 0:
+                    endY = 90;
+                if endY == 91:
+                    endY = 1;
+        endX = round(endX, 0);
+        endY = round(endY, 0);
+        logging.info("endX = %r" % endX);
+        logging.info("endY = %r" % endY);
         self.client.netclient.end_turn('hub', (startX, startY));
         #following is to give time for server to process network commands
         self.client.process_confirmation = True;

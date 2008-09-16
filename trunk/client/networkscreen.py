@@ -55,7 +55,7 @@ class NetworkScreen:
 
     hostname_label = gui.Label(_("Server address:"));
     table.add(hostname_label,0,2);
-    self.hostname_input = gui.Input(_(self.client.settings.hostIP));
+    self.hostname_input = gui.Input(_(self.client.settings.defaultIP));
     table.add(self.hostname_input,1,2);
     table.add(gui.Widget(width=1, height=5), 0, 3);
 
