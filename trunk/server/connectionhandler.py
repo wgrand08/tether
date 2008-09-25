@@ -70,6 +70,8 @@ class ClientPerspective(pb.Avatar):
     self.handler.remote_all('map', net_map);
     self.handler.remote_all('unit_list', net_unit_list);
     self.handler.remote_all('start_client_game');
+    sleep(2); # processing time to allow units to move and clients to update
+    
 
 #****************************************************************************
 #

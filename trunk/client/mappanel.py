@@ -199,6 +199,7 @@ class Mappanel:
             start_tile = self.client.map.get_tile_from_unit(unit);
             endX = start_tile.x; #todo: need to add true 360 degrees of rotation
             endY = start_tile.y;
+            self.firepower = 15;
             for find_target in range(1, self.firepower):
                 if self.rotate_position == 1:
                     endX = endX + 0;
@@ -275,11 +276,11 @@ class Mappanel:
         self.client.netclient.end_turn(self.client.selected_weap, (endX, endY));
         #self.client.netclient.end_turn('hub', (startX, startY));
         #following is to give time for server to process network commands before running animated launch
-        #self.client.process_confirmation = True;
+        """self.client.process_confirmation = True;
         self.client.conf_startX = startX;
         self.client.conf_startY = startY;
         self.client.conf_endX = endX;
-        self.client.conf_endY = endY;
+        self.client.conf_endY = endY;"""
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.

@@ -112,6 +112,10 @@ class Tileset:
           sub_y = y + sloty * height + sloty;
           self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha);
 
+      for tileNode in fileNode.getElementsByTagName('weapon'):
+        print("placeholder");
+        
+
       # Load units graphic
       for tileNode in fileNode.getElementsByTagName('unit'):
         name = tileNode.getAttribute('name'); 
