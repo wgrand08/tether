@@ -63,6 +63,17 @@ class Ruleset:
 #****************************************************************************
 #
 #****************************************************************************
+  def get_unit_typeset(self, type_id):
+    typeset = "Doodad";
+    if type_id == "hub":
+        typeset = "build"
+    elif type_id == "bomb":
+        typeset = "weap";
+    return typeset;
+
+#****************************************************************************
+#
+#****************************************************************************
   def get_terrain_type(self, type_id):
     return self.terrain_types[type_id];
  

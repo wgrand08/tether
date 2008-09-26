@@ -3,13 +3,13 @@
   <terrain type="plains" full_name="Plains"/>
   <terrain type="coast" full_name="Coast"/>
 
-  <unit type="crater" full_name="none" speed="0" typeset="doodad">
+  <unit type="crater" full_name="none" speed="0">
     <movement type="none" movecost="0"/>
   </unit>
-  <unit type="hub" full_name="hub" speed="10" typeset="build">
+  <unit type="hub" full_name="hub" speed="10">
     <movement type="plains" movecost="10"/>
   </unit>
-  <unit type="bomb" full_name="bomb" speed="10" typeset="weap">
+  <unit type="bomb" full_name="bomb" speed="10">
     <movement type="all" movecost="10"/>
   </unit>
 </ruleset>

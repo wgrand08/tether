@@ -136,23 +136,18 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-  def set_unit(self, unit, pos):
-    if (self.get_unit(pos) == None) or (unit.set == 'weap'): #if map position is empty
-      logging.info("crater pass");
-      print(unit.typeset);
+  def set_unit(self, unit, pos, typeset):
+    if (self.get_unit(pos) == None) or (typeset == "weap"): #if map position is empty
       self.unitstore.update({unit.id:unit});
       (unit.x, unit.y) = pos;
-    #elif unit.set = 'weap':
+      unit.typeset = typeset;
             
-
 #****************************************************************************
 # removes the unit from the map position
 #****************************************************************************
   def change_unit(self, unit, new_unit):
     logging.info("changed unit %r" % unit.id);
     unit.type = new_unit;
-    #unit = None;
-
 
 #****************************************************************************
 #
