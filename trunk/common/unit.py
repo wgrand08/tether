@@ -29,6 +29,7 @@ class Unit:
     self.offset = (0,0);
     self.speed = (0,0);
     self.rotate = 3;
+    self.typeset = None;
 
 #****************************************************************************
 #

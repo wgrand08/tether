@@ -37,6 +37,7 @@ class Ruleset:
       type_id = str(unitNode.getAttribute('type'));
       full_name = str(unitNode.getAttribute('full_name'));
       speed = int(unitNode.getAttribute('speed'));
+      typeset = str(unitNode.getAttribute('typeset'));
       movements = {};
       for movementNode in unitNode.getElementsByTagName('movement'):
         type = str(movementNode.getAttribute('type'));
@@ -44,7 +45,7 @@ class Ruleset:
         movements.update({type:movecost});
 
       self.unit_types.update({type_id:
-                  UnitType(type_id, full_name, speed, movements)});
+                  UnitType(type_id, full_name, speed, typeset, movements)});
 
     for terrainNode in rootNode.getElementsByTagName('terrain'):
       type_id = str(terrainNode.getAttribute('type'));
@@ -78,10 +79,11 @@ class TerrainType:
 #
 #****************************************************************************
 class UnitType:
-  def __init__(self, id, full_name, speed, movement_costs):
+  def __init__(self, id, full_name, speed, typeset, movement_costs):
     self.id = id;
     self.full_name = full_name;
     self.speed = speed;
+    self.typeset = typeset;
     self.movement_costs = movement_costs;
 
 #****************************************************************************
@@ -99,6 +101,4 @@ class UnitType:
         return 1;
     except:
      return 0;
-
-
 

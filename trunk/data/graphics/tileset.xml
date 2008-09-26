@@ -63,6 +63,18 @@
   </edgeterrain>
 </file>
 
+<file src="crater.png">
+  <unit name="crater" frames="1" x="1" y="1" 
+        width="64" height="64" pixalalpha="true">
+    <player id="1" color="clear">
+        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+    </player>
+    <player id="2" color="clear">
+        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+    </player>
+  </unit>
+</file>
+
 <file src="boom.png">
   <unit name="bomb" frames="1" x="1" y="1" 
         width="64" height="64" pixalalpha="true">

@@ -47,3 +47,13 @@ class Game:
     unit_type = self.ruleset.get_unit_type(unit_type_id);
     logging.info("created unitID %s" % self.unit_counter);
     self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos);
+
+#****************************************************************************
+#
+#****************************************************************************
+  def remove_unit(self, unit):
+    unit_type_id = 'crater';
+    unit_type = self.ruleset.get_unit_type(unit_type_id);
+    self.map.change_unit(unit, unit_type);
+
+
