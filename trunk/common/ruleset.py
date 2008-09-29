@@ -65,9 +65,9 @@ class Ruleset:
 #****************************************************************************
   def get_unit_typeset(self, type_id):
     typeset = "Doodad";
-    if type_id == "hub":
+    if type_id == "hub" or type_id == "tower" or type_id == "balloon" or type_id == "converter" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
         typeset = "build"
-    elif type_id == "bomb":
+    elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike":
         typeset = "weap";
     return typeset;
 
