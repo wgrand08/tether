@@ -74,8 +74,9 @@ class Minimap:
       drawer.line(points);
 
     for unit in self.client.map.get_unit_list():
-      map_pos = self.client.map.get_unit_pos(unit); 
-      drawer.point(map_pos, fill=(255,0,0));
+      if unit.typeset != "doodad":
+          map_pos = self.client.map.get_unit_pos(unit); 
+          drawer.point(map_pos, fill=(255,0,0));
 
     del drawer;
     resultimage = mapimage.resize((self.width, self.height), Image.ANTIALIAS);

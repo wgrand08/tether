@@ -104,8 +104,15 @@ class Mapview:
 #****************************************************************************
   def draw_unit(self, map_pos):
     real_map_pos = self.map.wrap_map_pos(map_pos);
-    unit = self.map.get_unit(real_map_pos); #change this to doodad to show craters, however units placed on top become lost
-    if not unit: return; 
+    unit = self.map.get_doodad(real_map_pos); 
+
+    if not unit:
+        return; 
+
+    if unit.typeset == "doodad": #make certain units are placed over craters not vice-versa
+        for unit2 in self.map.unitstore.values():
+            if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
+                unit = self.map.get_unit(real_map_pos);
 
     gui_x, gui_y = self.map_to_gui(map_pos);
 
