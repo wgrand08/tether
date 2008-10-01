@@ -64,13 +64,38 @@ class Ruleset:
 #
 #****************************************************************************
   def get_unit_typeset(self, type_id):
-    typeset = "Doodad";
+    typeset = "doodad";
     if type_id == "hub" or type_id == "tower" or type_id == "balloon" or type_id == "converter" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
         typeset = "build"
     elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike":
         typeset = "weap";
     return typeset;
 
+#****************************************************************************
+#
+#****************************************************************************
+  def get_unit_hp(self, type_id):
+    hp = 0;
+    if type_id == "hub" or type_id == "converter":
+        hp = 3; #should be 5 but set to 3 for debug purposes
+    if type_id == "tower" or type_id == "antiair" or type_id == "offense" or type_id == "shield" or type_id == "crawler":
+        hp = 3;
+    if type_id == "balloon":
+        hp = 1;
+    return hp;
+
+#****************************************************************************
+#
+#****************************************************************************
+  def get_unit_power(self, type_id):
+    power = 0;
+    if type_id == "bomb" or type_id == "missile" or type_id == "spike":
+        power = 3;
+    if type_id == "crawler":
+        power = 5;
+    if type_id == "emp":
+        power = 2;
+    return power;
 #****************************************************************************
 #
 #****************************************************************************

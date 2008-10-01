@@ -83,12 +83,12 @@ class ClientPerspective(pb.Avatar):
     self.handler.remote_all('unit_list', net_unit_list);
     self.handler.remote(self.conn_info.ref, 'confirmation');
     sleep(1); # processing time to allow units to move and clients to update
-    if unit == 'bomb':
-        self.state.kill_unit(coord);
-        net_map = self.network_prepare(self.state.map.mapstore); 
-        net_unit_list = self.network_prepare(self.state.map.unitstore); 
-        self.handler.remote_all('map', net_map);
-        self.handler.remote_all('unit_list', net_unit_list);
+    self.state.determine_hit(unit, coord);
+    self.state.process_death();
+    net_map = self.network_prepare(self.state.map.mapstore); 
+    net_unit_list = self.network_prepare(self.state.map.unitstore); 
+    self.handler.remote_all('map', net_map);
+    self.handler.remote_all('unit_list', net_unit_list);
 
 #****************************************************************************
 #

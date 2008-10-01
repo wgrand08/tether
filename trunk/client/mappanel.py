@@ -276,6 +276,10 @@ class Mappanel:
         endX = 25;
         endY = 25;
         self.client.netclient.end_turn(self.client.selected_weap, (endX, endY));
+        if self.client.selected_weap == 'hub':
+            self.client.selected_weap = 'bomb';
+        else:
+            self.client.selected_weap = 'hub' ;
         #self.client.netclient.end_turn('hub', (startX, startY));
         #following is to give time for server to process network commands before running animated launch
         """self.client.process_confirmation = True;

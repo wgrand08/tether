@@ -90,6 +90,16 @@ class Map:
   def get_unit(self, pos):
     x, y = pos;
     for unit in self.unitstore.values():
+      if unit.x == x and unit.y == y and unit.typeset != "doodad":
+        return unit;
+    return None;
+
+#****************************************************************************
+#
+#****************************************************************************
+  def get_doodad(self, pos):
+    x, y = pos;
+    for unit in self.unitstore.values():
       if unit.x == x and unit.y == y:
         return unit;
     return None;
@@ -136,17 +146,21 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-  def set_unit(self, unit, pos, typeset):
-    if (self.get_unit(pos) == None) or (typeset == "weap"): #if map position is empty
+  def set_unit(self, unit, pos, typeset, hp):
+    logging.info("typeset used is %r" % typeset);
+    if (self.get_unit(pos) == None) or (typeset == "weap"):
+      logging.info("placed unit# %r" % unit.id);
       self.unitstore.update({unit.id:unit});
       (unit.x, unit.y) = pos;
       unit.typeset = typeset;
+      unit.hp = hp;
             
 #****************************************************************************
 # removes the unit from the map position
 #****************************************************************************
   def change_unit(self, unit, new_unit):
     logging.info("changed unit %r" % unit.id);
+    #logging.info("unit typeset %r" % unit.typeset);
     unit.type = new_unit;
 
 #****************************************************************************

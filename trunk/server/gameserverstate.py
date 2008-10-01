@@ -61,6 +61,7 @@ class ServerState:
 # This method is called every second.
 #****************************************************************************
   def mainloop(self):
+    #place code here to find out if a player has lost all units and if so declare them dead
     self.connections.remote_all('network_sync');
 
 #****************************************************************************
@@ -72,9 +73,29 @@ class ServerState:
 #****************************************************************************
 #
 #****************************************************************************
-  def kill_unit(self, pos):
-    unit = self.map.get_unit(pos);
-    self.game.remove_unit(unit);    
+  def process_death(self):
+    """This function searches for units without any HP remaining, removes them from the game, then sets the HP of any dependent units connected to them to 0. This function then repeats the process until all dependent units are found and removed"""
+    notclear = True; 
+    while notclear:
+        notclear = False;
+        for unit in self.map.unitstore.values():
+            if (unit.hp < 1 and unit.typeset != "doodad"):
+                notclear = True; 
+                self.game.remove_unit(unit);
+                #this code is to find and remove all units dependent on the most recently killed unit. This has been disabled as currently parent units are not recognized during unit creation. 
+                """for unit2 in self.map.unitstore.values(): 
+                    if unit2.parent == unit.id:
+                        unit2.hp == 0;"""
+
+#****************************************************************************
+#
+#****************************************************************************
+  def determine_hit(self, unit, pos):
+    x, y = pos;
+    power = self.ruleset.get_unit_power(unit);
+    for target in self.map.unitstore.values():
+        if target.x == x and target.y == y and target.typeset != "doodad":
+            target.hp = target.hp - power;
 
 #****************************************************************************
 #

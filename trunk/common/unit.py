@@ -30,6 +30,9 @@ class Unit:
     self.speed = (0,0);
     self.rotate = 3;
     self.typeset = None;
+    self.hp = 0;
+    self.parent = 0;
+    self.disabled = False;
 
 #****************************************************************************
 #
