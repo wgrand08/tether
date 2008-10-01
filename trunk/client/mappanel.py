@@ -63,20 +63,36 @@ class Mappanel:
     self.chat_table.tr()
     self.chat_table.td(MySpacer(1,1, self.box))
 
+    self.hub_button = gui.Button(_(" hub " ));
+    container.add(self.hub_button, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.4);
+    self.hub_button.connect(gui.MOUSEBUTTONDOWN, self.choosehub, None);
+
+    self.bomb_button = gui.Button(_(" bomb "));
+    container.add(self.bomb_button, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.4);
+    self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosebomb, None);
+
     self.firebutton = gui.Button(_(" Fire "));
-    container.add(self.firebutton, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.7);
+    container.add(self.firebutton, self.client.screen.get_width() * 0.94, self.client.screen.get_height() * 0.7);
     self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_firebutton, None);
 
+    self.uppower_button = gui.Button(_(" + "));
+    container.add(self.uppower_button, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.55);
+    self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None);
+
+    self.downpower_button = gui.Button(_(" - "));
+    container.add(self.downpower_button, self.client.screen.get_width() * 0.94, self.client.screen.get_height() * 0.65);
+    self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None);
+
     self.rotate_leftbutton = gui.Button(_("  <  "));
-    container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.65);
+    container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.60);
     self.rotate_leftbutton.connect(gui.CLICK, self.rotateleft, None);
 
     self.rotate_rightbutton = gui.Button(_("  >  "));
-    container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.65);
+    container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.60);
     self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None);
 
     self.rotate_position = 1;
-    self.firepower = 0;
+    self.firepower = 1;
     self.rotate_display = gui.Label(_(str(self.rotate_position)));
     container.add(self.rotate_display, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.3);
 
@@ -184,13 +200,23 @@ class Mappanel:
         self.firepower = self.firepower + 1;
         if self.firepower > 15:
             self.firepower = 15;
+        logging.info("current power = %r" % self.firepower);
+
+  def decreasepower(self, obj):
+    if self.client.myturn == True:
+        self.firepower = self.firepower - 1;
+        if self.firepower < 1:
+            self.firepower = 1;
+        logging.info("current power = %r" % self.firepower);
 
   def choosehub(self, obj):
     if self.client.myturn == True:
+        logging.info("hub selected");
         self.client.selected_weap = 'hub';
 
   def choosebomb(self, obj):
     if self.client.myturn == True:
+        logging.info("bomb selected");
         self.client.selected_weap = 'bomb';
 
   def use_firebutton(self, obj):
@@ -199,7 +225,6 @@ class Mappanel:
             start_tile = self.client.map.get_tile_from_unit(unit);
             endX = start_tile.x; #todo: need to add true 360 degrees of rotation
             endY = start_tile.y;
-            self.firepower = 15;
             for find_target in range(1, self.firepower):
                 if self.rotate_position == 1:
                     endX = endX + 0;
@@ -273,13 +298,7 @@ class Mappanel:
         endY = round(endY, 0);
         #logging.info("endX = %r" % endX);
         #logging.info("endY = %r" % endY);
-        endX = 25;
-        endY = 25;
         self.client.netclient.end_turn(self.client.selected_weap, (endX, endY));
-        if self.client.selected_weap == 'hub':
-            self.client.selected_weap = 'bomb';
-        else:
-            self.client.selected_weap = 'hub' ;
         #self.client.netclient.end_turn('hub', (startX, startY));
         #following is to give time for server to process network commands before running animated launch
         """self.client.process_confirmation = True;

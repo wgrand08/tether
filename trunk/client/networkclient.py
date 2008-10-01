@@ -127,6 +127,9 @@ class NetworkClient(pb.Referenceable):
   def remote_start_client_game(self):
     self.client.pregame.start_game();
 
+  def remote_get_playerID(self, playerID):
+    self.client.playerID = playerID;
+
   def remote_unit_path(self, net_unit, net_path):
     path = self.network_handle(net_path);
     unit_id = self.network_handle(net_unit);

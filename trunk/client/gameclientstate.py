@@ -51,6 +51,7 @@ class GameClientState:
     self.current_energy = 0;
     self.stored_energy = 0;
     self.selected_weap = 'bomb';
+    self.playerID = 0;
     self.conf_startX = 0;
     self.conf_startY = 0;
     self.conf_endX = 0;
