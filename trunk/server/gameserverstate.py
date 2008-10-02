@@ -33,6 +33,7 @@ class ServerState:
     self.settings = GameSettings();
     self.game = None; 
     self.currentplayer = 1;
+    self.skippedplayers = 0;
  
 #****************************************************************************
 #
@@ -49,8 +50,8 @@ class ServerState:
 
       #FIXME: Need some sort of randomization for the starting hubs
 
-      self.game.create_unit('hub', (20,22), 1);
-      self.game.create_unit('hub', (75,52), 2);
+      self.game.create_unit('hub', (20,22), 1, 0);
+      self.game.create_unit('hub', (75,52), 2, 0);
 
       #Initialize main loop callback.
       self.loop = task.LoopingCall(self.mainloop);
@@ -67,8 +68,8 @@ class ServerState:
 #****************************************************************************
 #
 #****************************************************************************
-  def add_unit(self, unit_type, unit_loc, playerID):
-    self.game.create_unit(unit_type, unit_loc, playerID);
+  def add_unit(self, unit_type, unit_loc, playerID, parentID):
+    self.game.create_unit(unit_type, unit_loc, playerID, parentID);
 
 #****************************************************************************
 #
@@ -86,6 +87,16 @@ class ServerState:
                 """for unit2 in self.map.unitstore.values(): 
                     if unit2.parent == unit.id:
                         unit2.hp == 0;"""
+
+#****************************************************************************
+#
+#****************************************************************************
+  def round_over(self):
+    self.skippedplayers = 0;
+#****************************************************************************
+#
+#****************************************************************************
+
 
 #****************************************************************************
 #

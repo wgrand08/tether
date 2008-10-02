@@ -298,7 +298,7 @@ class Mappanel:
         endY = round(endY, 0);
         #logging.info("endX = %r" % endX);
         #logging.info("endY = %r" % endY);
-        self.client.netclient.end_turn(self.client.selected_weap, (endX, endY));
+        self.client.netclient.end_turn(self.client.selected_weap, (endX, endY), unit.id);
         #self.client.netclient.end_turn('hub', (startX, startY));
         #following is to give time for server to process network commands before running animated launch
         """self.client.process_confirmation = True;

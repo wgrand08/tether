@@ -70,13 +70,15 @@ class ClientPerspective(pb.Avatar):
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
     self.handler.remote_all('unit_list', net_unit_list);
-    self.handler.remote_all('start_client_game');    
+    self.handler.remote_all('start_client_game');
+    self.state.currentplayer = 1; #player1 goes first 
+    self.handler.remote_all('next_turn', self.state.currentplayer);
 
 #****************************************************************************
 #
 #****************************************************************************
-  def perspective_end_turn(self, unit, coord):
-    self.state.add_unit(unit, coord, self.conn_info.playerID);
+  def perspective_end_turn(self, unit, coord, parentID):
+    self.state.add_unit(unit, coord, self.conn_info.playerID, parentID);
     net_map = self.network_prepare(self.state.map.mapstore); 
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
@@ -89,12 +91,21 @@ class ClientPerspective(pb.Avatar):
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
     self.handler.remote_all('unit_list', net_unit_list);
+    self.state.currentplayer += 1;
+    if self.state.currentplayer > self.state.max_players(self.handler.clients):
+        self.state.currentplayer = 1;
+    self.handler.remote_all('next_turn', self.state.currentplayer);
 
 #****************************************************************************
 #
 #****************************************************************************
   def perspective_skip_round(self):
-    print("Round skipped");
+    self.state.skippedplayers = self.state.skippedplayers + 1;
+    if self.state.skippedplayers => self.state.max_players(self.handler.clients):
+        self.skippedplayers = 0;
+        self.handler.remote_all('next_round');
+    self.state.currenplayer = 1; #todo: add code to randomize/rotate the starting player for each round
+    self.handler.remote_all('next_turn', self.state.currentplayer);
 
 #****************************************************************************
 #

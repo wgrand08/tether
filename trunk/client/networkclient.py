@@ -59,8 +59,8 @@ class NetworkClient(pb.Referenceable):
   def start_server_game(self):
     self.perspective.callRemote('init_game')
 
-  def end_turn(self, unit, coord):
-    self.perspective.callRemote('end_turn', unit, coord)
+  def end_turn(self, unit, coord, parentID):
+    self.perspective.callRemote('end_turn', unit, coord, parentID)
 
   def skip_round(self):
     self.perspective.callRemote('skip_round')
@@ -130,6 +130,18 @@ class NetworkClient(pb.Referenceable):
 
   def remote_get_playerID(self, playerID):
     self.client.playerID = playerID;
+
+  def remote_next_round(self):
+    self.client.current_energy = self.client.stored_energy;
+    #todo: add code to calculate stored energy for next turn
+
+  def remote_next_turn(self, next_player):
+    if next_player == self.client.playerID:
+        self.client.myturn = True;
+        logging.info("It's your turn commander");
+    else:
+        self.client.myturn = False;
+        logging.info("It is player %r turn" % next_player);
 
   def remote_unit_path(self, net_unit, net_path):
     path = self.network_handle(net_path);
