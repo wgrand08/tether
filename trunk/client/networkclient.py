@@ -78,12 +78,13 @@ class NetworkClient(pb.Referenceable):
     logging.info("connected.");
 
   def login_result(self, result):
-    if result == "login_accept":
-      logging.info("Server accepted login");
-      self.client.enter_pregame();   
+    if result == "login_failed":
+        logging.info("Server denied login");
     else:
-      logging.info("Server denied login");   
-
+        self.client.playerID = result;
+        logging.info("Server accepted login");
+        logging.info("Your playerID = %r" % self.client.playerID);
+        self.client.enter_pregame();
 
   def send_chat(self, message):
     data = self.network_prepare(message);

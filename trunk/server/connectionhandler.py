@@ -59,7 +59,7 @@ class ClientPerspective(pb.Avatar):
       self.handler.remote_all('chat', join_message);
       join_message = "as playerID %s" % self.conn_info.playerID;
       self.handler.remote_all('chat', join_message);
-      return "login_accept"; 
+      return self.conn_info.playerID; 
 
 #****************************************************************************
 #

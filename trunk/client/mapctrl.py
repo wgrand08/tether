@@ -136,9 +136,9 @@ class Mapctrl:
             while (xx <= segments_x):
                 map_pos = self.client.mapview.canvas_to_map((x, y));
                 unit = self.client.map.get_unit(map_pos);
-                if unit: #todo: add code to prevent users from selecting enemy units
+                if unit: 
                     self.client.selected_unit = {};
-                    if unit.typeset == "build":
+                    if unit.typeset == "build" and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                             self.client.selected_unit.update({map_pos:unit});
                             #self.set_mouse_state('goto'); #enable to test unit movement
