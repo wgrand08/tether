@@ -1,10 +1,11 @@
 = Introduction =
 
-moon.py is (sort of) at the alpha stage, the following is a list of what needs to be done before we can consider it to be beta quality software. This list is pretty basic and once reached the game will be nowhere near complete but it will be at a stage where it is at least playable which will hopefully bring in more people. 
+moon.py is currently at alpha stage, the following is a list of what needs to be done before we can even consider it to be beta quality software. This list is pretty basic and once reached the game will be nowhere near complete but it will be at a stage where the most important features are implemented.
 
 
 = beta quality TODO list =
 
   * Ability for at least 2 players to connect to the same game at once - complete!
-  * Ability for the main hub to fire basic bombs capable of dealing damage
+  * Ability for the main hub to fire basic bombs capable of dealing damage - complete!
   * Ability for hubs to launch other hubs with tethers connecting them
+  * Server/Client system must behave as a turn-based system
