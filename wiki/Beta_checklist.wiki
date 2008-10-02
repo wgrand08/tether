@@ -8,4 +8,4 @@ moon.py is currently at alpha stage, the following is a list of what needs to be
   * Ability for at least 2 players to connect to the same game at once - complete!
   * Ability for the main hub to fire basic bombs capable of dealing damage - complete!
   * Ability for hubs to launch other hubs with tethers connecting them
-  * Server/Client system must behave as a turn-based system
+  * Server/Client system must behave as a turn-based system - complete!
