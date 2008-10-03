@@ -73,7 +73,7 @@ class Map:
     return self.unitstore.values();
 
 #****************************************************************************
-#
+#report position of unit from ID
 #****************************************************************************
   def get_unit_pos(self, unit):
     return (unit.x, unit.y); 
@@ -85,7 +85,7 @@ class Map:
     return self.mapstore[(unit.x, unit.y)]; 
 
 #****************************************************************************
-#
+#report non-doodad unit from location
 #****************************************************************************
   def get_unit(self, pos):
     x, y = pos;
@@ -95,7 +95,7 @@ class Map:
     return None;
 
 #****************************************************************************
-#
+#report any unit from location
 #****************************************************************************
   def get_doodad(self, pos):
     x, y = pos;
@@ -158,7 +158,7 @@ class Map:
       unit.parentID = parentID
             
 #****************************************************************************
-# removes the unit from the map position
+# transforms one unit type into another type
 #****************************************************************************
   def change_unit(self, unit, new_unit):
     logging.info("changed unit %r" % unit.id);

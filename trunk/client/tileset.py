@@ -40,7 +40,7 @@ class Tileset:
 
 
 #****************************************************************************
-#
+#load tileset information
 #****************************************************************************
   def load_tileset(self):
     self.imagestore = None 
@@ -134,7 +134,7 @@ class Tileset:
                 color = (255,10,10);
             elif tempcolor == 'brown':
                 color = (100,100,50);
-            elif tempcolor == 'clear': #for non player units
+            elif tempcolor == 'clear': #for units that do not need player colors such as doodads and weapons
                 color = None;
             else:
                 logging.error("Player color %s not configured" % (tempcolor));

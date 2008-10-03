@@ -36,7 +36,7 @@ class ServerState:
     self.skippedplayers = 0;
  
 #****************************************************************************
-#
+#Starts a new game, loads the map, adds starting hubs
 #****************************************************************************
   def setup_new_game(self):
 
@@ -66,13 +66,13 @@ class ServerState:
     self.connections.remote_all('network_sync');
 
 #****************************************************************************
-#
+#add a unit
 #****************************************************************************
   def add_unit(self, unit_type, unit_loc, playerID, parentID):
     self.game.create_unit(unit_type, unit_loc, playerID, parentID);
 
 #****************************************************************************
-#
+#find and remove all units without any HP remaining
 #****************************************************************************
   def process_death(self):
     """This function searches for units without any HP remaining, removes them from the game, then sets the HP of any dependent units connected to them to 0. This function then repeats the process until all dependent units are found and removed"""
@@ -89,17 +89,13 @@ class ServerState:
                         unit2.hp == 0;"""
 
 #****************************************************************************
-#
+#server determines round is over and unskips all units
 #****************************************************************************
   def round_over(self):
     self.skippedplayers = 0;
-#****************************************************************************
-#
-#****************************************************************************
-
 
 #****************************************************************************
-#
+#Find out if a unit is hit or not
 #****************************************************************************
   def determine_hit(self, unit, pos):
     x, y = pos;
@@ -109,7 +105,7 @@ class ServerState:
             target.hp = target.hp - power;
 
 #****************************************************************************
-#
+#calculate the number of players currently connected to the game
 #****************************************************************************
   def max_players(self, clients):
     q = 0;

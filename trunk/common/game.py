@@ -18,6 +18,7 @@ from common.unit import *
 #****************************************************************************
 #
 #****************************************************************************
+"""This handles game related functions for both client and server. Most functions are server related however."""
 class Game:
   def __init__(self, map, ruleset):
     self.map = map;
@@ -40,7 +41,7 @@ class Game:
      self.map.move_unit(unit); 
 
 #****************************************************************************
-#
+#create a new unit and place it on the map
 #****************************************************************************
   def create_unit(self, unit_type_id, pos, playerID, parentID):
     self.unit_counter += 1;
@@ -51,8 +52,9 @@ class Game:
     self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID);
 
 #****************************************************************************
-#
+#turns a unit into a crater
 #****************************************************************************
+"""Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into craters instead. """
   def remove_unit(self, unit):
     unit_type_id = 'crater';
     unit_type = self.ruleset.get_unit_type(unit_type_id);
@@ -60,6 +62,3 @@ class Game:
     unit.typeset = 'doodad';
     unit.hp = 0;
 
-#****************************************************************************
-#
-#****************************************************************************

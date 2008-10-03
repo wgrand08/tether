@@ -16,6 +16,7 @@ import logging
 #****************************************************************************
 #
 #****************************************************************************
+"""Both buildings and weapons are considered units since they are launched in the same way. Doodads are also units but are generally treated differently in the game."""
 class Unit:
   def __init__(self, id, type, playerID):
     self.id = id;

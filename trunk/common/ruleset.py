@@ -1,14 +1,20 @@
-# OpenRTS - Copyright (C) 2006 The OpenRTS Project
-#
-# OpenRTS is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# OpenRTS is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+"""Copyright 2007:
+    Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+"""
 
 import string
 import sys, os, os.path
@@ -16,7 +22,7 @@ import logging
 from xml.dom import minidom, Node
 
 #****************************************************************************
-# Ruleset
+# Ruleset handles all the 'rules' of the game
 #****************************************************************************
 class Ruleset:
   def __init__(self, file_src):
@@ -25,7 +31,7 @@ class Ruleset:
     self.load_ruleset(file_src);
 
 #****************************************************************************
-#
+#load ruleset information from XML file
 #****************************************************************************
   def load_ruleset(self, filename):
     doc = minidom.parse(filename);
@@ -55,13 +61,13 @@ class Ruleset:
 
 
 #****************************************************************************
-#
+#identify unit type
 #****************************************************************************
   def get_unit_type(self, type_id):
     return self.unit_types[type_id];
 
 #****************************************************************************
-#
+#get the typeset of a unit
 #****************************************************************************
   def get_unit_typeset(self, type_id):
     typeset = "doodad";
@@ -72,7 +78,7 @@ class Ruleset:
     return typeset;
 
 #****************************************************************************
-#
+#get the maxHP of a unit
 #****************************************************************************
   def get_unit_hp(self, type_id):
     hp = 0;
@@ -85,7 +91,7 @@ class Ruleset:
     return hp;
 
 #****************************************************************************
-#
+#get the power or damage capability of a weapon
 #****************************************************************************
   def get_unit_power(self, type_id):
     power = 0;

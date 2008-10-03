@@ -15,7 +15,7 @@ from random import *
 from common.map import *
 
 #****************************************************************************
-#
+#create a new random map
 #****************************************************************************
 class MapGen:
   def __init__(self, map, ruleset):

@@ -20,7 +20,7 @@ import pygame
 import os
 import gui
 import mainmenu
-
+"""This displays the screen that allows users to modify their settings. """
 class SettingsScreen:
     def __init__(self, client):
         self.client = client;
@@ -68,10 +68,16 @@ class SettingsScreen:
 
         self.app.run(container);
 
+#****************************************************************************
+#User cancels and changes are lost
+#****************************************************************************
     def cancel_settings(self, obj):
         self.app.quit();
         mainmenu.MainMenu(self.client);
 
+#****************************************************************************
+#User wishes to keep changes and settings are automatically saved
+#****************************************************************************
     def accept_settings(self, obj):
         self.client.settings.playername = self.nickname_input.value;
         self.client.settings.fullscreen = self.fullscreen_select.value;

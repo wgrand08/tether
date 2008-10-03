@@ -109,7 +109,7 @@ class Mapview:
     if not unit:
         return; 
 
-    if unit.typeset == "doodad": #make certain units are placed over craters not vice-versa
+    if unit.typeset == "doodad": #make certain when placing units that 'doodads' are always on the bottom
         for unit2 in self.map.unitstore.values():
             if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
                 unit = self.map.get_unit(real_map_pos);

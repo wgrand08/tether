@@ -23,6 +23,7 @@ from conninfo import *
 #****************************************************************************
 #
 #****************************************************************************
+"""Code for handling both incoming and outgoing networks commands for the server, equivalent to networkclient.py for the client. Everything with 'perspective' in front of it is for commands coming in from a client."""
 class ClientPerspective(pb.Avatar):
   def __init__(self, conn_info, conn_handler, serverstate):
     self.conn_info = conn_info;
@@ -47,7 +48,7 @@ class ClientPerspective(pb.Avatar):
 
 
 #****************************************************************************
-#
+#client connects to game
 #****************************************************************************
   def perspective_login(self, username, version):
     if version != self.state.settings.version:
@@ -62,7 +63,7 @@ class ClientPerspective(pb.Avatar):
       return self.conn_info.playerID; 
 
 #****************************************************************************
-#
+#command that everyone is ready and the game actually starts
 #****************************************************************************
   def perspective_init_game(self):
     self.state.setup_new_game();
@@ -75,7 +76,7 @@ class ClientPerspective(pb.Avatar):
     self.handler.remote_all('next_turn', self.state.currentplayer);
 
 #****************************************************************************
-#
+# recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
   def perspective_end_turn(self, unit, coord, parentID):
     self.state.add_unit(unit, coord, self.conn_info.playerID, parentID);
@@ -83,7 +84,7 @@ class ClientPerspective(pb.Avatar):
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
     self.handler.remote_all('map', net_map);
     self.handler.remote_all('unit_list', net_unit_list);
-    self.handler.remote(self.conn_info.ref, 'confirmation');
+    self.handler.remote(self.conn_info.ref, 'confirmation'); #send message confirming unit is placed and maps updated
     sleep(1); # processing time to allow units to move and clients to update
     self.state.determine_hit(unit, coord);
     self.state.process_death();
@@ -97,7 +98,7 @@ class ClientPerspective(pb.Avatar):
     self.handler.remote_all('next_turn', self.state.currentplayer);
 
 #****************************************************************************
-#
+#recieve command indicating that this player is skipping all turns until round is over
 #****************************************************************************
   def perspective_skip_round(self):
     self.state.skippedplayers = self.state.skippedplayers + 1;
@@ -108,14 +109,14 @@ class ClientPerspective(pb.Avatar):
     self.handler.remote_all('next_turn', self.state.currentplayer);
 
 #****************************************************************************
-#
+#forward chat information to all clients
 #****************************************************************************
   def perspective_send_chat(self, data):
     message = self.conn_info.username + ": " + self.network_handle(data);
     self.handler.remote_all('chat', message);
 
 #****************************************************************************
-#
+#forward unit movement information to all clients
 #****************************************************************************
   def perspective_send_unit_path(self, unit, path):
     net_unit = self.network_prepare(unit);
@@ -123,7 +124,7 @@ class ClientPerspective(pb.Avatar):
     self.handler.remote_all('unit_path', net_unit, net_path);
 
 #****************************************************************************
-#
+#client disconnecting from server
 #****************************************************************************
   def logout(self):
     logging.info("logged out");
@@ -142,20 +143,20 @@ class ConnectionHandler:
     self.clients = {}
 
 #****************************************************************************
-#
+#send data to all clients
 #****************************************************************************
   def remote_all(self, methodName, *args):
     dfs = [self.remote(c, methodName, *args) for c in self.clients]
     return dfs 
 
 #****************************************************************************
-#
+#send data to a single client
 #****************************************************************************
   def remote(self, client, method_name, *args):
     return client.callRemote(method_name, *args);
 
 #****************************************************************************
-#
+#server information about each player
 #****************************************************************************
   def requestAvatar(self, name, client_ref, *interfaces):
     logging.info("Client connected.");

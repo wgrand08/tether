@@ -27,6 +27,7 @@ from server.main import *
 #****************************************************************************
 #
 #****************************************************************************
+"""This class is the main class for the client part of MoonPy. All major client variables and some common functions are stored here"""
 class GameClientState:
   def __init__(self):
 
@@ -146,6 +147,7 @@ class GameClientState:
 #****************************************************************************
 #
 #****************************************************************************
+"""This is part of the animation system which is currently disabled due to being broken. Once a unit is placed it is then supposed to move into it's proper position (to simulate being launched) and the confirmation is to make certain that movement doesn't take place until after the server has placed the unit on the map."""
   def confirmed(self):
     if self.process_confirmation == True:
         self.conf_unit = {};

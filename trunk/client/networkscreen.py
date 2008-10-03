@@ -32,7 +32,7 @@ class NetworkScreen:
     self.client = client;
 
 #****************************************************************************
-#  
+# screen for after being connected to server
 #****************************************************************************
   def join(self):
 
@@ -80,7 +80,7 @@ class NetworkScreen:
     self.app.run(container);
 
 #****************************************************************************
-#  
+# screen for setting up game and starting server, automatically joins server after launch
 #****************************************************************************
   def start(self):
 

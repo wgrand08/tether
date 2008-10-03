@@ -103,7 +103,7 @@ class Mapctrl:
  
 
 #****************************************************************************
-#
+#Section for when a user 'drags' the cursor 
 #****************************************************************************
     def define_tiles_within_rectangle(self):
         w = self.client.tileset.tile_width / 2;

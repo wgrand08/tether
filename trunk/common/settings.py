@@ -24,8 +24,9 @@ import logging
 
 
 #****************************************************************************
-#  This class reads game settings from a XML file.
+#  This class reads game settings from various files
 #****************************************************************************
+"""The game settings themselves are stored within a plaintext file."""
 class GameSettings:
 
     def __init__(self):

@@ -21,6 +21,7 @@ import zlib
 #****************************************************************************
 #
 #****************************************************************************
+"""Code for handling both incoming and outgoing networks commands for the client, equivalent to connectionhandler.py for the server. Everything with 'remote' in front of it is an incoming command from the server."""
 class NetworkClient(pb.Referenceable):
   def __init__(self, clientstate):
     self.perspective = None
@@ -44,7 +45,7 @@ class NetworkClient(pb.Referenceable):
 
 
 #****************************************************************************
-#
+# connect to server
 #****************************************************************************
   def connect(self, server, serverPort, username):
     self.server = server;
@@ -55,13 +56,23 @@ class NetworkClient(pb.Referenceable):
     df = factory.login(UsernamePassword("guest", "guest"), self);
     df.addCallback(self.connected);
     reactor.run();
-    
+
+#****************************************************************************
+# command for server to setup game
+#****************************************************************************    
   def start_server_game(self):
     self.perspective.callRemote('init_game')
 
+#****************************************************************************
+# command to end_turn and launch unit
+#****************************************************************************
   def end_turn(self, unit, coord, parentID):
     self.perspective.callRemote('end_turn', unit, coord, parentID)
 
+#****************************************************************************
+# command that player is 'skipping' this turn
+#****************************************************************************
+"""After being run once this should be run every time this clients turn comes around until server reports that the entire round is over."""
   def skip_round(self):
     self.perspective.callRemote('skip_round')
 
@@ -77,6 +88,9 @@ class NetworkClient(pb.Referenceable):
     perspective.callRemote('login', self.username, self.client.settings.version).addCallback(self.login_result)
     logging.info("connected.");
 
+#****************************************************************************
+# recieve login information from server
+#****************************************************************************
   def login_result(self, result):
     if result == "login_failed":
         logging.info("Server denied login");
@@ -86,10 +100,16 @@ class NetworkClient(pb.Referenceable):
         logging.info("Your playerID = %r" % self.client.playerID);
         self.client.enter_pregame();
 
+#****************************************************************************
+# send chat information
+#****************************************************************************
   def send_chat(self, message):
     data = self.network_prepare(message);
     self.perspective.callRemote('send_chat', data);
 
+#****************************************************************************
+# command to send unit movement information
+#****************************************************************************
   def send_unit_path(self, unit, path):
     net_unit = self.network_prepare(unit);
     net_path = self.network_prepare(path);
@@ -102,7 +122,7 @@ class NetworkClient(pb.Referenceable):
       reactor.stop();
 
 
-  # Methods starting with remote_ can be called by the server.
+  # Methods starting with remote_ can be called by the server. (basically incoming message)
   def remote_chat(self, message):
     if self.client.mappanel:
       self.client.mappanel.show_message(message);
@@ -113,28 +133,43 @@ class NetworkClient(pb.Referenceable):
     logging.info("* Network sync");
     self.client.game_next_phase();
 
+#****************************************************************************
+# recieve confirmation from server that units have been placed on map and to go ahead and begin movement
+#****************************************************************************
   def remote_confirmation(self):
     self.client.confirmed();
 
-  def remote_begin_turn(self):
-    self.client.myturn = True;
-
+#****************************************************************************
+# recieve updated unit information
+#****************************************************************************
   def remote_unit_list(self, net_unit_list):
     self.client.map.unitstore = self.network_handle(net_unit_list);
 
+#****************************************************************************
+# recieve updated map information
+#****************************************************************************
   def remote_map(self, net_map):
     self.client.map.mapstore = self.network_handle(net_map);
 
   def remote_start_client_game(self):
     self.client.pregame.start_game();
 
+#****************************************************************************
+# recieve assigned playerID from server
+#****************************************************************************
   def remote_get_playerID(self, playerID):
     self.client.playerID = playerID;
 
+#****************************************************************************
+# recieve command to restore energy and begin a new round
+#****************************************************************************
   def remote_next_round(self):
     self.client.current_energy = self.client.stored_energy;
     #todo: add code to calculate stored energy for next turn
 
+#****************************************************************************
+# recieve command identifying which players turn it is
+#****************************************************************************
   def remote_next_turn(self, next_player):
     if next_player == self.client.playerID:
         self.client.myturn = True;
@@ -143,6 +178,9 @@ class NetworkClient(pb.Referenceable):
         self.client.myturn = False;
         logging.info("It is player %r turn" % next_player);
 
+#****************************************************************************
+# recieve unit path information to handle unit movement
+#****************************************************************************
   def remote_unit_path(self, net_unit, net_path):
     path = self.network_handle(net_path);
     unit_id = self.network_handle(net_unit);
