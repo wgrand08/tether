@@ -21,7 +21,6 @@ from common.map import *
 from common.game import * 
 from common.mapgen import *
 from common.settings import *
-from common.ruleset import *
 from connectionhandler import *
 
 
@@ -42,11 +41,9 @@ class ServerState:
 
     if not self.game:
       self.map = Map(self);
-      ruleset_src = self.settings.get_ruleset_src(self.settings.ruleset_name);
-      self.ruleset = Ruleset(ruleset_src);
-      self.game = Game(self.map, self.ruleset);
+      self.game = Game(self.map);
 
-      MapGen(self.map, self.ruleset);
+      MapGen(self.map, self.game);
 
       #FIXME: Need some sort of randomization for the starting hubs
 
@@ -99,7 +96,7 @@ class ServerState:
 #****************************************************************************
   def determine_hit(self, unit, pos):
     x, y = pos;
-    power = self.ruleset.get_unit_power(unit);
+    power = self.game.get_unit_power(unit);
     for target in self.map.unitstore.values():
         if target.x == x and target.y == y and target.typeset != "doodad":
             target.hp = target.hp - power;

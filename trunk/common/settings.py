@@ -33,10 +33,6 @@ class GameSettings:
         self.rulesets = {};
 
         self.tileset = "data/graphics/tileset.xml"; 
-        self.ruleset_name = "MoonPy Default"; 
-        rulesetname = "MoonPy Default";
-        rulesetsrc = "data/ruleset/ruleset.xml"; 
-        self.rulesets.update({rulesetname:rulesetsrc});
         self.screen_width = 1024; 
         self.screen_height = 768;
         self.language = "en" 
@@ -50,11 +46,7 @@ class GameSettings:
         self.screenRunning = True;
         self.debug = False;
         self.defaultIP = "127.0.0.1";
-        self.language = "en";
-
-
-    def get_ruleset_src(self, rulesetname):
-        return self.rulesets[rulesetname];
+        self.language = "en";
 
     def load_settings(self):
         badsettings = True;

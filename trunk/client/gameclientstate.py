@@ -109,7 +109,7 @@ class GameClientState:
 #****************************************************************************
   def start_game(self):
     logging.info("Init game state")
-    self.game = Game(self.map, self.ruleset);
+    self.game = Game(self.map);
 
     self.tileset.load_tileset();
     self.mapctrl = Mapctrl(self);
