@@ -52,7 +52,7 @@ class GameClientState:
     self.skipped = False;
     self.current_energy = 0;
     self.stored_energy = 0;
-    self.selected_weap = 'bomb';
+    self.selected_weap = 'tether';
     self.playerID = 0;
     self.conf_startX = 0;
     self.conf_startY = 0;
@@ -145,9 +145,9 @@ class GameClientState:
     self.pregame = networkscreen.PregameScreen(self); 
 
 #****************************************************************************
-#
+#movement confirmation
 #****************************************************************************
-"""This is part of the animation system which is currently disabled due to being broken. Once a unit is placed it is then supposed to move into it's proper position (to simulate being launched) and the confirmation is to make certain that movement doesn't take place until after the server has placed the unit on the map."""
+#This is part of the animation system which is currently disabled due to being broken. Once a unit is placed it is then supposed to move into it's proper position (to simulate being launched) and the confirmation is to make certain that movement doesn't take place until after the server has placed the unit on the map."""
   def confirmed(self):
     if self.process_confirmation == True:
         self.conf_unit = {};

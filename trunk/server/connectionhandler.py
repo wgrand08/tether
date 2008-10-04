@@ -102,7 +102,7 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
   def perspective_skip_round(self):
     self.state.skippedplayers = self.state.skippedplayers + 1;
-    if self.state.skippedplayers => self.state.max_players(self.handler.clients):
+    if self.state.skippedplayers >= self.state.max_players(self.handler.clients):
         self.skippedplayers = 0;
         self.handler.remote_all('next_round');
     self.state.currenplayer = 1; #todo: add code to randomize/rotate the starting player for each round

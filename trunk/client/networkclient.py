@@ -72,7 +72,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # command that player is 'skipping' this turn
 #****************************************************************************
-"""After being run once this should be run every time this clients turn comes around until server reports that the entire round is over."""
+#After being run once this should be run every time this clients turn comes around until server reports that the entire round is over."""
   def skip_round(self):
     self.perspective.callRemote('skip_round')
 

@@ -32,7 +32,7 @@ class Unit:
     self.rotate = 3;
     self.typeset = None;
     self.hp = 0;
-    self.parent = 0;
+    self.parentID = 0;
     self.disabled = False;
 
 #****************************************************************************

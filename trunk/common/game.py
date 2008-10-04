@@ -54,11 +54,75 @@ class Game:
 #****************************************************************************
 #turns a unit into a crater
 #****************************************************************************
-"""Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into craters instead. """
+#Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into craters instead. """
   def remove_unit(self, unit):
     unit_type_id = 'crater';
     unit_type = self.ruleset.get_unit_type(unit_type_id);
     self.map.change_unit(unit, unit_type);
     unit.typeset = 'doodad';
     unit.hp = 0;
+
+#****************************************************************************
+#finds a units parent
+#****************************************************************************
+  def find_parent(self, unit):
+    for parent in self.map.unitstore.values():
+        if parent.id == unit.parentID:
+            return parent;
+    return 0;
+"""
+#****************************************************************************
+#Get color based off playerID
+#****************************************************************************
+  def get_player_color(self, playerID): #todo add more colors
+    if playerID == 1:
+        color = (255,10,10);
+    elif playerID == 2:
+        color = (100,100,50);
+    else:
+        logging.error("PlayerID %r not assigned a color yet" % (playerID));
+        color = None;
+    return color;
+#****************************************************************************
+#identify unit type
+#****************************************************************************
+  def get_unit_type(self, type_id):
+    return self.unit_types[type_id];
+
+#****************************************************************************
+#get the typeset of a unit
+#****************************************************************************
+  def get_unit_typeset(self, type_id):
+    typeset = "doodad";
+    if type_id == "hub" or type_id == "tower" or type_id == "balloon" or type_id == "converter" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
+        typeset = "build"
+    elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike":
+        typeset = "weap";
+    return typeset;
+
+#****************************************************************************
+#get the maxHP of a unit
+#****************************************************************************
+  def get_unit_hp(self, type_id):
+    hp = 0;
+    if type_id == "hub" or type_id == "converter":
+        hp = 3; #should be 5 but set to 3 for debug purposes
+    if type_id == "tower" or type_id == "antiair" or type_id == "offense" or type_id == "shield" or type_id == "crawler":
+        hp = 3;
+    if type_id == "balloon":
+        hp = 1;
+    return hp;
+
+#****************************************************************************
+#get the power or damage capability of a weapon
+#****************************************************************************
+  def get_unit_power(self, type_id):
+    power = 0;
+    if type_id == "bomb" or type_id == "missile" or type_id == "spike":
+        power = 3;
+    if type_id == "crawler":
+        power = 5;
+    if type_id == "emp":
+        power = 2;
+    return power;"""
 

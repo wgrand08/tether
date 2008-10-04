@@ -143,6 +143,7 @@ class Mapctrl:
                             self.client.selected_unit.update({map_pos:unit});
                             #self.set_mouse_state('goto'); #enable to test unit movement
                             logging.info("Selected unit ID %r" % unit.id);
+                            logging.info("It's parent ID is %r" % unit.parentID);
                 yy += 1;
                 y += inc_y;
                 xx += 1;

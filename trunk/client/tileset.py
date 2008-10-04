@@ -113,7 +113,7 @@ class Tileset:
           self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha);
 
       for tileNode in fileNode.getElementsByTagName('weapon'):
-        print("placeholder text");
+        placeholder = True;
         
 
       # Load units graphic
@@ -130,14 +130,12 @@ class Tileset:
         for playerNode in tileNode.getElementsByTagName('player'): #fixme: this isn't efficient as a player entry is required within each unit listing within tileset.xml for each unique player. 
             playerID = playerNode.getAttribute('id');
             tempcolor = playerNode.getAttribute('color');
-            if tempcolor == 'red':
-                color = (255,10,10);
-            elif tempcolor == 'brown':
-                color = (100,100,50);
-            elif tempcolor == 'clear': #for units that do not need player colors such as doodads and weapons
-                color = None;
+            typeset = self.client.game.ruleset.get_unit_typeset(name);
+            if typeset == "build" or typeset == "tether"
+                color == self.client.game.ruleset.get_unit_typeset(playerID);
             else:
-                logging.error("Player color %s not configured" % (tempcolor));
+                color = None;
+
             for frameNode in playerNode.getElementsByTagName('frame'):
               slotx = int(frameNode.getAttribute('slot-x'));
               sloty = int(frameNode.getAttribute('slot-y'));

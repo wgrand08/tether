@@ -12,4 +12,7 @@
   <unit type="bomb" full_name="bomb" speed="10">
     <movement type="all" movecost="10"/>
   </unit>
+  <unit type="tether" full_name="none" speed="0">
+    <movement type="none" movecost="0"/>
+  </unit>
 </ruleset>

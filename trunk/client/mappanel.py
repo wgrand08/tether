@@ -187,14 +187,14 @@ class Mappanel:
         self.rotate_position = self.rotate_position + 1;
         if (self.rotate_position > 12):
             self.rotate_position = 1;
-        logging.info("rotate = %r" % self.rotate_position;
+        logging.info("rotate = %r" % self.rotate_position);
 
   def rotateleft(self, obj):
     if self.client.myturn == True:
         self.rotate_position = self.rotate_position - 1;
         if (self.rotate_position < 1):
             self.rotate_position = 12;
-        logging.info("rotate = %r" % self.rotate_position;
+        logging.info("rotate = %r" % self.rotate_position);
 
   def increasepower(self, obj):
     if self.client.myturn == True:

@@ -129,8 +129,16 @@ class Mapview:
               + dy * self.tileset.tile_height);
 
     #draw tether lines
-    if unit.typeset == "build" and unit.parent != 0: #only non-starting buildings have tethers
-        print("placeholder text");
+    """if unit.typeset == "build" and unit.parentID != 0: #only non-starting buildings have tethers
+        parent = self.client.game.find_parent(unit);
+        child_pos = blit_x, blit_y;
+        parent_pos = parent.x, parent.y;        
+        color = self.client.game.get_color("red"); #todo: make colors unique to players
+        #pygame.draw.line(self.client.screen, color, (0, 0), (639, 479), 2)
+        pygame.draw.line(self.client.screen, color, child_pos, parent_pos, 2)"""
+
+        
+
 
 
 # Indicate selection

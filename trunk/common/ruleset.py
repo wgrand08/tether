@@ -59,7 +59,18 @@ class Ruleset:
       self.terrain_types.update({type_id:
                          TerrainType(type_id, full_name)});
 
-
+#****************************************************************************
+#Get color based off playerID
+#****************************************************************************
+  def get_player_color(self, playerID): #todo add more colors
+    if playerID == 1:
+        color = (255,10,10);
+    elif playerID == 2:
+        color = (100,100,50);
+    else:
+        logging.error("PlayerID %r not assigned a color yet" % (playerID));
+        color = None;
+    return color;
 #****************************************************************************
 #identify unit type
 #****************************************************************************
@@ -102,6 +113,7 @@ class Ruleset:
     if type_id == "emp":
         power = 2;
     return power;
+
 #****************************************************************************
 #
 #****************************************************************************
@@ -143,4 +155,3 @@ class UnitType:
         return 1;
     except:
      return 0;
-
