@@ -114,6 +114,7 @@ class Mapview:
             if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
                 unit = self.map.get_unit(real_map_pos);
 
+    #draw units themselves
     gui_x, gui_y = self.map_to_gui(map_pos);
 
     unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, unit.dir, unit.playerID);
@@ -126,6 +127,10 @@ class Mapview:
     blit_x = gui_x - self.view_x + dx * self.tileset.tile_width; 
     blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) 
               + dy * self.tileset.tile_height);
+
+    #draw tether lines
+    if unit.typeset == "build" and unit.parent != 0: #only non-starting buildings have tethers
+        print("placeholder text");
 
 
 # Indicate selection

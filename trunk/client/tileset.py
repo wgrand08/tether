@@ -113,7 +113,7 @@ class Tileset:
           self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha);
 
       for tileNode in fileNode.getElementsByTagName('weapon'):
-        print("placeholder");
+        print("placeholder text");
         
 
       # Load units graphic
