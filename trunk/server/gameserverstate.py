@@ -33,6 +33,7 @@ class ServerState:
     self.game = None; 
     self.currentplayer = 1;
     self.skippedplayers = 0;
+    self.interrupted_tether = False;
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -94,11 +95,12 @@ class ServerState:
 #****************************************************************************
 #Determine where a shot lands
 #****************************************************************************
-  def find_trajectory(self, parentID, rotation, power):
+  def find_trajectory(self, parentID, rotation, power, child, playerID):
     unit = self.map.get_unit_from_id(parentID);
     start_tile = self.map.get_tile_from_unit(unit);
     endX = start_tile.x; #todo: need to add true 360 degrees of rotation
     endY = start_tile.y;
+    self.interrupted_tether = False;
     for find_target in range(1, power):
         if rotation == 1:
             endX = endX + 0;
@@ -168,6 +170,19 @@ class ServerState:
             endY = 90;
         if endY == 91:
             endY = 1;
+        if find_target > 1 and find_target < (power - 1): #placing tethers
+            for target in self.map.unitstore.values():
+                if (target.x == endX and target.y == endY):
+                    if target.typeset != "doodad" or target.id != self.game.unit_counter:
+                        logging.info("You crossed a tether! %r " % find_target);
+                        self.interrupted_tether = True;
+                        if find_target > 2:
+                            victim = self.map.get_unit_from_id(self.game.unit_counter); #find and kill partially laid tether
+                            victim.hp = 0;
+                        return (endX, endY);
+            #tether didn't land on anything, ready to place!
+            chain_parent = self.game.unit_counter + 2; #tethers have reverse dependency compared to buildings
+            self.add_unit("tether", (endX, endY), playerID, chain_parent);
     endX = round(endX, 0);
     endY = round(endY, 0);
     return (endX, endY);

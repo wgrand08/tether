@@ -146,10 +146,9 @@ class Map:
 # Places the unit at the map position.
 #****************************************************************************
   def set_unit(self, unit, pos, typeset, hp, parentID):
-    logging.info("typeset used is %r" % typeset);
     if (self.get_unit(pos) == None) or (typeset == "weap"):
       logging.info("placed unit# %r" % unit.id);
-      logging.info("launched from unit# %r" % parentID);
+      logging.info("dependent on unit# %r" % parentID);
       self.unitstore.update({unit.id:unit});
       (unit.x, unit.y) = pos;
       unit.typeset = typeset;

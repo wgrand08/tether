@@ -50,6 +50,12 @@ class Game:
     movements.update({type:movecost});
     self.unit_types.update({"bomb":UnitType("bomb", "bomb", 0, "weap", movements)});
 
+    movements = {};
+    type = "plains";
+    movecost = 0;
+    movements.update({type:movecost});
+    self.unit_types.update({"tether":UnitType("tether", "tether", 0, "doodad", movements)});
+
     self.terrain_types.update({"ocean":TerrainType("ocean", "Ocean")});
     self.terrain_types.update({"plains":TerrainType("plains", "Plains")});
     self.terrain_types.update({"coast":TerrainType("coast", "Coast")});
@@ -77,7 +83,6 @@ class Game:
     typeset = self.get_unit_typeset(unit_type_id);
     hp = self.get_unit_hp(unit_type_id);
     unit_type = self.get_unit_type(unit_type_id);
-    logging.info("created unitID %s" % self.unit_counter);
     self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID);
 
 #****************************************************************************
@@ -107,13 +112,12 @@ class Game:
     color = None;
     if playerID == 1:
         color = (255,10,10);
-        logging.info("assigned red");
     elif playerID == 2:
         color = (100,100,50);
-        logging.info("assigned brown");
     else:
         logging.error("PlayerID %r not assigned a color yet" % (playerID));
     return color;
+
 #****************************************************************************
 #identify unit type
 #****************************************************************************
@@ -129,6 +133,8 @@ class Game:
         typeset = "build"
     elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike":
         typeset = "weap";
+    elif type_id == "tether":
+        typeset = "tether";
     return typeset;
 
 #****************************************************************************
@@ -142,6 +148,8 @@ class Game:
         hp = 3;
     if type_id == "balloon":
         hp = 1;
+    if type_id == "tether":
+        hp = 100; #tethers should not die except by disconnection
     return hp;
 
 #****************************************************************************

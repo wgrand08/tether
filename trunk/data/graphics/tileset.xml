@@ -99,6 +99,18 @@
   </unit>
 </file>
 
+<file src="unit_tether.png">
+  <unit name="tether" frames="1" x="1" y="1" 
+        width="64" height="64" pixelalpha="true">
+    <player id="1" color="red">
+        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+    </player>
+    <player id="2" color="brown">
+        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+    </player>
+  </unit>
+</file>
+
 <file src="cursors.png">
   <cursor name="goto" frames="6" x="1" y="1" 
         width="32" height="32" pixelalpha="true">

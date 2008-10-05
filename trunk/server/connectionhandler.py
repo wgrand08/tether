@@ -79,15 +79,16 @@ class ClientPerspective(pb.Avatar):
 # recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
   def perspective_launch_unit(self, parentID, unit, rotation, power):
-    coord = self.state.find_trajectory(parentID, rotation, power);
-    self.state.add_unit(unit, coord, self.conn_info.playerID, parentID);
-    net_map = self.network_prepare(self.state.map.mapstore); 
-    net_unit_list = self.network_prepare(self.state.map.unitstore); 
-    self.handler.remote_all('map', net_map);
-    self.handler.remote_all('unit_list', net_unit_list);
-    self.handler.remote(self.conn_info.ref, 'confirmation'); #send message confirming unit is placed and maps updated
-    sleep(1); # processing time to allow units to move and clients to update
-    self.state.determine_hit(unit, coord);
+    coord = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID);
+    if self.state.interrupted_tether != True:
+        self.state.add_unit(unit, coord, self.conn_info.playerID, parentID);
+        net_map = self.network_prepare(self.state.map.mapstore); 
+        net_unit_list = self.network_prepare(self.state.map.unitstore); 
+        self.handler.remote_all('map', net_map);
+        self.handler.remote_all('unit_list', net_unit_list);
+        self.handler.remote(self.conn_info.ref, 'confirmation'); #send message confirming unit is placed and maps updated
+        sleep(1); # processing time to allow units to move and clients to update
+        self.state.determine_hit(unit, coord);
     self.state.process_death();
     net_map = self.network_prepare(self.state.map.mapstore); 
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
