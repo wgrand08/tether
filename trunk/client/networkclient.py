@@ -64,10 +64,10 @@ class NetworkClient(pb.Referenceable):
     self.perspective.callRemote('init_game')
 
 #****************************************************************************
-# command to end_turn and launch unit
+# command to actually fire something
 #****************************************************************************
-  def end_turn(self, unit, coord, parentID):
-    self.perspective.callRemote('end_turn', unit, coord, parentID)
+  def launch_unit(self, parentID, unit, rotation, power):
+    self.perspective.callRemote('launch_unit', parentID, unit, rotation, power)
 
 #****************************************************************************
 # command that player is 'skipping' this turn
@@ -106,14 +106,6 @@ class NetworkClient(pb.Referenceable):
   def send_chat(self, message):
     data = self.network_prepare(message);
     self.perspective.callRemote('send_chat', data);
-
-#****************************************************************************
-# command to send unit movement information
-#****************************************************************************
-  def send_unit_path(self, unit, path):
-    net_unit = self.network_prepare(unit);
-    net_path = self.network_prepare(path);
-    self.perspective.callRemote('send_unit_path', unit, path);
 
 
   def error(self, failure, op=""):

@@ -78,7 +78,8 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
 # recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
-  def perspective_end_turn(self, unit, coord, parentID):
+  def perspective_launch_unit(self, parentID, unit, rotation, power):
+    coord = self.state.find_trajectory(parentID, rotation, power);
     self.state.add_unit(unit, coord, self.conn_info.playerID, parentID);
     net_map = self.network_prepare(self.state.map.mapstore); 
     net_unit_list = self.network_prepare(self.state.map.unitstore); 
