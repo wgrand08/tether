@@ -129,7 +129,6 @@ class Tileset:
 
         for playerNode in tileNode.getElementsByTagName('player'): #fixme: this isn't efficient as a player entry is required within each unit listing within tileset.xml for each unique player. 
             playerID = playerNode.getAttribute('id');
-            tempcolor = playerNode.getAttribute('color');
             typeset = self.client.game.get_unit_typeset(name);
             if typeset == "build" or typeset == "tether":
                 color = self.client.game.get_player_color(int(playerID));

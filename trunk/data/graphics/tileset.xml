@@ -66,10 +66,10 @@
 <file src="crater.png">
   <unit name="crater" frames="1" x="1" y="1" 
         width="64" height="64" pixalalpha="true">
-    <player id="1" color="clear">
+    <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
-    <player id="2" color="clear">
+    <player id="2">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
   </unit>
@@ -78,10 +78,10 @@
 <file src="boom.png">
   <unit name="bomb" frames="1" x="1" y="1" 
         width="64" height="64" pixalalpha="true">
-    <player id="1" color="clear">
+    <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
-    <player id="2" color="clear">
+    <player id="2">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
   </unit>
@@ -90,10 +90,10 @@
 <file src="unit_hub.png">
   <unit name="hub" frames="1" x="1" y="1" 
         width="64" height="64" pixelalpha="true">
-    <player id="1" color="red">
+    <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
-    <player id="2" color="brown">
+    <player id="2">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
   </unit>
@@ -102,10 +102,10 @@
 <file src="unit_tether.png">
   <unit name="tether" frames="1" x="1" y="1" 
         width="64" height="64" pixelalpha="true">
-    <player id="1" color="red">
+    <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
-    <player id="2" color="brown">
+    <player id="2">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
   </unit>
