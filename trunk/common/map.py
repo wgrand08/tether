@@ -17,7 +17,6 @@ import math
 
 from maptile import *
 from unit import *
-from path import *
 
 #****************************************************************************
 # The map class contains the mapstore, which is a dictionary of 
@@ -392,17 +391,6 @@ class Map:
     n.parent = current_node;
     return n;
 
-#****************************************************************************
-# 
-#****************************************************************************
-  def find_path(self, unit, ruleset, start_tile, end_tile):
-    self.ruleset = ruleset;
-    pathfinder = AStar(unit, self.game_state, start_tile, end_tile);
-
-    if not self.can_unit_move_to_tile(unit, end_tile): 
-      logging.info("Invalid goto destination");
-      return;
-    pathfinder.start();
 
 #****************************************************************************
 # 

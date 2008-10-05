@@ -116,14 +116,6 @@ class ClientPerspective(pb.Avatar):
     self.handler.remote_all('chat', message);
 
 #****************************************************************************
-#forward unit movement information to all clients
-#****************************************************************************
-  def perspective_send_unit_path(self, unit, path):
-    net_unit = self.network_prepare(unit);
-    net_path = self.network_prepare(path);
-    self.handler.remote_all('unit_path', net_unit, net_path);
-
-#****************************************************************************
 #client disconnecting from server
 #****************************************************************************
   def logout(self):

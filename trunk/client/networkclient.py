@@ -178,11 +178,3 @@ class NetworkClient(pb.Referenceable):
         self.client.myturn = False;
         logging.info("It is player %r turn" % next_player);
 
-#****************************************************************************
-# recieve unit path information to handle unit movement
-#****************************************************************************
-  def remote_unit_path(self, net_unit, net_path):
-    path = self.network_handle(net_path);
-    unit_id = self.network_handle(net_unit);
-    unit = self.client.map.get_unit_from_id(unit_id);
-    unit.path = path;

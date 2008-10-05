@@ -20,7 +20,6 @@ from twisted.internet import task, reactor
 from common.map import * 
 from common.mapgen import *
 from common.settings import *
-from common.ruleset import *
 from common.game import *
 from server.main import *
 

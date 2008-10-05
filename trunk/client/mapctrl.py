@@ -22,7 +22,6 @@ class Mapctrl:
 
     def __init__(self, gameclient):
         self.client = gameclient;
-        #self.selected_units = {};
         self.mouse_state = "default";
 
 #****************************************************************************
@@ -33,10 +32,7 @@ class Mapctrl:
             if event.type == QUIT:
                 self.client.quit()
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
-                if self.mouse_state == 'goto':
-                    self.mouse_state = 'default'
-                else:
-                    self.client.quit();
+                self.client.quit();
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 self.client.mappanel.send_chat();
             elif event.type == KEYDOWN and event.key == K_f:
@@ -67,10 +63,7 @@ class Mapctrl:
                 self.select_pos_start = pygame.mouse.get_pos(); 
                 self.select_pos_end = pygame.mouse.get_pos(); 
                 self.set_mouse_state('select');
-      
-            if self.mouse_state == 'goto':
-                self.handle_goto(x, y); 
-                self.set_mouse_state('default');
+
         elif button == 3:
             map_pos = self.client.mapview.canvas_to_map(pos); 
             self.client.mapview.center_view_on_tile(map_pos);
@@ -83,23 +76,6 @@ class Mapctrl:
     def handle_mouse_release(self, pos, button):
         if button == 1 and self.mouse_state == 'select': 
             self.define_tiles_within_rectangle();
-
-#****************************************************************************
-#
-#****************************************************************************
-    def handle_goto(self, canvas_x, canvas_y):
-        self.set_mouse_state('default');
-        map_pos = self.client.mapview.canvas_to_map((canvas_x, canvas_y));
-
-        for unit in self.client.selected_unit.values():
-            logging.info("Selected unit id %r" % unit.id);
-            start_tile = self.client.map.get_tile_from_unit(unit);
-            end_tile = self.client.map.get_tile(map_pos);
-            logging.info("dist %r" % self.client.map.get_distance(start_tile, end_tile));
-            if self.client.map.get_distance(start_tile, end_tile) > 40:
-                logging.info("Distance is too long.");
-                return;
-            self.client.map.find_path(unit, self.client.ruleset, start_tile, end_tile);
  
 
 #****************************************************************************
@@ -141,7 +117,6 @@ class Mapctrl:
                     if unit.typeset == "build" and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                             self.client.selected_unit.update({map_pos:unit});
-                            #self.set_mouse_state('goto'); #enable to test unit movement
                             logging.info("Selected unit ID %r" % unit.id);
                             logging.info("It's parent ID is %r" % unit.parentID);
                 yy += 1;
