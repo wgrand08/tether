@@ -41,23 +41,16 @@ class Mapview:
 #****************************************************************************
   def drawmap(self):
     self.delta_scroll();
-    mapcoord_list = self.gui_rect_iterate(self.view_x, 
-		                          self.view_y,
-                                          self.rect.width, 
-                                          int(self.rect.height
-                                          + self.tileset.tile_height * 0.5));
+    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, int(self.rect.height + self.tileset.tile_height * 0.5));
+
     for pos in mapcoord_list:
       self.draw_tile_terrain(pos);
-
-   # for pos in mapcoord_list:
-   #   self.draw_tile_coast(pos);
 
     for pos in mapcoord_list:
         self.draw_unit(pos);
 
     self.cursor.show();
     self.draw_mapview_selection();
-#    self.client.screen.blit(self.mapcanvas, (0,0));
     self.tileset.animation_next();
 
 #****************************************************************************
@@ -127,19 +120,6 @@ class Mapview:
     blit_x = gui_x - self.view_x + dx * self.tileset.tile_width; 
     blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) 
               + dy * self.tileset.tile_height);
-
-    #draw tether lines
-    """if unit.typeset == "build" and unit.parentID != 0: #only non-starting buildings have tethers
-        parent = self.client.game.find_parent(unit);
-        child_pos = blit_x, blit_y;
-        parent_pos = parent.x, parent.y;        
-        color = self.client.game.get_color("red"); #todo: make colors unique to players
-        #pygame.draw.line(self.client.screen, color, (0, 0), (639, 479), 2)
-        pygame.draw.line(self.client.screen, color, child_pos, parent_pos, 2)"""
-
-        
-
-
 
 # Indicate selection
 #    for aunit in self.client.mapctrl.selected_units.values():
