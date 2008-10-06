@@ -170,19 +170,20 @@ class ServerState:
             endY = 90;
         if endY == 91:
             endY = 1;
-        if find_target > 1 and find_target < (power - 1): #placing tethers
-            for target in self.map.unitstore.values():
-                if (target.x == endX and target.y == endY):
-                    if target.typeset != "doodad" or target.id != self.game.unit_counter:
-                        logging.info("You crossed a tether! %r " % find_target);
-                        """self.interrupted_tether = True;
-                        if find_target > 2:
-                            victim = self.map.get_unit_from_id(self.game.unit_counter); #find and kill partially laid tether
-                            victim.hp = 0;
-                        return (endX, endY);"""
-            #tether didn't land on anything, ready to place!
-            chain_parent = self.game.unit_counter + 2; #tethers have reverse dependency compared to buildings
-            self.add_unit("tether", (endX, endY), playerID, chain_parent);
+        if self.game.check_tether(child) == True:
+            if find_target > 1 and find_target < (power - 1): #placing tethers
+                for target in self.map.unitstore.values():
+                    if (target.x == endX and target.y == endY):
+                        if target.typeset != "doodad" or target.id != self.game.unit_counter:
+                            logging.info("You crossed a tether! %r " % find_target);
+                            """self.interrupted_tether = True;
+                            if find_target > 2:
+                                victim = self.map.get_unit_from_id(self.game.unit_counter); #find and kill partially laid tether
+                                victim.hp = 0;
+                            return (endX, endY);"""
+                #tether didn't land on anything, ready to place!
+                chain_parent = self.game.unit_counter + 2; #tethers have reverse dependency compared to buildings
+                self.add_unit("tether", (endX, endY), playerID, chain_parent);
     endX = round(endX, 0);
     endY = round(endY, 0);
     return (endX, endY);

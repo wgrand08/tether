@@ -166,6 +166,15 @@ class Game:
     return power;
 
 #****************************************************************************
+#Determine if a unit is tethered
+#****************************************************************************
+  def check_tether(self, type_id): #returns boolean of a unit is tethered or not
+    if (self.get_unit_typeset(type_id) != "build") or (type_id == "balloon"): #all buildings except balloons have tethers, nothing else does
+        return False;
+    else:
+        return True;
+
+#****************************************************************************
 #
 #****************************************************************************
   def get_terrain_type(self, type_id):
