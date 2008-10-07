@@ -89,7 +89,7 @@
 
 <file src="unit_hub.png">
   <unit name="hub" frames="1" x="1" y="1" 
-        width="64" height="64" pixelalpha="true">
+        width="50" height="50" pixelalpha="true">
     <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
