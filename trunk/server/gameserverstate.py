@@ -103,11 +103,6 @@ class ServerState:
     self.interrupted_tether = False;
     power = 15;
     #logging.info("rotation set as %r" % rotation);
-    chain_parent = 1;
-    self.add_unit("tether", (endX + 1, endY), playerID, chain_parent);
-    self.add_unit("tether", (endX - 1, endY), playerID, chain_parent);
-    self.add_unit("tether", (endX, endY - 1), playerID, chain_parent);
-    self.add_unit("tether", (endX, endY + 1), playerID, chain_parent);
     for find_target in range(1, power):
         if rotation == 1:
             endX = endX + 0;
@@ -180,20 +175,20 @@ class ServerState:
         #endX = round(endX, 0);
         #endY = round(endY, 0);
         if self.game.check_tether(child) == True: #if launched unit has tethers the place tethers
-            if find_target > 1 and find_target < (power - 1):
+            if find_target > 2 and find_target < (power - 2):
                 for target in self.map.unitstore.values():
                     if (target.x == endX and target.y == endY):
                         logging.info("probable fake tether cross");
                         if target.typeset != "doodad" or target.id != self.game.unit_counter:
                             logging.info("You crossed a tether! %r " % find_target);
-                            """self.interrupted_tether = True;
-                            if find_target > 2:
+                            self.interrupted_tether = True;
+                            if find_target > 3:
                                 victim = self.map.get_unit_from_id(self.game.unit_counter); #find and kill partially laid tether
                                 victim.hp = 0;
-                            return (endX, endY);"""
+                            return (endX, endY);
                 #tether didn't land on anything, ready to place!
                 chain_parent = self.game.unit_counter + 2; #tethers have reverse dependency compared to buildings
-                self.add_unit("tether", (endX, endY), playerID, chain_parent);
+                self.add_unit("tether", (round(endX, 0), round(endY, 0)), playerID, chain_parent);
     endX = round(endX, 0);
     endY = round(endY, 0);
     return (endX, endY);
