@@ -26,7 +26,7 @@ import logging
 #****************************************************************************
 #  This class reads game settings from various files
 #****************************************************************************
-"""The game settings themselves are stored within a plaintext file."""
+"""The game settings themselves are stored within a plaintext file titled settings.config"""
 class GameSettings:
 
     def __init__(self):
@@ -38,7 +38,7 @@ class GameSettings:
         self.language = "en" 
         self.psyco = "true";
 
-        self.version = 0.421;
+        self.version = 0.475;
         self.playername = "Commander";
         self.fullscreen = False;
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768;

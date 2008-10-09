@@ -100,7 +100,7 @@
 </file>
 
 <file src="void.png">
-  <unit name="hub" frames="1" x="1" y="1" 
+  <unit name="void" frames="1" x="1" y="1" 
         width="64" height="64" pixelalpha="true">
     <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>

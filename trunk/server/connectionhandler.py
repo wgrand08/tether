@@ -79,14 +79,6 @@ class ClientPerspective(pb.Avatar):
 # recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
   def perspective_launch_unit(self, parentID, unit, rotation, power):
-    """if rotation < 4:
-        rotation = 1;
-    if rotation > 3 and rotation < 7:
-        rotation = 4;
-    if rotation > 6 and rotation < 10:
-        rotation = 7;
-    if rotation > 9:
-        rotation = 10;"""
     coord = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID);
     if self.state.interrupted_tether == False:
         self.state.add_unit(unit, coord, self.conn_info.playerID, parentID);
@@ -95,7 +87,6 @@ class ClientPerspective(pb.Avatar):
         self.handler.remote_all('map', net_map);
         self.handler.remote_all('unit_list', net_unit_list);
         self.handler.remote(self.conn_info.ref, 'confirmation'); #send message confirming unit is placed and maps updated
-        sleep(1); # processing time to allow units to move and clients to update
         self.state.determine_hit(unit, coord);
     self.state.process_death();
     net_map = self.network_prepare(self.state.map.mapstore); 

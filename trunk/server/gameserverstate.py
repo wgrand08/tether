@@ -101,7 +101,6 @@ class ServerState:
     endX = start_tile.x; #todo: need to add true 360 degrees of rotation
     endY = start_tile.y;
     self.interrupted_tether = False;
-    power = 15;
     #logging.info("rotation set as %r" % rotation);
     for find_target in range(1, power):
         if rotation == 1:
@@ -172,8 +171,6 @@ class ServerState:
             endY = 90;
         if endY == 91:
             endY = 1;
-        #endX = round(endX, 0);
-        #endY = round(endY, 0);
         if self.game.check_tether(child) == True: #if launched unit has tethers the place tethers
             if find_target > 2 and find_target < (power - 2):
                 for target in self.map.unitstore.values():
