@@ -9,4 +9,4 @@ moon.py is currently at alpha stage, the following is a list of what needs to be
   * Ability for the main hub to fire basic bombs capable of dealing damage - complete!
   * Ability for hubs to launch other hubs with tethers connecting them - complete!
   * Server/Client system must behave as a turn-based system - complete!
-  * Ability to see on-screen what direction a hub is currently aiming
+  * Ability to see on-screen what direction a hub is currently aiming - complete!
