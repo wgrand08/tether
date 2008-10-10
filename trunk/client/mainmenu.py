@@ -40,7 +40,7 @@ class MainMenu:
     screen_width = self.client.settings.screen_width; 
     screen_height = self.client.settings.screen_height; 
     screen = pygame.display.set_mode((screen_width, screen_height), screen_mode);
-    pygame.display.set_caption("MoonPy %s" % (self.client.settings.version));
+    pygame.display.set_caption("MoonPy %s" % (self.client.settings.string_version));
     self.client.screen = screen;
 
     self.app = gui.Desktop();
@@ -52,11 +52,6 @@ class MainMenu:
     network_start_button.connect(gui.CLICK, self.network_start, None);
     menu_table.add(network_start_button, 0, 0);
     menu_table.add(gui.Widget(width=1, height=5), 0, 1);
-    """
-    testbutton = gui.Button(_("Test Button"));
-    menu_table.add(testbutton, 0, 11);
-    menu_table.add(gui.Widget(width=1, height=5), 0, 12);
-    """
 
     network_join_button = gui.Button(_("Join Multiplayer Game"));
     network_join_button.connect(gui.CLICK, self.network_join, None);

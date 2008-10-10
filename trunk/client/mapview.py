@@ -26,9 +26,9 @@ class Mapview:
   def __init__(self, clientstate):
     self.client = clientstate;
     self.map = clientstate.map;
-    self.view_x = 1200;
+    self.view_x = 1200; #starting location of viewer
     self.view_y = 1200;
-    self.view_delta_x = 0;
+    self.view_delta_x = 0; #for scrolling viewer
     self.view_delta_y = 0;
     self.tileset = self.client.tileset;
     self.cursor = GfxCursor(self.client, self.client.screen);
@@ -228,8 +228,7 @@ class Mapview:
 #****************************************************************************
   def map_to_gui(self, map_pos):
     map_dx, map_dy = map_pos;
-    return (((map_dx - map_dy) * self.tileset.tile_width / 2), 
-            ((map_dx + map_dy) * self.tileset.tile_height / 2));
+    return (((map_dx - map_dy) * self.tileset.tile_width / 2), ((map_dx + map_dy) * self.tileset.tile_height / 2));
 
 
 #****************************************************************************
