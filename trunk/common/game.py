@@ -48,6 +48,12 @@ class Game:
     type = "plains";
     movecost = 0;
     movements.update({type:movecost});
+    self.unit_types.update({"void":UnitType("void", "void", 0, "doodad", movements)});
+
+    movements = {};
+    type = "plains";
+    movecost = 0;
+    movements.update({type:movecost});
     self.unit_types.update({"bomb":UnitType("bomb", "bomb", 0, "weap", movements)});
 
     movements = {};
@@ -81,6 +87,8 @@ class Game:
   def create_unit(self, unit_type_id, pos, playerID, parentID):
     self.unit_counter += 1;
     typeset = self.get_unit_typeset(unit_type_id);
+    logging.info("typeset placed %s at position" % typeset);
+    print(pos);
     hp = self.get_unit_hp(unit_type_id);
     unit_type = self.get_unit_type(unit_type_id);
     self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID);
@@ -90,7 +98,10 @@ class Game:
 #****************************************************************************
 #Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into craters instead. """
   def remove_unit(self, unit):
-    unit_type_id = 'crater';
+    if unit.typeset == "tether": #tethers do not leave craters when destroyed
+        unit_type_id = "void";
+    else:
+        unit_type_id = 'crater';
     unit_type = self.get_unit_type(unit_type_id);
     self.map.change_unit(unit, unit_type);
     unit.typeset = 'doodad';
@@ -148,7 +159,7 @@ class Game:
         hp = 3;
     if type_id == "balloon":
         hp = 1;
-    if type_id == "tether":
+    if type_id == "tether" or type_id == "void":
         hp = 100; #tethers should not die except by disconnection
     return hp;
 

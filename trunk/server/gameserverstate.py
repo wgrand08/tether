@@ -82,9 +82,9 @@ class ServerState:
                 notclear = True; 
                 self.game.remove_unit(unit);
                 #this code is to find and remove all units dependent on the most recently killed unit. This has been disabled as currently parent units are not recognized during unit creation. 
-                """for unit2 in self.map.unitstore.values(): 
-                    if unit2.parent == unit.id:
-                        unit2.hp == 0;"""
+                for unit2 in self.map.unitstore.values(): 
+                    if unit2.parentID == unit.id:
+                        unit2.hp = 0;
 
 #****************************************************************************
 #server determines round is over and unskips all units
@@ -101,69 +101,44 @@ class ServerState:
     endX = start_tile.x; #todo: need to add true 360 degrees of rotation
     endY = start_tile.y;
     self.interrupted_tether = False;
-    #logging.info("rotation set as %r" % rotation);
-    power = power + 4;
+    power = power + 4; #launching has minimal range
     for find_target in range(1, power):
         if rotation == 1:
             endX = endX + 0;
             endY = endY - 1;
-            startX = start_tile.x + 0;
-            startY = start_tile.y - 1;
         elif rotation == 2:
             endX = endX + .25;
             endY = endY - .75;
-            startX = start_tile.x + 0;
-            startY = start_tile.y - 1;
         elif rotation == 3:
             endX = endX + .75;
             endY = endY - .25;
-            startX = start_tile.x + 1;
-            startY = start_tile.y + 0;
         elif rotation == 4:
             endX = endX + 1;
             endY = endY + 0;
-            startX = start_tile.x + 1;
-            startY = start_tile.y + 0;
         elif rotation == 5:
             endX = endX + .75;
             endY = endY + .25;
-            startX = start_tile.x + 1;
-            startY = start_tile.y + 0;
         elif rotation == 6:
             endX = endX + .25;
             endY = endY + .75;
-            startX = start_tile.x + 0;
-            startY = start_tile.y + 1;
         elif rotation == 7:
             endX = endX + 0;
             endY = endY + 1;
-            startX = start_tile.x + 0;
-            startY = start_tile.y + 1;
         elif rotation == 8:
             endX = endX - .25;
             endY = endY + .75;
-            startX = start_tile.x + 0;
-            startY = start_tile.y + 1;
         elif rotation == 9:
             endX = endX - .75;
             endY = endY + .25;
-            startX = start_tile.x - 1;
-            startY = start_tile.y + 0;
         elif rotation == 10:
             endX = endX - 1;
             endY = endY + 0;
-            startX = start_tile.x - 1;
-            startY = start_tile.y + 0
         elif rotation == 11:
             endX = endX - .75;
             endY = endY - .25;
-            startX = start_tile.x - 1;
-            startY = start_tile.y - 0;
         elif rotation == 12:
             endX = endX - .25;
             endY = endY - .75;
-            startX = start_tile.x - 0;
-            startY = start_tile.y - 1;
         if endX == 0: #loop around the map
             endX = 90;
         if endX == 91:
@@ -172,19 +147,18 @@ class ServerState:
             endY = 90;
         if endY == 91:
             endY = 1;
-        if self.game.check_tether(child) == True: #if launched unit has tethers the place tethers
-            if find_target > 2 and find_target < (power - 2):
-                for target in self.map.unitstore.values():
-                    if (target.x == endX and target.y == endY):
-                        #if target.typeset != "doodad" or target.id != self.game.unit_counter:
-                        if target.id != self.game.unit_counter:
-                            logging.info("You crossed a tether! %r " % find_target);
-                            self.interrupted_tether = True;
-                            if find_target > 3:
-                                victim = self.map.get_unit_from_id(self.game.unit_counter); #find and kill partially laid tether
-                                victim.hp = 0;
-                            return (endX, endY);
-                #tether didn't land on anything, ready to place!
+        if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
+            for target in self.map.unitstore.values():
+                if (target.x == round(endX,0) and target.y == round(endY, 0)): #determine if tether crosses
+                    if target.typeset != "doodad":
+                        logging.info("You crossed a tether! %r " % find_target);
+                        self.interrupted_tether = True;
+                        if find_target > 3:
+                            victim = self.map.get_unit_from_id(self.game.unit_counter); #find and kill partially laid tether
+                            victim.hp = 0;
+                        return (endX, endY);
+            #tether didn't land on anything, ready to place!
+            if find_target > 2 and find_target < (power - 1): #don't place too close to hub otherwise they'll interfere with each other
                 chain_parent = self.game.unit_counter + 2; #tethers have reverse dependency compared to buildings
                 self.add_unit("tether", (round(endX, 0), round(endY, 0)), playerID, chain_parent);
     endX = round(endX, 0);
