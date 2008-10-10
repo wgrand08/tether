@@ -118,8 +118,7 @@ class Mapview:
     unit.offset = (dx + vx/(0.1+self.client.clock.get_fps()), 
                    dy + vy/(0.1+self.client.clock.get_fps()));
     blit_x = gui_x - self.view_x + dx * self.tileset.tile_width; 
-    blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) 
-              + dy * self.tileset.tile_height);
+    blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height);
 
 # Indicate selection
 #    for aunit in self.client.mapctrl.selected_units.values():
@@ -127,6 +126,71 @@ class Mapview:
 #        select_surface = self.tileset.get_tile_surf("select", heights);
 #        self.mapcanvas.blit(select_surface, (blit_x, blit_y));
     #Draw unit
+
+
+    #find and show rotation indicator on selected unit
+    for selected in self.client.selected_unit.values():
+        if unit.id == selected.id:
+            rotation = self.client.rotate_position;
+            endX = unit.x;
+            endY = unit.y;
+            startX = blit_x + 30;
+            startY = blit_y + 30;
+            for find_target in range(1, 4):
+                if rotation == 1:
+                    endX = endX + 0;
+                    endY = endY - 1;
+                elif rotation == 2:
+                    endX = endX + .25;
+                    endY = endY - .75;
+                elif rotation == 3:
+                    endX = endX + .75;
+                    endY = endY - .25;
+                elif rotation == 4:
+                    endX = endX + 1;
+                    endY = endY + 0;
+                elif rotation == 5:
+                    endX = endX + .75;
+                    endY = endY + .25;
+                    endX = endX + .15; #because indicator is too short otherwise
+                    endY = endY + .5;
+                elif rotation == 6:
+                    endX = endX + .25;
+                    endY = endY + .75;
+                elif rotation == 7:
+                    endX = endX + 0;
+                    endY = endY + 1;
+                elif rotation == 8:
+                    endX = endX - .25;
+                    endY = endY + .75;
+                elif rotation == 9:
+                    endX = endX - .75;
+                    endY = endY + .25;
+                elif rotation == 10:
+                    endX = endX - 1;
+                    endY = endY + 0;
+                elif rotation == 11:
+                    endX = endX - .75;
+                    endY = endY - .25;
+                elif rotation == 12:
+                    endX = endX - .25;
+                    endY = endY - .75;
+                if endX == 0: #loop around the map
+                    endX = 90;
+                if endX == 91:
+                    endX = 1;
+                if endY == 0:
+                    endY = 90;
+                if endY == 91:
+                    endY = 1;
+            endX = round(endX, 0);
+            endY = round(endY, 0);
+            endX, endY = self.map_to_gui((endX, endY));
+            endX = endX - self.view_x + dx * self.tileset.tile_width; 
+            endY = (endY - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height);
+            endX = endX + 30;
+            endY = endY + 30;
+            pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (endX, endY), 1)
     self.client.screen.blit(unit_surface, (blit_x, blit_y));
 
 #****************************************************************************

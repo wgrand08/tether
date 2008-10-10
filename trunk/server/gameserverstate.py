@@ -102,6 +102,7 @@ class ServerState:
     endY = start_tile.y;
     self.interrupted_tether = False;
     #logging.info("rotation set as %r" % rotation);
+    power = power + 4;
     for find_target in range(1, power):
         if rotation == 1:
             endX = endX + 0;
@@ -175,8 +176,8 @@ class ServerState:
             if find_target > 2 and find_target < (power - 2):
                 for target in self.map.unitstore.values():
                     if (target.x == endX and target.y == endY):
-                        logging.info("probable fake tether cross");
-                        if target.typeset != "doodad" or target.id != self.game.unit_counter:
+                        #if target.typeset != "doodad" or target.id != self.game.unit_counter:
+                        if target.id != self.game.unit_counter:
                             logging.info("You crossed a tether! %r " % find_target);
                             self.interrupted_tether = True;
                             if find_target > 3:
