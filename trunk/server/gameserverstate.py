@@ -150,8 +150,8 @@ class ServerState:
         if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
             for target in self.map.unitstore.values():
                 if (target.x == round(endX,0) and target.y == round(endY, 0)): #determine if tether crosses
-                    if target.typeset != "doodad":
-                        logging.info("You crossed a tether! %r " % find_target);
+                    if (target.typeset != "doodad") and (target.parentID != parentID):
+                        logging.info("You crossed a tether at step %r" % find_target);
                         self.interrupted_tether = True;
                         if find_target > 3:
                             victim = self.map.get_unit_from_id(self.game.unit_counter); #find and kill partially laid tether
