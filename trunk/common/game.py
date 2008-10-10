@@ -87,8 +87,6 @@ class Game:
   def create_unit(self, unit_type_id, pos, playerID, parentID):
     self.unit_counter += 1;
     typeset = self.get_unit_typeset(unit_type_id);
-    logging.info("typeset placed %s at position" % typeset);
-    print(pos);
     hp = self.get_unit_hp(unit_type_id);
     unit_type = self.get_unit_type(unit_type_id);
     self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID);

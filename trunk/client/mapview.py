@@ -120,14 +120,6 @@ class Mapview:
     blit_x = gui_x - self.view_x + dx * self.tileset.tile_width; 
     blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height);
 
-# Indicate selection
-#    for aunit in self.client.mapctrl.selected_units.values():
-#      if aunit == unit:
-#        select_surface = self.tileset.get_tile_surf("select", heights);
-#        self.mapcanvas.blit(select_surface, (blit_x, blit_y));
-    #Draw unit
-
-
     #find and show rotation indicator on selected unit
     for selected in self.client.selected_unit.values():
         if unit.id == selected.id:

@@ -51,7 +51,7 @@ class GameClientState:
     self.skipped = False;
     self.current_energy = 0;
     self.stored_energy = 0;
-    self.selected_weap = 'tether';
+    self.selected_weap = "hub";
     self.rotate_position = 1;
     self.playerID = 0;
     self.conf_startX = 0;
