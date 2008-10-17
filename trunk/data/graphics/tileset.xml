@@ -1,5 +1,5 @@
 <tileset name="MoonPy Default" path="data/graphics" version="1.0"
-	 tile_width="96" tile_height="48" edge_tile_height="64"
+	 tile_width="48" tile_height="24" edge_tile_height="64"
          panel_width="112" panel_height="108">
  
 <file src="terrain/terrain.png">
