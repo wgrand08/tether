@@ -4,7 +4,7 @@
  
 <file src="terrain/terrain.png">
     <terrain name="plains" x="1" y="66" 
-             width="96" height="64" pixelsalpha="false">
+             width="48" height="32" pixelsalpha="false">
     <frame slot-x="0" slot-y="0"/>
   </terrain>
 
