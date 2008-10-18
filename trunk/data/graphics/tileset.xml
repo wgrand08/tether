@@ -187,8 +187,6 @@
           width="140" height="162" pixelalpha="true"/>
   <sprite name="panel_right_center" x="0" y="164" 
           width="140" height="22" pixelalpha="true"/>
-  <sprite name="panel_right_bottom" x="0" y="187" 
-          width="140" height="111" pixelalpha="true"/>
 
 </file>
 <file src="interface/interface2.png">

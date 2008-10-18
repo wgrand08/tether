@@ -106,7 +106,6 @@ class Mappanel:
 #****************************************************************************
   def draw_panel(self):
     panel_right_top = self.client.tileset.get_tile_surf("panel_right_top");
-    panel_right_bottom = self.client.tileset.get_tile_surf("panel_right_bottom");
     panel_right_center = self.client.tileset.get_tile_surf("panel_right_center");
     panel_bottom_left = self.client.tileset.get_tile_surf("panel_bottom_left");
     panel_bottom_top = self.client.tileset.get_tile_surf("panel_bottom_top");
@@ -115,22 +114,18 @@ class Mappanel:
     #Draw the right panel.
     self.client.screen.blit(panel_right_top, 
              (self.client.screen_width - panel_right_top.get_width(), 0));
-    height = (self.client.screen_height - panel_right_top.get_height() - 
-	      panel_right_bottom.get_height());
+    height = (self.client.screen_height - panel_right_top.get_height());
     for y in range (height / panel_right_center.get_height() + 1): 
       y2 = panel_right_top.get_height() + y * panel_right_center.get_height();
       self.client.screen.blit(panel_right_center, 
              (self.client.screen_width - panel_right_center.get_width(), y2));
-    self.client.screen.blit(panel_right_bottom, 
-             (self.client.screen_width - panel_right_bottom.get_width(),
-              self.client.screen_height - panel_right_bottom.get_height()));
 
     #Draw the bottom panel
     self.client.screen.blit(panel_bottom_left, 
              (0, self.client.screen_height - panel_bottom_left.get_height()));
 
     width = (self.client.screen_width - panel_bottom_right.get_width() - 
-	      - panel_bottom_left.get_width() - panel_right_bottom.get_width());
+	      - panel_bottom_left.get_width() - panel_right_center.get_width());
     for x in range (width / panel_bottom_top.get_width() + 1): 
       x2 = panel_bottom_left.get_width() + x * panel_bottom_top.get_width();
       self.client.screen.blit(panel_bottom_top, 
