@@ -39,7 +39,7 @@ class GameSettings:
         self.psyco = "true";
 
         self.version = 0.501;
-        self.string_version = "0.5.01";
+        self.string_version = "0.5.02";
         self.playername = "Commander";
         self.fullscreen = False;
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768;

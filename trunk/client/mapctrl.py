@@ -80,7 +80,7 @@ class Mapctrl:
 #****************************************************************************
     def define_tiles_within_rectangle(self):
         w = self.client.tileset.tile_width / 2;
-        h = self.client.tileset.tile_height / 12;
+        h = self.client.tileset.tile_height / 6;
         half_w = w / 2;
         half_h = h / 2;
         (x1, y1) = self.select_pos_start;
