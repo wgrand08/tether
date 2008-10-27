@@ -84,12 +84,12 @@ class Game:
 #****************************************************************************
 #create a new unit and place it on the map
 #****************************************************************************
-  def create_unit(self, unit_type_id, pos, playerID, parentID):
+  def create_unit(self, unit_type_id, pos, offset, playerID, parentID):
     self.unit_counter += 1;
     typeset = self.get_unit_typeset(unit_type_id);
     hp = self.get_unit_hp(unit_type_id);
     unit_type = self.get_unit_type(unit_type_id);
-    self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID);
+    self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID);
 
 #****************************************************************************
 #turns a unit into a crater

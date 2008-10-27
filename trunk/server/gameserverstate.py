@@ -48,8 +48,8 @@ class ServerState:
 
       #FIXME: Need some sort of randomization for the starting hubs
 
-      self.game.create_unit('hub', (20,22), 1, 0);
-      self.game.create_unit('hub', (75,52), 2, 0);
+      self.game.create_unit('hub', (20,22), (0,0), 1, 0);
+      self.game.create_unit('hub', (75,52), (0,0), 2, 0);
 
       #Initialize main loop callback.
       self.loop = task.LoopingCall(self.mainloop);
@@ -66,8 +66,8 @@ class ServerState:
 #****************************************************************************
 #add a unit
 #****************************************************************************
-  def add_unit(self, unit_type, unit_loc, playerID, parentID):
-    self.game.create_unit(unit_type, unit_loc, playerID, parentID);
+  def add_unit(self, unit_type, unit_loc, offset, playerID, parentID):
+    self.game.create_unit(unit_type, unit_loc, offset, playerID, parentID);
 
 #****************************************************************************
 #find and remove all units without any HP remaining
@@ -102,6 +102,8 @@ class ServerState:
     endY = start_tile.y;
     self.interrupted_tether = False;
     power = power + 4; #launching has minimal range
+    offsetX = 0;
+    offsetY = 0;
     for find_target in range(1, power):
         if rotation == 1:
             endX = endX + 0;
@@ -160,10 +162,11 @@ class ServerState:
             #tether didn't land on anything, ready to place!
             if find_target > 2 and find_target < (power - 1): #don't place too close to hub otherwise they'll interfere with each other
                 chain_parent = self.game.unit_counter + 2; #tethers have reverse dependency compared to buildings
-                self.add_unit("tether", (round(endX, 0), round(endY, 0)), playerID, chain_parent);
+                self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent);
     endX = round(endX, 0);
     endY = round(endY, 0);
-    return (endX, endY);
+    #todo: add offset data
+    return (endX, endY, 0, 0);
 
 #****************************************************************************
 #Find out if a unit is hit or not

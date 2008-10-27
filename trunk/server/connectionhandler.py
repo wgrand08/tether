@@ -79,9 +79,11 @@ class ClientPerspective(pb.Avatar):
 # recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
   def perspective_launch_unit(self, parentID, unit, rotation, power):
-    coord = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID);
+    (coordX, coordY, offsetX, offsetY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID);
+    coord = (coordX, coordY);
+    offset = (offsetX, offsetY);
     if self.state.interrupted_tether == False:
-        self.state.add_unit(unit, coord, self.conn_info.playerID, parentID);
+        self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID);
         net_map = self.network_prepare(self.state.map.mapstore); 
         net_unit_list = self.network_prepare(self.state.map.unitstore); 
         self.handler.remote_all('map', net_map);

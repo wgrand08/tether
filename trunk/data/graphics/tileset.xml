@@ -1,10 +1,10 @@
 <tileset name="MoonPy Default" path="data/graphics" version="1.0"
-	 tile_width="24" tile_height="12" edge_tile_height="64"
+	 tile_width="96" tile_height="48" edge_tile_height="64"
          panel_width="112" panel_height="108">
  
 <file src="terrain/terrain.png">
     <terrain name="plains" x="1" y="66" 
-             width="24" height="16" pixelsalpha="false">
+             width="96" height="64" pixelsalpha="false">
     <frame slot-x="0" slot-y="0"/>
   </terrain>
 
@@ -89,7 +89,7 @@
 
 <file src="unit_hub.png">
   <unit name="hub" frames="1" x="1" y="1" 
-        width="48" height="48" pixelalpha="true">
+        width="50" height="50" pixelalpha="true">
     <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
@@ -187,6 +187,8 @@
           width="140" height="162" pixelalpha="true"/>
   <sprite name="panel_right_center" x="0" y="164" 
           width="140" height="22" pixelalpha="true"/>
+  <sprite name="panel_right_bottom" x="0" y="187" 
+          width="140" height="111" pixelalpha="true"/>
 
 </file>
 <file src="interface/interface2.png">

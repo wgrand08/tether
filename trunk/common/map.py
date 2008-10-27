@@ -145,7 +145,7 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-  def set_unit(self, unit, pos, typeset, hp, parentID):
+  def set_unit(self, unit, pos, offset, typeset, hp, parentID):
     if (self.get_unit(pos) == None) or (typeset == "weap"):
       logging.info("placed unit# %r" % unit.id);
       logging.info("dependent on unit# %r" % parentID);
@@ -153,7 +153,8 @@ class Map:
       (unit.x, unit.y) = pos;
       unit.typeset = typeset;
       unit.hp = hp;
-      unit.parentID = parentID
+      unit.parentID = parentID;
+      unit.offset = offset;
             
 #****************************************************************************
 # transforms one unit type into another type
