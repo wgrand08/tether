@@ -38,8 +38,8 @@ class GameSettings:
         self.language = "en" 
         self.psyco = "true";
 
-        self.version = 0.501;
-        self.string_version = "0.5.02";
+        self.version = 0.503;
+        self.string_version = "0.5.03";
         self.playername = "Commander";
         self.fullscreen = False;
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768;

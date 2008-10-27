@@ -47,7 +47,7 @@ class GameClientState:
     self.fps = 40;
     self.loop = task.LoopingCall(self.mainloop);
     self.process_confirmation = False;
-    self.myturn = False; #this needs to be changed to default false when turn system is implemented
+    self.myturn = False; 
     self.skipped = False;
     self.current_energy = 0;
     self.stored_energy = 0;

@@ -184,6 +184,50 @@ class Game:
         return True;
 
 #****************************************************************************
+#Determine percentage of x/y value from angle of rotation
+#****************************************************************************
+  def percent_from_degree(self, degree):
+    if degree == 360: #due north
+        north = -1;
+        west = 0;
+    if degree == 90: #due east
+        north = 0;
+        west = 1;
+    if degree == 180: #due south
+        north = 1;
+        west = 0
+    if degree == 270: #due west
+        north = 0;
+        west = -1;
+    if degree > 0 and degree < 90:
+        west = degree / 90;
+        north = west - 1;
+    if degree > 90 and degree < 180:
+        north = (degree - 90) / 90;
+        west = north - 1;
+        west = self.nega_num(west)
+    if degree > 180 and degree < 270:
+        west = (degree - 180) /90;
+        west = self.nega_numb(west);
+        north = west + 1;
+    if degree > 270 and degree < 360:
+        north = (degree - 270) /90;
+        north = self.nega_numb(north);
+        west = north + 1;
+        west = self.nega_numb(west);
+    print("west = ", west);
+    print("north = ", north);
+    return (north, west);
+
+#****************************************************************************
+#get the negative value of an number
+#****************************************************************************
+  def nega_numb(self, negated):
+    negated = negated - (negated * 2);
+    return negated;
+    
+
+#****************************************************************************
 #
 #****************************************************************************
   def get_terrain_type(self, type_id):

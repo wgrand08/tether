@@ -128,61 +128,23 @@ class Mapview:
             endY = unit.y;
             startX = blit_x + 30;
             startY = blit_y + 30;
+            (north, west) = self.client.game.percent_from_degree(rotation);
+            
             for find_target in range(1, 4):
-                if rotation == 1:
-                    endX = endX + 0;
-                    endY = endY - 1;
-                elif rotation == 2:
-                    endX = endX + .25;
-                    endY = endY - .75;
-                elif rotation == 3:
-                    endX = endX + .75;
-                    endY = endY - .25;
-                elif rotation == 4:
-                    endX = endX + 1;
-                    endY = endY + 0;
-                elif rotation == 5:
-                    endX = endX + .75;
-                    endY = endY + .25;
-                    endX = endX + .15; #because indicator is too short otherwise
-                    endY = endY + .5;
-                elif rotation == 6:
-                    endX = endX + .25;
-                    endY = endY + .75;
-                elif rotation == 7:
-                    endX = endX + 0;
-                    endY = endY + 1;
-                elif rotation == 8:
-                    endX = endX - .25;
-                    endY = endY + .75;
-                elif rotation == 9:
-                    endX = endX - .75;
-                    endY = endY + .25;
-                elif rotation == 10:
-                    endX = endX - 1;
-                    endY = endY + 0;
-                elif rotation == 11:
-                    endX = endX - .75;
-                    endY = endY - .25;
-                elif rotation == 12:
-                    endX = endX - .25;
-                    endY = endY - .75;
-                if endX == 0: #loop around the map
-                    endX = 90;
-                if endX == 91:
-                    endX = 1;
-                if endY == 0:
-                    endY = 90;
-                if endY == 91:
-                    endY = 1;
+                endX = endX + west;
+                endY = endY + north;
+            offsetX = endX - (round(endX, 0));
+            offsetY = endY - (round(endY, 0));
+            offsetX = offsetX * 48;
+            offsetY = offsetY * 48;
             endX = round(endX, 0);
             endY = round(endY, 0);
             endX, endY = self.map_to_gui((endX, endY));
             endX = endX - self.view_x + dx * self.tileset.tile_width; 
             endY = (endY - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height);
-            endX = endX + 30;
-            endY = endY + 30;
-            pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (endX, endY), 1)
+            finalX = endX + offsetX;
+            finalY = endY + offsetY;
+            pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, endY), 1)
     self.client.screen.blit(unit_surface, (blit_x, blit_y));
 
 #****************************************************************************
