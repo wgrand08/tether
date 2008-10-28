@@ -200,23 +200,21 @@ class Game:
         north = 0;
         west = -1;
     if degree > 0 and degree < 90:
-        west = degree / 90;
+        west = degree / float(90);
         north = west - 1;
     if degree > 90 and degree < 180:
-        north = (degree - 90) / 90;
+        north = (degree - 90) / float(90);
         west = north - 1;
         west = self.nega_num(west)
     if degree > 180 and degree < 270:
-        west = (degree - 180) /90;
+        west = (degree - 180) / float(90);
         west = self.nega_numb(west);
         north = west + 1;
     if degree > 270 and degree < 360:
-        north = (degree - 270) /90;
+        north = (degree - 270) / float(90);
         north = self.nega_numb(north);
         west = north + 1;
         west = self.nega_numb(west);
-    print("west = ", west);
-    print("north = ", north);
     return (north, west);
 
 #****************************************************************************

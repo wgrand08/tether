@@ -129,7 +129,6 @@ class Mapview:
             startX = blit_x + 30;
             startY = blit_y + 30;
             (north, west) = self.client.game.percent_from_degree(rotation);
-            
             for find_target in range(1, 4):
                 endX = endX + west;
                 endY = endY + north;
