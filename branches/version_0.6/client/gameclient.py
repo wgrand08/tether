@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
+import pygame
 
 
 class GameClient:
@@ -34,7 +35,7 @@ class GameClient:
         #self.tileset = Tileset(self);
         self.ruleset = None;
         self.game = None;
-        #self.clock = pygame.time.Clock();
+        self.clock = pygame.time.Clock();
         self.fps = 40;
         #self.loop = task.LoopingCall(self.mainloop);
         self.process_confirmation = False;
