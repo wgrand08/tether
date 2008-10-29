@@ -18,13 +18,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import pygame
 import gameclient
-
+from common.logger import *
 
 
 class main:
 
     def __init__(self):
+        logger = GameLogger();
         pygame.init();
         self.client = gameclient.GameClient();
         print(self.client.selected_weap);
+        logger.log.info("main test");
 
