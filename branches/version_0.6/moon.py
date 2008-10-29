@@ -21,5 +21,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import sys
 import client.main
 
+"""logger = logging.getLogger('MoonPy')
+hdlr = logging.FileHandler('moonpy.debug')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+hdlr.setFormatter(formatter)
+logger.addHandler(hdlr)
+logger.setLevel(logging.INFO)
+
+logger.info("test log 1");"""
 client.main.main();
 

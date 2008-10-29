@@ -16,16 +16,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import pygame
-import gameclient
-import common.game
+import logging
 
-
-class main:
-
+class Game:
     def __init__(self):
-        self.game = common.game.Game();
-        pygame.init();
-        self.client = gameclient.GameClient();
-        print(self.client.selected_weap);
-        self.game.logger.info("test log 1");
+
+        self.logger = logging.getLogger('MoonPy')
+        self.hdlr = logging.FileHandler('moonpy.debug')
+        self.formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+        self.hdlr.setFormatter(self.formatter)
+        self.logger.addHandler(self.hdlr)
+        self.logger.setLevel(logging.INFO)
