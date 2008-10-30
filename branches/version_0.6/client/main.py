@@ -42,6 +42,6 @@ class main:
             placeholder = True;
             self.client.running = False;
         introscreen.SplashScreen();
-        
+        mainmenu.MainMenu(self.client);
 
         self.game.logger.info("Client Shutdown");
