@@ -16,16 +16,28 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import pygame
 import gameclient
 import common.game
-
+import platform
+import sys
 
 class main:
 
     def __init__(self):
         self.game = common.game.Game();
-        pygame.init();
         self.client = gameclient.GameClient();
-        print(self.client.selected_weap);
-        self.game.logger.info("test log 1");
+        self.client.running = True;
+        self.game.logger.info("MoonPy version " + self.client.settings.string_version);
+        self.game.logger.info("Operating system " + platform.platform());
+        self.game.logger.info("Python Version " + sys.version);
+        try:
+            import pygame;
+            self.game.logger.info('Pygame version: ' + pygame.version.ver);
+        except ImportError, err:
+            self.game.logger.error("Pygame not found!" + str(err));
+            sys.exit(1);
+        while self.client.running:
+            placeholder = True;
+            self.client.running = False;
+
+        

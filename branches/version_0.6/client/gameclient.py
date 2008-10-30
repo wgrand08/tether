@@ -17,28 +17,26 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import pygame
+import settings
+import common.game
 
 
 class GameClient:
     def __init__(self):
 
-
-        #self.settings = GameSettings();
-        #self.settings.load_settings();
-        #self.screen_width = self.settings.screen_width;
-        #self.screen_height = self.settings.screen_height;
+        self.running = True;
+        self.settings = settings.GameSettings();
+        self.settings.load_settings();
+        self.screen_width = self.settings.screen_width;
+        self.screen_height = self.settings.screen_height;
         self.screen = None;
 
-        #self.map = Map(self);
         self.mappanel = None;
         self.pregame = None;
-        #self.tileset = Tileset(self);
         self.ruleset = None;
         self.game = None;
         self.clock = pygame.time.Clock();
         self.fps = 40;
-        #self.loop = task.LoopingCall(self.mainloop);
-        self.process_confirmation = False;
         self.myturn = False; 
         self.skipped = False;
         self.current_energy = 0;
@@ -46,9 +44,5 @@ class GameClient:
         self.selected_weap = "hub";
         self.rotate_position = 1;
         self.playerID = 0;
-        self.conf_startX = 0;
-        self.conf_startY = 0;
-        self.conf_endX = 0;
-        self.conf_endY = 0;
 
         self.selected_unit = {};

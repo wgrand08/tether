@@ -20,10 +20,10 @@ import logging
 
 class Game:
     def __init__(self):
-
+        #this section handles all logging for both client and server
         self.logger = logging.getLogger('MoonPy')
-        self.hdlr = logging.FileHandler('moonpy.debug')
+        self.filehdlr = logging.FileHandler('MoonPy.log')
         self.formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-        self.hdlr.setFormatter(self.formatter)
-        self.logger.addHandler(self.hdlr)
+        self.filehdlr.setFormatter(self.formatter)
+        self.logger.addHandler(self.filehdlr)
         self.logger.setLevel(logging.INFO)
