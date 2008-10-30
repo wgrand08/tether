@@ -20,6 +20,8 @@ import gameclient
 import common.game
 import platform
 import sys
+import introscreen
+import mainmenu
 
 class main:
 
@@ -39,5 +41,7 @@ class main:
         while self.client.running:
             placeholder = True;
             self.client.running = False;
-
+        introscreen.SplashScreen();
         
+
+        self.game.logger.info("Client Shutdown");
