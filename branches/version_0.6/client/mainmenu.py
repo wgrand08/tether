@@ -32,10 +32,10 @@ class MainMenu:
             screen_mode = 0;
         screen_width = self.client.settings.screen_width; 
         screen_height = self.client.settings.screen_height; 
-        screen = pygame.display.set_mode((screen_width, screen_height), screen_mode);
+        screen = pygame.display.set_mode((screen_width, screen_height), screen_mode, 32);
         pygame.display.set_caption("MoonPy %s" % (self.client.settings.string_version));
         self.client.screen = screen;
-        gui.init(screen_width, screen_height);
+        gui.blit(screen, (1,1));
         app = gui.App(width=1024, height=768)
         settings_button = gui.Button("settings", x=500, y=500)
         app.add(settings_button);
