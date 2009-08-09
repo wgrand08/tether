@@ -1,3 +1,4 @@
+#labels Phase-Design
 = Hub and offense firing stats =
 OMBC map editor uses a grid system for placing objects such as buildings, water, and energy. Small energy pools only take up one grid square each. By creating a special map with small energy pools being used to mark distance I was able to measure roughly how far shots travel without wind or height differences. Be aware that a single screen (not a map) is an exact 8x8 grid. 
   * Hub maximum = just under 8.5 grids (though definitely higher then 8 grids)
