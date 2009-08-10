@@ -178,31 +178,19 @@ class Mappanel:
 #****************************************************************************
   def rotateright(self, obj):
     if self.client.myturn == True:
-        self.client.rotate_position = self.client.rotate_position + 1;
-        if (self.client.rotate_position > 360):
-            self.client.rotate_position = 1;
-        logging.info("rotate = %r" % self.client.rotate_position);
+        self.client.heldbutton = "right";
 
   def rotateleft(self, obj):
     if self.client.myturn == True:
-        self.client.rotate_position = self.client.rotate_position - 1;
-        if (self.client.rotate_position < 1):
-            self.client.rotate_position = 360;
-        logging.info("rotate = %r" % self.client.rotate_position);
+        self.client.heldbutton = "left";
 
   def increasepower(self, obj):
     if self.client.myturn == True:
-        self.firepower = self.firepower + 1;
-        if self.firepower > 15:
-            self.firepower = 15;
-        logging.info("current power = %r" % self.firepower);
+        self.client.heldbutton = "increase"
 
   def decreasepower(self, obj):
     if self.client.myturn == True:
-        self.firepower = self.firepower - 1;
-        if self.firepower < 1:
-            self.firepower = 1;
-        logging.info("current power = %r" % self.firepower);
+        self.client.heldbutton = "decrease"
 
   def choosehub(self, obj):
     if self.client.myturn == True:

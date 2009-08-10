@@ -122,6 +122,21 @@ class Mapview:
 
     #find and show rotation indicator on selected unit
     for selected in self.client.selected_unit.values():
+        """event = pygame.event.poll();
+        if event.type == pygame.MOUSEBUTTONUP:
+            self.client.heldbutton = "void";"""
+        if self.client.heldbutton == "right":
+            self.client.holdbutton.rotateright();
+        if self.client.heldbutton == "left":
+            self.client.holdbutton.rotateleft();
+        if self.client.heldbutton == "increase":
+            self.client.holdbutton.increasepower();
+        if self.client.heldbutton == "decrease":
+            self.client.holdbutton.decreasepower();
+        logging.info("heldbutton = %r" % self.client.heldbutton);
+        if self.client.rotate_position == 45:
+            self.client.heldbutton = "void";
+
         if unit.id == selected.id:
             rotation = self.client.rotate_position;
             endX = unit.x;

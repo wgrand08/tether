@@ -15,6 +15,7 @@ from mapctrl import *
 from mappanel import *
 from networkclient import *
 from tileset import *
+from holdbutton import *
 from twisted.internet import task, reactor
 
 from common.map import * 
@@ -32,6 +33,7 @@ class GameClientState:
 
 
     self.settings = GameSettings();
+    self.holdbutton = HoldButton(self);
     self.settings.load_settings();
     self.screen_width = self.settings.screen_width;
     self.screen_height = self.settings.screen_height;
@@ -58,6 +60,7 @@ class GameClientState:
     self.conf_startY = 0;
     self.conf_endX = 0;
     self.conf_endY = 0;
+    self.heldbutton = "void";
 
     self.selected_unit = {};
 
