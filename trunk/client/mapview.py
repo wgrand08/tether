@@ -43,9 +43,6 @@ class Mapview:
     self.delta_scroll();
     mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, int(self.rect.height + self.tileset.tile_height * 0.5));
 
-    """event = pygame.event.poll();
-    if event.type == pygame.MOUSEBUTTONUP:
-        self.client.heldbutton = "void";"""
     if self.client.heldbutton == "right":
         self.client.holdbutton.rotateright();
     if self.client.heldbutton == "left":
@@ -54,9 +51,6 @@ class Mapview:
         self.client.holdbutton.increasepower();
     if self.client.heldbutton == "decrease":
         self.client.holdbutton.decreasepower();
-    logging.info("heldbutton = %r" % self.client.heldbutton);
-    if self.client.rotate_position == 45:
-        self.client.heldbutton = "void";
 
 
     for pos in mapcoord_list:

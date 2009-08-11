@@ -73,6 +73,8 @@ class Mapctrl:
     def handle_mouse_release(self, pos, button):
         if button == 1 and self.mouse_state == 'select': 
             self.define_tiles_within_rectangle();
+        self.client.heldbutton = "void";
+        logging.info("releasing heldbutton");
  
 
 #****************************************************************************

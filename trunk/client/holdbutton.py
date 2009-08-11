@@ -37,15 +37,15 @@ class HoldButton:
         logging.info("rotate = %r" % self.client.rotate_position);
 
     def increasepower(self):
-        self.firepower = self.firepower + 1;
-        if self.firepower > 15:
-            self.firepower = 15;
+        self.client.firepower = self.client.firepower + 1;
+        if self.client.firepower > 15:
+            self.client.firepower = 15;
         pygame.time.delay(3)
-        logging.info("current power = %r" % self.firepower);
+        logging.info("current power = %r" % self.client.firepower);
 
     def decreasepower(self):
-        self.firepower = self.firepower - 1;
-        if self.firepower < 1:
-            self.firepower = 1;
+        self.client.firepower = self.client.firepower - 1;
+        if self.client.firepower < 1:
+            self.client.firepower = 1;
         pygame.time.delay(3)
-        logging.info("current power = %r" % self.firepower);
+        logging.info("current power = %r" % self.client.firepower);

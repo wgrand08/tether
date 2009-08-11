@@ -92,7 +92,6 @@ class Mappanel:
     container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.60);
     self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None);
 
-    self.firepower = 1;
     self.rotate_display = gui.Label(_(str(self.client.rotate_position)));
     container.add(self.rotate_display, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.3);
 
@@ -205,7 +204,7 @@ class Mappanel:
   def use_firebutton(self, obj):
     if self.client.myturn == True:
         for unit in self.client.selected_unit.values():
-            self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, self.firepower);
+            self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, self.client.firepower);
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
