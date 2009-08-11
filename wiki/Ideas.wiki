@@ -49,11 +49,11 @@
     * Art assets 
      # main hub thing -- complete
      # chuckable hub -- in progress
-     # bomb
-     # tether
+     # bomb -- in progress
+     # tether -- in progress
     * pure 2-d to start -- complete
-    * text input for direction and power at first
-    * algorithm for calculating shots
+    * text input for direction and power at first -- complete
+    * algorithm for calculating shots -- in progress
     * Top-down art?
     
    ====Phase 2:====
