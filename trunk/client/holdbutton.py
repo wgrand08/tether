@@ -17,7 +17,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
-import time
+import pygame
 
 class HoldButton:
     def __init__(self, client):
@@ -26,26 +26,26 @@ class HoldButton:
     def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 1;
         if (self.client.rotate_position > 360):
             self.client.rotate_position = 1;
-        time.sleep(0.003);
+        pygame.time.delay(3)
         logging.info("rotate = %r" % self.client.rotate_position);
 
     def rotateleft(self):
         self.client.rotate_position = self.client.rotate_position - 1;
         if (self.client.rotate_position < 1):
             self.client.rotate_position = 360;
-        time.sleep(0.003);
+        pygame.time.delay(3)
         logging.info("rotate = %r" % self.client.rotate_position);
 
     def increasepower(self):
         self.firepower = self.firepower + 1;
         if self.firepower > 15:
             self.firepower = 15;
-        time.sleep(0.003);
+        pygame.time.delay(3)
         logging.info("current power = %r" % self.firepower);
 
     def decreasepower(self):
         self.firepower = self.firepower - 1;
         if self.firepower < 1:
             self.firepower = 1;
-        time.sleep(0.003);
+        pygame.time.delay(3)
         logging.info("current power = %r" % self.firepower);
