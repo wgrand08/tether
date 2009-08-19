@@ -86,7 +86,7 @@ class Mappanel:
 
     self.rotate_leftbutton = gui.Button(_("  <  "));
     container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.60);
-    self.rotate_leftbutton.connect(gui.CLICK, self.rotateleft, None);
+    self.rotate_leftbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateleft, None);
 
     self.rotate_rightbutton = gui.Button(_("  >  "));
     container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.60);
