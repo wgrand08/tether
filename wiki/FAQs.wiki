@@ -11,7 +11,7 @@
   Project tether currently isn't developed enough to provide a true idea of what we're trying to recreate. We used to have a copy of the free trial available for download here. Sadly because of space limitations we have had to remove it to make room for other stuff. Your best option would be to do a web search for the free demo and hope you can still find it.
 
   * Yeah that is a cool game, so why are you trying to recreate it?
-  While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 5 years we assume that they will never be resolved. Rather then live with it we started this project to fix it ourselves
+  While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 7 years we assume that they will never be resolved. Rather then live with it we started this project to fix it ourselves
 
  * What is MoonPy?
  MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
