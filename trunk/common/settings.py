@@ -1,4 +1,4 @@
-"""Copyright 2008:
+"""Copyright 2009:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
 This program is free software; you can redistribute it and/or modify

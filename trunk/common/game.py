@@ -1,4 +1,4 @@
-"""Copyright 2007:
+"""Copyright 2009:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
 This program is free software; you can redistribute it and/or modify
@@ -205,7 +205,7 @@ class Game:
     if degree > 90 and degree < 180:
         north = (degree - 90) / float(90);
         west = north - 1;
-        west = self.nega_num(west)
+        west = self.nega_numb(west)
     if degree > 180 and degree < 270:
         west = (degree - 180) / float(90);
         west = self.nega_numb(west);
