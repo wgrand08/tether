@@ -64,9 +64,9 @@ class MainMenu:
     menu_table.add(network_join_button, 0, 2);
     menu_table.add(gui.Widget(width=1, height=5), 0, 3);
 
-    single_button = gui.Button(_("Start Singleplayer Game"));
+    """single_button = gui.Button(_("Start Singleplayer Game"));
     menu_table.add(single_button, 0, 4);
-    menu_table.add(gui.Widget(width=1, height=5), 0, 5);
+    menu_table.add(gui.Widget(width=1, height=5), 0, 5);"""
 
     settings_button = gui.Button(_("Settings"));
     settings_button.connect(gui.CLICK, self.settings_menu, None);
