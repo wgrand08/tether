@@ -17,11 +17,10 @@
  MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
 
  * How far along is MoonPy?
- MoonPy is currently at alpha stage and we are hoping to reach beta in a few months or so. Be aware we've been hoping to reach beta 'in a few months or so' for over 6 months. Currently it is *technically* possible to play a 1v1 game against another human player launching hubs and bombs at each other however there are still lots of bugs and many major features have not yet been implemented.
-
+ MoonPy is currently at alpha stage and we are hoping to reach beta in a few months or so. Be aware though we've been hoping to reach beta 'in a few months or so' for over 6 months. Currently it is *technically* possible to play a 1v1 game against another human player launching hubs and bombs at each other however there are still lots of bugs and many major features have not yet been implemented.
 
   * Why are you using python, why not a real language like C++?
-  There are many reasons we're using python but the top 3 reasons are: it's simple to code, easily portable to different OS's, and it's capable of doing what we require.
+  There are many reasons we're using python but the top 3 reasons are: it's simple to code, easily portable to different OS's, and it does what we need.
 
   * What OS are you developing MoonPy for?
   We are intentionally making MoonPy to be fully compatible with Linux, osX, and Windows. Theoretically it should work on any OS that has python installed with little extra effort however we are not planning on doing any compatibility testing for other systems. 
