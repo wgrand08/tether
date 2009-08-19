@@ -39,8 +39,8 @@
  * Scout unit (Balloon/crawler combo that flies around discovering map, limited duration?)
  * Arbitrary number of players? that way if you wanted you could have a 100 player game *grins* -- Because player color has to be uniquely designated for each player there will be a player limit cap. However we are planning to have the cap easily extended by simply adding more player colors into the code.
  * Undersea tether (extra cost?)
- * True spherical map (original moonbase was torus) -- Current MoonPy engine is incompatible with this idea and will require major changes by someone willing to do this.
- * Full 3D map and buildings, allowing for camera rotation? -- Current MoonPy engine is incompatible with this idea and will require a complete rewrite by someone willing to do this.
+ * True spherical map (original moonbase was torus) -- Current MoonPy engine is incompatible with this idea (it is also a torus) and would require major changes by someone willing & able to do this.
+ * Full 3D map and buildings, allowing for camera rotation? -- Current MoonPy engine is incompatible with this idea and would require a complete rewrite by someone willing & able to do this.
  * Show energy pools on the minimap
  * Hotseat compatibility (at least for non-FoW games)
 
