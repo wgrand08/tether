@@ -28,7 +28,7 @@ from time import sleep
 
 class IntroScreen:
   def __init__(self, screen):
-    image = "data/graphics/Enceladus.png"
+    image = "data/graphics/misc/intro_splash.png"
     screen = pygame.display.set_mode((500,500))
     try:
         splashScreen = pygame.image.load(image)

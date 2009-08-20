@@ -152,7 +152,7 @@ class MenuBackground(gui.Widget):
   def __init__(self,**params):
     gui.Widget.__init__(self,**params)
     client = params['client'];
-    filename = os.path.join('data', 'graphics', 'menubackground.jpg');
+    filename = os.path.join('data', 'graphics', 'misc', 'menubackground.jpg');
     surface = tileset.load(filename);
     scale = float(client.screen.get_width()) / surface.get_width();
     self.surface = pygame.transform.rotozoom(surface, 0, scale);

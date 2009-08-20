@@ -63,7 +63,7 @@
   </edgeterrain>
 </file>
 
-<file src="crater.png">
+<file src="terrain/crater.png">
   <unit name="crater" frames="1" x="1" y="1" 
         width="48" height="48" pixalalpha="true">
     <player id="1">
@@ -75,7 +75,7 @@
   </unit>
 </file>
 
-<file src="boom.png">
+<file src="misc/boom.png">
   <unit name="bomb" frames="1" x="1" y="1" 
         width="48" height="48" pixalalpha="true">
     <player id="1">
@@ -87,7 +87,7 @@
   </unit>
 </file>
 
-<file src="unit_hub.png">
+<file src="buildings/unit_hub.png">
   <unit name="hub" frames="1" x="1" y="1" 
         width="48" height="48" pixelalpha="true">
     <player id="1">
@@ -99,7 +99,7 @@
   </unit>
 </file>
 
-<file src="void.png">
+<file src="misc/void.png">
   <unit name="void" frames="1" x="1" y="1" 
         width="48" height="48" pixelalpha="true">
     <player id="1">
@@ -111,7 +111,7 @@
   </unit>
 </file>
 
-<file src="unit_tether.png">
+<file src="buildings/unit_tether.png">
   <unit name="tether" frames="1" x="1" y="1" 
         width="16" height="16" pixelalpha="true">
     <player id="1">
@@ -123,7 +123,7 @@
   </unit>
 </file>
 
-<file src="cursors.png">
+<file src="interface/cursors.png">
   <cursor name="goto" frames="6" x="1" y="1" 
         width="32" height="32" pixelalpha="true">
     <frame anim_frame="0" slot-x="0" slot-y="0"/>
