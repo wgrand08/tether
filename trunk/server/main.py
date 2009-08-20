@@ -29,13 +29,6 @@ class ServerMain:
   def __init__(self):
     self.serverstate = ServerState();
 
-    #Enable Psyco, if found.
-    if self.serverstate.settings.psyco:
-      try:
-        import psyco;
-        psyco.full();
-      except ImportError:
-        pass; 
 
 #****************************************************************************
 #
