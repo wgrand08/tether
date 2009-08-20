@@ -54,8 +54,8 @@ class ServerState:
 
       #FIXME: Need some sort of randomization for the starting hubs
 
-      self.game.create_unit('hub', (20,22), (0,0), 1, 0);
-      self.game.create_unit('hub', (75,52), (0,0), 2, 0);
+      self.game.create_unit('hub', (20,20), (0,0), 1, 0);
+      self.game.create_unit('hub', (20,26), (0,0), 2, 0);
 
       #Initialize main loop callback.
       self.loop = task.LoopingCall(self.mainloop);

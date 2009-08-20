@@ -80,8 +80,6 @@ class Mapctrl:
         if button == 1 and self.mouse_state == 'select': 
             self.define_tiles_within_rectangle();
         self.client.heldbutton = "void";
-        logging.info("releasing heldbutton");
- 
 
 #****************************************************************************
 #Section for when a user 'drags' the cursor 

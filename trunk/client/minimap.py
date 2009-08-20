@@ -1,14 +1,20 @@
-# OpenRTS - Copyright (C) 2006 The OpenRTS Project
-#
-# OpenRTS is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# OpenRTS is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+"""Copyright 2009:
+    Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+"""
 
 import os, sys
 import pygame
@@ -62,8 +68,7 @@ class Minimap:
     # Draw line showing where the current mapview view is.
     x1, y1 = self.client.mapview.canvas_to_map((0, 0));
     x2, y2 = self.client.mapview.canvas_to_map((self.client.screen_width, 0));
-    x3, y3 = self.client.mapview.canvas_to_map((self.client.screen_width,
-                                                self.client.screen_height));
+    x3, y3 = self.client.mapview.canvas_to_map((self.client.screen_width, self.client.screen_height));
     x4, y4 = self.client.mapview.canvas_to_map((0, self.client.screen_height));
     points = [(x1, y1), (x2, y2), (x3, y3), (x4, y4), (x1, y1)];
 

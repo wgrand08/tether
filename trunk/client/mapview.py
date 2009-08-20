@@ -38,8 +38,7 @@ class Mapview:
     self.view_delta_y = 0;
     self.tileset = self.client.tileset;
     self.cursor = GfxCursor(self.client, self.client.screen);
-    self.rect = pygame.Rect(0,0,self.client.screen_width - self.tileset.panel_width,
-                          self.client.screen_height - self.tileset.panel_height);
+    self.rect = pygame.Rect(0,0,self.client.screen_width - self.tileset.panel_width, self.client.screen_height - self.tileset.panel_height);
  
 
 #****************************************************************************
@@ -47,7 +46,7 @@ class Mapview:
 #****************************************************************************
   def drawmap(self):
     self.delta_scroll();
-    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, int(self.rect.height + self.tileset.tile_height * 0.5));
+    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, self.rect.height);
 
     if self.client.heldbutton == "right":
         self.client.holdbutton.rotateright();
@@ -83,8 +82,9 @@ class Mapview:
       surface = self.tileset.get_terrain_surf_from_tile(tile);
       if not surface: return;
       blit_x = gui_x - self.view_x; 
-      blit_y = (gui_y - self.view_y - (surface.get_height() / 2));
+      blit_y = gui_y - self.view_y;
       blit_width = surface.get_width(); 
+
       blit_height = surface.get_height();
 
       self.client.screen.blit(surface, (blit_x, blit_y), [0,0, blit_width, blit_height]);
@@ -94,20 +94,13 @@ class Mapview:
       blit_width = surface1.get_width(); 
       blit_height = surface1.get_height();
       blit_x = gui_x - self.view_x; 
-      blit_y = (gui_y - self.view_y );
+      blit_y = gui_y - self.view_y;
 
 
-      self.client.screen.blit(surface1, (blit_x + self.tileset.tile_width / 4, 
-                                     blit_y - self.tileset.tile_height / 3),
-                                     [0,0, blit_width, blit_height]);
-      self.client.screen.blit(surface2, (blit_x + self.tileset.tile_width / 2, 
-                                     blit_y - self.tileset.tile_height / 10),
-                                     [0,0, blit_width, blit_height]);
-      self.client.screen.blit(surface3, (blit_x + self.tileset.tile_width / 4, 
-                                     blit_y + self.tileset.tile_height / 6),
-                                     [0,0, blit_width, blit_height]);
-      self.client.screen.blit(surface4, (blit_x, blit_y - self.tileset.tile_height / 10),
-                                     [0,0, blit_width, blit_height]);
+      self.client.screen.blit(surface1, (blit_x + self.tileset.tile_width / 4, blit_y - self.tileset.tile_height / 3), [0,0, blit_width, blit_height]);
+      self.client.screen.blit(surface2, (blit_x + self.tileset.tile_width / 2, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height]);
+      self.client.screen.blit(surface3, (blit_x + self.tileset.tile_width / 4, blit_y + self.tileset.tile_height / 6), [0,0, blit_width, blit_height]);
+      self.client.screen.blit(surface4, (blit_x, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height]);
 #****************************************************************************
 # Draws a single map tile with a unit to the mapview canvas.
 #****************************************************************************
@@ -134,7 +127,7 @@ class Mapview:
     unit.offset = (dx + vx/(0.1+self.client.clock.get_fps()), 
                    dy + vy/(0.1+self.client.clock.get_fps()));
     blit_x = gui_x - self.view_x + dx * self.tileset.tile_width; 
-    blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height);
+    blit_y = gui_y - self.view_y + dy * self.tileset.tile_height;
 
     #find and show rotation indicator on selected unit
     for selected in self.client.selected_unit.values():
@@ -214,12 +207,7 @@ class Mapview:
 #****************************************************************************
   def gui_to_map(self, gui_pos):
     gui_x, gui_y = gui_pos;
-    return (self.divide(gui_x * self.tileset.tile_height 
-                          + gui_y * self.tileset.tile_width,
-                        self.tileset.tile_width * self.tileset.tile_height)
-            ,self.divide(gui_y * self.tileset.tile_width 
-                          - gui_x * self.tileset.tile_height, 
-                        self.tileset.tile_width * self.tileset.tile_height)+1);
+    return (self.divide(gui_x * self.tileset.tile_height + gui_y * self.tileset.tile_width, self.tileset.tile_width * self.tileset.tile_height) ,self.divide(gui_y * self.tileset.tile_width - gui_x * self.tileset.tile_height, self.tileset.tile_width * self.tileset.tile_height)+1);
 
 
 #****************************************************************************

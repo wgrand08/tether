@@ -33,37 +33,37 @@ class Game:
     self.terrain_types = {};
 
     movements = {};
-    type = "plains";
+    type = "grass";
     movecost = 0;
     movements.update({type:movecost});
     self.unit_types.update({"hub":UnitType("hub", "hub", 0, "build", movements)});
 
     movements = {};
-    type = "plains";
+    type = "grass";
     movecost = 0;
     movements.update({type:movecost});
     self.unit_types.update({"crater":UnitType("crater", "crater", 0, "doodad", movements)});
 
     movements = {};
-    type = "plains";
+    type = "grass";
     movecost = 0;
     movements.update({type:movecost});
     self.unit_types.update({"void":UnitType("void", "void", 0, "doodad", movements)});
 
     movements = {};
-    type = "plains";
+    type = "grass";
     movecost = 0;
     movements.update({type:movecost});
     self.unit_types.update({"bomb":UnitType("bomb", "bomb", 0, "weap", movements)});
 
     movements = {};
-    type = "plains";
+    type = "grass";
     movecost = 0;
     movements.update({type:movecost});
     self.unit_types.update({"tether":UnitType("tether", "tether", 0, "doodad", movements)});
 
     self.terrain_types.update({"ocean":TerrainType("ocean", "Ocean")});
-    self.terrain_types.update({"plains":TerrainType("plains", "Plains")});
+    self.terrain_types.update({"grass":TerrainType("grass", "grass")});
     self.terrain_types.update({"coast":TerrainType("coast", "Coast")});
 
 

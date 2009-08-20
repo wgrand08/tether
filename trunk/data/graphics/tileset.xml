@@ -1,67 +1,14 @@
 <tileset name="MoonPy Default" path="data/graphics" version="1.0"
-	 tile_width="96" tile_height="48" edge_tile_height="64"
-         panel_width="112" panel_height="108">
+	 tile_width="48" tile_height="48" edge_tile_height="48"
+         panel_width="48" panel_height="48">
  
-<file src="terrain/terrain.png">
-    <terrain name="plains" x="1" y="66" 
-             width="96" height="64" pixelsalpha="false">
+<file src="terrain/crater.png">
+    <terrain name="grass" x="1" y="1" 
+             width="48" height="48" pixelsalpha="false">
     <frame slot-x="0" slot-y="0"/>
   </terrain>
-
-  <terrain name="ocean" x="1" y="131" 
-           width="96" height="64" pixelsalpha="false">
-    <frame slot-x="0" slot-y="0"/>
-  </terrain>
-
-  <terrain name="select" x="1" y="196" 
-           width="96" height="64" pixelsalpha="false">
-    <frame slot-x="0" slot-y="0"/>
-  </terrain>
-
-
-  <edgeterrain primary="ocean" secondary="plains" x="1" y="600" 
-           width="48" height="24" pixelalpha="false">
-    <frame key="wwuw" slot-x="0" slot-y="0"/>
-    <frame key="uwww" slot-x="0" slot-y="1"/>
-    <frame key="wuww" slot-x="0" slot-y="2"/>
-    <frame key="wwwu" slot-x="1" slot-y="2"/>
-
-    <frame key="wwul" slot-x="2" slot-y="0"/>
-    <frame key="ulww" slot-x="2" slot-y="1"/>
-    <frame key="wulw" slot-x="2" slot-y="2"/>
-    <frame key="lwwu" slot-x="3" slot-y="2"/>
-
-    <frame key="lwuw" slot-x="4" slot-y="0"/>
-    <frame key="uwlw" slot-x="4" slot-y="1"/>
-    <frame key="wuwl" slot-x="4" slot-y="2"/>
-    <frame key="wlwu" slot-x="5" slot-y="2"/>
-
-    <frame key="lwul" slot-x="6" slot-y="0"/>
-    <frame key="ullw" slot-x="6" slot-y="1"/>
-    <frame key="wull" slot-x="6" slot-y="2"/>
-    <frame key="llwu" slot-x="7" slot-y="2"/>
-
-    <frame key="wluw" slot-x="8" slot-y="0"/>
-    <frame key="uwwl" slot-x="8" slot-y="1"/>
-    <frame key="luww" slot-x="8" slot-y="2"/>
-    <frame key="wwlu" slot-x="9" slot-y="2"/>
-
-    <frame key="wlul" slot-x="10" slot-y="0"/>
-    <frame key="ulwl" slot-x="10" slot-y="1"/>
-    <frame key="lulw" slot-x="10" slot-y="2"/>
-    <frame key="lwlu" slot-x="11" slot-y="2"/>
-
-    <frame key="lluw" slot-x="12" slot-y="0"/>
-    <frame key="uwll" slot-x="12" slot-y="1"/>
-    <frame key="luwl" slot-x="12" slot-y="2"/>
-    <frame key="wllu" slot-x="13" slot-y="2"/>
-
-    <frame key="llul" slot-x="14" slot-y="0"/>
-    <frame key="ulll" slot-x="14" slot-y="1"/>
-    <frame key="lull" slot-x="14" slot-y="2"/>
-    <frame key="lllu" slot-x="15" slot-y="2"/>
-  </edgeterrain>
 </file>
+
 
 <file src="terrain/crater.png">
   <unit name="crater" frames="1" x="1" y="1" 
@@ -113,7 +60,7 @@
 
 <file src="buildings/unit_tether.png">
   <unit name="tether" frames="1" x="1" y="1" 
-        width="16" height="16" pixelalpha="true">
+        width="12" height="12" pixelalpha="true">
     <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
