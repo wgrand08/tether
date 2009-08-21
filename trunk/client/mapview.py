@@ -119,6 +119,7 @@ class Mapview:
 
     #draw units themselves
     gui_x, gui_y = self.map_to_gui(map_pos);
+    print"gui_coords = ", gui_x, gui_y;
 
     unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, unit.dir, unit.playerID);
 
@@ -200,6 +201,11 @@ class Mapview:
 #****************************************************************************
   def map_to_gui(self, map_pos):
     map_dx, map_dy = map_pos;
+    """
+hub gui coords are:
+gui_coords =  0 1008
+gui_coords =  0 960
+    """
     return (((map_dx - map_dy) * self.tileset.tile_width / 2), ((map_dx + map_dy) * self.tileset.tile_height / 2));
 
 
