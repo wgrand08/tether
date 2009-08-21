@@ -46,7 +46,8 @@ class Mapview:
 #****************************************************************************
   def drawmap(self):
     self.delta_scroll();
-    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, self.rect.height);
+    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, int(self.rect.height + self.tileset.tile_height * 0.5));
+
 
     if self.client.heldbutton == "right":
         self.client.holdbutton.rotateright();
@@ -82,7 +83,7 @@ class Mapview:
       surface = self.tileset.get_terrain_surf_from_tile(tile);
       if not surface: return;
       blit_x = gui_x - self.view_x; 
-      blit_y = gui_y - self.view_y;
+      blit_y = (gui_y - self.view_y - (surface.get_height() / 2));
       blit_width = surface.get_width(); 
 
       blit_height = surface.get_height();
@@ -127,7 +128,7 @@ class Mapview:
     unit.offset = (dx + vx/(0.1+self.client.clock.get_fps()), 
                    dy + vy/(0.1+self.client.clock.get_fps()));
     blit_x = gui_x - self.view_x + dx * self.tileset.tile_width; 
-    blit_y = gui_y - self.view_y + dy * self.tileset.tile_height;
+    blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height);
 
     #find and show rotation indicator on selected unit
     for selected in self.client.selected_unit.values():
