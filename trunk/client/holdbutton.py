@@ -21,31 +21,31 @@ import pygame
 
 class HoldButton:
     def __init__(self, client):
-        self.client = client;
+        self.client = client
 
-    def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 1;
+    def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 1
         if (self.client.rotate_position > 360):
-            self.client.rotate_position = 1;
+            self.client.rotate_position = 1
         pygame.time.delay(3)
-        logging.info("rotate = %r" % self.client.rotate_position);
+        logging.info("rotate = %r" % self.client.rotate_position)
 
     def rotateleft(self):
-        self.client.rotate_position = self.client.rotate_position - 1;
+        self.client.rotate_position = self.client.rotate_position - 1
         if (self.client.rotate_position < 1):
-            self.client.rotate_position = 360;
+            self.client.rotate_position = 360
         pygame.time.delay(3)
-        logging.info("rotate = %r" % self.client.rotate_position);
+        logging.info("rotate = %r" % self.client.rotate_position)
 
     def increasepower(self):
-        self.client.firepower = self.client.firepower + 1;
+        self.client.firepower = self.client.firepower + 1
         if self.client.firepower > 15:
-            self.client.firepower = 15;
+            self.client.firepower = 15
         pygame.time.delay(3)
-        logging.info("current power = %r" % self.client.firepower);
+        logging.info("current power = %r" % self.client.firepower)
 
     def decreasepower(self):
-        self.client.firepower = self.client.firepower - 1;
+        self.client.firepower = self.client.firepower - 1
         if self.client.firepower < 1:
-            self.client.firepower = 1;
+            self.client.firepower = 1
         pygame.time.delay(3)
-        logging.info("current power = %r" % self.client.firepower);
+        logging.info("current power = %r" % self.client.firepower)

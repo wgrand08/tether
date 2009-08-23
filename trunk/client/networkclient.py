@@ -31,37 +31,37 @@ import zlib
 class NetworkClient(pb.Referenceable):
   def __init__(self, clientstate):
     self.perspective = None
-    self.client = clientstate;
+    self.client = clientstate
 
 #****************************************************************************
 # Todo: Add error handling
 #****************************************************************************
   def network_handle(self, string):
-    data = zlib.decompress(string);
-    object = cPickle.loads(data);
-    return object;
+    data = zlib.decompress(string)
+    object = cPickle.loads(data)
+    return object
 
 #****************************************************************************
 #
 #****************************************************************************
   def network_prepare(self, object):
-    data = cPickle.dumps(object);
-    compressed = zlib.compress(data);
-    return compressed;
+    data = cPickle.dumps(object)
+    compressed = zlib.compress(data)
+    return compressed
 
 
 #****************************************************************************
 # connect to server
 #****************************************************************************
   def connect(self, server, serverPort, username):
-    self.server = server;
-    self.serverPort = serverPort;
-    self.username = username;
-    factory = pb.PBClientFactory();
-    reactor.connectTCP("localhost", 6112, factory);
-    df = factory.login(UsernamePassword("guest", "guest"), self);
-    df.addCallback(self.connected);
-    reactor.run();
+    self.server = server
+    self.serverPort = serverPort
+    self.username = username
+    factory = pb.PBClientFactory()
+    reactor.connectTCP("localhost", 6112, factory)
+    df = factory.login(UsernamePassword("guest", "guest"), self)
+    df.addCallback(self.connected)
+    reactor.run()
 
 #****************************************************************************
 # command for server to setup game
@@ -83,86 +83,86 @@ class NetworkClient(pb.Referenceable):
     self.perspective.callRemote('skip_round')
 
   def success(self, message):
-    logging.info("Message received: %s" % message);
+    logging.info("Message received: %s" % message)
 
   def failure(self, error):
-    logging.info("error received:");
-    reactor.stop();
+    logging.info("error received:")
+    reactor.stop()
 
   def connected(self, perspective):
     self.perspective = perspective
     perspective.callRemote('login', self.username, self.client.settings.version).addCallback(self.login_result)
-    logging.info("connected.");
+    logging.info("connected.")
 
 #****************************************************************************
 # recieve login information from server
 #****************************************************************************
   def login_result(self, result):
     if result == "login_failed":
-        logging.info("Server denied login");
+        logging.info("Server denied login")
     else:
-        self.client.playerID = result;
-        logging.info("Server accepted login");
-        logging.info("Your playerID = %r" % self.client.playerID);
-        self.client.enter_pregame();
+        self.client.playerID = result
+        logging.info("Server accepted login")
+        logging.info("Your playerID = %r" % self.client.playerID)
+        self.client.enter_pregame()
 
 #****************************************************************************
 # send chat information
 #****************************************************************************
   def send_chat(self, message):
-    data = self.network_prepare(message);
-    self.perspective.callRemote('send_chat', data);
+    data = self.network_prepare(message)
+    self.perspective.callRemote('send_chat', data)
 
 
   def error(self, failure, op=""):
     logging.info('Error in %s: %s' % (op, str(failure.getErrorMessage())))
     if reactor.running:
-      reactor.stop();
+      reactor.stop()
 
 
   # Methods starting with remote_ can be called by the server. (basically incoming message)
   def remote_chat(self, message):
     if self.client.mappanel:
-      self.client.mappanel.show_message(message);
+      self.client.mappanel.show_message(message)
     if self.client.pregame:
-      self.client.pregame.show_message(message);
+      self.client.pregame.show_message(message)
 
   def remote_network_sync(self):
-    logging.info("* Network sync");
-    self.client.game_next_phase();
+    logging.info("* Network sync")
+    self.client.game_next_phase()
 
 #****************************************************************************
 # recieve confirmation from server that units have been placed on map and to go ahead and begin movement
 #****************************************************************************
   def remote_confirmation(self):
-    self.client.confirmed();
+    self.client.confirmed()
 
 #****************************************************************************
 # recieve updated unit information
 #****************************************************************************
   def remote_unit_list(self, net_unit_list):
-    self.client.map.unitstore = self.network_handle(net_unit_list);
+    self.client.map.unitstore = self.network_handle(net_unit_list)
 
 #****************************************************************************
 # recieve updated map information
 #****************************************************************************
   def remote_map(self, net_map):
-    self.client.map.mapstore = self.network_handle(net_map);
+    self.client.map.mapstore = self.network_handle(net_map)
 
   def remote_start_client_game(self):
-    self.client.pregame.start_game();
+    self.client.pregame.start_game()
 
 #****************************************************************************
 # recieve assigned playerID from server
 #****************************************************************************
   def remote_get_playerID(self, playerID):
-    self.client.playerID = playerID;
+    self.client.playerID = playerID
 
 #****************************************************************************
 # recieve command to restore energy and begin a new round
 #****************************************************************************
   def remote_next_round(self):
-    self.client.current_energy = self.client.stored_energy;
+    self.client.current_energy = self.client.stored_energy
     #todo: add code to calculate stored energy for next turn
 
 #****************************************************************************
@@ -170,9 +170,9 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
   def remote_next_turn(self, next_player):
     if next_player == self.client.playerID:
-        self.client.myturn = True;
-        logging.info("It's your turn commander");
+        self.client.myturn = True
+        logging.info("It's your turn commander")
     else:
-        self.client.myturn = False;
-        logging.info("It is player %r turn" % next_player);
+        self.client.myturn = False
+        logging.info("It is player %r turn" % next_player)
 

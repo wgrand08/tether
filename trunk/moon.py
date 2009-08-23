@@ -28,20 +28,20 @@ import common.log
 # Check dependencies (Pygame).
 #****************************************************************************
 def dependencyCheck():
-  logging.info('Platform: ' + platform.platform());
-  logging.info('Python version ' + sys.version);
+  logging.info('Platform: ' + platform.platform())
+  logging.info('Python version ' + sys.version)
   try:
-    import pygame;
-    logging.info('Pygame version: ' + pygame.version.ver);
+    import pygame
+    logging.info('Pygame version: ' + pygame.version.ver)
   except ImportError, err:
-    logging.error('Loading dependency "pygame" failed: ' + str(err));
-    sys.exit(1);
+    logging.error('Loading dependency "pygame" failed: ' + str(err))
+    sys.exit(1)
   try :
     import PIL.Image as Image
-    logging.info('Python Image Library version ' + Image.VERSION);
+    logging.info('Python Image Library version ' + Image.VERSION)
   except ImportError, err:
-    logging.error('Loading dependency "PIL" failed: ' + str(err));
-    sys.exit(1);
+    logging.error('Loading dependency "PIL" failed: ' + str(err))
+    sys.exit(1)
   try:
     import twisted
     if hasattr(twisted, '__version__'):
@@ -57,12 +57,12 @@ def main():
 
   #logLevel = logging.WARNING
   logLevel = logging.INFO
-  common.log.setUpLogging(logLevel);
+  common.log.setUpLogging(logLevel)
 
-  dependencyCheck();
-  import client.main;
+  dependencyCheck()
+  import client.main
   client = client.main.Main()
 
-main();
+main()
 
 

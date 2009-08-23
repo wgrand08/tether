@@ -1,14 +1,20 @@
-# OpenRTS - Copyright (C) 2006 The OpenRTS Project
-#
-# OpenRTS is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# OpenRTS is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+"""Copyright 2009:
+    Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+"""
 
 import os, sys
 import pygame
@@ -51,19 +57,19 @@ That's it. Have fun with your new funky cursors.
 #****************************************************************************
 class GfxCursor:
     def __init__(self,client, surface, hotspot=(16,16), type=None):
-        self.surface = surface;
-        self.enabled = 0;
-        self.cursor  = None;
-        self.hotspot = hotspot;
-        self.bg      = None;
-        self.offset  = 0,0;
-        self.old_pos = 0,0;
-        self.client = client;
-        self.type = type;
+        self.surface = surface
+        self.enabled = 0
+        self.cursor  = None
+        self.hotspot = hotspot
+        self.bg      = None
+        self.offset  = 0,0
+        self.old_pos = 0,0
+        self.client = client
+        self.type = type
         
         if type:
-            self.set_cursor_type(type);
-            self.enable();
+            self.set_cursor_type(type)
+            self.enable()
 
     def enable(self):
         """
@@ -81,7 +87,7 @@ class GfxCursor:
             self.hide()
             pygame.mouse.set_visible(1)
             self.enabled = 0
-            self.type = None;
+            self.type = None
 
     def set_cursor_surface(self,cursor,hotspot=(16,16)):
         """
@@ -120,7 +126,7 @@ class GfxCursor:
         """
         if self.bg and self.enabled:
             pos = self.old_pos[0]-self.offset[0],self.old_pos[1]-self.offset[1]
-            self.cursor = self.client.tileset.get_mouse_cursor(self.type);
+            self.cursor = self.client.tileset.get_mouse_cursor(self.type)
             self.bg.blit(self.surface,(0,0),
                 (pos[0],pos[1],self.cursor.get_width(),self.cursor.get_height()))
             return self.surface.blit(self.cursor,pos)
@@ -131,16 +137,16 @@ class GfxCursor:
         """
         try:
           self.old_pos = event.pos
-          x, y = event.pos;
+          x, y = event.pos
         except: 
           pass
 
     def set_cursor_type(self, type):
        if type == 'default': 
-         self.disable();
-         return;
-       self.type = type; 
-       cursor = self.client.tileset.get_mouse_cursor(type);
-       self.setHotspot((cursor.get_width()/2, cursor.get_height()/2));
-       self.set_cursor_surface(cursor);
-       self.enable();
+         self.disable()
+         return
+       self.type = type 
+       cursor = self.client.tileset.get_mouse_cursor(type)
+       self.setHotspot((cursor.get_width()/2, cursor.get_height()/2))
+       self.set_cursor_surface(cursor)
+       self.enable()
