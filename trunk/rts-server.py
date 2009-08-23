@@ -28,17 +28,17 @@ def main():
 
 
   logLevel = logging.INFO
-  common.log.setUpLogging(logLevel);
+  common.log.setUpLogging(logLevel)
 
-  logging.info("MoonPy Server started.");
+  logging.info("MoonPy Server started.")
 
 
-  import server.main;
-  srv = server.main.ServerMain();
-  srv.start_from_server();
+  import server.main
+  srv = server.main.ServerMain()
+  srv.start_from_server()
   
 
 
-main();
+main()
 
 
