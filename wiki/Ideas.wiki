@@ -48,9 +48,9 @@
    ====Phase 1:====
     * Art assets 
      # main hub thing -- complete
-     # chuckable hub -- in progress
-     # bomb -- in progress
-     # tether -- in progress
+     # chuckable hub -- in progress (complete if using main hub)
+     # bomb -- complete
+     # tether -- in progress (temporary graphic in use)
     * pure 2-d to start -- complete
     * text input for direction and power at first -- complete
     * algorithm for calculating shots -- in progress
