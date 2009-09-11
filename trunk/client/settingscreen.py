@@ -46,8 +46,8 @@ class SettingsScreen:
             self.fullscreen_select = gui.Select(value=True)
         else:
             self.fullscreen_select = gui.Select(value=False)
-        self.fullscreen_select.add("True",True)
-        self.fullscreen_select.add("False",False)
+        self.fullscreen_select.add("Fullscreen",True)
+        self.fullscreen_select.add("Windowed",False)
         table.add(self.fullscreen_select, 1,2)
 
         mute_music_label = gui.Label(_("Play Music: "))
@@ -61,15 +61,15 @@ class SettingsScreen:
         table.add(self.mute_music_select, 1,3)
 
 
-        mute_sound_label = gui.Label(_("Play Sound: "))
-        table.add(mute_sound_label,0,5)
+        mute_sound_label = gui.Label(_("Sound Effects: "))
+        table.add(mute_sound_label,0,4)
         if self.client.settings.play_sound == True:
             self.mute_sound_select = gui.Select(value=True)
         else:
             self.mute_sound_select = gui.Select(value=False)
-        self.mute_sound_select.add("Play",True)
-        self.mute_sound_select.add("Silence",False)
-        table.add(self.mute_sound_select, 1,5)
+        self.mute_sound_select.add("On",True)
+        self.mute_sound_select.add("Off",False)
+        table.add(self.mute_sound_select, 1,4)
 
         cancel_button = gui.Button(_("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_settings, None)
@@ -79,11 +79,11 @@ class SettingsScreen:
         ok_button.connect(gui.CLICK, self.accept_settings, None)
 
 
-        table.add(gui.Widget(), 0, 4)
+        table.add(gui.Widget(), 0, 5)
         sub_table = gui.Table(width=140, height=35)
-        table.add(sub_table, 1, 4)
-        sub_table.add(cancel_button, 0,5)
-        sub_table.add(ok_button, 1,5)
+        table.add(sub_table, 1, 5)
+        sub_table.add(cancel_button, 0,6)
+        sub_table.add(ok_button, 1,6)
 
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0)
         container.add(table, self.client.screen.get_width() / 2 - 150, self.client.screen.get_height() / 2 - 120)
