@@ -74,6 +74,7 @@ class MainMenu:
     menu_table.add(gui.Widget(width=1, height=5), 0, 7)
 
     credits_button = gui.Button(_("Credits"))
+    credits_button.connect(gui.CLICK, self.credits_screen, None)
     menu_table.add(credits_button, 0, 8)
     menu_table.add(gui.Widget(width=1, height=5), 0, 9)
 
@@ -97,7 +98,7 @@ class MainMenu:
 #  Start a network game.
 #****************************************************************************
   def network_start(self, obj):
-    self.client.moonaudio.play_sound("buttonclick.ogg")
+    self.client.moonaudio.sound("buttonclick.ogg")
     self.app.quit()
     ns = NetworkScreen(self.client)
     ns.start()
@@ -106,7 +107,7 @@ class MainMenu:
 #  Join a network game.
 #****************************************************************************
   def network_join(self, obj):
-    self.client.moonaudio.play_sound("buttonclick.ogg")
+    self.client.moonaudio.sound("buttonclick.ogg")
     self.app.quit()
     ns = NetworkScreen(self.client)
     ns.join()
@@ -115,10 +116,16 @@ class MainMenu:
 #   Access the settings menu
 #****************************************************************************
   def settings_menu(self, obj):
-    self.client.moonaudio.play_sound("buttonclick.ogg")
+    self.client.moonaudio.sound("buttonclick.ogg")
     self.app.quit()
     ss = SettingsScreen(self.client)
     ss.settings_menu()
+
+#****************************************************************************
+#   Access the credits
+#****************************************************************************
+  def credits_screen(self, obj):
+    self.client.moonaudio.sound("disabled.ogg")
 
 #****************************************************************************
 #

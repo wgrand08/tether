@@ -25,12 +25,12 @@ class MoonAudio:
     def __init__(self, client):
         self.client = client
 
-    def play_music(self, chosen_song):
+    def music(self, chosen_song):
         if self.client.settings.play_music == True:
             pygame.mixer.music.load(os.path.join('data/music',chosen_song))
             pygame.mixer.music.play(-1)
 
-    def play_sound(self, chosen_sound):
+    def sound(self, chosen_sound):
         if self.client.settings.play_sound == True:
             sound = pygame.mixer.Sound(os.path.join('data/sounds',chosen_sound))
             sound.play()

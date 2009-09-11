@@ -109,7 +109,7 @@ class SettingsScreen:
         if self.client.settings.play_music == False:
             self.client.moonaudio.end_music()
         elif orig_play_music == False:
-            self.client.moonaudio.play_music("water.ogg")
+            self.client.moonaudio.music("water.ogg")
         self.client.settings.save_settings()
         self.app.quit()
         mainmenu.MainMenu(self.client)
