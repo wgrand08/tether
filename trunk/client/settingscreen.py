@@ -20,6 +20,7 @@ import pygame
 import os
 import gui
 import mainmenu
+
 """This displays the screen that allows users to modify their settings. """
 class SettingsScreen:
     def __init__(self, client):
@@ -48,6 +49,27 @@ class SettingsScreen:
         self.fullscreen_select.add("True",True)
         self.fullscreen_select.add("False",False)
         table.add(self.fullscreen_select, 1,2)
+
+        mute_music_label = gui.Label(_("Play Music: "))
+        table.add(mute_music_label,0,3)
+        if self.client.settings.play_music == True:
+            self.mute_music_select = gui.Select(value=True)
+        else:
+            self.mute_music_select = gui.Select(value=False)
+        self.mute_music_select.add("Play",True)
+        self.mute_music_select.add("Mute",False)
+        table.add(self.mute_music_select, 1,3)
+
+
+        mute_sound_label = gui.Label(_("Play Sound: "))
+        table.add(mute_sound_label,0,4)
+        if self.client.settings.play_sound == True:
+            self.mute_sound_select = gui.Select(value=True)
+        else:
+            self.mute_sound_select = gui.Select(value=False)
+        self.mute_sound_select.add("Play",True)
+        self.mute_sound_select.add("Silence",False)
+        table.add(self.mute_sound_select, 1,4)
 
         cancel_button = gui.Button(_("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_settings, None)
@@ -79,8 +101,15 @@ class SettingsScreen:
 #User wishes to keep changes and settings are automatically saved
 #****************************************************************************
     def accept_settings(self, obj):
+        orig_play_music = self.client.settings.play_music
         self.client.settings.playername = self.nickname_input.value
         self.client.settings.fullscreen = self.fullscreen_select.value
+        self.client.settings.play_music = self.mute_music_select.value
+        self.client.settings.play_sound = self.mute_sound_select.value
+        if self.client.settings.play_music == False:
+            self.client.moonaudio.end_music()
+        elif orig_play_music == False:
+            self.client.moonaudio.play_music("water.ogg")
         self.client.settings.save_settings()
         self.app.quit()
         mainmenu.MainMenu(self.client)

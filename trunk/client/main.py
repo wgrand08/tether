@@ -38,33 +38,34 @@ class Main:
   def __init__(self):
     pygame.init()
   
-    self.gameclient = GameClientState()    
-    logging.info("MoonPy %s" % (self.gameclient.settings.version))
+    self.client = GameClientState()    
+    logging.info("MoonPy %s" % (self.client.settings.version))
 
     self.initialize_locale()
 
     self.create_main_window()
-    self.intro = introscreen.IntroScreen(self.gameclient.screen)
+    self.client.moonaudio.play_music("water.ogg")
+    self.intro = introscreen.IntroScreen(self.client.screen)
 
-    mainmenu = MainMenu(self.gameclient)
+    mainmenu = MainMenu(self.client)
 
 #****************************************************************************
 #
 #****************************************************************************
   def initialize_locale(self):
     translation = Translation()
-    translation.setLanguage(self.gameclient.settings.language)
+    translation.setLanguage(self.client.settings.language)
 
 #****************************************************************************
 #
 #****************************************************************************
   def create_main_window(self):
-    screen_width = self.gameclient.settings.screen_width 
-    screen_height = self.gameclient.settings.screen_height 
+    screen_width = self.client.settings.screen_width 
+    screen_height = self.client.settings.screen_height 
     screen_mode = 0
     screen = pygame.display.set_mode((screen_width, screen_height), screen_mode)
 
     pygame.display.set_caption("Welcome to MoonPy")
-    self.gameclient.screen = screen
+    self.client.screen = screen
 
 

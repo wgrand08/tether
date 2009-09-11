@@ -35,3 +35,5 @@ class MoonAudio:
             sound = pygame.mixer.Sound(os.path.join('data/sounds',chosen_sound))
             sound.play()
 
+    def end_music(self):
+        pygame.mixer.music.fadeout(750)

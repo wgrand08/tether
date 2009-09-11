@@ -37,8 +37,8 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.561
-        self.string_version = "0.5.61"
+        self.version = 0.562
+        self.string_version = "0.5.62"
         self.playername = "Commander"
         self.fullscreen = False
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
@@ -48,7 +48,9 @@ class GameSettings:
         self.defaultIP = "127.0.0.1"
         self.language = "en"
         self.play_music = True
-        self.play_sound = True
+        self.play_sound = True
+        self.music_volume = 100
+        self.sound_volume = 100
 
     def load_settings(self):
         badsettings = True
@@ -73,7 +75,19 @@ class GameSettings:
                     if input_array[0].strip() == "yres":
                         self.screen_height = int(input_array[1].strip())
                     if input_array[0].strip() == "name":
-                        self.playername = input_array[1].strip()
+                        self.playername = input_array[1].strip()
+                    if input_array[0].strip() == "play_music":
+                        if input_array[1].strip() == "True":
+                            self.play_music = True
+                        elif input_array[1].strip() == "False":
+                            self.play_music = False
+                    if input_array[0].strip() == "play_sound":
+                        if input_array[1].strip() == "True":
+                            self.play_sound = True
+                        elif input_array[1].strip() == "False":
+                            self.play_sound = False
+
+
         if badsettings == True:
             self.save_settings()
         else:
@@ -87,7 +101,6 @@ class GameSettings:
         self.savesettings.write("xres="+str(self.screen_width)+"\n")
         self.savesettings.write("yres="+str(self.screen_height)+"\n")
         self.savesettings.write("name="+str(self.playername)+"\n")
-
-	
-
+        self.savesettings.write("play_music="+str(self.play_music)+"\n")
+        self.savesettings.write("play_sound="+str(self.play_sound)+"\n")
 

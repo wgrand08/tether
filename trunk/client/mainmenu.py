@@ -91,7 +91,6 @@ class MainMenu:
     container.add(intro_label, self.client.screen.get_width() / 2 - 65,
                               self.client.screen.get_height() * 0.315)
 
-    self.client.moonaudio.play_music("water.ogg")
     self.app.run(container)
 
 #****************************************************************************
