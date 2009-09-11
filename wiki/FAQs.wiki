@@ -29,10 +29,10 @@
   No.
 
   * Really? Why not?
-  Mostly because we don't have the exact formulas for calculating the shots. Sure it looks simple but there are a lot of factors involved, especially when you start looping missiles around the back side of an enemy base. While we can make our own formulas that *look* identical there will be slight differences that would desync the clients and make it unplayable. We also want to make some changes that would make it incompatible with the original even if we did have the original formulas.
+  Mostly because what we're trying to do is hard enough as it is and don't want to go through the hassle of reverse engineering everything. We also want to make some changes that will make MoonPy incompatible with the original even if we did bother to reverse engineer everything.
 
   * What changes are you planning?
-  The biggest change we want to make is the number of players. The original Moonbase Commander can not have more then 4 players per game which we find annoying. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
+  The biggest change we want to make is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we find inconvenient. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
 
   * How can I help out with the project?
   Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/project-tether introduce yourself].
