@@ -62,14 +62,14 @@ class SettingsScreen:
 
 
         mute_sound_label = gui.Label(_("Play Sound: "))
-        table.add(mute_sound_label,0,4)
+        table.add(mute_sound_label,0,5)
         if self.client.settings.play_sound == True:
             self.mute_sound_select = gui.Select(value=True)
         else:
             self.mute_sound_select = gui.Select(value=False)
         self.mute_sound_select.add("Play",True)
         self.mute_sound_select.add("Silence",False)
-        table.add(self.mute_sound_select, 1,4)
+        table.add(self.mute_sound_select, 1,5)
 
         cancel_button = gui.Button(_("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_settings, None)
