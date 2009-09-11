@@ -91,13 +91,14 @@ class MainMenu:
     container.add(intro_label, self.client.screen.get_width() / 2 - 65,
                               self.client.screen.get_height() * 0.315)
 
-    self.client.moonaudio.play_music("test")
+    self.client.moonaudio.play_music("water.ogg")
     self.app.run(container)
 
 #****************************************************************************
 #  Start a network game.
 #****************************************************************************
   def network_start(self, obj):
+    self.client.moonaudio.play_sound("buttonclick.ogg")
     self.app.quit()
     ns = NetworkScreen(self.client)
     ns.start()
@@ -106,6 +107,7 @@ class MainMenu:
 #  Join a network game.
 #****************************************************************************
   def network_join(self, obj):
+    self.client.moonaudio.play_sound("buttonclick.ogg")
     self.app.quit()
     ns = NetworkScreen(self.client)
     ns.join()
@@ -114,6 +116,7 @@ class MainMenu:
 #   Access the settings menu
 #****************************************************************************
   def settings_menu(self, obj):
+    self.client.moonaudio.play_sound("buttonclick.ogg")
     self.app.quit()
     ss = SettingsScreen(self.client)
     ss.settings_menu()
