@@ -60,7 +60,7 @@
 
 <file src="buildings/unit_tether.png">
   <unit name="tether" frames="1" x="1" y="1" 
-        width="12" height="12" pixelalpha="true">
+        width="24" height="24" pixelalpha="true">
     <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
     </player>
