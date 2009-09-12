@@ -63,7 +63,7 @@ class Main:
     screen_width = self.client.settings.screen_width 
     screen_height = self.client.settings.screen_height 
     screen_mode = 0
-    screen = pygame.display.set_mode((screen_width, screen_height), screen_mode)
+    screen = pygame.display.set_mode((500, 500), screen_mode)
 
     pygame.display.set_caption("Welcome to MoonPy")
     self.client.screen = screen

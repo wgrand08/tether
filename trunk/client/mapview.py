@@ -32,8 +32,8 @@ class Mapview:
   def __init__(self, clientstate):
     self.client = clientstate
     self.map = clientstate.map
-    self.view_x = -350 #starting location of viewer
-    self.view_y = 760
+    self.view_x = 20 #starting location of viewer
+    self.view_y = 20
     self.view_delta_x = 0 #for scrolling viewer
     self.view_delta_y = 0
     self.tileset = self.client.tileset
@@ -46,7 +46,7 @@ class Mapview:
 #****************************************************************************
   def drawmap(self):
     self.delta_scroll()
-    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, int(self.rect.height + self.tileset.tile_height * 0.5))
+    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, self.rect.height)
 
 
     if self.client.heldbutton == "right":
@@ -119,7 +119,7 @@ class Mapview:
 
     #draw units themselves
     gui_x, gui_y = self.map_to_gui(map_pos)
-    print"gui_coords = ", gui_x, gui_y
+    #print"gui_coords = ", gui_x, gui_y
 
     unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, unit.dir, unit.playerID)
 
@@ -156,7 +156,6 @@ class Mapview:
             finalX = endX + offsetX
             finalY = endY + offsetY
             pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, endY), 1)
-            #pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (0, 960), 1)
     self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
 #****************************************************************************
@@ -210,9 +209,10 @@ gui_coords =  0 960
 X = -90 <> 90
 Y = 0 <> 180
     """
-
+    map_dx = map_dx - 14
+    map_dy = map_dy - 14
     #return (((map_dx - map_dy) * self.tileset.tile_width / 2), ((map_dx + map_dy) * self.tileset.tile_height / 2))
-    return (((map_dx - map_dy) * self.tileset.tile_width / 2), ((map_dx + map_dy) * self.tileset.tile_height / 2))
+    return ((map_dx * self.tileset.tile_width), (map_dy * self.tileset.tile_height))
 
 
 #****************************************************************************
@@ -245,24 +245,19 @@ Y = 0 <> 180
       gui_y0 += height                                                     
       height = -height                                                     
                                                                            
-    if (width > 0 and height > 0):                                           
-      W = (self.tileset.tile_width / 2)   
-      H = (self.tileset.tile_height / 2) 
-      GRI_x0 = self.divide(gui_x0,W)
-      GRI_y0 = self.divide(gui_y0, H)           
-      GRI_x1 = self.divide(gui_x0 + width + W - 1, W)                       
-      GRI_y1 = self.divide(gui_y0 + height + H - 1, H)                      
-      GRI_x0 -= 1
-      GRI_y0 -= 1
-      count = (GRI_x1 - GRI_x0) * (GRI_y1 - GRI_y0) 
-      for GRI_itr in range(count):                        
-        GRI_x_itr = GRI_x0 + (GRI_itr % (GRI_x1 - GRI_x0))                   
-        GRI_y_itr = GRI_y0 + (GRI_itr / (GRI_x1 - GRI_x0))                   
-        if ((GRI_x_itr + GRI_y_itr) % 2 != 0):                             
-          continue                                                         
-        map_x = (GRI_x_itr + GRI_y_itr) / 2                                
-        map_y = (GRI_y_itr - GRI_x_itr) / 2
-        mapcoord_list.insert(0, (map_x, map_y))
-      return mapcoord_list
+    if (width > 0 and height > 0):
+        """map_x = gui_x0
+        map_y = gui_y0
+        for map_x in range(gui_x0 + 10):
+            for map_y in range(gui_y0 + 10):
+                mapcoord_list.insert(0, (map_x, map_y))"""
+        test_x = 15
+        test_y = 15
+        
+        for map_x in range(test_x, (test_x + 10)):
+            for map_y in range(test_y, (test_y + 10)):
+                mapcoord_list.insert(0, (map_x, map_y))
+        
+        return mapcoord_list
 
 
