@@ -94,6 +94,7 @@ class SettingsScreen:
 #User cancels and changes are lost
 #****************************************************************************
     def cancel_settings(self, obj):
+        self.client.moonaudio.sound("buttonclick.ogg")
         self.app.quit()
         mainmenu.MainMenu(self.client)
 
@@ -110,6 +111,7 @@ class SettingsScreen:
             self.client.moonaudio.end_music()
         elif orig_play_music == False:
             self.client.moonaudio.music("water.ogg")
+        self.client.moonaudio.sound("buttonclick.ogg")
         self.client.settings.save_settings()
         self.app.quit()
         mainmenu.MainMenu(self.client)

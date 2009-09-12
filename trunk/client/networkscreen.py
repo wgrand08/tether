@@ -132,6 +132,7 @@ class NetworkScreen:
 #
 #****************************************************************************
   def connect_callback(self, obj):
+    self.client.moonaudio.sound("buttonclick.ogg")
     server = self.hostname_input.value
     nick = self.client.settings.playername
     self.client.settings.hostIP = server
@@ -143,6 +144,7 @@ class NetworkScreen:
 #
 #****************************************************************************
   def host_callback(self, obj):
+    self.client.moonaudio.sound("buttonclick.ogg")
     nick = self.client.settings.playername
     self.app.quit()
     self.client.host_network_game("localhost", nick)
@@ -151,6 +153,7 @@ class NetworkScreen:
 #
 #****************************************************************************
   def cancel_callback(self, obj):
+    self.client.moonaudio.sound("buttonclick.ogg")
     self.app.quit()
     mainmenu.MainMenu(self.client)
 
@@ -248,6 +251,7 @@ class PregameScreen:
 #
 #****************************************************************************
   def cancel_callback(self):
+    self.client.moonaudio.sound("buttonclick.ogg")
     self.app.quit()
     mainmenu.MainMenu(self.client)
 
@@ -255,6 +259,7 @@ class PregameScreen:
 #
 #****************************************************************************
   def start_callback(self):
+    self.client.moonaudio.sound("buttonclick.ogg")
     self.message_out.write("Please wait while starting a new game.")
     self.client.netclient.start_server_game()
 
