@@ -32,8 +32,8 @@ class Mapview:
   def __init__(self, clientstate):
     self.client = clientstate
     self.map = clientstate.map
-    self.view_x = 15 #starting location of viewer
-    self.view_y = 15
+    self.view_x = 20 #starting location of viewer
+    self.view_y = 20
 
     self.view_delta_x = 0 #for scrolling viewer
     self.view_delta_y = 0
@@ -83,8 +83,8 @@ class Mapview:
     if not self.tileset.is_edge_tile(tile):
       surface = self.tileset.get_terrain_surf_from_tile(tile)
       if not surface: return
-      blit_x = gui_x# - self.view_x 
-      blit_y = gui_y# - self.view_y
+      blit_x = gui_x
+      blit_y = gui_y
       blit_width = surface.get_width() 
 
       blit_height = surface.get_height()
@@ -120,16 +120,9 @@ class Mapview:
 
     #draw units themselves
     gui_x, gui_y = self.map_to_gui(map_pos)
-    #print"gui_coords = ", gui_x, gui_y
 
     unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, unit.dir, unit.playerID)
 
-    dx, dy = unit.offset
-    vx, vy = unit.speed
-    
-    unit.offset = (dx + vx/(0.1+self.client.clock.get_fps()), dy + vy/(0.1+self.client.clock.get_fps()))
-    #blit_x = gui_x - self.view_x + dx * self.tileset.tile_width 
-    #blit_y = gui_y - self.view_y + dy * self.tileset.tile_height
     blit_x = gui_x
     blit_y = gui_y
 
@@ -181,9 +174,10 @@ class Mapview:
 # Centers the view on a specified tile.
 #****************************************************************************
   def center_view_on_tile(self, map_pos):
-    new_x, new_y = self.map_to_gui(map_pos)
-    self.view_x = new_x - self.client.screen.get_width() / 2
-    self.view_y = new_y - self.client.screen.get_height() / 2
+    x, y = map_pos
+    self.view_x = x - 13
+    self.view_y = y - 13
+
 
 #****************************************************************************
 #
@@ -213,8 +207,11 @@ class Mapview:
 #****************************************************************************
   def gui_to_map(self, gui_pos):
     gui_x, gui_y = gui_pos
-    return (self.divide(gui_x * self.tileset.tile_height + gui_y * self.tileset.tile_width, self.tileset.tile_width * self.tileset.tile_height) ,self.divide(gui_y * self.tileset.tile_width - gui_x * self.tileset.tile_height, self.tileset.tile_width * self.tileset.tile_height)+1)
-
+    map_x = self.divide(gui_x, self.tileset.tile_width)
+    map_y = self.divide(gui_y, self.tileset.tile_height)
+    map_x = map_x + self.view_x
+    map_y = map_y + self.view_y
+    return (map_x, map_y)
 
 #****************************************************************************
 # Returns map coordinates from canvas-coordinates (visible mapcanvas surface) 
@@ -230,8 +227,8 @@ class Mapview:
 #****************************************************************************
   def gui_rect_iterate(self, gui_x0, gui_y0):
     mapcoord_list = []
-    for map_x in range(gui_x0, (gui_x0 + 27)):
-        for map_y in range(gui_y0, (gui_y0 + 27)):
+    for map_x in range(gui_x0, (gui_x0 + 26)):
+        for map_y in range(gui_y0, (gui_y0 + 26)):
             mapcoord_list.insert(0, (map_x, map_y))
         
     return mapcoord_list

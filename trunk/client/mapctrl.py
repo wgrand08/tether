@@ -68,7 +68,7 @@ class Mapctrl:
                 self.set_mouse_state('select')
 
         elif button == 3:
-            map_pos = self.client.mapview.canvas_to_map(pos) 
+            map_pos = self.client.mapview.gui_to_map(pos) 
             self.client.mapview.center_view_on_tile(map_pos)
 
         self.client.mappanel.handle_mouse_click(pos)
