@@ -32,8 +32,9 @@ class Mapview:
   def __init__(self, clientstate):
     self.client = clientstate
     self.map = clientstate.map
-    self.view_x = 20 #starting location of viewer
-    self.view_y = 20
+    self.view_x = 15 #starting location of viewer
+    self.view_y = 15
+
     self.view_delta_x = 0 #for scrolling viewer
     self.view_delta_y = 0
     self.tileset = self.client.tileset
@@ -46,7 +47,7 @@ class Mapview:
 #****************************************************************************
   def drawmap(self):
     self.delta_scroll()
-    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y, self.rect.width, self.rect.height)
+    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y)
 
 
     if self.client.heldbutton == "right":
@@ -82,8 +83,8 @@ class Mapview:
     if not self.tileset.is_edge_tile(tile):
       surface = self.tileset.get_terrain_surf_from_tile(tile)
       if not surface: return
-      blit_x = gui_x - self.view_x 
-      blit_y = (gui_y - self.view_y - (surface.get_height() / 2))
+      blit_x = gui_x# - self.view_x 
+      blit_y = gui_y# - self.view_y
       blit_width = surface.get_width() 
 
       blit_height = surface.get_height()
@@ -126,10 +127,11 @@ class Mapview:
     dx, dy = unit.offset
     vx, vy = unit.speed
     
-    unit.offset = (dx + vx/(0.1+self.client.clock.get_fps()), 
-                   dy + vy/(0.1+self.client.clock.get_fps()))
-    blit_x = gui_x - self.view_x + dx * self.tileset.tile_width 
-    blit_y = (gui_y - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height)
+    unit.offset = (dx + vx/(0.1+self.client.clock.get_fps()), dy + vy/(0.1+self.client.clock.get_fps()))
+    #blit_x = gui_x - self.view_x + dx * self.tileset.tile_width 
+    #blit_y = gui_y - self.view_y + dy * self.tileset.tile_height
+    blit_x = gui_x
+    blit_y = gui_y
 
     #find and show rotation indicator on selected unit
     for selected in self.client.selected_unit.values():
@@ -201,18 +203,9 @@ class Mapview:
 #****************************************************************************
   def map_to_gui(self, map_pos):
     map_dx, map_dy = map_pos
-    """
-hub gui coords are:
-gui_coords =  0 1008
-gui_coords =  0 960
-
-X = -90 <> 90
-Y = 0 <> 180
-    """
-    map_dx = map_dx - 14
-    map_dy = map_dy - 14
-    #return (((map_dx - map_dy) * self.tileset.tile_width / 2), ((map_dx + map_dy) * self.tileset.tile_height / 2))
-    return ((map_dx * self.tileset.tile_width), (map_dy * self.tileset.tile_height))
+    map_dx = map_dx - (self.view_x)
+    map_dy = map_dy - (self.view_y)
+    return (map_dx * self.tileset.tile_width, map_dy * self.tileset.tile_height)
 
 
 #****************************************************************************
@@ -235,29 +228,12 @@ Y = 0 <> 180
 #****************************************************************************
 # Returns a list of map coordinates to be shows on the map canvas view.
 #****************************************************************************
-  def gui_rect_iterate(self, gui_x0, gui_y0, width, height):
+  def gui_rect_iterate(self, gui_x0, gui_y0):
     mapcoord_list = []
-    if (width < 0): 
-      gui_x0 += width                                                      
-      width = -width                                                      
-                                                                          
-    if (height < 0): 
-      gui_y0 += height                                                     
-      height = -height                                                     
-                                                                           
-    if (width > 0 and height > 0):
-        """map_x = gui_x0
-        map_y = gui_y0
-        for map_x in range(gui_x0 + 10):
-            for map_y in range(gui_y0 + 10):
-                mapcoord_list.insert(0, (map_x, map_y))"""
-        test_x = 15
-        test_y = 15
+    for map_x in range(gui_x0, (gui_x0 + 27)):
+        for map_y in range(gui_y0, (gui_y0 + 27)):
+            mapcoord_list.insert(0, (map_x, map_y))
         
-        for map_x in range(test_x, (test_x + 10)):
-            for map_y in range(test_y, (test_y + 10)):
-                mapcoord_list.insert(0, (map_x, map_y))
-        
-        return mapcoord_list
+    return mapcoord_list
 
 

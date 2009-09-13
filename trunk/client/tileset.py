@@ -215,7 +215,7 @@ class Tileset:
               new_color = (red * new_r / 255, new_g * red / 255, new_b * red / 255, a)
               data_color.append(new_color)
             else:
-              data_color.append(pixel)
+                data_color.append(pixel)
           image.putdata(data_color) 
 
         #  Create Pygame surface from PIL image. 
