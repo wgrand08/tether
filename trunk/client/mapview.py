@@ -218,8 +218,8 @@ class Mapview:
 #****************************************************************************
   def gui_rect_iterate(self, gui_x0, gui_y0):
     mapcoord_list = []
-    for map_x in range(gui_x0, (gui_x0 + 26)):
-        for map_y in range(gui_y0, (gui_y0 + 26)):
+    for map_x in range(gui_x0, (gui_x0 + 32)):
+        for map_y in range(gui_y0, (gui_y0 + 32)):
             mapcoord_list.insert(0, (map_x, map_y))
         
     return mapcoord_list

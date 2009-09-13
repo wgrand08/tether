@@ -65,7 +65,7 @@ class Mappanel:
     self.line = gui.Input()
     self.line.style.width = self.input_rect.width
     self.line.style.height = self.input_rect.height
-    self.chat_table.td(self.line)
+    #self.chat_table.td(self.line)
 
     self.chat_table.tr()
     self.chat_table.td(MySpacer(1,1, self.box))
@@ -126,20 +126,19 @@ class Mappanel:
              (self.client.screen_width - panel_right_center.get_width(), y2))
 
     #Draw the bottom panel
-    self.client.screen.blit(panel_bottom_left, 
+    """self.client.screen.blit(panel_bottom_left, 
              (0, self.client.screen_height - panel_bottom_left.get_height()))
 
     width = (self.client.screen_width - panel_bottom_right.get_width() - 
 	      - panel_bottom_left.get_width() - panel_right_center.get_width())
     for x in range (width / panel_bottom_top.get_width() + 1): 
       x2 = panel_bottom_left.get_width() + x * panel_bottom_top.get_width()
-      self.client.screen.blit(panel_bottom_top, 
-             (x2, self.client.screen_height - panel_bottom_left.get_height() ))
+      self.client.screen.blit(panel_bottom_top, (x2, self.client.screen_height - panel_bottom_left.get_height() ))
 
     self.client.screen.blit(panel_bottom_right, 
              ((self.client.screen_width - panel_right_top.get_width()
               - panel_bottom_right.get_width()), 
-              self.client.screen_height - panel_bottom_right.get_height()))
+              self.client.screen_height - panel_bottom_right.get_height()))"""
 
     self.app.repaint()
     self.app.update(self.client.screen)
