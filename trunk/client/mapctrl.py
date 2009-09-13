@@ -113,7 +113,7 @@ class Mapctrl:
             x = x1
             xx = 0
             while (xx <= segments_x):
-                map_pos = self.client.mapview.canvas_to_map((x, y))
+                map_pos = self.client.mapview.gui_to_map((x, y))
                 unit = self.client.map.get_unit(map_pos)
                 if unit: 
                     self.client.selected_unit = {}

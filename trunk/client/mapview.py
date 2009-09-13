@@ -32,8 +32,8 @@ class Mapview:
   def __init__(self, clientstate):
     self.client = clientstate
     self.map = clientstate.map
-    self.view_x = 20 #starting location of viewer
-    self.view_y = 20
+    self.view_x = 15 #starting location of viewer
+    self.view_y = 15
 
     self.view_delta_x = 0 #for scrolling viewer
     self.view_delta_y = 0
@@ -146,8 +146,8 @@ class Mapview:
             endX = round(endX, 0)
             endY = round(endY, 0)
             endX, endY = self.map_to_gui((endX, endY))
-            endX = endX - self.view_x + dx * self.tileset.tile_width 
-            endY = (endY - self.view_y - (unit_surface.get_height() / 2) + dy * self.tileset.tile_height)
+            endX = endX - self.view_x * self.tileset.tile_width 
+            endY = endY - self.view_y * self.tileset.tile_height
             finalX = endX + offsetX
             finalY = endY + offsetY
             pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, endY), 1)
@@ -212,15 +212,6 @@ class Mapview:
     map_x = map_x + self.view_x
     map_y = map_y + self.view_y
     return (map_x, map_y)
-
-#****************************************************************************
-# Returns map coordinates from canvas-coordinates (visible mapcanvas surface) 
-# Note that this method ignores height.
-#****************************************************************************
-  def canvas_to_map(self, canvas_pos):
-    canvas_x, canvas_y = canvas_pos
-    map_pos = self.gui_to_map((self.view_x + canvas_x, self.view_y + canvas_y))
-    return self.map.wrap_map_pos(map_pos)
 
 #****************************************************************************
 # Returns a list of map coordinates to be shows on the map canvas view.

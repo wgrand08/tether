@@ -66,10 +66,10 @@ class Minimap:
         terrain_data.append(color)
  
     # Draw line showing where the current mapview view is.
-    x1, y1 = self.client.mapview.canvas_to_map((0, 0))
-    x2, y2 = self.client.mapview.canvas_to_map((self.client.screen_width, 0))
-    x3, y3 = self.client.mapview.canvas_to_map((self.client.screen_width, self.client.screen_height))
-    x4, y4 = self.client.mapview.canvas_to_map((0, self.client.screen_height))
+    x1, y1 = self.client.mapview.gui_to_map((0, 0))
+    x2, y2 = self.client.mapview.gui_to_map((648, 0))
+    x3, y3 = self.client.mapview.gui_to_map((648, 648))
+    x4, y4 = self.client.mapview.gui_to_map((0, 648))
     points = [(x1, y1), (x2, y2), (x3, y3), (x4, y4), (x1, y1)]
 
     mapimage.putdata(terrain_data)
