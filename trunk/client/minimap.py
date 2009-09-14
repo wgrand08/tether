@@ -65,9 +65,9 @@ class Minimap:
      
         # Draw line showing where the current mapview view is.
         x1, y1 = self.client.mapview.gui_to_map((0, 0))
-        x2, y2 = self.client.mapview.gui_to_map((648, 0))
-        x3, y3 = self.client.mapview.gui_to_map((648, 648))
-        x4, y4 = self.client.mapview.gui_to_map((0, 648))
+        x2, y2 = self.client.mapview.gui_to_map((768, 0))
+        x3, y3 = self.client.mapview.gui_to_map((768, 768))
+        x4, y4 = self.client.mapview.gui_to_map((0, 768))
         points = [(x1, y1), (x2, y2), (x3, y3), (x4, y4), (x1, y1)]
 
         mapimage.putdata(terrain_data)
@@ -78,11 +78,12 @@ class Minimap:
 
         for unit in self.client.map.get_unit_list():
             if unit.typeset != "doodad": #this takes into account hubs are 4 times the size of a standard tile
-                x, y = self.client.map.get_unit_pos(unit) 
-                drawer.point((x, y), fill=(255,10,10))
-                drawer.point(((x + 1), y), fill=(255,10,10))
-                drawer.point((x, (y + 1)), fill=(255,10,10))
-                drawer.point(((x + 1), (y + 1)), fill=(255,10,10))
+                x, y = self.client.map.get_unit_pos(unit)
+                color = self.client.game.get_player_color(unit.playerID) 
+                drawer.point((x, y), fill=(color))
+                drawer.point(((x + 1), y), fill=(color))
+                drawer.point((x, (y + 1)), fill=(color))
+                drawer.point(((x + 1), (y + 1)), fill=(color))
 
 
 
