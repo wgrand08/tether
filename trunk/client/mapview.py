@@ -29,199 +29,198 @@ from common.map import *
 #****************************************************************************
 class Mapview:
 
-  def __init__(self, clientstate):
-    self.client = clientstate
-    self.map = clientstate.map
-    self.view_x = 15 #starting location of viewer
-    self.view_y = 15
+    def __init__(self, clientstate):
+        self.client = clientstate
+        self.map = clientstate.map
+        self.view_x = 15 #starting location of viewer
+        self.view_y = 15
 
-    self.view_delta_x = 0 #for scrolling viewer
-    self.view_delta_y = 0
-    self.tileset = self.client.tileset
-    self.cursor = GfxCursor(self.client, self.client.screen)
-    self.rect = pygame.Rect(0,0,self.client.screen_width - self.tileset.panel_width, self.client.screen_height - self.tileset.panel_height)
+        self.view_delta_x = 0 #for scrolling viewer
+        self.view_delta_y = 0
+        self.tileset = self.client.tileset
+        self.cursor = GfxCursor(self.client, self.client.screen)
+        self.rect = pygame.Rect(0,0,self.client.screen_width - self.tileset.panel_width, self.client.screen_height - self.tileset.panel_height)
  
 
 #****************************************************************************
 # Draws the entire map to the screen.
 #****************************************************************************
-  def drawmap(self):
-    self.delta_scroll()
-    mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y)
+    def drawmap(self):
+        self.delta_scroll()
+        mapcoord_list = self.gui_rect_iterate(self.view_x, self.view_y)
 
 
-    if self.client.heldbutton == "right":
-        self.client.holdbutton.rotateright()
-    if self.client.heldbutton == "left":
-        self.client.holdbutton.rotateleft()
-    if self.client.heldbutton == "increase":
-        self.client.holdbutton.increasepower()
-    if self.client.heldbutton == "decrease":
-        self.client.holdbutton.decreasepower()
+        if self.client.heldbutton == "right":
+            self.client.holdbutton.rotateright()
+        if self.client.heldbutton == "left":
+            self.client.holdbutton.rotateleft()
+        if self.client.heldbutton == "increase":
+            self.client.holdbutton.increasepower()
+        if self.client.heldbutton == "decrease":
+            self.client.holdbutton.decreasepower()
 
 
-    for pos in mapcoord_list:
-      self.draw_tile_terrain(pos)
+        for pos in mapcoord_list:
+          self.draw_tile_terrain(pos)
 
-    for pos in mapcoord_list:
-        self.draw_unit(pos)
+        for pos in mapcoord_list:
+            self.draw_unit(pos)
 
-    self.cursor.show()
-    self.draw_mapview_selection()
-    self.tileset.animation_next()
+        self.cursor.show()
+        self.draw_mapview_selection()
+        self.tileset.animation_next()
 
 #****************************************************************************
 # Draws a single map tile with terrain to the mapview canvas.
 #****************************************************************************
-  def draw_tile_terrain(self, pos):
-    map_x, map_y = pos
-    real_map_x = map_x % self.map.xsize
-    real_map_y = map_y % self.map.ysize
+    def draw_tile_terrain(self, pos):
+        map_x, map_y = pos
+        real_map_x = map_x % self.map.xsize
+        real_map_y = map_y % self.map.ysize
 
-    tile = self.map.get_tile((real_map_x, real_map_y))
-    gui_x, gui_y = self.map_to_gui(pos)
-    if not self.tileset.is_edge_tile(tile):
-      surface = self.tileset.get_terrain_surf_from_tile(tile)
-      if not surface: return
-      blit_x = gui_x
-      blit_y = gui_y
-      blit_width = surface.get_width() 
+        tile = self.map.get_tile((real_map_x, real_map_y))
+        gui_x, gui_y = self.map_to_gui(pos)
+        if not self.tileset.is_edge_tile(tile):
+          surface = self.tileset.get_terrain_surf_from_tile(tile)
+          if not surface: return
+          blit_x = gui_x
+          blit_y = gui_y
+          blit_width = surface.get_width() 
 
-      blit_height = surface.get_height()
+          blit_height = surface.get_height()
 
-      self.client.screen.blit(surface, (blit_x, blit_y), [0,0, blit_width, blit_height])
-      return 
-    else:
-      (surface1, surface2, surface3, surface4) = self.tileset.get_edge_surf_from_tile(tile)
-      blit_width = surface1.get_width() 
-      blit_height = surface1.get_height()
-      blit_x = gui_x - self.view_x 
-      blit_y = gui_y - self.view_y
+          self.client.screen.blit(surface, (blit_x, blit_y), [0,0, blit_width, blit_height])
+          return 
+        else:
+          (surface1, surface2, surface3, surface4) = self.tileset.get_edge_surf_from_tile(tile)
+          blit_width = surface1.get_width() 
+          blit_height = surface1.get_height()
+          blit_x = gui_x - self.view_x 
+          blit_y = gui_y - self.view_y
 
 
-      self.client.screen.blit(surface1, (blit_x + self.tileset.tile_width / 4, blit_y - self.tileset.tile_height / 3), [0,0, blit_width, blit_height])
-      self.client.screen.blit(surface2, (blit_x + self.tileset.tile_width / 2, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
-      self.client.screen.blit(surface3, (blit_x + self.tileset.tile_width / 4, blit_y + self.tileset.tile_height / 6), [0,0, blit_width, blit_height])
-      self.client.screen.blit(surface4, (blit_x, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
+          self.client.screen.blit(surface1, (blit_x + self.tileset.tile_width / 4, blit_y - self.tileset.tile_height / 3), [0,0, blit_width, blit_height])
+          self.client.screen.blit(surface2, (blit_x + self.tileset.tile_width / 2, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
+          self.client.screen.blit(surface3, (blit_x + self.tileset.tile_width / 4, blit_y + self.tileset.tile_height / 6), [0,0, blit_width, blit_height])
+          self.client.screen.blit(surface4, (blit_x, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
 #****************************************************************************
 # Draws a single map tile with a unit to the mapview canvas.
 #****************************************************************************
-  def draw_unit(self, map_pos):
-    real_map_pos = self.map.wrap_map_pos(map_pos)
-    unit = self.map.get_doodad(real_map_pos) 
+    def draw_unit(self, map_pos):
+        real_map_pos = self.map.wrap_map_pos(map_pos)
+        unit = self.map.get_doodad(real_map_pos) 
 
-    if not unit:
-        return 
+        if not unit:
+            return 
 
-    if unit.typeset == "doodad": #make certain when placing units that 'doodads' are always on the bottom
-        for unit2 in self.map.unitstore.values():
-            if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
-                unit = self.map.get_unit(real_map_pos)
+        if unit.typeset == "doodad": #make certain when placing units that 'doodads' are always on the bottom
+            for unit2 in self.map.unitstore.values():
+                if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
+                    unit = self.map.get_unit(real_map_pos)
 
-    #draw units themselves
-    gui_x, gui_y = self.map_to_gui(map_pos)
+        #draw units themselves
+        gui_x, gui_y = self.map_to_gui(map_pos)
 
-    unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, unit.dir, unit.playerID)
+        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, unit.dir, unit.playerID)
 
-    blit_x = gui_x
-    blit_y = gui_y
+        blit_x = gui_x
+        blit_y = gui_y
 
-    #find and show rotation indicator on selected unit
-    for selected in self.client.selected_unit.values():
+        #find and show rotation indicator on selected unit
+        for selected in self.client.selected_unit.values():
 
-        if unit.id == selected.id:
-            rotation = self.client.rotate_position
-            endX = unit.x
-            endY = unit.y
-            startX = blit_x + 30
-            startY = blit_y + 30
-            (north, west) = self.client.game.percent_from_degree(rotation)
-            for find_target in range(1, 4):
-                endX = endX + west
-                endY = endY + north
-            offsetX = endX - (round(endX, 0))
-            offsetY = endY - (round(endY, 0))
-            offsetX = offsetX * 48
-            offsetY = offsetY * 48
-            endX = round(endX, 0)
-            endY = round(endY, 0)
-            endX, endY = self.map_to_gui((endX, endY))
-            endX = endX - self.view_x * self.tileset.tile_width 
-            endY = endY - self.view_y * self.tileset.tile_height
-            finalX = endX + offsetX
-            finalY = endY + offsetY
-            pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, endY), 1)
-    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+            if unit.id == selected.id:
+                rotation = self.client.rotate_position
+                endX = unit.x
+                endY = unit.y
+                startX = blit_x + 30
+                startY = blit_y + 30
+                (north, west) = self.client.game.percent_from_degree(rotation)
+                for find_target in range(1, 4):
+                    endX = endX + west
+                    endY = endY + north
+                offsetX = endX - (round(endX, 0))
+                offsetY = endY - (round(endY, 0))
+                offsetX = offsetX * 48
+                offsetY = offsetY * 48
+                endX = round(endX, 0)
+                endY = round(endY, 0)
+                endX, endY = self.map_to_gui((endX, endY))
+                endX = endX - self.view_x * self.tileset.tile_width 
+                endY = endY - self.view_y * self.tileset.tile_height
+                finalX = endX + offsetX
+                finalY = endY + offsetY
+                pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, endY), 1)
+        self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
 #****************************************************************************
 # Divides n by d
 #****************************************************************************
-  def divide(self, n, d):
-    res = 0
-    if ( (n) < 0 and (n) % (d) < 0 ):
-      res = 1
-    return ((n / d ) - res)
+    def divide(self, n, d):
+        res = 0
+        if ( (n) < 0 and (n) % (d) < 0 ):
+          res = 1
+        return ((n / d ) - res)
 
 #****************************************************************************
 # Increments the mapview scrolling (moves one step).
 #****************************************************************************
-  def delta_scroll(self):
-
-    self.view_x += (self.view_delta_x / 10)
-    self.view_y += (self.view_delta_y / 10)
+    def delta_scroll(self):
+        self.view_x += (self.view_delta_x / 10)
+        self.view_y += (self.view_delta_y / 10)
 
 #****************************************************************************
 # Centers the view on a specified tile.
 #****************************************************************************
-  def center_view_on_tile(self, map_pos):
-    x, y = map_pos
-    self.view_x = x - 16
-    self.view_y = y - 16
+    def center_view_on_tile(self, map_pos):
+        x, y = map_pos
+        self.view_x = x - 16
+        self.view_y = y - 16
 
 
 #****************************************************************************
 #
 #****************************************************************************
-  def draw_mapview_selection(self):
+    def draw_mapview_selection(self):
 
-    if self.client.mapctrl.mouse_state == 'select':
-      (left, top) = self.client.mapctrl.select_pos_start
-      (right, bottom) = self.client.mapctrl.select_pos_end
-      height = bottom - top
-      width = right - left
-      sel_rect = pygame.Rect(left, top, width, height)
-      pygame.draw.rect(self.client.screen, (255,0,0), sel_rect, 1)
+        if self.client.mapctrl.mouse_state == 'select':
+          (left, top) = self.client.mapctrl.select_pos_start
+          (right, bottom) = self.client.mapctrl.select_pos_end
+          height = bottom - top
+          width = right - left
+          sel_rect = pygame.Rect(left, top, width, height)
+          pygame.draw.rect(self.client.screen, (255,0,0), sel_rect, 1)
 
 #****************************************************************************
 # Returns gui-coordinates (eg. screen) from map-coordinates (a map tile).
 #****************************************************************************
-  def map_to_gui(self, map_pos):
-    map_dx, map_dy = map_pos
-    map_dx = map_dx - (self.view_x)
-    map_dy = map_dy - (self.view_y)
-    return (map_dx * self.tileset.tile_width, map_dy * self.tileset.tile_height)
+    def map_to_gui(self, map_pos):
+        map_dx, map_dy = map_pos
+        map_dx = map_dx - (self.view_x)
+        map_dy = map_dy - (self.view_y)
+        return (map_dx * self.tileset.tile_width, map_dy * self.tileset.tile_height)
 
 
 #****************************************************************************
 # Returns map-coordinates from gui-coordinates.
 #****************************************************************************
-  def gui_to_map(self, gui_pos):
-    gui_x, gui_y = gui_pos
-    map_x = self.divide(gui_x, self.tileset.tile_width)
-    map_y = self.divide(gui_y, self.tileset.tile_height)
-    map_x = map_x + self.view_x
-    map_y = map_y + self.view_y
-    return (map_x, map_y)
+    def gui_to_map(self, gui_pos):
+        gui_x, gui_y = gui_pos
+        map_x = self.divide(gui_x, self.tileset.tile_width)
+        map_y = self.divide(gui_y, self.tileset.tile_height)
+        map_x = map_x + self.view_x
+        map_y = map_y + self.view_y
+        return (map_x, map_y)
 
 #****************************************************************************
 # Returns a list of map coordinates to be shows on the map canvas view.
 #****************************************************************************
-  def gui_rect_iterate(self, gui_x0, gui_y0):
-    mapcoord_list = []
-    for map_x in range(gui_x0, (gui_x0 + 32)):
-        for map_y in range(gui_y0, (gui_y0 + 32)):
-            mapcoord_list.insert(0, (map_x, map_y))
-        
-    return mapcoord_list
+    def gui_rect_iterate(self, gui_x0, gui_y0):
+        mapcoord_list = []
+        for map_x in range(gui_x0, (gui_x0 + 32)):
+            for map_y in range(gui_y0, (gui_y0 + 32)):
+                mapcoord_list.insert(0, (map_x, map_y))
+            
+        return mapcoord_list
 
 

@@ -20,20 +20,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 #****************************************************************************
 class MapTile:
-  def __init__(self, type, x, y):
-    self.x = x
-    self.y = y
-    self.type = type  
+    def __init__(self, type, x, y):
+        self.x = x
+        self.y = y
+        self.type = type  
 
 #****************************************************************************
 # Test for equality with tile. Must be implemented for pathfinding
 #****************************************************************************
-  def __eq__(self, tile):
-    if tile == None: 
-      return 0
-  
-    if tile.x == self.x and tile.y == self.y:
-      return 1
-    else:
-      return 0
+    def __eq__(self, tile):
+        if tile == None: 
+            return 0
+      
+        if tile.x == self.x and tile.y == self.y:
+            return 1
+        else:
+            return 0
 

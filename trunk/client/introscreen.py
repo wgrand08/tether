@@ -27,19 +27,19 @@ from time import sleep
 #****************************************************************************
 
 class IntroScreen:
-  def __init__(self, screen):
-    image = "data/graphics/misc/intro_splash.png"
-    screen = pygame.display.set_mode((500,500))
-    try:
-        splashScreen = pygame.image.load(image)
-    except pygame.error, message:
-        print 'Cannot load splash image'
-        raise SystemExit, message
-    splashScreen = splashScreen.convert()
-    screen.blit(splashScreen, (0,0))
-    pygame.display.flip()
-    sleep(2)
-    screen = pygame.display.set_mode((1024,768))
+    def __init__(self, screen):
+        image = "data/graphics/misc/intro_splash.png"
+        screen = pygame.display.set_mode((500,500))
+        try:
+            splashScreen = pygame.image.load(image)
+        except pygame.error, message:
+            print 'Cannot load splash image'
+            raise SystemExit, message
+        splashScreen = splashScreen.convert()
+        screen.blit(splashScreen, (0,0))
+        pygame.display.flip()
+        sleep(2)
+        screen = pygame.display.set_mode((1024,768))
 
 
 

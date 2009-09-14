@@ -22,10 +22,10 @@ import logging
 #
 #****************************************************************************
 class ConnInfo:
-  def __init__(self, client_ref, name, address, playerID):
-    self.ref = client_ref
-    self.name = name
-    self.username = None
-    self.address = address
-    self.playerID = 0
+    def __init__(self, client_ref, name, address, playerID):
+        self.ref = client_ref
+        self.name = name
+        self.username = None
+        self.address = address
+        self.playerID = 0
 

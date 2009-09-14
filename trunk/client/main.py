@@ -35,37 +35,36 @@ from common.translation import *
 #****************************************************************************
 class Main:
 
-  def __init__(self):
-    pygame.init()
-  
-    self.client = GameClientState()    
-    logging.info("MoonPy %s" % (self.client.settings.string_version))
+    def __init__(self):
+        pygame.init()
+      
+        self.client = GameClientState()    
+        logging.info("MoonPy %s" % (self.client.settings.string_version))
 
-    self.initialize_locale()
+        self.initialize_locale()
 
-    self.create_main_window()
-    self.client.moonaudio.music("water.ogg")
-    self.intro = introscreen.IntroScreen(self.client.screen)
+        self.create_main_window()
+        self.client.moonaudio.music("water.ogg")
+        self.intro = introscreen.IntroScreen(self.client.screen)
 
-    mainmenu = MainMenu(self.client)
-
-#****************************************************************************
-#
-#****************************************************************************
-  def initialize_locale(self):
-    translation = Translation()
-    translation.setLanguage(self.client.settings.language)
+        mainmenu = MainMenu(self.client)
 
 #****************************************************************************
 #
 #****************************************************************************
-  def create_main_window(self):
-    screen_width = self.client.settings.screen_width 
-    screen_height = self.client.settings.screen_height 
-    screen_mode = 0
-    screen = pygame.display.set_mode((500, 500), screen_mode)
+    def initialize_locale(self):
+        translation = Translation()
+        translation.setLanguage(self.client.settings.language)
 
-    pygame.display.set_caption("Welcome to MoonPy")
-    self.client.screen = screen
+#****************************************************************************
+#
+#****************************************************************************
+    def create_main_window(self):
+        screen_width = self.client.settings.screen_width 
+        screen_height = self.client.settings.screen_height 
+        screen_mode = 0
+        screen = pygame.display.set_mode((500, 500), screen_mode)
 
+        pygame.display.set_caption("Welcome to MoonPy")
+        self.client.screen = screen
 

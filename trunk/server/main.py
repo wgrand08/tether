@@ -26,22 +26,22 @@ from gameserverstate import *
 #
 #****************************************************************************
 class ServerMain:
-  def __init__(self):
-    self.serverstate = ServerState()
+    def __init__(self):
+        self.serverstate = ServerState()
 
 
 #****************************************************************************
 #
 #****************************************************************************
-  def start_from_client(self):
-    self.serverstate.setup_network()
+    def start_from_client(self):
+        self.serverstate.setup_network()
 
 #****************************************************************************
 #
 #****************************************************************************
-  def start_from_server(self):
-    self.serverstate.setup_network()
-    self.serverstate.run_network()
+    def start_from_server(self):
+        self.serverstate.setup_network()
+        self.serverstate.run_network()
 
  
 
