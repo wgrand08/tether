@@ -41,16 +41,12 @@ class Mappanel:
         container = gui.Container(align=-1, valign=-1)
 
 
-        self.minimap_rect = pygame.Rect(self.client.screen_width - 124 , 9,
-                                        120, 107)
+        self.minimap_rect = pygame.Rect(self.client.screen_width - 124 , 9, 120, 107)
 
-        self.minimap = Minimap(clientstate, self.minimap_rect.left , self.minimap_rect.top, 
-                                120, 107)
+        self.minimap = Minimap(clientstate, self.minimap_rect.left , self.minimap_rect.top, 120, 107)
 
-        self.input_rect = pygame.Rect(3, self.client.screen_height - 14,
-                                        self.client.screen_width - 159, 14)
-        self.msgview_rect = pygame.Rect(3, self.client.screen_height - 104, 
-                                            self.client.screen_width - 155, 82)
+        self.input_rect = pygame.Rect(3, self.client.screen_height - 14, self.client.screen_width - 159, 14)
+        self.msgview_rect = pygame.Rect(3, self.client.screen_height - 104, self.client.screen_width - 155, 82)
 
         self.chat_table = gui.Table(width=self.msgview_rect.width,height=self.msgview_rect.height)
 
@@ -117,13 +113,11 @@ class Mappanel:
         panel_bottom_right = self.client.tileset.get_tile_surf("panel_bottom_right")
 
         #Draw the right panel.
-        self.client.screen.blit(panel_right_top, 
-                 (self.client.screen_width - panel_right_top.get_width(), 0))
+        self.client.screen.blit(panel_right_top, (self.client.screen_width - panel_right_top.get_width(), 0))
         height = (self.client.screen_height - panel_right_top.get_height())
         for y in range (height / panel_right_center.get_height() + 1): 
-          y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
-          self.client.screen.blit(panel_right_center, 
-                 (self.client.screen_width - panel_right_center.get_width(), y2))
+            y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
+            self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))
 
         #Draw the bottom panel
         """self.client.screen.blit(panel_bottom_left, 
