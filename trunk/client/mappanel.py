@@ -67,35 +67,35 @@ class Mappanel:
         self.chat_table.td(MySpacer(1,1, self.box))
 
         self.hub_button = gui.Button(_(" hub " ))
-        container.add(self.hub_button, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.4)
+        container.add(self.hub_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.4)
         self.hub_button.connect(gui.MOUSEBUTTONDOWN, self.choosehub, None)
 
         self.bomb_button = gui.Button(_(" bomb "))
-        container.add(self.bomb_button, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.4)
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.87, self.client.screen.get_height() * 0.4)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosebomb, None)
 
         self.firebutton = gui.Button(_(" Fire "))
-        container.add(self.firebutton, self.client.screen.get_width() * 0.94, self.client.screen.get_height() * 0.7)
+        container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.7)
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_firebutton, None)
 
         self.uppower_button = gui.Button(_(" + "))
-        container.add(self.uppower_button, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.55)
+        container.add(self.uppower_button, self.client.screen.get_width() * 0.84, self.client.screen.get_height() * 0.55)
         self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None)
 
         self.downpower_button = gui.Button(_(" - "))
-        container.add(self.downpower_button, self.client.screen.get_width() * 0.94, self.client.screen.get_height() * 0.65)
+        container.add(self.downpower_button, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
         self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
 
         self.rotate_leftbutton = gui.Button(_("  <  "))
-        container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.90, self.client.screen.get_height() * 0.60)
+        container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.60)
         self.rotate_leftbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateleft, None)
 
         self.rotate_rightbutton = gui.Button(_("  >  "))
-        container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.95, self.client.screen.get_height() * 0.60)
+        container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.87, self.client.screen.get_height() * 0.60)
         self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None)
 
         self.rotate_display = gui.Label(_(str(self.client.rotate_position)))
-        container.add(self.rotate_display, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.3)
+        container.add(self.rotate_display, self.client.screen.get_width() * 0.84, self.client.screen.get_height() * 0.3)
 
         container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
         self.app.init(container) 

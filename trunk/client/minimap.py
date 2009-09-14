@@ -54,15 +54,14 @@ class Minimap:
 
         for y in range(self.client.map.ysize):
             for x in range(self.client.map.xsize):
-              tile = self.client.map.get_tile((x, y))
-              if (tile.type.id == "ocean"):
-                  color = (12, 42, 130)
-              elif (tile.type.id == "coast"):
-                  color = (12, 42, 170)
-              else:
-                  #FIXME: color = (0, 180 - tile.height * 40, 50) 
-                  color = (0, 90, 50) 
-              terrain_data.append(color)
+                tile = self.client.map.get_tile((x, y))
+                if (tile.type.id == "ocean"):
+                    color = (12, 42, 130)
+                elif (tile.type.id == "coast"):
+                    color = (12, 42, 170)
+                else: #regular ground
+                    color = (0, 90, 50) 
+                terrain_data.append(color)
      
         # Draw line showing where the current mapview view is.
         x1, y1 = self.client.mapview.gui_to_map((0, 0))
@@ -78,9 +77,14 @@ class Minimap:
             drawer.line(points)
 
         for unit in self.client.map.get_unit_list():
-            if unit.typeset != "doodad":
-                map_pos = self.client.map.get_unit_pos(unit) 
-                drawer.point(map_pos, fill=(255,0,0))
+            if unit.typeset != "doodad": #this takes into account hubs are 4 times the size of a standard tile
+                x, y = self.client.map.get_unit_pos(unit) 
+                drawer.point((x, y), fill=(255,10,10))
+                drawer.point(((x + 1), y), fill=(255,10,10))
+                drawer.point((x, (y + 1)), fill=(255,10,10))
+                drawer.point(((x + 1), (y + 1)), fill=(255,10,10))
+
+
 
         del drawer
         resultimage = mapimage.resize((self.width, self.height), Image.ANTIALIAS)
