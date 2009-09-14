@@ -5,7 +5,7 @@
   Project tether is an open source project focused on recreating the classic strategy game [http://en.wikipedia.org/wiki/Moonbase_Commander Moonbase commander]
 
   * What is Moonbase Commander?
-  Moonbase Commander has quite often been called the best game no one has ever heard of. Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
+  Moonbase Commander has quite often been called "the best game no one has ever heard of". Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
 
   * Well then where can I go to play the game?
   Project tether currently isn't developed enough to provide a true idea of what we're trying to recreate. We used to have a copy of the free trial available for download here. Sadly because of space limitations we have had to remove it to make room for other stuff. Your best option would be to do a web search for the free demo and hope you can still find it.
