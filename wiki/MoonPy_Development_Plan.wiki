@@ -21,7 +21,7 @@ These are the general requirments for each major release of MoonPy. Currently we
 
 = Requirements for version 0.7.00 = 
 
-  * At least 4 players can play together
+  * At least 4 players can play together: planned
   * Units require energy: planned
   * Map has energy pools on it: planned
   * Energy collectors provide energy to player: planned
