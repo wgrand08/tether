@@ -1,0 +1,31 @@
+#labels Phase-Implementation
+#Version requirments for MoonPy
+
+These are the general requirments for each major release of MoonPy
+
+= Requirements for version 0.5.00=
+
+At least two players can play together: complete
+Ability to draw map and display hubs: complete
+Players are able to choose a direction and power level: complete
+Hubs show direction indicator: complete
+Players can fire both bombs and hubs at each: complete
+Players take turns: complete
+
+= Requirements for version 0.6.00 =
+
+Map shows distances accurately (non isometric): complete
+Buttons recognize being 'held down': complete
+Map has more accurate unit placement (increased resolution): complete
+GUI displays all relevant information required by player: in process
+
+= Requirements for version 0.7.00 = 
+
+Units use energy: planned
+Energy collectors provide energy to player: planned
+Game processes rounds in addition to turns: planned
+Game animation is working correctly: planned
+
+= Requirements for version 0.8.00 =
+
+All OMBC units and weapons coded and functioning correctly
