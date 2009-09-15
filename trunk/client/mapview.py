@@ -99,10 +99,10 @@ class Mapview:
             blit_y = gui_y - self.view_y
 
 
-          self.client.screen.blit(surface1, (blit_x + self.tileset.tile_width / 4, blit_y - self.tileset.tile_height / 3), [0,0, blit_width, blit_height])
-          self.client.screen.blit(surface2, (blit_x + self.tileset.tile_width / 2, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
-          self.client.screen.blit(surface3, (blit_x + self.tileset.tile_width / 4, blit_y + self.tileset.tile_height / 6), [0,0, blit_width, blit_height])
-          self.client.screen.blit(surface4, (blit_x, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
+            self.client.screen.blit(surface1, (blit_x + self.tileset.tile_width / 4, blit_y - self.tileset.tile_height / 3), [0,0, blit_width, blit_height])
+            self.client.screen.blit(surface2, (blit_x + self.tileset.tile_width / 2, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
+            self.client.screen.blit(surface3, (blit_x + self.tileset.tile_width / 4, blit_y + self.tileset.tile_height / 6), [0,0, blit_width, blit_height])
+            self.client.screen.blit(surface4, (blit_x, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
 #****************************************************************************
 # Draws a single map tile with a unit to the mapview canvas.
 #****************************************************************************

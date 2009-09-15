@@ -202,7 +202,7 @@ class Mappanel:
 
     def use_firebutton(self, obj):
         #unit launching is currently disabled serverwide, code is located in connectionhandler.py around line 89
-        self.client.moonaudio.sound("disabled.ogg")
+        #self.client.moonaudio.sound("disabled.ogg")
         if self.client.myturn == True:
             for unit in self.client.selected_unit.values():
                 self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, self.client.firepower)
