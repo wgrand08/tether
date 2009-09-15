@@ -61,7 +61,7 @@ class Mapview:
 
 
         for pos in mapcoord_list:
-          self.draw_tile_terrain(pos)
+            self.draw_tile_terrain(pos)
 
         for pos in mapcoord_list:
             self.draw_unit(pos)
@@ -81,22 +81,22 @@ class Mapview:
         tile = self.map.get_tile((real_map_x, real_map_y))
         gui_x, gui_y = self.map_to_gui(pos)
         if not self.tileset.is_edge_tile(tile):
-          surface = self.tileset.get_terrain_surf_from_tile(tile)
-          if not surface: return
-          blit_x = gui_x
-          blit_y = gui_y
-          blit_width = surface.get_width() 
+            surface = self.tileset.get_terrain_surf_from_tile(tile)
+            if not surface: return
+            blit_x = gui_x
+            blit_y = gui_y
+            blit_width = surface.get_width() 
 
-          blit_height = surface.get_height()
+            blit_height = surface.get_height()
 
-          self.client.screen.blit(surface, (blit_x, blit_y), [0,0, blit_width, blit_height])
-          return 
+            self.client.screen.blit(surface, (blit_x, blit_y), [0,0, blit_width, blit_height])
+            return 
         else:
-          (surface1, surface2, surface3, surface4) = self.tileset.get_edge_surf_from_tile(tile)
-          blit_width = surface1.get_width() 
-          blit_height = surface1.get_height()
-          blit_x = gui_x - self.view_x 
-          blit_y = gui_y - self.view_y
+            (surface1, surface2, surface3, surface4) = self.tileset.get_edge_surf_from_tile(tile)
+            blit_width = surface1.get_width() 
+            blit_height = surface1.get_height()
+            blit_x = gui_x - self.view_x 
+            blit_y = gui_y - self.view_y
 
 
           self.client.screen.blit(surface1, (blit_x + self.tileset.tile_width / 4, blit_y - self.tileset.tile_height / 3), [0,0, blit_width, blit_height])
@@ -162,7 +162,7 @@ class Mapview:
     def divide(self, n, d):
         res = 0
         if ( (n) < 0 and (n) % (d) < 0 ):
-          res = 1
+            res = 1
         return ((n / d ) - res)
 
 #****************************************************************************
@@ -187,12 +187,12 @@ class Mapview:
     def draw_mapview_selection(self):
 
         if self.client.mapctrl.mouse_state == 'select':
-          (left, top) = self.client.mapctrl.select_pos_start
-          (right, bottom) = self.client.mapctrl.select_pos_end
-          height = bottom - top
-          width = right - left
-          sel_rect = pygame.Rect(left, top, width, height)
-          pygame.draw.rect(self.client.screen, (255,0,0), sel_rect, 1)
+            (left, top) = self.client.mapctrl.select_pos_start
+            (right, bottom) = self.client.mapctrl.select_pos_end
+            height = bottom - top
+            width = right - left
+            sel_rect = pygame.Rect(left, top, width, height)
+            pygame.draw.rect(self.client.screen, (255,0,0), sel_rect, 1)
 
 #****************************************************************************
 # Returns gui-coordinates (eg. screen) from map-coordinates (a map tile).
