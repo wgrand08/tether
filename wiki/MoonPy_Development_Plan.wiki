@@ -37,6 +37,8 @@ These are the general requirments for each major release of MoonPy. Currently we
   * Offense can be launched and function correctly
   * Mines can be launched and function correctly
   * Spikes can be launched and function correctly
+  * Bridges work correctly
+  * Repairs work correctly
 
 = Requirements for version 0.9.00 = 
   * All OMBC units/weapons implemented and working correctly
