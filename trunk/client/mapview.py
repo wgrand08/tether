@@ -133,24 +133,27 @@ class Mapview:
                 rotation = self.client.rotate_position
                 endX = unit.x
                 endY = unit.y
-                startX = blit_x + 30
-                startY = blit_y + 30
+                startX = blit_x + 24
+                startY = blit_y + 24
                 (north, west) = self.client.game.percent_from_degree(rotation)
-                for find_target in range(1, 4):
+                
+                for find_target in range(1, 8):
                     endX = endX + west
                     endY = endY + north
                 offsetX = endX - (round(endX, 0))
                 offsetY = endY - (round(endY, 0))
-                offsetX = offsetX * 48
-                offsetY = offsetY * 48
+                offsetX = endX
+                offsetY = endY
+                offsetX = offsetX * 24
+                offsetY = offsetY * 24
                 endX = round(endX, 0)
                 endY = round(endY, 0)
+                offsetX = 0
+                offsetY = 0
                 endX, endY = self.map_to_gui((endX, endY))
-                endX = endX - self.view_x * self.tileset.tile_width 
-                endY = endY - self.view_y * self.tileset.tile_height
                 finalX = endX + offsetX
                 finalY = endY + offsetY
-                pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, endY), 1)
+                pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, finalY), 1)
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
 #****************************************************************************
