@@ -148,8 +148,8 @@ class Mapview:
                 offsetY = offsetY * 24
                 endX = round(endX, 0)
                 endY = round(endY, 0)
-                offsetX = 0
-                offsetY = 0
+                offsetX = 24
+                offsetY = 24
                 endX, endY = self.map_to_gui((endX, endY))
                 finalX = endX + offsetX
                 finalY = endY + offsetY
