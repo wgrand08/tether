@@ -39,3 +39,4 @@ These are the general requirments for each major release of MoonPy. Currently we
   * Spikes can be launched and function correctly
 
 = Requirements for version 0.9.00 = 
+  * All OMBC units implemented and working correctly
