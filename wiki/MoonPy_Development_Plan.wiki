@@ -39,4 +39,10 @@ These are the general requirments for each major release of MoonPy. Currently we
   * Spikes can be launched and function correctly
 
 = Requirements for version 0.9.00 = 
-  * All OMBC units implemented and working correctly
+  * All OMBC units/weapons implemented and working correctly
+
+= Requirements for version 1.0.00 = 
+  * Fog of War
+  * Wind
+  * Ability to create custom maps
+  * Ability to load/save games
