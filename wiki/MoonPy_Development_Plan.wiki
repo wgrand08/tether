@@ -35,7 +35,6 @@ These are the general requirments for each major release of MoonPy. Currently we
   * Game generates random maps
   * Towers can be launched
   * Offense can be launched and function correctly
-  * Mines can be launched and function correctly
   * Spikes can be launched and function correctly
   * Bridges work correctly
   * Repairs work correctly
