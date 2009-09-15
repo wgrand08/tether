@@ -28,4 +28,4 @@ These are the general requirments for each major release of MoonPy. Currently we
 
 = Requirements for version 0.8.00 =
 
-*All OMBC units and weapons coded and functioning correctly
+  * All OMBC units and weapons coded and functioning correctly
