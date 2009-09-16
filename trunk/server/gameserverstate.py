@@ -110,14 +110,14 @@ class ServerState:
         power = power + 4 #launching has minimal range
         offsetX = 0
         offsetY = 0
-        
+        (north, west) = self.game.percent_from_degree(rotation)
         for find_target in range(1, power):
-            print"Please check gameserverstate.py line 114"
+            endX = endX + west
+            endY = endY + north
 
 
 
-
-            if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
+            """if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
                     if (target.x == round(endX,0) and target.y == round(endY, 0)): #determine if tether crosses
                         if (target.typeset != "doodad") and (target.parentID != parentID):
@@ -130,7 +130,7 @@ class ServerState:
                 #tether didn't land on anything, ready to place!
                 if find_target > 2 and find_target < (power - 1): #don't place too close to hub otherwise they'll interfere with each other
                     chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
-                    self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                    self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)"""
         endX = round(endX, 0)
         endY = round(endY, 0)
         #todo: add offset data

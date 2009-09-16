@@ -85,7 +85,6 @@ class ClientPerspective(pb.Avatar):
 # recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
     def perspective_launch_unit(self, parentID, unit, rotation, power):
-        #logging.info("Unit launching currently disabled")
         (coordX, coordY, offsetX, offsetY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
         coord = (coordX, coordY)
         offset = (offsetX, offsetY)

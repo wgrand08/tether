@@ -140,16 +140,12 @@ class Mapview:
                 for find_target in range(1, 8):
                     endX = endX + west
                     endY = endY + north
-                offsetX = endX - (round(endX, 0))
-                offsetY = endY - (round(endY, 0))
-                offsetX = endX
-                offsetY = endY
-                offsetX = offsetX * 24
-                offsetY = offsetY * 24
-                endX = round(endX, 0)
-                endY = round(endY, 0)
+                #offsetX = endX - (round(endX, 0))
+                #offsetY = endY - (round(endY, 0))
                 offsetX = 24
                 offsetY = 24
+                endX = round(endX, 0)
+                endY = round(endY, 0)
                 endX, endY = self.map_to_gui((endX, endY))
                 finalX = endX + offsetX
                 finalY = endY + offsetY
