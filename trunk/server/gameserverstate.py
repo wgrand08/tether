@@ -109,6 +109,7 @@ class ServerState:
         endY = start_tile.y
         self.interrupted_tether = False
         power = power + 4 #launching has minimal range
+        power = power * 2 #compensating for higher map resolution
         offsetX = 0
         offsetY = 0
         (north, west) = self.game.percent_from_degree(rotation)
@@ -133,7 +134,7 @@ class ServerState:
         endX = round(endX, 0)
         endY = round(endY, 0)
         #todo: add offset data
-        return (endX, endY, 0, 0)
+        return (endX, endY)
 
 #****************************************************************************
 #Find out if a unit is hit or not

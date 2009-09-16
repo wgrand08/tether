@@ -16,13 +16,16 @@ along with this program if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
+#from __future__ import division
 import os, sys
 import pygame
 import time
 import logging
+import math
 from pygame.locals import *
 from cursors import *
 from common.map import *
+
 
 #****************************************************************************
 # The Mapview class contains all logic for rendering isometric maps.
@@ -65,6 +68,9 @@ class Mapview:
 
         for pos in mapcoord_list:
             self.draw_unit(pos)
+
+        #pygame.draw.line(self.client.screen, (255,10,10), (950, 384), (500, 384), 1)
+
 
         self.cursor.show()
         self.draw_mapview_selection()
@@ -135,21 +141,13 @@ class Mapview:
                 endY = unit.y
                 startX = blit_x + 24
                 startY = blit_y + 24
-                (north, west) = self.client.game.percent_from_degree(rotation)
-                offsetX = 0
-                offsetY = 0
-                for find_target in range(1, 360):
-                    endX = endX + west
-                    endY = endY + north
-                #offsetX = endX - west
-                #offsetY = endY - north
-                offsetX = offsetX + 24
-                offsetY = offsetX + 24
-                endX = round(endX, 0)
-                endY = round(endY, 0)
-                endX, endY = self.map_to_gui((endX, endY))
-                finalX = endX + offsetX
-                finalY = endY + offsetY
+                temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
+                if temp_rotation < 1:
+                    temp_rotation = rotation + 270
+                endX = 175 * math.cos(temp_rotation / 180.0 * math.pi)
+                endY = 175 * math.sin(temp_rotation / 180.0 * math.pi)
+                finalX = endX + startX
+                finalY = endY + startY
                 pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, finalY), 1)
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
 

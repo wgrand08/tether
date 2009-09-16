@@ -115,21 +115,10 @@ class Mappanel:
         for y in range (height / panel_right_center.get_height() + 1): 
             y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
             self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))
-
-        #Draw the bottom panel
-        """self.client.screen.blit(panel_bottom_left, 
-                 (0, self.client.screen_height - panel_bottom_left.get_height()))
-
-        width = (self.client.screen_width - panel_bottom_right.get_width() - 
-    	      - panel_bottom_left.get_width() - panel_right_center.get_width())
-        for x in range (width / panel_bottom_top.get_width() + 1): 
-          x2 = panel_bottom_left.get_width() + x * panel_bottom_top.get_width()
-          self.client.screen.blit(panel_bottom_top, (x2, self.client.screen_height - panel_bottom_left.get_height() ))
-
-        self.client.screen.blit(panel_bottom_right, 
-                 ((self.client.screen_width - panel_right_top.get_width()
-                  - panel_bottom_right.get_width()), 
-                  self.client.screen_height - panel_bottom_right.get_height()))"""
+        temp_loc = 780
+        for show_power in range(1, (self.client.firepower + 1)):
+            temp_loc = temp_loc + 7
+            pygame.draw.line(self.client.screen, (255,10,10), (temp_loc, 24), (temp_loc, 96), 1)
 
         self.app.repaint()
         self.app.update(self.client.screen)
