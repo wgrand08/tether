@@ -44,36 +44,8 @@
  * Show energy pools on the minimap
  * Hotseat compatibility (at least for non-FoW games)
 
-===Feature  implementation order:===
-   ====Phase 1:====
-    * Art assets 
-     # main hub thing -- complete
-     # chuckable hub -- in progress (complete if using main hub)
-     # bomb -- complete
-     # tether -- in progress (temporary graphic in use)
-    * pure 2-d to start -- complete
-    * text input for direction and power at first -- complete
-    * algorithm for calculating shots -- in progress
-    * Top-down art?
-    
-   ====Phase 2:====
-    * Networking -- complete
-    * GUI -- complete
-
-   ====Phase 3:====
-    * Sound Effects
-    * Music?
-    * Terrain
-    * More Weapons
-    * 2.5D or 3D  _(Iso Art?)_
-    _(at around this point we should have rebuilt all the important sections of the classic game)_
-    
-   ====Phase 4:====
-    * Things not in the original (enhanced game)
-    * Super Weapons
-    * Super Buildings
-    * Special Abilities
-    * Full 3D?
+===Fog of War:===
+Although this goes away from how OMBC works I personally hate games where the fog of war (FoW) prevents you from seeing the entire map and uncovering it as you explore. This is how many games do it including OMBC and starcraft. Having the FoW function this way means that the person who has played the map before and memorized where the resources are wins. If neither player has played the map then the win goes to the person who's just lucky enough to stumble across the resources first. I think when FoW is implemented into MoonPy that it should allow players to see the terrain and resources all over the entire map but unable to see the enemy units until they are within vision range.
 
 ===Useful Links:===
  * free sound effecs: http://www.stonewashed.net/sfx.html
