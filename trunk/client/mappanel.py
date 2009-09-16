@@ -94,9 +94,6 @@ class Mappanel:
         container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.87, self.client.screen.get_height() * 0.60)
         self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None)
 
-        self.rotate_display = gui.Label(_(str(self.client.rotate_position)))
-        container.add(self.rotate_display, self.client.screen.get_width() * 0.84, self.client.screen.get_height() * 0.3)
-
         container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
         self.app.init(container) 
         self.draw_panel()
