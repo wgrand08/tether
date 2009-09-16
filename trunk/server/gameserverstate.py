@@ -110,51 +110,13 @@ class ServerState:
         power = power + 4 #launching has minimal range
         offsetX = 0
         offsetY = 0
+        
         for find_target in range(1, power):
-            if rotation == 1:
-                endX = endX + 0
-                endY = endY - 1
-            elif rotation == 2:
-                endX = endX + .25
-                endY = endY - .75
-            elif rotation == 3:
-                endX = endX + .75
-                endY = endY - .25
-            elif rotation == 4:
-                endX = endX + 1
-                endY = endY + 0
-            elif rotation == 5:
-                endX = endX + .75
-                endY = endY + .25
-            elif rotation == 6:
-                endX = endX + .25
-                endY = endY + .75
-            elif rotation == 7:
-                endX = endX + 0
-                endY = endY + 1
-            elif rotation == 8:
-                endX = endX - .25
-                endY = endY + .75
-            elif rotation == 9:
-                endX = endX - .75
-                endY = endY + .25
-            elif rotation == 10:
-                endX = endX - 1
-                endY = endY + 0
-            elif rotation == 11:
-                endX = endX - .75
-                endY = endY - .25
-            elif rotation == 12:
-                endX = endX - .25
-                endY = endY - .75
-            if endX == 0: #loop around the map
-                endX = 90
-            if endX == 91:
-                endX = 1
-            if endY == 0:
-                endY = 90
-            if endY == 91:
-                endY = 1
+            print"Please check gameserverstate.py line 114"
+
+
+
+
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
                     if (target.x == round(endX,0) and target.y == round(endY, 0)): #determine if tether crosses
