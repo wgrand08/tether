@@ -136,14 +136,15 @@ class Mapview:
                 startX = blit_x + 24
                 startY = blit_y + 24
                 (north, west) = self.client.game.percent_from_degree(rotation)
-                
-                for find_target in range(1, 8):
+                offsetX = 0
+                offsetY = 0
+                for find_target in range(1, 360):
                     endX = endX + west
                     endY = endY + north
-                #offsetX = endX - (round(endX, 0))
-                #offsetY = endY - (round(endY, 0))
-                offsetX = 24
-                offsetY = 24
+                #offsetX = endX - west
+                #offsetY = endY - north
+                offsetX = offsetX + 24
+                offsetY = offsetX + 24
                 endX = round(endX, 0)
                 endY = round(endY, 0)
                 endX, endY = self.map_to_gui((endX, endY))

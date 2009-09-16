@@ -87,6 +87,7 @@ class ServerState:
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True 
                     self.game.remove_unit(unit)
+                    self.connections.remote_all('go_boom')
                     #this code is to find and remove all units dependent on the most recently killed unit. This has been disabled as currently parent units are not recognized during unit creation. 
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:

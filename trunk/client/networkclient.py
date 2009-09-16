@@ -166,6 +166,12 @@ class NetworkClient(pb.Referenceable):
         #todo: add code to calculate stored energy for next turn
 
 #****************************************************************************
+# recieve command to make an explosion sound
+#****************************************************************************
+    def remote_go_boom(self):
+        self.client.moonaudio.sound("mediumboom.ogg")
+
+#****************************************************************************
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):
