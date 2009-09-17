@@ -17,7 +17,7 @@
  MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
 
  * How far along is MoonPy?
- MoonPy is currently at a stage where 1v1 games are possible. Hubs and bombs are the only units/weapons available and there are no animations, but beyond that it is playable. Be aware that it's a work in progress and to expect 
+ MoonPy is currently at a stage where 1v1 games are possible. Hubs and bombs are the only units/weapons available and there are no animations, but beyond that it is playable. Be aware that it's a work in progress and to expect some bugs.
 
   * Why are you using python, why not a real language like C++?
   There are many reasons we're using python but the top 3 reasons are: it's simple to code, easily portable to different OS's, and it does what we need.
@@ -35,7 +35,7 @@
   The biggest change we want to make is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we find inconvenient. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
 
   * How can I help out with the project?
-  Cool! We can always use some help to keep this going. Best way to get started would be to [http://groups.google.com/group/project-tether introduce yourself].
+  Cool! We can always use some help to keep this going. In addition to help with the code we also could use graphics, sounds, music, documentation, etc. You can always check out the [http://code.google.com/p/tether/issues/list issue tracker], or post onto our [http://groups.google.com/group/project-tether mailing list]. Also just spreading the word about project tether is a big benefit to us as well.
 
-  * I've been looking through the source code and keep seeing mention of openRTS, is project tether a part of openRTS?
-  openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of project tether. OpenRTS happens to currently be the single biggest source of code integrated into MoonPy and so is the most obvious.
+  * I've been looking through the source code archives and keep seeing mention of openRTS, is project tether a part of openRTS?
+  openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of project tether. The MoonPy engine is a heavily modified version of the openRTS engine and as such elements of openRTS occasionally show up, especially in older versions of MoonPy.
