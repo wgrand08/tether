@@ -8,7 +8,7 @@
   Moonbase Commander has quite often been called "the best game no one has ever heard of". Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
 
   * Well then where can I go to play the game?
-  Project tether currently isn't developed enough to provide a true idea of what we're trying to recreate. We used to have a copy of the free trial available for download here. Sadly because of space limitations we have had to remove it to make room for other stuff. Your best option would be to do a web search for the free demo and hope you can still find it.
+  We used to have a copy of the free trial available for download here. Sadly because of space limitations we have had to remove it to make room for other stuff. You could do a web search to find a copy online, or you could simply download and play MoonPy from our [http://code.google.com/p/tether/downloads/list downloads page].
 
   * Moonbase Commander absolutely rocks! Why recreate something thats so perfect?
   While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 7 years we assume that they will never be resolved. Rather then live with it we started this project to resolve these flaws ourselves.
@@ -17,7 +17,7 @@
  MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
 
  * How far along is MoonPy?
- MoonPy is currently at alpha stage and we are hoping to reach beta in a few months or so. Be aware though we've been hoping to reach beta 'in a few months or so' for over 6 months. Currently it is *technically* possible to play a 1v1 game against another human player launching hubs and bombs at each other however there are still lots of bugs and many major features have not yet been implemented.
+ MoonPy is currently at a stage where 1v1 games are possible. Hubs and bombs are the only units/weapons available and there are no animations, but beyond that it is playable. Be aware that it's a work in progress and to expect 
 
   * Why are you using python, why not a real language like C++?
   There are many reasons we're using python but the top 3 reasons are: it's simple to code, easily portable to different OS's, and it does what we need.
