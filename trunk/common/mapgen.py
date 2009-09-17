@@ -68,9 +68,8 @@ class MapGen:
         for x in range(self.map.xsize):
             for y in range(self.map.ysize):
                 tile = self.map.get_tile((x, y))
-                if (int(heightmap_a[x,y]) == 0):
-                    #tile.type = self.ruleset.get_terrain_type('ocean') #enable/disable water for debug purpose
-                    tile.type = self.ruleset.get_terrain_type('grass')
+                if (x == 1 or y == 1 or x == 180 or y == 180):
+                    tile.type = self.ruleset.get_terrain_type('water')
                 else:
                     tile.type = self.ruleset.get_terrain_type('grass')
 

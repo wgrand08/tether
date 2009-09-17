@@ -247,7 +247,7 @@ class Tileset:
         for adj_tile in self.client.map.get_adjacent_tiles((tile.x, tile.y)):
             if tile.type.id != adj_tile.type.id:
                 is_edge = 1
-
+        is_edge = 0 #this is to disable edge tiles which are incompatible with current map
         return (is_edge and str(tile.type.id) in self.edges)
 
 #****************************************************************************

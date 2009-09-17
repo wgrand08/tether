@@ -65,6 +65,7 @@ class Game:
         self.terrain_types.update({"ocean":TerrainType("ocean", "Ocean")})
         self.terrain_types.update({"grass":TerrainType("grass", "grass")})
         self.terrain_types.update({"coast":TerrainType("coast", "Coast")})
+        self.terrain_types.update({"water":TerrainType("water", "water")})
 
 
 #****************************************************************************

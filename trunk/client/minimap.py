@@ -55,7 +55,7 @@ class Minimap:
         for y in range(self.client.map.ysize):
             for x in range(self.client.map.xsize):
                 tile = self.client.map.get_tile((x, y))
-                if (tile.type.id == "ocean"):
+                if (tile.type.id == "water"):
                     color = (12, 42, 130)
                 elif (tile.type.id == "coast"):
                     color = (12, 42, 170)

@@ -9,6 +9,13 @@
   </terrain>
 </file>
 
+<file src="terrain/tile_water.png">
+    <terrain name="water" x="1" y="1" 
+             width="24" height="24" pixelsalpha="false">
+    <frame slot-x="0" slot-y="0"/>
+  </terrain>
+</file>
+
 
 <file src="terrain/crater.png">
   <unit name="crater" frames="1" x="1" y="1" 

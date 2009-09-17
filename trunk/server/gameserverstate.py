@@ -17,6 +17,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
+from random import *
 from twisted.internet import task, reactor
 from twisted.cred.portal import Portal
 from twisted.cred.checkers import InMemoryUsernamePasswordDatabaseDontUse
@@ -52,10 +53,8 @@ class ServerState:
 
             MapGen(self.map, self.game)
 
-            #FIXME: Need some sort of randomization for the starting hubs
-
-            self.game.create_unit('hub', (20,20), (0,0), 1, 0)
-            self.game.create_unit('hub', (50,50), (0,0), 2, 0)
+            self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 1, 0)
+            self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 2, 0)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -116,7 +115,6 @@ class ServerState:
         for find_target in range(1, power):
             endX = endX + west
             endY = endY + north
-
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
                     if (target.x == round(endX,0) and target.y == round(endY, 0)): #determine if tether crosses
@@ -143,8 +141,12 @@ class ServerState:
         x, y = pos
         power = self.game.get_unit_power(unit)
         for target in self.map.unitstore.values():
-            if target.x == x and target.y == y and target.typeset != "doodad":
-                target.hp = target.hp - power
+            for targetx in range(target.x, target.x + 2):
+                for targety in range(target.y, target.y + 2):
+                    for hitx in range(x, x + 2):
+                        for hity in range(y, y + 2):
+                            if targetx == hitx and targety == hity and target.typeset != "doodad":
+                                target.hp = target.hp - power
 
 #****************************************************************************
 #calculate the number of players currently connected to the game
