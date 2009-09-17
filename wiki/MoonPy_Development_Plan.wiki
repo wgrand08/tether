@@ -17,7 +17,7 @@ These are the general requirments for each major release of MoonPy. Currently we
   * Map shows distances accurately (non isometric): complete
   * Buttons recognize being 'held down': complete
   * Map has more accurate unit placement (increased resolution): complete
-  * GUI displays all relevant information required by player: in process
+  * GUI displays all relevant information required by player: complete
 
 = Requirements for version 0.7.00 = 
 
@@ -30,14 +30,14 @@ These are the general requirments for each major release of MoonPy. Currently we
 
 = Requirements for version 0.8.00 =
 
-  * Map displays water
-  * Units/tethers are destroyed if they land in water
-  * Game generates random maps
-  * Towers can be launched
-  * Offense can be launched and function correctly
-  * Spikes can be launched and function correctly
-  * Bridges work correctly
-  * Repairs work correctly
+  * Map displays water: complete
+  * Units/tethers are destroyed if they land in water: planned
+  * Game generates random maps: planned
+  * Towers can be launched: planned
+  * Offense can be launched and function correctly: planned
+  * Spikes can be launched and function correctly: planned
+  * Bridges work correctly: planned
+  * Repairs work correctly: planned
 
 = Requirements for version 0.9.00 = 
   * All OMBC units/weapons implemented and working correctly
