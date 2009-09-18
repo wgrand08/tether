@@ -21,7 +21,7 @@ These are the general requirements for each major release of MoonPy. Currently w
 
 = Requirements for version 0.7.00 = 
 
-  * Map works correctly as a torus: In progress
+  * Map works correctly as a torus: Complete
   * At least 4 players can play together: planned
   * Units require energy: planned
   * Map has energy pools on it: planned
