@@ -20,10 +20,10 @@
  MoonPy is currently at a stage where 1v1 games are possible. Hubs and bombs are the only units/weapons available and there are no animations, but beyond that it is playable. Be aware that it's a work in progress and to expect some bugs.
 
   * Why are you using python, why not a real language like C++?
-  There are many reasons we're using python but the top 3 reasons are: it's simple to code, easily portable to different OS's, and it does what we need.
+  There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
 
   * What OS are you developing MoonPy for?
-  We are intentionally making MoonPy to be fully compatible with Linux, osX, and Windows. Theoretically it should work on any OS that has python installed with little extra effort however we are not planning on doing any compatibility testing for other systems. 
+  We are intentionally making MoonPy to be fully compatible with Linux, osX, and Windows. Theoretically it should work on any OS that has python installed with little extra effort however we are not planning on doing compatibility testing for any other systems. 
 
   * Will MoonPy be compatible with Moonbase Commander?
   No.
