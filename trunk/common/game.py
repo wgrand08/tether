@@ -216,6 +216,7 @@ class Game:
             north = self.nega_numb(north)
             west = north + 1
             west = self.nega_numb(west)
+        #fixme: always returns a float even when int is specified
         return (north, west)
 
 #****************************************************************************

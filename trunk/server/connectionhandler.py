@@ -86,6 +86,8 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_launch_unit(self, parentID, unit, rotation, power):
         (coordX, coordY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
+        coordX = int(coordX)
+        coordY = int(coordY)
         coord = (coordX, coordY)
         offset = 0, 0
         if self.state.interrupted_tether == False:

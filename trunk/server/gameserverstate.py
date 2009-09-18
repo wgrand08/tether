@@ -53,7 +53,8 @@ class ServerState:
 
             MapGen(self.map, self.game)
 
-            self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 1, 0)
+            #self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 1, 0)
+            self.game.create_unit('hub', (20, 20), (0,0), 1, 0)
             self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 2, 0)
 
             #Initialize main loop callback.
@@ -112,9 +113,19 @@ class ServerState:
         offsetX = 0
         offsetY = 0
         (north, west) = self.game.percent_from_degree(rotation)
+        west = int(west)
+        north = int(north)
         for find_target in range(1, power):
             endX = endX + west
             endY = endY + north
+            if endX < 0:
+                endX = self.map.xsize - 1
+            if endY < 0:
+                endY = self.map.ysize - 1
+            if endX > self.map.xsize - 1:
+                endX = 0
+            if endY > self.map.ysize - 1:
+                endY = 0
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
                     if (target.x == round(endX,0) and target.y == round(endY, 0)): #determine if tether crosses
@@ -145,6 +156,7 @@ class ServerState:
                 for targety in range(target.y, target.y + 2):
                     for hitx in range(x, x + 2):
                         for hity in range(y, y + 2):
+                            print"possible floats gameserverstate.py line 160: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
                             if targetx == hitx and targety == hity and target.typeset != "doodad":
                                 target.hp = target.hp - power
 
