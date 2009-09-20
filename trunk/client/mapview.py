@@ -123,6 +123,12 @@ class Mapview:
             for unit2 in self.map.unitstore.values():
                 if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
                     unit = self.map.get_unit(real_map_pos)
+                elif ((unit.x + 1) == unit2.x) and (unit.y == unit2.y) and (unit2.typeset != "doodad"):
+                    return
+                elif (unit.x == unit2.x) and ((unit.y + 1) == unit2.y) and (unit2.typeset != "doodad"):
+                    return
+                elif ((unit.x + 1) == unit2.x) and ((unit.y + 1) == unit2.y) and (unit2.typeset != "doodad"):
+                    return
 
         #draw units themselves
         gui_x, gui_y = self.map_to_gui(map_pos)
