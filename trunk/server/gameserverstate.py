@@ -105,44 +105,42 @@ class ServerState:
     def find_trajectory(self, parentID, rotation, power, child, playerID):
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
-        endX = start_tile.x #todo: need to add true 360 degrees of rotation
+        endX = start_tile.x
         endY = start_tile.y
         self.interrupted_tether = False
         power = power + 4 #launching has minimal range
         power = power * 2 #compensating for higher map resolution
         offsetX = 0
         offsetY = 0
-        (north, west) = self.game.percent_from_degree(rotation)
-        west = int(west)
-        north = int(north)
         for find_target in range(1, power):
-            endX = endX + west
-            endY = endY + north
-            if endX < 0:
-                endX = self.map.xsize - 1
-            if endY < 0:
-                endY = self.map.ysize - 1
-            if endX > self.map.xsize - 1:
-                endX = 0
-            if endY > self.map.ysize - 1:
-                endY = 0
+            temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
+            if temp_rotation < 1:
+                temp_rotation = rotation + 270
+            endX = find_target * math.cos(temp_rotation / 180.0 * math.pi)
+            endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
+            endX = round(endX, 0)
+            endY = round(endY, 0)
+            endX = endX + start_tile.x
+            endY = endY + start_tile.y
+            print"coords are: ", endX, ", ", endY
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
-                    if (target.x == round(endX,0) and target.y == round(endY, 0)): #determine if tether crosses
+                    if (target.x == endX and target.y == endY): #determine if tether crosses
                         if (target.typeset != "doodad") and (target.parentID != parentID):
-                            logging.info("You crossed a tether at step %r" % find_target)
-                            self.interrupted_tether = True
-                            if find_target > 3:
-                                victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
-                                victim.hp = 0
-                            return (endX, endY)
+                            if target.parentID != self.game.unit_counter: #prevents tether 'crossing' itself
+                                logging.info("You crossed a tether at step %r" % find_target)
+                                print"crossed coords are: ", endX, ", ", endY
+                                print"target.parentID = ", target.parentID
+                                print"unit counter = ", self.game.unit_counter
+                                self.interrupted_tether = True
+                                if find_target > 3:
+                                    victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
+                                    victim.hp = 0
+                                return (endX, endY)
                 #tether didn't land on anything, ready to place!
                 if find_target > 2 and find_target < (power - 1): #don't place too close to hub otherwise they'll interfere with each other
                     chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
                     self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-        endX = round(endX, 0)
-        endY = round(endY, 0)
-        #todo: add offset data
         return (endX, endY)
 
 #****************************************************************************
@@ -156,7 +154,7 @@ class ServerState:
                 for targety in range(target.y, target.y + 2):
                     for hitx in range(x, x + 2):
                         for hity in range(y, y + 2):
-                            print"possible floats gameserverstate.py line 160: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
+                            #print"possible floats gameserverstate.py line 160: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
                             if targetx == hitx and targety == hity and target.typeset != "doodad":
                                 target.hp = target.hp - power
 
