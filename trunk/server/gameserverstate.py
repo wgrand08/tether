@@ -122,6 +122,18 @@ class ServerState:
             endY = round(endY, 0)
             endX = endX + start_tile.x
             endY = endY + start_tile.y
+
+            #code for looping the map edges
+            if endX < 0:
+                endX = self.map.xsize + endX
+            if endX > self.map.xsize - 1:
+                endX = endX - (self.map.xsize - 1)
+            if endY < 0:
+                endY = self.map.ysize + endY
+            if endY > self.map.ysize - 1:
+                endY = endY - (self.map.ysize - 1)
+
+            #placing tethers if applicable
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
                     double_tether = False
