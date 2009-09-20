@@ -183,9 +183,9 @@ class PregameScreen:
         #self.chat_table.td(self.box)
 
         self.chat_table.tr()
-        self.line = gui.Input()
-        self.line.style.width = width
-        self.chat_table.td(self.line)
+        #self.line = gui.Input()
+        #self.line.style.width = width
+        #self.chat_table.td(self.line)
 
         self.chat_table.tr()
         self.chat_table.td(MySpacer(1,1, self.box))
