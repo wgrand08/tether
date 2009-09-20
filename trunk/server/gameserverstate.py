@@ -122,25 +122,25 @@ class ServerState:
             endY = round(endY, 0)
             endX = endX + start_tile.x
             endY = endY + start_tile.y
-            print"coords are: ", endX, ", ", endY
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
-                    if (target.x == endX and target.y == endY): #determine if tether crosses
+                    double_tether = False
+                    if (target.x == endX and target.y == endY): #determine if tether crosses another unit/tether
                         if (target.typeset != "doodad") and (target.parentID != parentID):
-                            if target.parentID != self.game.unit_counter: #prevents tether 'crossing' itself
+                            if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
                                 logging.info("You crossed a tether at step %r" % find_target)
-                                print"crossed coords are: ", endX, ", ", endY
-                                print"target.parentID = ", target.parentID
-                                print"unit counter = ", self.game.unit_counter
                                 self.interrupted_tether = True
                                 if find_target > 3:
                                     victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
                                     victim.hp = 0
                                 return (endX, endY)
-                #tether didn't land on anything, ready to place!
-                if find_target > 2 and find_target < (power - 1): #don't place too close to hub otherwise they'll interfere with each other
-                    chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
-                    self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                            else:
+                                double_tether = True #doesn't place 'doubled' tethers due to rounding
+                if double_tether == False:
+                    #tether didn't land on anything, ready to place tether!
+                    if find_target > 2 and find_target < (power - 1): #don't place too close to hub otherwise they'll interfere with each other
+                        chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
         return (endX, endY)
 
 #****************************************************************************
