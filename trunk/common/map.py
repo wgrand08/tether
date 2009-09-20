@@ -151,8 +151,6 @@ class Map:
 #****************************************************************************
     def set_unit(self, unit, pos, offset, typeset, hp, parentID):
         if (self.get_unit(pos) == None) or (typeset == "weap"):
-            logging.info("placed unit# %r" % unit.id)
-            logging.info("dependent on unit# %r" % parentID)
             self.unitstore.update({unit.id:unit})
             (unit.x, unit.y) = pos
             unit.typeset = typeset
@@ -164,8 +162,6 @@ class Map:
 # transforms one unit type into another type
 #****************************************************************************
     def change_unit(self, unit, new_unit):
-        logging.info("changed unit %r" % unit.id)
-        #logging.info("unit typeset %r" % unit.typeset)
         unit.type = new_unit
 
 #****************************************************************************

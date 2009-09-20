@@ -95,7 +95,7 @@ class Game:
 #****************************************************************************
 #turns a unit into a crater
 #****************************************************************************
-#Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into craters instead. """
+#Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into something else. Tethers become 'void' while everything else becomes a crater."""
     def remove_unit(self, unit):
         if unit.typeset == "tether": #tethers do not leave craters when destroyed
             unit_type_id = "void"
@@ -184,48 +184,6 @@ class Game:
         else:
             return True
 
-#****************************************************************************
-#Determine percentage of x/y value from angle of rotation
-#****************************************************************************
-    def percent_from_degree(self, degree):
-        if degree == 360: #due north
-            north = -1
-            west = 0
-        if degree == 90: #due east
-            north = 0
-            west = 1
-        if degree == 180: #due south
-            north = 1
-            west = 0
-        if degree == 270: #due west
-            north = 0
-            west = -1
-        if degree > 0 and degree < 90:
-            west = degree / float(90)
-            north = west - 1
-        if degree > 90 and degree < 180:
-            north = (degree - 90) / float(90)
-            west = north - 1
-            west = self.nega_numb(west)
-        if degree > 180 and degree < 270:
-            west = (degree - 180) / float(90)
-            west = self.nega_numb(west)
-            north = west + 1
-        if degree > 270 and degree < 360:
-            north = (degree - 270) / float(90)
-            north = self.nega_numb(north)
-            west = north + 1
-            west = self.nega_numb(west)
-        #fixme: always returns a float even when int is specified
-        return (north, west)
-
-#****************************************************************************
-#get the negative value of an number
-#****************************************************************************
-    def nega_numb(self, negated):
-        negated = negated - (negated * 2)
-        return negated
-    
 
 #****************************************************************************
 #
