@@ -59,8 +59,6 @@ class GameClientState:
         self.process_confirmation = False
         self.myturn = False 
         self.skipped = False
-        self.current_energy = 0
-        self.stored_energy = 0
         self.selected_weap = "hub"
         self.rotate_position = 360
         self.firepower = 1
