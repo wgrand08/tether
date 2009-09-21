@@ -153,6 +153,18 @@ class NetworkClient(pb.Referenceable):
         self.client.pregame.start_game()
 
 #****************************************************************************
+# recieve launch data from server
+#****************************************************************************
+    def remote_show_launch(self, startx, starty, rotation, power, unit):
+        self.client.movement.launch_startx = startx
+        self.client.movement.launch_starty = starty
+        self.client.movement.direction = rotation
+        self.client.movement.distance = power
+        self.client.movement.type = unit
+        self.client.movement.launched = True
+
+
+#****************************************************************************
 # recieve assigned playerID from server
 #****************************************************************************
     def remote_get_playerID(self, playerID):

@@ -26,13 +26,11 @@ class HoldButton:
     def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 1
         if (self.client.rotate_position > 360):
             self.client.rotate_position = 1
-        pygame.time.delay(3)
 
     def rotateleft(self):
         self.client.rotate_position = self.client.rotate_position - 1
         if (self.client.rotate_position < 1):
             self.client.rotate_position = 360
-        pygame.time.delay(3)
 
     def increasepower(self):
         self.client.firepower = self.client.firepower + 1

@@ -153,7 +153,7 @@ class ServerState:
                     if find_target > 2 and find_target < (power - 1): #don't place too close to hub otherwise they'll interfere with each other
                         chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-        return (endX, endY)
+        return (start_tile.x, start_tile.y, endX, endY)
 
 #****************************************************************************
 #Find out if a unit is hit or not

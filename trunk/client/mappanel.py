@@ -190,6 +190,7 @@ class Mappanel:
         if self.client.myturn == True:
             for unit in self.client.selected_unit.values():
                 self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, self.client.firepower)
+                placeholder = True
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.

@@ -23,6 +23,7 @@ from networkclient import *
 from tileset import *
 from holdbutton import *
 from moonaudio import *
+from movement import *
 from twisted.internet import task, reactor
 
 from common.map import * 
@@ -42,6 +43,7 @@ class GameClientState:
         self.settings = GameSettings()
         self.holdbutton = HoldButton(self)
         self.moonaudio = MoonAudio(self)
+        self.movement = Movement(self)
         self.settings.load_settings()
         self.screen_width = self.settings.screen_width
         self.screen_height = self.settings.screen_height
@@ -70,6 +72,8 @@ class GameClientState:
         self.heldbutton = "void"
 
         self.selected_unit = {}
+
+        self.launched = False
 
 
 

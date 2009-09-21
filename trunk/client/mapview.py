@@ -16,7 +16,6 @@ along with this program if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-#from __future__ import division
 import os, sys
 import pygame
 import time
@@ -28,15 +27,15 @@ from common.map import *
 
 
 #****************************************************************************
-# The Mapview class contains all logic for rendering isometric maps.
+# The Mapview class contains all logic for rendering maps.
 #****************************************************************************
 class Mapview:
 
     def __init__(self, clientstate):
         self.client = clientstate
         self.map = clientstate.map
-        self.view_x = 15 #starting location of viewer
-        self.view_y = 15
+        self.view_x = 6 #starting location of viewer
+        self.view_y = 6
 
         self.view_delta_x = 0 #for scrolling viewer
         self.view_delta_y = 0
@@ -68,6 +67,9 @@ class Mapview:
 
         for pos in mapcoord_list:
             self.draw_unit(pos)
+
+        if (self.client.movement.launched == True):
+            self.show_launch()
 
         #pygame.draw.line(self.client.screen, (255,10,10), (950, 384), (500, 384), 1)
 
@@ -227,4 +229,28 @@ class Mapview:
             
         return mapcoord_list
 
-
+#****************************************************************************
+# Displays launched unit
+#****************************************************************************
+    def show_launch(self):
+        if (self.client.movement.step < ((self.client.movement.distance + 4) * 48)):
+            self.client.movement.step = self.client.movement.step + 8
+            map_pos = self.client.movement.launch_startx, self.client.movement.launch_starty
+            #gui_x, gui_y = self.map_to_gui(self.client.movement.launch_startx, self.client.movement.launch_starty)
+            gui_x, gui_y = self.map_to_gui(map_pos)
+            power = self.client.movement.distance + 4 #launching has minimal range
+            power = power * 2 #compensating for higher map resolution
+            temp_rotation = self.client.movement.direction - 90 #following is to adjust for difference between degrees and radians
+            if temp_rotation < 1:
+                temp_rotation = self.client.movement.direction + 270
+            endX = self.client.movement.step * math.cos(temp_rotation / 180.0 * math.pi)
+            endY = self.client.movement.step * math.sin(temp_rotation / 180.0 * math.pi)
+            blit_x = endX + gui_x + 24
+            blit_y = endX + gui_y + 24
+            unit_surface = self.tileset.get_unit_surf_from_tile(self.client.movement.type, 0, self.client.movement.playerlaunched)
+            self.client.screen.blit(unit_surface, (blit_x, blit_y))
+            return
+        else:
+            self.client.launched = False
+            self.client.landed = True
+            return
