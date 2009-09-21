@@ -159,6 +159,7 @@ class NetworkClient(pb.Referenceable):
         self.client.movement.launch_startx = startx
         self.client.movement.launch_starty = starty
         self.client.movement.direction = rotation
+        print"launch direction = ", self.client.movement.direction
         self.client.movement.distance = power
         self.client.movement.type = unit
         self.client.movement.launched = True
