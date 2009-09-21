@@ -92,18 +92,18 @@ class ClientPerspective(pb.Avatar):
         offset = 0, 0
         if self.state.interrupted_tether == False:
             self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
-            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit)
+            self.handler.remote_all('show_launch', startx, starty, endx, endy, unit, self.conn_info.playerID)
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
-            #self.handler.remote_all('map', net_map)
-            #self.handler.remote_all('unit_list', net_unit_list)
+            self.handler.remote_all('map', net_map)
+            self.handler.remote_all('unit_list', net_unit_list)
             self.handler.remote(self.conn_info.ref, 'confirmation') #send message confirming unit is placed and maps updated
             self.state.determine_hit(unit, coord)
         died = self.state.process_death()
         net_map = self.network_prepare(self.state.map.mapstore) 
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
-        #self.handler.remote_all('map', net_map)
-        #self.handler.remote_all('unit_list', net_unit_list)
+        self.handler.remote_all('map', net_map)
+        self.handler.remote_all('unit_list', net_unit_list)
         self.state.currentplayer += 1
         if self.state.currentplayer > self.state.max_players(self.handler.clients):
             self.state.currentplayer = 1

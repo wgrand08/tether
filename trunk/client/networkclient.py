@@ -155,13 +155,13 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # recieve launch data from server
 #****************************************************************************
-    def remote_show_launch(self, startx, starty, rotation, power, unit):
+    def remote_show_launch(self, startx, starty, endx, endy, unit, playerID):
         self.client.movement.launch_startx = startx
         self.client.movement.launch_starty = starty
-        self.client.movement.direction = rotation
-        print"launch direction = ", self.client.movement.direction
-        self.client.movement.distance = power
+        self.client.movement.endx = endx
+        self.client.movement.endy = endy
         self.client.movement.type = unit
+        self.client.movement.playerlaunched = playerID
         self.client.movement.launched = True
 
 

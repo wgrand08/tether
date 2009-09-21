@@ -29,10 +29,10 @@ class Movement:
         self.landed = False
         self.launch_startx = 0
         self.launch_starty = 0
-        self.direction = 0
-        self.distance = 0
+        self.launch_endx = 0
+        self.launch_endy = 0
         self.step = 1
-        self.playerlaunched = 1
+        self.playerlaunched = 0
         self.type = None
 
 
