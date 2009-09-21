@@ -92,7 +92,7 @@ class ClientPerspective(pb.Avatar):
         offset = 0, 0
         if self.state.interrupted_tether == False:
             self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
-            self.handler.remote_all('show_launch', startx, starty, endx, endy, unit, self.conn_info.playerID)
+            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit)
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
             self.handler.remote_all('map', net_map)
