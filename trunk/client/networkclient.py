@@ -76,6 +76,12 @@ class NetworkClient(pb.Referenceable):
         self.perspective.callRemote('launch_unit', parentID, unit, rotation, power)
 
 #****************************************************************************
+# report completion of animation by client
+#****************************************************************************
+    def land_unit(self):
+        self.perspective.callRemote('unit_landed')
+
+#****************************************************************************
 # command that player is 'skipping' this turn
 #****************************************************************************
 #After being run once this should be run every time this clients turn comes around until server reports that the entire round is over."""

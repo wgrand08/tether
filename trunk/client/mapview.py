@@ -233,25 +233,22 @@ class Mapview:
 # Displays launched unit
 #****************************************************************************
     def show_launch(self):
-        if (self.client.movement.step < ((self.client.movement.distance + 4) * 2)):
-            self.client.movement.step = self.client.movement.step + 1
+        if (self.client.movement.step < ((self.client.movement.distance + 3.5) * 2)):
+            self.client.movement.step = self.client.movement.step + .25
             temp_rotation = self.client.movement.direction - 90 #following is to adjust for difference between degrees and radians
             if temp_rotation < 1:
                 temp_rotation = self.client.movement.direction + 270
             endX = self.client.movement.step * math.cos(temp_rotation / 180.0 * math.pi)
             endY = self.client.movement.step * math.sin(temp_rotation / 180.0 * math.pi)
-            endX = round(endX)
-            endY = round(endY)
             endX = endX + self.client.movement.launch_startx
             endY = endY + self.client.movement.launch_starty
             map_pos = endX, endY
             blit_x, blit_y = self.map_to_gui(map_pos)
             unit_surface = self.tileset.get_unit_surf_from_tile(self.client.movement.type, 0, self.client.movement.playerlaunched)
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
-            print"blitted = ", blit_x, ", ", blit_y
-            pygame.time.delay(50)
             return
         else:
-            self.client.launched = False
-            self.client.landed = True
+            self.client.movement.launched = False
+            self.client.movement.landed = True
+            self.client.movement.step = 1
             return

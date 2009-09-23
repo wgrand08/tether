@@ -86,6 +86,9 @@ class GameClientState:
         self.mapview.drawmap()
         self.mapctrl.handle_events()
         self.mappanel.draw_minimap()
+        if self.movement.landed == True:
+            self.movement.landed = False
+            self.netclient.land_unit()
         pygame.display.flip()
  
 

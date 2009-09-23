@@ -92,18 +92,9 @@ class ClientPerspective(pb.Avatar):
         offset = 0, 0
         if self.state.interrupted_tether == False:
             self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
-            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit)
-            net_map = self.network_prepare(self.state.map.mapstore) 
-            net_unit_list = self.network_prepare(self.state.map.unitstore) 
-            self.handler.remote_all('map', net_map)
-            self.handler.remote_all('unit_list', net_unit_list)
-            self.handler.remote(self.conn_info.ref, 'confirmation') #send message confirming unit is placed and maps updated
             self.state.determine_hit(unit, coord)
-        died = self.state.process_death()
-        net_map = self.network_prepare(self.state.map.mapstore) 
-        net_unit_list = self.network_prepare(self.state.map.unitstore) 
-        self.handler.remote_all('map', net_map)
-        self.handler.remote_all('unit_list', net_unit_list)
+            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit)
+        self.state.process_death()
         self.state.currentplayer += 1
         if self.state.currentplayer > self.state.max_players(self.handler.clients):
             self.state.currentplayer = 1
@@ -121,6 +112,17 @@ class ClientPerspective(pb.Avatar):
         self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************
+#after client reports it has completed animation server sends updated map
+#****************************************************************************
+    def perspective_unit_landed(self):
+        net_map = self.network_prepare(self.state.map.mapstore) 
+        net_unit_list = self.network_prepare(self.state.map.unitstore) 
+        self.handler.remote(self.conn_info.ref, 'map', net_map)
+        self.handler.remote(self.conn_info.ref, 'unit_list', net_unit_list)
+        self.handler.remote(self.conn_info.ref, 'confirmation') #send message confirming unit is placed and maps updated
+        self.state.determine_hit(unit, coord)
+
+#****************************************************************************
 #forward chat information to all clients
 #****************************************************************************
     def perspective_send_chat(self, data):
@@ -133,7 +135,7 @@ class ClientPerspective(pb.Avatar):
     def logout(self):
         logging.info("logged out")
         del self.handler.clients[self.conn_info.ref]
-        #need to add code to handle players that are no longer in the game
+        #todo: need to add code to handle players that are no longer in the game
 
 
 #****************************************************************************

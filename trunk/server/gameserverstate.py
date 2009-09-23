@@ -41,6 +41,8 @@ class ServerState:
         self.currentplayer = 1
         self.skippedplayers = 0
         self.interrupted_tether = False
+        self.waitingplayers = 0
+        self.testplayers = 1
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -87,8 +89,7 @@ class ServerState:
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True 
                     self.game.remove_unit(unit)
-                    self.connections.remote_all('go_boom')
-                    #this code is to find and remove all units dependent on the most recently killed unit. This has been disabled as currently parent units are not recognized during unit creation. 
+                    #self.serversound.addsound(unit)
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
@@ -98,6 +99,7 @@ class ServerState:
 #****************************************************************************
     def round_over(self):
         self.skippedplayers = 0
+
 
 #****************************************************************************
 #Determine where a shot lands
