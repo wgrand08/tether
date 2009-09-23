@@ -21,6 +21,7 @@ import pygame
 import time
 import logging
 import math
+import random
 from pygame.locals import *
 from cursors import *
 from common.map import *
@@ -262,25 +263,56 @@ class Mapview:
         deathX = self.client.deathX.pop(0)
         deathY = self.client.deathY.pop(0)
         if unittype == "build":
-            self.client.moonaudio.sound("mediumboom.ogg")
-            print"hub died"
-        if unittype == "weap":
-            #image = pygame.image.load("data/graphics/misc/boom.png").convert()
+            self.client.moonaudio.sound("biggestboom.ogg")
             map_pos = deathX, deathY
             blitX, blitY = self.map_to_gui(map_pos)
             blitX = blitX + 24
             blitY = blitY + 24
-            scale = 0.00
-            """while scale < 1:
-                scale = 0.02
-                blitX = blitX - 1
-                blitY = blitY - 1
-                #image = pygame.transform.rotozoom(image, 0, scale)
-                self.client.screen.blit(image, (blitX, blitY))
-                pygame.time.wait(50)"""
+            scale = 0
+            while scale < 48:
+                scale = scale + 1
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                pygame.display.flip()
+                pygame.time.wait(2)
+            print"hub died"
+        if unittype == "weap":
+            self.client.moonaudio.sound("mediumboom.ogg")
+            map_pos = deathX, deathY
+            blitX, blitY = self.map_to_gui(map_pos)
+            blitX = blitX + 24
+            blitY = blitY + 24
+            scale = 0
+            while scale < 24:
+                scale = scale + 1
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                pygame.display.flip()
+                pygame.time.wait(2)
+
 
         if unittype == "tether":
-            self.client.moonaudio.sound("tetherpop.ogg")
-            print"tether died"
+            pop = random.randint(1, 6)
+            if pop == 1:
+                self.client.moonaudio.sound("tetherpop.ogg")
+            if pop == 2:
+                self.client.moonaudio.sound("tetherpop2.ogg")
+            if pop == 3:
+                self.client.moonaudio.sound("tetherpop3.ogg")
+            if pop == 4:
+                self.client.moonaudio.sound("tetherpop4.ogg")
+            if pop == 5:
+                self.client.moonaudio.sound("tetherpop5.ogg")
+            if pop == 6:
+                self.client.moonaudio.sound("tetherpop6.ogg")
+
+            map_pos = deathX, deathY
+            blitX, blitY = self.map_to_gui(map_pos)
+            blitX = blitX + 12
+            blitY = blitY + 12
+            scale = 0
+            while scale < 24:
+                scale = scale + 1
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                pygame.display.flip()
+                pygame.time.wait(2)
         if not self.client.deathtypes:
             self.client.dying_unit = False
