@@ -265,22 +265,22 @@ class Mapview:
             self.client.moonaudio.sound("mediumboom.ogg")
             print"hub died"
         if unittype == "weap":
-            image = pygame.image.load("data/graphics/misc/boom.png").convert()
+            #image = pygame.image.load("data/graphics/misc/boom.png").convert()
             map_pos = deathX, deathY
             blitX, blitY = self.map_to_gui(map_pos)
             blitX = blitX + 24
             blitY = blitY + 24
             scale = 0.00
-            while scale < 1:
+            """while scale < 1:
                 scale = 0.02
                 blitX = blitX - 1
                 blitY = blitY - 1
                 #image = pygame.transform.rotozoom(image, 0, scale)
                 self.client.screen.blit(image, (blitX, blitY))
-                pygame.time.wait(50)
+                pygame.time.wait(50)"""
 
         if unittype == "tether":
             self.client.moonaudio.sound("tetherpop.ogg")
             print"tether died"
-        if not self.deathtypes:
+        if not self.client.deathtypes:
             self.client.dying_unit = False
