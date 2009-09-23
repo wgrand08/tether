@@ -35,8 +35,11 @@ class Mapview:
     def __init__(self, clientstate):
         self.client = clientstate
         self.map = clientstate.map
-        self.view_x = 6 #starting location of viewer
-        self.view_y = 6
+        for unit in self.map.unitstore.values(): #finds starting position and places it over starting hub
+            print"working with unit.playerID ", unit.playerID, "and client.playerID ", self.client.playerID
+            if unit.playerID == self.client.playerID:
+                self.view_x = unit.x - 16
+                self.view_y = unit.y - 16
 
         self.view_delta_x = 0 #for scrolling viewer
         self.view_delta_y = 0

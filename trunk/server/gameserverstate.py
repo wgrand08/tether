@@ -42,6 +42,7 @@ class ServerState:
         self.skippedplayers = 0
         self.interrupted_tether = False
         self.waitingplayers = 0
+        self.totalplayers = 0
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -54,10 +55,8 @@ class ServerState:
 
             MapGen(self.map, self.game)
 
-            #self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 1, 0)
-            self.game.create_unit('hub', (20, 20), (0,0), 1, 0)
-            self.game.create_unit('hub', (50, 50), (0,0), 2, 0)
-            #self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 2, 0)
+            for player in range(1, totalplayers):
+                self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), player, 0)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -180,6 +179,7 @@ class ServerState:
         placeholder = 0
         for q in clients:
             placeholder = placeholder + 1
+        self.totalplayers = placeholder
         return placeholder
 #****************************************************************************
 #
