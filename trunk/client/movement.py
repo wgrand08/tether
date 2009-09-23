@@ -36,5 +36,5 @@ class Movement:
         self.type = None
 
 
-    def show_explostion(self):
+    def show_explosion(self):
         placeholder = True

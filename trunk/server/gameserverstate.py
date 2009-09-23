@@ -42,7 +42,7 @@ class ServerState:
         self.skippedplayers = 0
         self.interrupted_tether = False
         self.waitingplayers = 0
-        self.testplayers = 1
+        self.deathlist = []
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -89,7 +89,7 @@ class ServerState:
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True 
                     self.game.remove_unit(unit)
-                    #self.serversound.addsound(unit)
+                    self.deathlist.append(unit.type)
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0

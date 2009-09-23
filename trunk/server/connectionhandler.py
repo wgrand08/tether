@@ -90,6 +90,7 @@ class ClientPerspective(pb.Avatar):
         coordY = int(coordY)
         coord = (coordX, coordY)
         offset = 0, 0
+        self.state.deathlist = []
         if self.state.interrupted_tether == False:
             self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
             self.state.determine_hit(unit, coord)
@@ -115,12 +116,12 @@ class ClientPerspective(pb.Avatar):
 #after client reports it has completed animation server sends updated map
 #****************************************************************************
     def perspective_unit_landed(self):
+        #for deaths in self.state.deathlist
         net_map = self.network_prepare(self.state.map.mapstore) 
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
         self.handler.remote(self.conn_info.ref, 'map', net_map)
         self.handler.remote(self.conn_info.ref, 'unit_list', net_unit_list)
         self.handler.remote(self.conn_info.ref, 'confirmation') #send message confirming unit is placed and maps updated
-        self.state.determine_hit(unit, coord)
 
 #****************************************************************************
 #forward chat information to all clients
