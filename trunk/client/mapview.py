@@ -68,7 +68,7 @@ class Mapview:
         for pos in mapcoord_list:
             self.draw_unit(pos)
 
-        if (self.client.movement.launched == True):
+        if self.client.movement.launched == True:
             self.show_launch()
 
         #pygame.draw.line(self.client.screen, (255,10,10), (950, 384), (500, 384), 1)
@@ -233,21 +233,23 @@ class Mapview:
 # Displays launched unit
 #****************************************************************************
     def show_launch(self):
-        if (self.client.movement.step < ((self.client.movement.distance + 4) * 48)):
-            self.client.movement.step = self.client.movement.step + 8
-            map_pos = self.client.movement.launch_startx, self.client.movement.launch_starty
-            gui_x, gui_y = self.map_to_gui(map_pos)
-            power = self.client.movement.distance + 4 #launching has minimal range
-            power = power * 2 #compensating for higher map resolution
+        if (self.client.movement.step < ((self.client.movement.distance + 4) * 2)):
+            self.client.movement.step = self.client.movement.step + 1
             temp_rotation = self.client.movement.direction - 90 #following is to adjust for difference between degrees and radians
             if temp_rotation < 1:
                 temp_rotation = self.client.movement.direction + 270
             endX = self.client.movement.step * math.cos(temp_rotation / 180.0 * math.pi)
             endY = self.client.movement.step * math.sin(temp_rotation / 180.0 * math.pi)
-            blit_x = endX + gui_x + 24
-            blit_y = endX + gui_y + 24
+            endX = round(endX)
+            endY = round(endY)
+            endX = endX + self.client.movement.launch_startx
+            endY = endY + self.client.movement.launch_starty
+            map_pos = endX, endY
+            blit_x, blit_y = self.map_to_gui(map_pos)
             unit_surface = self.tileset.get_unit_surf_from_tile(self.client.movement.type, 0, self.client.movement.playerlaunched)
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
+            print"blitted = ", blit_x, ", ", blit_y
+            pygame.time.delay(50)
             return
         else:
             self.client.launched = False
