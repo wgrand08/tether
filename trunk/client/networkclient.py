@@ -161,6 +161,9 @@ class NetworkClient(pb.Referenceable):
 # recieve launch data from server
 #****************************************************************************
     def remote_show_launch(self, startx, starty, rotation, power, unit):
+        self.client.movement.deathtypes = []
+        self.client.movement.deathX = []
+        self.client.movement.deathY = []
         self.client.movement.launch_startx = startx
         self.client.movement.launch_starty = starty
         self.client.movement.direction = rotation
@@ -180,9 +183,11 @@ class NetworkClient(pb.Referenceable):
 # recieve unit death data from server
 #****************************************************************************
     def remote_kill_unit(self, x, y, unittype):
-        logging.info("recieved unit death info")
-        self.client.movement.show_explosion(x, y, unittype)
-        pygame.time.wait(200)
+        self.client.dying_unit = True
+        print"appended ", unittype, " to deathlist"
+        self.client.movement.deathtypes.append(unittype)
+        #self.client.movement.show_explosion(x, y, unittype)
+        #pygame.time.wait(200)
 
 #****************************************************************************
 # recieve assigned playerID from server

@@ -70,11 +70,10 @@ class GameClientState:
         self.conf_endX = 0
         self.conf_endY = 0
         self.heldbutton = "void"
-
-        self.selected_unit = {}
-
+        self.dying_unit = False
         self.launched = False
 
+        self.selected_unit = {}
 
 
 #****************************************************************************

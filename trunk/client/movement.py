@@ -34,14 +34,20 @@ class Movement:
         self.step = 1
         self.playerlaunched = 1
         self.type = None
+        self.deathtypes = []
+        self.deathX = []
+        self.deathY = []
 
 
-    def show_explosion(self, x, y, unittype):
-            if unittype == "build":
-                self.client.moonaudio.sound("mediumboom.ogg")
-                print"hub died"
-            if unittype == "weap":
-                print"bomb exploded here"
-            if unittype == "tether":
-                self.client.moonaudio.sound("tetherpop.ogg")
-                print"tether died"
+    def show_explosion(self):
+        unittype = self.deathtypes.pop(0)
+        if unittype == "build":
+            self.client.moonaudio.sound("mediumboom.ogg")
+            print"hub died"
+        if unittype == "weap":
+            print"bomb exploded here"
+        if unittype == "tether":
+            self.client.moonaudio.sound("tetherpop.ogg")
+            print"tether died"
+        if not self.deathtypes:
+            self.client.dying_unit = False

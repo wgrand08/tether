@@ -56,7 +56,8 @@ class ServerState:
 
             #self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 1, 0)
             self.game.create_unit('hub', (20, 20), (0,0), 1, 0)
-            self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 2, 0)
+            self.game.create_unit('hub', (50, 50), (0,0), 2, 0)
+            #self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), 2, 0)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -88,7 +89,6 @@ class ServerState:
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True 
                     self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset)
-                    logging.info("send unit death info")
                     self.game.remove_unit(unit)
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:

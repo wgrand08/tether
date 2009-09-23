@@ -60,7 +60,8 @@ class Minimap:
                 elif (tile.type.id == "coast"):
                     color = (12, 42, 170)
                 else: #regular ground
-                    color = (0, 90, 50) 
+                    #color = (0, 90, 50)
+                    color = (25, 175, 75)    
                 terrain_data.append(color)
      
         # Draw line showing where the current mapview view is.
@@ -79,7 +80,10 @@ class Minimap:
         for unit in self.client.map.get_unit_list():
             if unit.typeset != "doodad": #this takes into account hubs are 4 times the size of a standard tile
                 x, y = self.client.map.get_unit_pos(unit)
-                color = self.client.game.get_player_color(unit.playerID) 
+                if unit.playerID == self.client.playerID:
+                    color = (255, 255, 0)
+                else:
+                    color = (250, 10, 10)
                 drawer.point((x, y), fill=(color))
                 drawer.point(((x + 1), y), fill=(color))
                 drawer.point((x, (y + 1)), fill=(color))

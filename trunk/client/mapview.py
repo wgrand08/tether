@@ -71,7 +71,8 @@ class Mapview:
         if self.client.movement.launched == True:
             self.show_launch()
 
-        #pygame.draw.line(self.client.screen, (255,10,10), (950, 384), (500, 384), 1)
+        if self.client.dying_unit == True:
+            self.client.movement.show_explosion()
 
 
         self.cursor.show()
