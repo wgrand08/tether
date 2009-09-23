@@ -16,7 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-
+import pygame
 import logging
 from twisted.internet import reactor
 from twisted.spread import pb
@@ -137,11 +137,7 @@ class NetworkClient(pb.Referenceable):
         logging.info("* Network sync")
         self.client.game_next_phase()
 
-#****************************************************************************
-# recieve confirmation from server that units have been placed on map and to go ahead and begin movement
-#****************************************************************************
-    def remote_confirmation(self):
-        self.client.confirmed()
+
 
 #****************************************************************************
 # recieve updated unit information
@@ -155,6 +151,9 @@ class NetworkClient(pb.Referenceable):
     def remote_map(self, net_map):
         self.client.map.mapstore = self.network_handle(net_map)
 
+#****************************************************************************
+# command that server is ready for clients to begin playing
+#****************************************************************************
     def remote_start_client_game(self):
         self.client.pregame.start_game()
 
@@ -168,7 +167,22 @@ class NetworkClient(pb.Referenceable):
         self.client.movement.distance = power
         self.client.movement.type = unit
         self.client.movement.launched = True
+        self.client.moonaudio.sound("throw.ogg")
+        if self.client.game.check_tether(unit) == True:
+                if power < 6:
+                    self.client.moonaudio.sound("shorttether.ogg")
+                elif power > 5 and power < 10:
+                    self.client.moonaudio.sound("mediumtether.ogg")
+                elif power > 11:
+                    self.client.moonaudio.sound("longtether.ogg")
 
+#****************************************************************************
+# recieve unit death data from server
+#****************************************************************************
+    def remote_kill_unit(self, x, y, unittype):
+        logging.info("recieved unit death info")
+        self.client.movement.show_explosion(x, y, unittype)
+        pygame.time.wait(200)
 
 #****************************************************************************
 # recieve assigned playerID from server
@@ -182,12 +196,6 @@ class NetworkClient(pb.Referenceable):
     def remote_next_round(self):
         self.client.current_energy = self.client.stored_energy
         #todo: add code to calculate stored energy for next turn
-
-#****************************************************************************
-# recieve command to make an explosion sound
-#****************************************************************************
-    def remote_go_boom(self):
-        self.client.moonaudio.sound("mediumboom.ogg")
 
 #****************************************************************************
 # recieve command identifying which players turn it is

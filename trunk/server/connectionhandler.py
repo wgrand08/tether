@@ -85,6 +85,7 @@ class ClientPerspective(pb.Avatar):
 # recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
     def perspective_launch_unit(self, parentID, unit, rotation, power):
+        self.state.waitingplayers = 0
         (startx, starty, coordX, coordY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
         coordX = int(coordX)
         coordY = int(coordY)
@@ -95,11 +96,6 @@ class ClientPerspective(pb.Avatar):
             self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
             self.state.determine_hit(unit, coord)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit)
-        self.state.process_death()
-        self.state.currentplayer += 1
-        if self.state.currentplayer > self.state.max_players(self.handler.clients):
-            self.state.currentplayer = 1
-        self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************
 #recieve command indicating that this player is skipping all turns until round is over
@@ -113,15 +109,21 @@ class ClientPerspective(pb.Avatar):
         self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************
-#after client reports it has completed animation server sends updated map
+#after all clients reports it has completed animation server sends updated map and process death
 #****************************************************************************
     def perspective_unit_landed(self):
-        #for deaths in self.state.deathlist
-        net_map = self.network_prepare(self.state.map.mapstore) 
-        net_unit_list = self.network_prepare(self.state.map.unitstore) 
-        self.handler.remote(self.conn_info.ref, 'map', net_map)
-        self.handler.remote(self.conn_info.ref, 'unit_list', net_unit_list)
-        self.handler.remote(self.conn_info.ref, 'confirmation') #send message confirming unit is placed and maps updated
+        self.state.waitingplayers += 1
+        if self.state.waitingplayers == self.state.max_players(self.handler.clients):
+            self.state.waitingplayers = 0
+            self.state.process_death()
+            net_map = self.network_prepare(self.state.map.mapstore) 
+            net_unit_list = self.network_prepare(self.state.map.unitstore) 
+            self.handler.remote(self.conn_info.ref, 'map', net_map)
+            self.handler.remote(self.conn_info.ref, 'unit_list', net_unit_list)
+            self.state.currentplayer += 1
+            if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                self.state.currentplayer = 1
+            self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************
 #forward chat information to all clients
