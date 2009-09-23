@@ -23,7 +23,6 @@ from networkclient import *
 from tileset import *
 from holdbutton import *
 from moonaudio import *
-from movement import *
 from twisted.internet import task, reactor
 
 from common.map import * 
@@ -43,7 +42,6 @@ class GameClientState:
         self.settings = GameSettings()
         self.holdbutton = HoldButton(self)
         self.moonaudio = MoonAudio(self)
-        self.movement = Movement(self)
         self.settings.load_settings()
         self.screen_width = self.settings.screen_width
         self.screen_height = self.settings.screen_height
@@ -71,9 +69,22 @@ class GameClientState:
         self.conf_endY = 0
         self.heldbutton = "void"
         self.dying_unit = False
-        self.launched = False
 
         self.selected_unit = {}
+
+
+        self.launched = False
+        self.landed = False
+        self.launch_startx = 0
+        self.launch_starty = 0
+        self.launch_direction = 0
+        self.launch_distance = 0
+        self.launch_step = 1
+        self.playerlaunched = 0
+        self.launch_type = None
+        self.deathtypes = []
+        self.deathX = []
+        self.deathY = []
 
 
 #****************************************************************************
@@ -85,8 +96,8 @@ class GameClientState:
         self.mapview.drawmap()
         self.mapctrl.handle_events()
         self.mappanel.draw_minimap()
-        if self.movement.landed == True:
-            self.movement.landed = False
+        if self.landed == True:
+            self.landed = False
             self.netclient.land_unit()
         pygame.display.flip()
  

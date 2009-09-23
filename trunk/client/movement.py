@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import pygame
 import os
 import logging
+import mapview
 
 
 class Movement:
@@ -41,11 +42,24 @@ class Movement:
 
     def show_explosion(self):
         unittype = self.deathtypes.pop(0)
+        deathX = self.deathX.pop(0)
+        deathY = self.deathY.pop(0)
         if unittype == "build":
             self.client.moonaudio.sound("mediumboom.ogg")
             print"hub died"
         if unittype == "weap":
-            print"bomb exploded here"
+            image = pygame.image.load("data/graphics/misc/boom.png").convert()
+            map_pos = deathX, deathY
+            blitX, blitY = mapview.Mapview.map_to_gui(mapview, map_pos)
+            blitX = blitX + 24
+            blitY = blitY + 24
+            scale = 0.00
+            while scale < 1:
+                q = 0.02
+                image = pygame.transform.rotozoom(image, 0, scale)
+                screen.blit(image, (blitX, blitY))
+                pygameg.display.flip()
+
         if unittype == "tether":
             self.client.moonaudio.sound("tetherpop.ogg")
             print"tether died"

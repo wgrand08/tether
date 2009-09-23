@@ -160,16 +160,17 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # recieve launch data from server
 #****************************************************************************
-    def remote_show_launch(self, startx, starty, rotation, power, unit):
-        self.client.movement.deathtypes = []
-        self.client.movement.deathX = []
-        self.client.movement.deathY = []
-        self.client.movement.launch_startx = startx
-        self.client.movement.launch_starty = starty
-        self.client.movement.direction = rotation
-        self.client.movement.distance = power
-        self.client.movement.type = unit
-        self.client.movement.launched = True
+    def remote_show_launch(self, startx, starty, rotation, power, unit, pID):
+        self.client.deathtypes = []
+        self.client.deathX = []
+        self.client.deathY = []
+        self.client.launch_startx = startx
+        self.client.launch_starty = starty
+        self.client.launch_direction = rotation
+        self.client.launch_distance = power
+        self.client.launch_type = unit
+        self.client.playerlaunched = pID
+        self.client.launched = True
         self.client.moonaudio.sound("throw.ogg")
         if self.client.game.check_tether(unit) == True:
                 if power < 6:
@@ -184,9 +185,9 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def remote_kill_unit(self, x, y, unittype):
         self.client.dying_unit = True
-        print"appended ", unittype, " to deathlist"
-        self.client.movement.deathtypes.append(unittype)
-        #self.client.movement.show_explosion(x, y, unittype)
+        self.client.deathtypes.append(unittype)
+        self.client.deathX.append(x)
+        self.client.deathY.append(y)
         #pygame.time.wait(200)
 
 #****************************************************************************

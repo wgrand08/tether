@@ -68,11 +68,11 @@ class Mapview:
         for pos in mapcoord_list:
             self.draw_unit(pos)
 
-        if self.client.movement.launched == True:
+        if self.client.launched == True:
             self.show_launch()
 
         if self.client.dying_unit == True:
-            self.client.movement.show_explosion()
+            self.show_explosion()
 
 
         self.cursor.show()
@@ -234,24 +234,53 @@ class Mapview:
 # Displays launched unit
 #****************************************************************************
     def show_launch(self):
-        if (self.client.movement.step < ((self.client.movement.distance + 3.5) * 2)):
-            self.client.movement.step = self.client.movement.step + .25
-            temp_rotation = self.client.movement.direction - 90 #following is to adjust for difference between degrees and radians
+        if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+            self.client.launch_step = self.client.launch_step + .25
+            temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
             if temp_rotation < 1:
-                temp_rotation = self.client.movement.direction + 270
-            endX = self.client.movement.step * math.cos(temp_rotation / 180.0 * math.pi)
-            endY = self.client.movement.step * math.sin(temp_rotation / 180.0 * math.pi)
-            endX = endX + self.client.movement.launch_startx
-            endY = endY + self.client.movement.launch_starty
+                temp_rotation = self.client.launch_direction + 270
+            endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+            endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+            endX = endX + self.client.launch_startx
+            endY = endY + self.client.launch_starty
             map_pos = endX, endY
             blit_x, blit_y = self.map_to_gui(map_pos)
-            unit_surface = self.tileset.get_unit_surf_from_tile(self.client.movement.type, 0, self.client.movement.playerlaunched)
+            unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
             return
         else: #todo: add bomb hitting sound
-            #if self.client.movement.type == "bomb":
-                #self.client.moonaudio.sound("watersplash.ogg")
-            self.client.movement.launched = False
-            self.client.movement.landed = True
-            self.client.movement.step = 1
+            self.client.launched = False
+            self.client.landed = True
+            self.client.launch_step = 1
             return
+
+#****************************************************************************
+# Displays explosions
+#****************************************************************************
+    def show_explosion(self):
+        unittype = self.client.deathtypes.pop(0)
+        deathX = self.client.deathX.pop(0)
+        deathY = self.client.deathY.pop(0)
+        if unittype == "build":
+            self.client.moonaudio.sound("mediumboom.ogg")
+            print"hub died"
+        if unittype == "weap":
+            image = pygame.image.load("data/graphics/misc/boom.png").convert()
+            map_pos = deathX, deathY
+            blitX, blitY = self.map_to_gui(map_pos)
+            blitX = blitX + 24
+            blitY = blitY + 24
+            scale = 0.00
+            while scale < 1:
+                scale = 0.02
+                blitX = blitX - 1
+                blitY = blitY - 1
+                #image = pygame.transform.rotozoom(image, 0, scale)
+                self.client.screen.blit(image, (blitX, blitY))
+                pygame.time.wait(50)
+
+        if unittype == "tether":
+            self.client.moonaudio.sound("tetherpop.ogg")
+            print"tether died"
+        if not self.deathtypes:
+            self.client.dying_unit = False
