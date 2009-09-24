@@ -55,10 +55,8 @@ class ServerState:
 
             MapGen(self.map, self.game)
 
-            """for player in range(1, self.totalplayers):
-                self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), player, 0)"""
-            self.game.create_unit('hub', (50, 50), (0,0), 1, 0)
-            self.game.create_unit('hub', (75, 75), (0,0), 2, 0)
+            for player in range(0, self.totalplayers):
+                self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), (player + 1), 0)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
