@@ -89,6 +89,8 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_launch_unit(self, parentID, unit, rotation, power):
         self.state.waitingplayers = 0
+        #if rotation < 45 or rotation > 225:
+            #power = power - 2
         (startx, starty, coordX, coordY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
         coordX = int(coordX)
         coordY = int(coordY)
