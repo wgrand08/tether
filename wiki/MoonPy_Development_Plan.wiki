@@ -43,6 +43,7 @@ These are the general requirements for each major release of MoonPy. Currently w
 
 = Requirements for version 0.9.00 = 
   * All OMBC units/weapons implemented and working correctly
+  * Power bar needs to function correctly
 
 = Requirements for version 1.0.00 = 
   * Fog of War
