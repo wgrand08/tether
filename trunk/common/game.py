@@ -124,6 +124,10 @@ class Game:
             color = (255,10,10)
         elif playerID == 2:
             color = (0,39,228)
+        elif playerID == 3:
+            color = (0,255,0)
+        elif playerID == 4:
+            color = (0,0,0)
         else:
             logging.error("PlayerID %r not assigned a color yet" % (playerID))
         return color
