@@ -60,7 +60,6 @@ class Minimap:
                 elif (tile.type.id == "coast"):
                     color = (12, 42, 170)
                 else: #regular ground
-                    #color = (0, 90, 50)
                     color = (25, 175, 75)    
                 terrain_data.append(color)
      

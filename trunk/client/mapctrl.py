@@ -43,8 +43,6 @@ class Mapctrl:
                 self.client.mappanel.send_chat()
             elif event.type == KEYDOWN and event.key == K_f:
                 logging.info(self.client.clock.get_fps())
-            elif event.type == KEYDOWN and event.key == K_a:
-                self.set_mouse_state('attack')
             elif event.type == MOUSEBUTTONDOWN:
                 self.handle_mouse_click(pygame.mouse.get_pos(), event.button)
             elif event.type == MOUSEBUTTONUP:
@@ -54,18 +52,14 @@ class Mapctrl:
 
             self.client.mappanel.app.event(event)
 
-            self.client.mapview.cursor.update(event)
-
 #****************************************************************************
 # Handles all mouse click events from Pygame.
 #****************************************************************************
     def handle_mouse_click(self, pos, button):
         if button == 1:
             (x, y) = pos 
-            if self.mouse_state == "default":
-                self.select_pos_start = pygame.mouse.get_pos() 
-                self.select_pos_end = pygame.mouse.get_pos() 
-                self.set_mouse_state('select')
+            self.select_pos_start = pygame.mouse.get_pos() 
+            self.select_pos_end = pygame.mouse.get_pos() 
 
         elif button == 3:
             map_pos = self.client.mapview.gui_to_map(pos) 
@@ -77,7 +71,7 @@ class Mapctrl:
 # Handles all mouse release events from Pygame.
 #****************************************************************************
     def handle_mouse_release(self, pos, button):
-        if button == 1 and self.mouse_state == 'select': 
+        if button == 1: 
             self.define_tiles_within_rectangle()
         self.client.heldbutton = "void"
 
@@ -94,8 +88,7 @@ class Mapctrl:
         rec_w = x2 - x1
         rec_h = y2 - y1
         segments_x = abs(rec_w/ half_w)
-        segments_y = abs(rec_h/ half_h)
-        self.set_mouse_state('default')         
+        segments_y = abs(rec_h/ half_h)         
   
         # Iteration direction   
         if rec_w > 0:
@@ -172,23 +165,6 @@ class Mapctrl:
 #****************************************************************************
     def mouse_motion(self, pos):
         (x, y) = pos
-        """if y > self.client.mapview.mapcanvas.get_height(): 
-            self.client.mapview.cursor.disable()
-        else:
-            self.client.mapview.cursor.set_cursor_type(self.mouse_state)"""
-        if self.mouse_state == 'select':
-           self.select_pos_end = pygame.mouse.get_pos() 
 
-
-#****************************************************************************
-#
-#****************************************************************************
-    def set_mouse_state(self, state):
-
-        if state == 'default':
-            self.client.mapview.cursor.disable()
-        else:
-            self.client.mapview.cursor.set_cursor_type(state)
-        self.client.mapview.cursor.disable() #disable to show mouse cursors
-        self.mouse_state = state
+
 

@@ -171,24 +171,5 @@ class GameClientState:
         import networkscreen
         self.pregame = networkscreen.PregameScreen(self) 
 
-#****************************************************************************
-#movement confirmation
-#****************************************************************************
-#This is part of the animation system which is currently disabled due to being broken. Once a unit is placed it is then supposed to move into it's proper position (to simulate being launched) and the confirmation is to make certain that movement doesn't take place until after the server has placed the unit on the map."""
-    def confirmed(self):
-        if self.process_confirmation == True:
-            self.conf_unit = {}
-            self.conf_unit = self.map.get_unit((self.conf_startX, self.conf_startY))
-            logging.info("confirmed movement of unit %s" % self.conf_unit.id)
-            start_tile = self.map.get_tile_from_unit(self.conf_unit)
-            #start_tile = self.map.get_tile((self.conf_startX, self.conf_startY))
-            end_tile = self.map.get_tile((self.conf_endX, self.conf_endY))
-            self.map.find_path(self.conf_unit, self.ruleset, start_tile, end_tile)
 
-        #clearing confirmation once complete
-        self.process_confirmation = False
-        self.conf_startX = 0
-        self.conf_startY = 0
-        self.conf_endX = 0
-        self.conf_endY = 0
 

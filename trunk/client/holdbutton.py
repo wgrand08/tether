@@ -16,19 +16,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import logging
 import pygame
 
 class HoldButton:
     def __init__(self, client):
         self.client = client
 
-    def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 1
+    def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 2
         if (self.client.rotate_position > 360):
             self.client.rotate_position = 1
 
     def rotateleft(self):
-        self.client.rotate_position = self.client.rotate_position - 1
+        self.client.rotate_position = self.client.rotate_position - 2
         if (self.client.rotate_position < 1):
             self.client.rotate_position = 360
 

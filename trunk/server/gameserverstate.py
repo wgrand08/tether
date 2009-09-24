@@ -80,7 +80,7 @@ class ServerState:
 #find and remove all units without any HP remaining
 #****************************************************************************
     def process_death(self):
-        """This function searches for units without any HP remaining, removes them from the game, then sets the HP of any dependent units connected to them to 0. This function then repeats the process until all dependent units are found and removed"""
+        #This function searches for units without any HP remaining, removes them from the game, then sets the HP of any dependent units connected to them to 0. This function then repeats the process until all dependent units are found and removed
         notclear = True 
         while notclear:
             notclear = False
@@ -98,7 +98,6 @@ class ServerState:
 #****************************************************************************
     def round_over(self):
         self.skippedplayers = 0
-
 
 #****************************************************************************
 #Determine where a shot lands

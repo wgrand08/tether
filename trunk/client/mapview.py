@@ -36,7 +36,6 @@ class Mapview:
         self.client = clientstate
         self.map = clientstate.map
         for unit in self.map.unitstore.values(): #finds starting position and places it over starting hub
-            print"working with unit.playerID ", unit.playerID, "and client.playerID ", self.client.playerID
             if unit.playerID == self.client.playerID:
                 self.view_x = unit.x - 16
                 self.view_y = unit.y - 16
@@ -44,7 +43,6 @@ class Mapview:
         self.view_delta_x = 0 #for scrolling viewer
         self.view_delta_y = 0
         self.tileset = self.client.tileset
-        self.cursor = GfxCursor(self.client, self.client.screen)
         self.rect = pygame.Rect(0,0,self.client.screen_width - self.tileset.panel_width, self.client.screen_height - self.tileset.panel_height)
  
 
@@ -78,8 +76,6 @@ class Mapview:
         if self.client.dying_unit == True:
             self.show_explosion()
 
-
-        self.cursor.show()
         self.draw_mapview_selection()
         self.tileset.animation_next()
 
@@ -285,7 +281,6 @@ class Mapview:
                 pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
                 pygame.display.flip()
                 pygame.time.wait(2)
-            print"hub died"
         if unittype == "weap":
             self.client.moonaudio.sound("mediumboom.ogg")
             map_pos = deathX, deathY
