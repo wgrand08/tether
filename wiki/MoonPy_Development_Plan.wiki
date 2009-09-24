@@ -1,4 +1,4 @@
-#labels Phase-Implementation
+#labels Phase-Implementation,Featured
 #Version requirments for MoonPy
 
 These are the general requirements for each major release of MoonPy. Currently we are working towards the 0.7.00 release. This information may not be completely up to date, more detailed information about bugs and feature implementation can be found on the [http://code.google.com/p/tether/issues/list issue tracker].
@@ -24,10 +24,10 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Map works correctly as a torus: complete
   * Units are launched in a true circle: complete
   * At least 4 players can play together: complete
-  * Units require energy: planned
+  * Units require energy: in progress
   * Map has energy pools on it: in progress
   * Energy collectors provide energy to player: planned
-  * Game processes rounds in addition to turns: planned
+  * Game processes rounds in addition to turns: in progress
   * Game animation is working correctly: complete
 
 = Requirements for version 0.8.00 =
