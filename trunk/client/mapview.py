@@ -219,9 +219,17 @@ class Mapview:
         gui_x, gui_y = gui_pos
         map_x = self.divide(gui_x, self.tileset.tile_width)
         map_y = self.divide(gui_y, self.tileset.tile_height)
-        map_x = map_x + self.view_x
-        map_y = map_y + self.view_y
-        return (map_x, map_y)
+        endX = map_x + self.view_x
+        endY = map_y + self.view_y
+        if endX < 0:
+            endX = self.map.xsize + endX
+        if endX > self.map.xsize - 1:
+            endX = endX - (self.map.xsize - 1)
+        if endY < 0:
+            endY = self.map.ysize + endY
+        if endY > self.map.ysize - 1:
+            endY = endY - (self.map.ysize - 1)
+        return (endX, endY)
 
 #****************************************************************************
 # Returns a list of map coordinates to be shows on the map canvas view.
