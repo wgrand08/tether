@@ -17,7 +17,7 @@
  MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
 
  * How far along is MoonPy?
- MoonPy is currently at a stage where 1v1 games are possible. Hubs and bombs are the only units/weapons available and there are no animations, but beyond that it is playable. Be aware that it's a work in progress and to expect some bugs.
+ MoonPy is currently at a stage where 4 player free for all games are possible. Hubs and bombs are the only units/weapons available, but beyond that it is playable. Be aware that it's a work in progress and to expect some bugs even with the "stable" versions.
 
   * Why are you using python, why not a real language like C++?
   There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
