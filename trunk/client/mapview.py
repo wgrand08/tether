@@ -252,7 +252,7 @@ class Mapview:
             unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
             return
-        else: #todo: add bomb hitting sound
+        else: 
             self.client.launched = False
             self.client.landed = True
             self.client.launch_step = 1

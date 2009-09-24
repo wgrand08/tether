@@ -143,10 +143,9 @@ class ServerState:
                             if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
                                 logging.info("You crossed a tether at step %r" % find_target)
                                 self.interrupted_tether = True
-                                if find_target > 3:
-                                    victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
-                                    victim.hp = 0
-                                return (endX, endY)
+                                victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
+                                victim.hp = 0
+                                return (start_tile.x, start_tile.y, endX, endY)
                             else:
                                 double_tether = True #doesn't place 'doubled' tethers due to rounding
                 if double_tether == False:

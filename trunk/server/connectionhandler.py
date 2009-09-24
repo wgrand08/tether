@@ -98,7 +98,7 @@ class ClientPerspective(pb.Avatar):
         if self.state.interrupted_tether == False:
             self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
             self.state.determine_hit(unit, coord)
-            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
+        self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
 #****************************************************************************
 #recieve command indicating that this player is skipping all turns until round is over
