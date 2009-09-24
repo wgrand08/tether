@@ -133,20 +133,20 @@ class Tileset:
                 per_pixel_alpha = ("true" == str(tileNode.getAttribute('pixelalpha')))
                 self.animstore.update({name: frames})
 
-                for playerNode in tileNode.getElementsByTagName('player'): #fixme: this isn't efficient as a player entry is required within each unit listing within tileset.xml for each unique player. 
-                    playerID = playerNode.getAttribute('id')
+                for playerID in range(1, (self.client.settings.max_players + 1)):
+                    #print"in tileset 136 processed playerID ", playerID, "for unit ", name
                     typeset = self.client.game.get_unit_typeset(name)
                     if typeset == "build" or typeset == "tether":
                         color = self.client.game.get_player_color(int(playerID))
                     else:
                         color = None
 
-                    for frameNode in playerNode.getElementsByTagName('frame'):
+                    for frameNode in tileNode.getElementsByTagName('frame'):
                         slotx = int(frameNode.getAttribute('slot-x'))
                         sloty = int(frameNode.getAttribute('slot-y'))
                         dir = frameNode.getAttribute('dir')
                         frame = frameNode.getAttribute('anim_frame')
-                        key = name + dir + frame + playerID
+                        key = name + dir + frame + str(playerID)
                         sub_x = x + slotx * width + slotx
                         sub_y = y + sloty * height + sloty
                         self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color)

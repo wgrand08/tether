@@ -20,60 +20,35 @@
 <file src="terrain/crater.png">
   <unit name="crater" frames="1" x="1" y="1" 
         width="48" height="48" pixalalpha="true">
-    <player id="1">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
-    <player id="2">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>
 
 <file src="weapons/bomb.png">
   <unit name="bomb" frames="1" x="1" y="1" 
         width="48" height="48" pixalalpha="true">
-    <player id="1">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
-    <player id="2">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
   </unit>
 </file>
 
 <file src="buildings/unit_hub.png">
   <unit name="hub" frames="1" x="1" y="1" 
         width="48" height="48" pixelalpha="true">
-    <player id="1">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
-    <player id="2">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>
 
 <file src="misc/void.png">
   <unit name="void" frames="1" x="1" y="1" 
         width="48" height="48" pixelalpha="true">
-    <player id="1">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
-    <player id="2">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>
 
 <file src="buildings/unit_tether.png">
   <unit name="tether" frames="1" x="1" y="1" 
         width="24" height="24" pixelalpha="true">
-    <player id="1">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
-    <player id="2">
-        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    </player>
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>
 
