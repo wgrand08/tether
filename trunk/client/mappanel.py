@@ -66,33 +66,102 @@ class Mappanel:
         self.chat_table.tr()
         self.chat_table.td(MySpacer(1,1, self.box))
 
-        self.hub_button = gui.Button(_(" hub " ))
-        container.add(self.hub_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.4)
-        self.hub_button.connect(gui.MOUSEBUTTONDOWN, self.choosehub, None)
 
         self.bomb_button = gui.Button(_(" bomb "))
-        container.add(self.bomb_button, self.client.screen.get_width() * 0.87, self.client.screen.get_height() * 0.4)
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.20)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosebomb, None)
 
+        self.hub_button = gui.Button(_(" anti-air " ))
+        container.add(self.hub_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.20)
+        self.hub_button.connect(gui.MOUSEBUTTONDOWN, self.chooseantiair, None)
+
+        self.bomb_button = gui.Button(_(" bridge "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.25)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosebridge, None)
+
+        self.bomb_button = gui.Button(_(" tower "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.25)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosetower, None)
+
+        self.bomb_button = gui.Button(_(" repair "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.30)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooserepair, None)
+
+        self.bomb_button = gui.Button(_(" cluster "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.30)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosecluster, None)
+
+        self.bomb_button = gui.Button(_(" reclaim "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.35)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosereclaim, None)
+
+        self.bomb_button = gui.Button(_(" spike "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.35)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosespike, None)
+
+        self.bomb_button = gui.Button(_(" balloon "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.40)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseballoon, None)
+
+        self.bomb_button = gui.Button(_(" EMP "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.40)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseEMP, None)
+
+        self.bomb_button = gui.Button(_(" missile "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.45)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosemissile, None)
+
+        self.bomb_button = gui.Button(_(" mines "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.45)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosemines, None)
+
+        self.bomb_button = gui.Button(_(" crawler "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.50)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosecrawler, None)
+
+        self.bomb_button = gui.Button(_(" collector "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.50)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosecollector, None)
+
+        self.bomb_button = gui.Button(_(" hub "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.55)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosehub, None)
+
+        self.bomb_button = gui.Button(_(" offense "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.55)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseoffense, None)
+
+        self.bomb_button = gui.Button(_(" shield "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.60)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseshield, None)
+
+        self.bomb_button = gui.Button(_(" virus "))
+        container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.60)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosevirus, None)
+
+        self.rotate_leftbutton = gui.Button(_("  <  "))
+        container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.70)
+        self.rotate_leftbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateleft, None)
+
+        self.rotate_rightbutton = gui.Button(_("  >  "))
+        container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.70)
+        self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None)
+
         self.firebutton = gui.Button(_(" Fire "))
-        container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.7)
+        container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.70)
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_firebutton, None)
 
-        self.uppower_button = gui.Button(_(" + "))
+        self.firebutton = gui.Button(_(" skip "))
+        container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
+        self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_skipbutton, None)
+
+        """self.uppower_button = gui.Button(_(" + "))
         container.add(self.uppower_button, self.client.screen.get_width() * 0.84, self.client.screen.get_height() * 0.55)
         self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None)
 
         self.downpower_button = gui.Button(_(" - "))
         container.add(self.downpower_button, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
-        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
-
-        self.rotate_leftbutton = gui.Button(_("  <  "))
-        container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.60)
-        self.rotate_leftbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateleft, None)
-
-        self.rotate_rightbutton = gui.Button(_("  >  "))
-        container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.87, self.client.screen.get_height() * 0.60)
-        self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None)
+        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)"""
 
         container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
         self.app.init(container) 
@@ -176,21 +245,74 @@ class Mappanel:
         if self.client.myturn == True:
             self.client.heldbutton = "decrease"
 
+    def choosebomb(self, obj):
+        if self.client.myturn == True:
+            logging.info("bomb selected")
+            self.client.selected_weap = 'bomb'
+
+    def chooseantiair(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosebridge(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosetower(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def chooserepair(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosecluster(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosereclaim(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosespike(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def chooseballoon(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def chooseEMP(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosemissile(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosemines(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosecrawler(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosecollector(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
     def choosehub(self, obj):
         if self.client.myturn == True:
             logging.info("hub selected")
             self.client.selected_weap = 'hub'
 
-    def choosebomb(self, obj):
-        if self.client.myturn == True:
-            logging.info("bomb selected")
-            self.client.selected_weap = 'bomb'
+    def chooseoffense(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def chooseshield(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
+
+    def choosevirus(self, obj):
+        self.client.moonaudio.sound("disabled.ogg")
 
     def use_firebutton(self, obj):
         if self.client.myturn == True:
             for unit in self.client.selected_unit.values():
                 self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, self.client.firepower)
                 placeholder = True
+
+    def use_skipbutton(self, obj):
+        self.client.energy = 0
+        self.client.moonaudio.sound("disabled.ogg")
+        #self.client.netclient.skip_round()
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
