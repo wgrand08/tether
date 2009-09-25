@@ -155,13 +155,13 @@ class Mappanel:
         container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_skipbutton, None)
 
-        """self.uppower_button = gui.Button(_(" + "))
-        container.add(self.uppower_button, self.client.screen.get_width() * 0.84, self.client.screen.get_height() * 0.55)
+        self.uppower_button = gui.Button(_(" + "))
+        container.add(self.uppower_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.80)
         self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None)
 
         self.downpower_button = gui.Button(_(" - "))
-        container.add(self.downpower_button, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
-        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)"""
+        container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.80)
+        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
 
         container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
         self.app.init(container) 
@@ -312,6 +312,7 @@ class Mappanel:
     def use_skipbutton(self, obj):
         self.client.energy = 0
         self.client.moonaudio.sound("disabled.ogg")
+        print"disabled mappanel.py line 315"
         #self.client.netclient.skip_round()
 
 #****************************************************************************
