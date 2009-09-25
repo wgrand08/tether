@@ -63,6 +63,7 @@ class GameClientState:
         self.rotate_position = 360
         self.firepower = 1
         self.playerID = 0
+        self.energy = 0
         self.conf_startX = 0
         self.conf_startY = 0
         self.conf_endX = 0

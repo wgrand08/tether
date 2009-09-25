@@ -197,6 +197,13 @@ class NetworkClient(pb.Referenceable):
         self.client.playerID = playerID
 
 #****************************************************************************
+# get energy from server
+#****************************************************************************
+    def remote_update_energy(self, energy):
+        self.client.energy = energy
+        print"your energy = ", energy
+
+#****************************************************************************
 # recieve command to restore energy and begin a new round
 #****************************************************************************
     def remote_next_round(self):

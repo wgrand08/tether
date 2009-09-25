@@ -39,4 +39,5 @@ class Unit:
         self.hp = 0
         self.parentID = 0
         self.disabled = False
+        self.collecting = False
 

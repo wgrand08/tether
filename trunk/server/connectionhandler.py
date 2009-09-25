@@ -80,6 +80,7 @@ class ClientPerspective(pb.Avatar):
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
         self.handler.remote_all('map', net_map)
         self.handler.remote_all('unit_list', net_unit_list)
+        self.handler.remote_all('update_energy', 11) #all players start with 11 energy
         self.handler.remote_all('start_client_game')
         self.state.currentplayer = 1 #player1 goes first 
         self.handler.remote_all('next_turn', self.state.currentplayer)
@@ -108,6 +109,13 @@ class ClientPerspective(pb.Avatar):
         if self.state.skippedplayers >= self.state.max_players(self.handler.clients):
             self.skippedplayers = 0
             self.handler.remote_all('next_round')
+        for player in range(1, (self.state.total_players + 1)):
+            energy = self.state.calculate_energy(player)
+            for test in self.client:
+                if test.playerID == player:
+                    test.energy = energy
+                    self.handler.remote(test, 'update_energy', energy)
+
         self.state.currenplayer = 1 #todo: add code to randomize/rotate the starting player for each round
         self.handler.remote_all('next_turn', self.state.currentplayer)
 
@@ -173,12 +181,13 @@ class ConnectionHandler:
     def requestAvatar(self, name, client_ref, *interfaces):
         logging.info("Client connected.")
         if pb.IPerspective in interfaces:
-              address = client_ref.broker.transport.getPeer()
-              playerID = 0
-              conn_info = ConnInfo(client_ref, name, address, playerID)
-              perspective = ClientPerspective(conn_info, self, self.state)
-              self.clients[client_ref] = conn_info
-              return (pb.IPerspective, perspective, perspective.logout) 
+            address = client_ref.broker.transport.getPeer()
+            playerID = 0
+            energy = 0
+            conn_info = ConnInfo(client_ref, name, address, playerID, energy)
+            perspective = ClientPerspective(conn_info, self, self.state)
+            self.clients[client_ref] = conn_info
+            return (pb.IPerspective, perspective, perspective.logout) 
         else:
             raise NotImplementedError("no interface")
 

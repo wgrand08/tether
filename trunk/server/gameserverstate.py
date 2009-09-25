@@ -94,12 +94,6 @@ class ServerState:
                             unit2.hp = 0
 
 #****************************************************************************
-#server determines round is over and unskips all units
-#****************************************************************************
-    def round_over(self):
-        self.skippedplayers = 0
-
-#****************************************************************************
 #Determine where a shot lands
 #****************************************************************************
     def find_trajectory(self, parentID, rotation, power, child, playerID):
@@ -201,6 +195,18 @@ class ServerState:
             placeholder = placeholder + 1
         self.totalplayers = placeholder
         return placeholder
+#****************************************************************************
+#Calculate the amount of energy per player
+#****************************************************************************
+    def calculate_energy(self, playerID):
+        energy = 7
+        for unit in self.map.unitstore.values():
+            if unit.playerID == playerID and unit.type == "converter" and unit.disabled == False:
+                energy = energy + 1
+            if unit.collecting == True:
+                energy = energy + 2
+        return (energy)
+
 #****************************************************************************
 #
 #****************************************************************************

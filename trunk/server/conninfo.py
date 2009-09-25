@@ -22,7 +22,7 @@ import logging
 #
 #****************************************************************************
 class ConnInfo:
-    def __init__(self, client_ref, name, address, playerID):
+    def __init__(self, client_ref, name, address, playerID, energy):
         self.ref = client_ref
         self.name = name
         self.username = None
