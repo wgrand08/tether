@@ -41,6 +41,10 @@ Amount of damage each weapon does with a direct hit
   * EMP = 2
   * Spike = 3
 
+= Energy Collection =
+
+All players start with 11 energy when they begin the game. Each player automatically gains 7 energy per round. All active energy collectors give 3 energy per round. All inactive energy collectors (such as not on a pool) give 1 energy per round.
+
 = Power Bar =
 The power bar has 18 increments for power levels. It takes just under 3 seconds for it to make one complete pass (both up and down), sadly we are unable to be more accurate in our timing. Based off our best estimates though, this means it will take about 1.5 seconds for the bar to make one incomplete pass (one way). Divide this by 18 and you get 0.083+ seconds for each increment. OMBC most likely works by running the power bar at about .08 seconds per increment. This comes to 2.88 seconds for one complete pass which is would explain why it is just under 3 seconds instead of being 3 seconds exactly.
 
