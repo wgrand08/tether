@@ -251,43 +251,43 @@ class Mappanel:
             self.client.selected_weap = 'bomb'
 
     def chooseantiair(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosebridge(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosetower(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def chooserepair(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosecluster(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosereclaim(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosespike(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def chooseballoon(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def chooseEMP(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosemissile(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosemines(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosecrawler(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosecollector(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosehub(self, obj):
         if self.client.myturn == True:
@@ -295,13 +295,13 @@ class Mappanel:
             self.client.selected_weap = 'hub'
 
     def chooseoffense(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def chooseshield(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def choosevirus(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
     def use_firebutton(self, obj):
         if self.client.myturn == True:
@@ -311,7 +311,7 @@ class Mappanel:
 
     def use_skipbutton(self, obj):
         self.client.energy = 0
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
         print"disabled mappanel.py line 315"
         #self.client.netclient.skip_round()
 

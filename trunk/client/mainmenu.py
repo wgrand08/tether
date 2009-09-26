@@ -125,7 +125,7 @@ class MainMenu:
 #   Access the credits
 #****************************************************************************
     def credits_screen(self, obj):
-        self.client.moonaudio.sound("disabled.ogg")
+        self.client.moonaudio.narrate("disabled.ogg")
 
 #****************************************************************************
 #

@@ -155,6 +155,7 @@ class NetworkClient(pb.Referenceable):
 # command that server is ready for clients to begin playing
 #****************************************************************************
     def remote_start_client_game(self):
+        self.client.moonaudio.narrate("launching_game.ogg")
         self.client.pregame.start_game()
 
 #****************************************************************************
@@ -208,6 +209,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def remote_next_round(self):
         self.client.current_energy = self.client.stored_energy
+        self.client.moonaudio.narrate("round_over.ogg")
         #todo: add code to calculate stored energy for next turn
 
 #****************************************************************************
@@ -217,6 +219,7 @@ class NetworkClient(pb.Referenceable):
         if next_player == self.client.playerID:
             self.client.myturn = True
             logging.info("It's your turn commander")
+            self.client.moonaudio.narrate("your_turn.ogg")
         else:
             self.client.myturn = False
             logging.info("It is player %r turn" % next_player)

@@ -257,6 +257,8 @@ class Mapview:
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
             return
         else: 
+            if self.client.game.get_unit_typeset(self.client.launch_type) == "build":
+                self.client.moonaudio.sound("landing.ogg")
             self.client.launched = False
             self.client.landed = True
             self.client.launch_step = 1

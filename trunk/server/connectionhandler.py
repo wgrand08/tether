@@ -21,7 +21,6 @@ from twisted.spread import pb
 from twisted.cred.portal import IRealm
 import cPickle
 import zlib
-from time import sleep
 
 from conninfo import *
 
