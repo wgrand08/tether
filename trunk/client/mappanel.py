@@ -45,8 +45,11 @@ class Mappanel:
 
         self.minimap = Minimap(clientstate, self.minimap_rect.left , self.minimap_rect.top, 120, 107)
 
-        self.input_rect = pygame.Rect(3, self.client.screen_height - 14, self.client.screen_width - 159, 14)
-        self.msgview_rect = pygame.Rect(3, self.client.screen_height - 104, self.client.screen_width - 155, 82)
+        #self.input_rect = pygame.Rect(3, self.client.screen_height - 14, self.client.screen_width - 159, 14)
+        #self.msgview_rect = pygame.Rect(3, self.client.screen_height - 104, self.client.screen_width - 155, 82)
+
+        self.input_rect = pygame.Rect(3, self.client.screen_height - 14, self.client.screen_width - 300, 14)
+        self.msgview_rect = pygame.Rect(3, self.client.screen_height - 104, self.client.screen_width - 300, 82)
 
         self.chat_table = gui.Table(width=self.msgview_rect.width,height=self.msgview_rect.height)
 
@@ -55,19 +58,35 @@ class Mappanel:
         self.message_out = StringStream(self.lines)
         self.box = gui.ScrollArea(self.lines, self.msgview_rect.width, self.msgview_rect.height)
 
-        #self.chat_table.td(self.box) #this line is broken in windows
+        self.chat_table.td(self.box) 
 
         self.chat_table.tr()
         self.line = gui.Input()
         self.line.style.width = self.input_rect.width
         self.line.style.height = self.input_rect.height
-        #self.chat_table.td(self.line) #this line is broken too
+        self.chat_table.td(self.line) 
 
         self.chat_table.tr()
         self.chat_table.td(MySpacer(1,1, self.box))
 
-        #testlabel = gui.Label(_(self.client.selected_weap))
-        #container.add(testlabel, self.client.screen.get_width() * 80, self.client.screen.get_height() * 0.90)
+        container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
+
+
+
+
+        #self.energy_rect = pygame.Rect(self.client.screen.get_width() * 0.90, (self.client.screen.get_width() * 0.90) + 5, self.client.screen.get_height() * 0.90, (self.client.screen.get_height() * 0.90) + 5)
+
+        self.energy_rect = pygame.Rect(3, 3, 25, 14)
+
+        self.energy_table = gui.Table(width=self.energy_rect.width,height=self.energy_rect.height)
+        self.energy_table.tr()
+        self.indicator = gui.Table()
+        self.energy_out = StringStream(self.indicator)
+        self.box = gui.ScrollArea(self.indicator, self.energy_rect.width, self.energy_rect.height)
+        self.energy_table.td(self.box)
+
+        container.add(self.energy_table, self.energy_rect.left, self.energy_rect.top)
+        #container.add(self.energy_table, 5, 5)
 
 
         self.bomb_button = gui.Button(_(" bomb "))
@@ -166,7 +185,7 @@ class Mappanel:
         container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.85)
         self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
 
-        container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
+        #container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
         self.app.init(container) 
         self.draw_panel()
 
@@ -197,6 +216,9 @@ class Mappanel:
         blit_x = self.client.screen.get_width() * 0.86
         blit_y = self.client.screen.get_height() * 0.75
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
+        self.energy_out.write(self.client.energy) 
+        self.line.focus()
 
 
         self.app.repaint()
