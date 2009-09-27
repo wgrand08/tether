@@ -86,6 +86,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 #After being run once this should be run every time this clients turn comes around until server reports that the entire round is over."""
     def skip_round(self):
+        self.client.energy = 0
         self.perspective.callRemote('skip_round')
 
     def success(self, message):
@@ -208,9 +209,7 @@ class NetworkClient(pb.Referenceable):
 # recieve command to restore energy and begin a new round
 #****************************************************************************
     def remote_next_round(self):
-        self.client.current_energy = self.client.stored_energy
         self.client.moonaudio.narrate("round_over.ogg")
-        #todo: add code to calculate stored energy for next turn
 
 #****************************************************************************
 # recieve command identifying which players turn it is

@@ -198,13 +198,15 @@ class ServerState:
 #****************************************************************************
 #Calculate the amount of energy per player
 #****************************************************************************
-    def calculate_energy(self, playerID):
-        energy = 7
+    def calculate_energy(self, playerID, energy):
+        energy = energy + 7
         for unit in self.map.unitstore.values():
             if unit.playerID == playerID and unit.type == "converter" and unit.disabled == False:
                 energy = energy + 1
             if unit.collecting == True:
                 energy = energy + 2
+        if energy > 35:
+            energy = 35
         return (energy)
 
 #****************************************************************************

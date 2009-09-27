@@ -105,17 +105,14 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_skip_round(self):
         self.state.skippedplayers = self.state.skippedplayers + 1
+        #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
+        self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
+        self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
         if self.state.skippedplayers >= self.state.max_players(self.handler.clients):
             self.skippedplayers = 0
             self.handler.remote_all('next_round')
-        for player in range(1, (self.state.total_players + 1)):
-            energy = self.state.calculate_energy(player)
-            for test in self.client:
-                if test.playerID == player:
-                    test.energy = energy
-                    self.handler.remote(test, 'update_energy', energy)
 
-        self.state.currenplayer = 1 #todo: add code to randomize/rotate the starting player for each round
+        self.state.currentplayer = 1 #todo: add code to randomize/rotate the starting player for each round
         self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************

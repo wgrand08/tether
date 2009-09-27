@@ -310,10 +310,7 @@ class Mappanel:
                 placeholder = True
 
     def use_skipbutton(self, obj):
-        self.client.energy = 0
-        self.client.moonaudio.narrate("disabled.ogg")
-        print"disabled mappanel.py line 315"
-        #self.client.netclient.skip_round()
+        self.client.netclient.skip_round()
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.
