@@ -156,11 +156,11 @@ class Mappanel:
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_skipbutton, None)
 
         self.uppower_button = gui.Button(_(" + "))
-        container.add(self.uppower_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.80)
+        container.add(self.uppower_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.85)
         self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None)
 
         self.downpower_button = gui.Button(_(" - "))
-        container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.80)
+        container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.85)
         self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
 
         container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
@@ -185,9 +185,14 @@ class Mappanel:
             y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
             self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))
         temp_loc = 780
-        for show_power in range(1, (self.client.firepower + 1)):
+        for show_power in range(1, (self.client.firepower + 1)): #display power bar
             temp_loc = temp_loc + 7
             pygame.draw.line(self.client.screen, (255,10,10), (temp_loc, 24), (temp_loc, 96), 1)
+
+        unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, self.client.playerID)
+        blit_x = self.client.screen.get_width() * 0.86
+        blit_y = self.client.screen.get_height() * 0.75
+        self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
         self.app.repaint()
         self.app.update(self.client.screen)
