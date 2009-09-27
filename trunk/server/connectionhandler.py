@@ -89,30 +89,45 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_launch_unit(self, parentID, unit, rotation, power):
         self.state.waitingplayers = 0
-        (startx, starty, coordX, coordY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
-        coordX = int(coordX)
-        coordY = int(coordY)
-        coord = (coordX, coordY)
-        offset = 0, 0
-        self.state.deathlist = []
-        if self.state.interrupted_tether == False:
-            self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
-            self.state.determine_hit(unit, coord)
-        self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
+        if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+        else:
+            (startx, starty, coordX, coordY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
+            coordX = int(coordX)
+            coordY = int(coordY)
+            coord = (coordX, coordY)
+            offset = 0, 0
+            self.state.deathlist = []
+            if self.state.interrupted_tether == False:
+                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
+                self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
+                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
+                self.state.determine_hit(unit, coord)
+            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
 #****************************************************************************
 #recieve command indicating that this player is skipping all turns until round is over
 #****************************************************************************
     def perspective_skip_round(self):
-        self.state.skippedplayers = self.state.skippedplayers + 1
+        self.state.skippedplayers.append(self.conn_info.playerID)
         #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
         self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
         self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
-        if self.state.skippedplayers >= self.state.max_players(self.handler.clients):
-            self.skippedplayers = 0
+        if len(self.state.skippedplayers) >= self.state.max_players(self.handler.clients):
+            self.state.skippedplayers = []
+            self.state.skippedplayers.append(0)
             self.handler.remote_all('next_round')
+            self.state.currentplayer = 1 #todo: add code to randomize/rotate the starting player for each round
+        else:
+            foundplayer = False
+            while not foundplayer:
+                self.state.currentplayer += 1
+                if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                    self.state.currentplayer = 0
+                for search in self.state.skippedplayers:
+                    if search != self.state.currentplayer:
+                        foundplayer = True
 
-        self.state.currentplayer = 1 #todo: add code to randomize/rotate the starting player for each round
         self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************
@@ -127,9 +142,15 @@ class ClientPerspective(pb.Avatar):
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
             self.handler.remote(self.conn_info.ref, 'map', net_map)
             self.handler.remote(self.conn_info.ref, 'unit_list', net_unit_list)
-            self.state.currentplayer += 1
-            if self.state.currentplayer > self.state.max_players(self.handler.clients):
-                self.state.currentplayer = 1
+            foundplayer = False
+            while not foundplayer:
+                self.state.currentplayer += 1
+                if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                    self.state.currentplayer = 0
+                for search in self.state.skippedplayers:
+                    if search != self.state.currentplayer:
+                        foundplayer = True
+                    
             self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************

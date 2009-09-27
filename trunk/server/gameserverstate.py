@@ -39,7 +39,8 @@ class ServerState:
         self.settings = GameSettings()
         self.game = None 
         self.currentplayer = 1
-        self.skippedplayers = 0
+        self.skippedplayers = []
+        self.skippedplayers.append(0) #this can *not* be empty or next player will never be found
         self.interrupted_tether = False
         self.waitingplayers = 0
         self.totalplayers = 0

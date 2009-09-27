@@ -203,7 +203,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def remote_update_energy(self, energy):
         self.client.energy = energy
-        print"your energy = ", energy
+        logging.info("your energy = %r" % energy)
 
 #****************************************************************************
 # recieve command to restore energy and begin a new round
@@ -212,13 +212,23 @@ class NetworkClient(pb.Referenceable):
         self.client.moonaudio.narrate("round_over.ogg")
 
 #****************************************************************************
+# notice of possible cheating by server
+#****************************************************************************
+    def remote_cheat_signal(self, playerID):
+        self.client.moonaudio.narrate("cheat.ogg")
+        logging.info("player %r tried to cheat" % playerID)
+
+#****************************************************************************
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):
         if next_player == self.client.playerID:
-            self.client.myturn = True
-            logging.info("It's your turn commander")
-            self.client.moonaudio.narrate("your_turn.ogg")
+            if self.client.energy < 1:
+                self.skip_round()
+            else:
+                self.client.myturn = True
+                logging.info("It's your turn commander")
+                self.client.moonaudio.narrate("your_turn.ogg")
         else:
             self.client.myturn = False
             logging.info("It is player %r turn" % next_player)

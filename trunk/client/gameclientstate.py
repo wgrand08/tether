@@ -58,7 +58,6 @@ class GameClientState:
         self.loop = task.LoopingCall(self.mainloop)
         self.process_confirmation = False
         self.myturn = False 
-        self.skipped = False
         self.selected_weap = "hub"
         self.rotate_position = 360
         self.firepower = 1

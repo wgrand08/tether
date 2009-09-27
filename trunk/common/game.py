@@ -180,6 +180,19 @@ class Game:
         return power
 
 #****************************************************************************
+#get the cost of a unit or weapon
+#****************************************************************************
+    def get_unit_cost(self, type_id):
+        cost = 0
+        if type_id == "antiair" or type_id == "bomb" or type_id == "bridge" or type_id == "tower" or type_id == "cluster" or type_id == "repair":
+            cost = 1
+        if type_id == "ballon" or type_id == "emp" or type_id == "spike" or type_id == "mines" or type_id == "reclaimer" or type_id == "missile":
+            cost = 3
+        if type_id == "hub" or type_id == "shield" or type_id == "converter" or type_id == "crawler" or type_id == "offense" or type_id == "virus":
+            cost = 7
+        return cost
+
+#****************************************************************************
 #Determine if a unit is tethered
 #****************************************************************************
     def check_tether(self, type_id): #returns boolean of a unit is tethered or not

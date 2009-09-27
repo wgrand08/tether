@@ -35,7 +35,7 @@ class MoonAudio:
             sound.play()
 
     def narrate(self, chosen_sound):
-        if self.client.settings.play_narrate == True:
+        if self.client.settings.play_sound == True: #todo: change to 'narrate'
             while pygame.mixer.get_busy(): #narrator must complete sentence before starting another
                 placeholder = True
             sound = pygame.mixer.Sound(os.path.join('data/sounds/narrator',chosen_sound))
