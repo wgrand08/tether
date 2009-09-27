@@ -180,12 +180,12 @@ class PregameScreen:
         self.message_out = StringStream(self.lines)
         self.box = gui.ScrollArea(self.lines, width, height)
 
-        #self.chat_table.td(self.box)
+        self.chat_table.td(self.box) #broken
 
         self.chat_table.tr()
-        #self.line = gui.Input()
-        #self.line.style.width = width
-        #self.chat_table.td(self.line)
+        self.line = gui.Input() #broken
+        self.line.style.width = width #broken
+        self.chat_table.td(self.line) #broken
 
         self.chat_table.tr()
         self.chat_table.td(MySpacer(1,1, self.box))

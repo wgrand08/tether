@@ -39,7 +39,7 @@ class Main:
         pygame.init()
       
         self.client = GameClientState()    
-        logging.info("MoonPy %s" % (self.client.settings.string_version))
+        logging.info("MoonPy version %s" % (self.client.settings.string_version))
 
         self.initialize_locale()
 

@@ -64,10 +64,6 @@ class MainMenu:
         menu_table.add(network_join_button, 0, 2)
         menu_table.add(gui.Widget(width=1, height=5), 0, 3)
 
-        """single_button = gui.Button(_("Start Singleplayer Game"))
-        menu_table.add(single_button, 0, 4)
-        menu_table.add(gui.Widget(width=1, height=5), 0, 5)"""
-
         settings_button = gui.Button(_("Settings"))
         settings_button.connect(gui.CLICK, self.settings_menu, None)
         menu_table.add(settings_button, 0, 6)
@@ -84,13 +80,9 @@ class MainMenu:
 
         intro_label = gui.Label(_("Welcome to MoonPy"))
 
-        container.add(MenuBackground(client=self.client, 
-                       width = self.client.screen.get_width(),
-                       height = self.client.screen.get_height()), 0, 0)
-        container.add(menu_table, self.client.screen.get_width() / 2 - 100,
-                                  self.client.screen.get_height() / 2 - 100)
-        container.add(intro_label, self.client.screen.get_width() / 2 - 65,
-                                  self.client.screen.get_height() * 0.315)
+        container.add(MenuBackground(client=self.client, width = self.client.screen.get_width(),height = self.client.screen.get_height()), 0, 0)
+        container.add(menu_table, self.client.screen.get_width() / 2 - 100, self.client.screen.get_height() / 2 - 100)
+        container.add(intro_label, self.client.screen.get_width() / 2 - 65, self.client.screen.get_height() * 0.315)
 
         self.app.run(container)
 

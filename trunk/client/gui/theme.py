@@ -362,10 +362,10 @@ class Theme:
         
         if box == 0: return
         
-        if type(box) == tuple:
+        if type(box) == tuple or type(box) == pygame.Color:
             s.fill(box,r)
             return
-        
+
         x,y,w,h=r.x,r.y,r.w,r.h
         ww,hh=box.get_width()/3,box.get_height()/3
         xx,yy=x+w,y+h

@@ -61,10 +61,13 @@ class Mappanel:
         self.line = gui.Input()
         self.line.style.width = self.input_rect.width
         self.line.style.height = self.input_rect.height
-        #self.chat_table.td(self.line)
+        #self.chat_table.td(self.line) #this line is broken too
 
         self.chat_table.tr()
         self.chat_table.td(MySpacer(1,1, self.box))
+
+        #testlabel = gui.Label(_(self.client.selected_weap))
+        #container.add(testlabel, self.client.screen.get_width() * 80, self.client.screen.get_height() * 0.90)
 
 
         self.bomb_button = gui.Button(_(" bomb "))
@@ -189,10 +192,12 @@ class Mappanel:
             temp_loc = temp_loc + 7
             pygame.draw.line(self.client.screen, (255,10,10), (temp_loc, 24), (temp_loc, 96), 1)
 
+        #display the currently selected unit/weapon
         unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, self.client.playerID)
         blit_x = self.client.screen.get_width() * 0.86
         blit_y = self.client.screen.get_height() * 0.75
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
 
         self.app.repaint()
         self.app.update(self.client.screen)
