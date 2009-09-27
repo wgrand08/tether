@@ -45,11 +45,9 @@ class Mappanel:
 
         self.minimap = Minimap(clientstate, self.minimap_rect.left , self.minimap_rect.top, 120, 107)
 
-        #self.input_rect = pygame.Rect(3, self.client.screen_height - 14, self.client.screen_width - 159, 14)
-        #self.msgview_rect = pygame.Rect(3, self.client.screen_height - 104, self.client.screen_width - 155, 82)
 
         self.input_rect = pygame.Rect(1, self.client.screen_height - 14, self.client.screen_width - 250, 14)
-        self.msgview_rect = pygame.Rect(1, self.client.screen_height - 104, self.client.screen_width - 250, 82)
+        self.msgview_rect = pygame.Rect(1, self.client.screen_height - 72, self.client.screen_width - 250, 42)
 
         self.chat_table = gui.Table(width=self.msgview_rect.width,height=self.msgview_rect.height)
 
@@ -168,7 +166,6 @@ class Mappanel:
         container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.85)
         self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
 
-        #container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
         self.app.init(container) 
         self.draw_panel()
 
@@ -179,8 +176,8 @@ class Mappanel:
     def draw_panel(self):
         panel_right_top = self.client.tileset.get_tile_surf("panel_right_top")
         panel_right_center = self.client.tileset.get_tile_surf("panel_right_center")
-        panel_bottom_left = self.client.tileset.get_tile_surf("panel_bottom_left")
-        panel_bottom_top = self.client.tileset.get_tile_surf("panel_bottom_top")
+        #panel_bottom_left = self.client.tileset.get_tile_surf("panel_bottom_left")
+        #panel_bottom_top = self.client.tileset.get_tile_surf("panel_bottom_top")
         panel_bottom_right = self.client.tileset.get_tile_surf("panel_bottom_right")
 
         energy_indicator_background = self.client.tileset.get_tile_surf("energy_indicator_background")
@@ -190,6 +187,14 @@ class Mappanel:
         self.client.screen.blit(energy_indicator_background, (self.client.screen_width - panel_right_top.get_width() - energy_indicator_background.get_width() + 32, 0))
 
 
+        if self.client.energy > 0:
+            temp_loc = 680
+            red = 255 - (self.client.energy * 7)
+            green = self.client.energy * 7
+            temp_color = (red, green, 10)
+            for show_energy in range(1, self.client.energy + 1):
+                pygame.draw.line(self.client.screen, temp_color, (705, temp_loc), (755, temp_loc), 10)
+                temp_loc = temp_loc - 15
         #Draw the right panel.
         self.client.screen.blit(panel_right_top, (self.client.screen_width - panel_right_top.get_width(), 0))
         height = (self.client.screen_height - panel_right_top.get_height())

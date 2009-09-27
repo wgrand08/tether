@@ -86,16 +86,24 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 #After being run once this should be run every time this clients turn comes around until server reports that the entire round is over."""
     def skip_round(self):
-        self.client.energy = 0
         self.perspective.callRemote('skip_round')
 
+#****************************************************************************
+# 
+#****************************************************************************
     def success(self, message):
         logging.info("Message received: %s" % message)
 
+#****************************************************************************
+# 
+#****************************************************************************
     def failure(self, error):
         logging.info("error received:")
         reactor.stop()
 
+#****************************************************************************
+# 
+#****************************************************************************
     def connected(self, perspective):
         self.perspective = perspective
         perspective.callRemote('login', self.username, self.client.settings.version).addCallback(self.login_result)
