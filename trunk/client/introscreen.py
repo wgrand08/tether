@@ -29,7 +29,7 @@ from time import sleep
 class IntroScreen:
     def __init__(self, screen):
         image = "data/graphics/misc/intro_splash.png"
-        screen = pygame.display.set_mode((500,500))
+        screen = pygame.display.set_mode((550,550))
         try:
             splashScreen = pygame.image.load(image)
         except pygame.error, message:
