@@ -100,7 +100,7 @@ class GameClientState:
             self.landed = False
             self.netclient.land_unit()
         pygame.display.flip()
- 
+
 
 #****************************************************************************
 #
@@ -170,6 +170,5 @@ class GameClientState:
     def enter_pregame(self):
         import networkscreen
         self.pregame = networkscreen.PregameScreen(self) 
-
 
 

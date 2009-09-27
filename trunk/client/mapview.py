@@ -232,8 +232,8 @@ class Mapview:
 #****************************************************************************
     def gui_rect_iterate(self, gui_x0, gui_y0):
         mapcoord_list = []
-        for map_x in range(gui_x0, (gui_x0 + 32)):
-            for map_y in range(gui_y0, (gui_y0 + 32)):
+        for map_x in range(gui_x0, (gui_x0 + 29)):
+            for map_y in range(gui_y0, (gui_y0 + 29)):
                 mapcoord_list.insert(0, (map_x, map_y))
             
         return mapcoord_list
@@ -324,3 +324,4 @@ class Mapview:
                 pygame.time.wait(2)
         if not self.client.deathtypes:
             self.client.dying_unit = False
+

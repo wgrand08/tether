@@ -130,6 +130,12 @@
           width="13" height="108" pixelalpha="true"/>
 
 </file>
+<file src="interface/interface3.png">
+
+  <sprite name="energy_indicator_background" x="0" y="0"
+          width="80" height="696" pixelalpha="true"/>
+
+</file>
 
 <file src="misc/bullet1.png">
   <bullet name="flame" frames="1" x="1" y="1" 
