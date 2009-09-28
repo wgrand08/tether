@@ -19,7 +19,7 @@
  * How far along is MoonPy?
  MoonPy is currently at a stage where 4 player free for all games are possible. Hubs and bombs are the only units/weapons available, but beyond that it is playable. Be aware that it's a work in progress and to expect some bugs even with the "stable" versions.
 
-  * Why are you using python, why not a real language like C++?
+  * Why are you using python, why not a real programming language like C++?
   There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
 
   * What OS are you developing MoonPy for?
@@ -29,7 +29,7 @@
   No.
 
   * Really? Why not?
-  Mostly because Moonbase Commander is essentially dead, almost no one plays it anymore and it's impossible to find a *legitimate* copy of the game. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also want to make some changes that will make MoonPy incompatible with the original even if we did manage to reverse engineer the original.
+  Mostly because Moonbase Commander is essentially dead, almost no one plays it anymore and it's almost impossible to find a *legitimate* copy of the game. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also want to make some changes that will make MoonPy incompatible with the original even if we did manage to reverse engineer the original.
 
   * What changes are you planning?
   The biggest change we want to make is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we find inconvenient. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
@@ -38,4 +38,4 @@
   Cool! We can always use some help to keep this going. In addition to help with the code we also could use graphics, sounds, music, documentation, etc. You can always check out the [http://code.google.com/p/tether/issues/list issue tracker], or post onto our [http://groups.google.com/group/project-tether mailing list]. Also just spreading the word about project tether is a big benefit to us as well.
 
   * I've been looking through the source code archives and keep seeing mention of openRTS, is project tether a part of openRTS?
-  openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of project tether. The MoonPy engine is a heavily modified version of the openRTS engine and as such elements of openRTS occasionally show up, especially in older versions of MoonPy.
+  openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of project tether. The MoonPy engine is a heavily modified version of the openRTS engine and as such elements of openRTS occasionally show up, especially in older versions of MoonPy. Currently very little of the original openRTS engine remains unchanged within MoonPy, we do however have the original unedited openRTS source files on our [http://code.google.com/p/tether/downloads/list downloads page] for reference and historical purposes.
