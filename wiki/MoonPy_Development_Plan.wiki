@@ -48,3 +48,4 @@ These are the general requirements for each major release of MoonPy. Currently w
 
   * All bugs found and fixed
   * Ability to create custom mods
+  * Hotseat capabilities
