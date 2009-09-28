@@ -79,8 +79,8 @@ class ClientPerspective(pb.Avatar):
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
         self.handler.remote_all('map', net_map)
         self.handler.remote_all('unit_list', net_unit_list)
-        self.handler.remote_all('update_energy', 11) #all players start with 11 energy
         self.handler.remote_all('start_client_game')
+        self.handler.remote_all('update_energy', 11) #all players start with 11 energy
         self.state.currentplayer = 1 #player1 goes first 
         self.handler.remote_all('next_turn', self.state.currentplayer)
 

@@ -37,8 +37,8 @@ class Mapview:
         self.map = clientstate.map
         for unit in self.map.unitstore.values(): #finds starting position and places it over starting hub
             if unit.playerID == self.client.playerID:
-                self.view_x = unit.x - 16
-                self.view_y = unit.y - 16
+                self.view_x = unit.x - 14
+                self.view_y = unit.y - 14
 
         self.view_delta_x = 0 #for scrolling viewer
         self.view_delta_y = 0
