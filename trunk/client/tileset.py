@@ -209,7 +209,7 @@ class Tileset:
             for pixel in data_orig:
                 (red, green, blue, a) = pixel
                 (new_r, new_g, new_b) = color
-                if red == 255 and green == 0 and blue == 255:
+                if (red == 255 or red == 254) and green == 0 and (blue == 255 or blue == 254):
                     new_color = (red * new_r / 255, new_g * red / 255, new_b * red / 255, a)
                     data_color.append(new_color)
                 else:
