@@ -272,8 +272,11 @@ class Mappanel:
 
     def choosebomb(self, obj):
         if self.client.myturn == True:
-            logging.info("bomb selected")
-            self.client.selected_weap = 'bomb'
+            if self.client.energy < self.client.game.get_unit_cost(unit):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                logging.info("bomb selected")
+                self.client.selected_weap = 'bomb'
 
     def chooseantiair(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")

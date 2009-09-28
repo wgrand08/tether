@@ -37,8 +37,8 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.672
-        self.string_version = "0.6.72"
+        self.version = 0.673
+        self.string_version = "0.6.73"
         self.max_players = 4
         self.playername = "Commander"
         self.fullscreen = False
@@ -89,6 +89,11 @@ class GameSettings:
                             self.play_sound = True
                         elif input_array[1].strip() == "False":
                             self.play_sound = False
+                    if input_array[0].strip() == "play_narrate":
+                        if input_array[1].strip() == "True":
+                            self.play_narrate = True
+                        elif input_array[1].strip() == "False":
+                            self.play_narrate = False
 
 
         if badsettings == True:
@@ -106,4 +111,5 @@ class GameSettings:
         self.savesettings.write("name="+str(self.playername)+"\n")
         self.savesettings.write("play_music="+str(self.play_music)+"\n")
         self.savesettings.write("play_sound="+str(self.play_sound)+"\n")
+        self.savesettings.write("play_narrate="+str(self.play_narrate)+"\n")
 

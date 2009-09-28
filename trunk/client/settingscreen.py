@@ -71,6 +71,16 @@ class SettingsScreen:
         self.mute_sound_select.add("Off",False)
         table.add(self.mute_sound_select, 1,4)
 
+        mute_narrate_label = gui.Label(_("Narrator: "))
+        table.add(mute_narrate_label,0,5)
+        if self.client.settings.play_narrate == True:
+            self.mute_narrate_select = gui.Select(value=True)
+        else:
+            self.mute_narrate_select = gui.Select(value=False)
+        self.mute_narrate_select.add("On",True)
+        self.mute_narrate_select.add("Off",False)
+        table.add(self.mute_narrate_select, 1,5)
+
         cancel_button = gui.Button(_("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_settings, None)
 
@@ -79,11 +89,11 @@ class SettingsScreen:
         ok_button.connect(gui.CLICK, self.accept_settings, None)
 
 
-        table.add(gui.Widget(), 0, 5)
+        table.add(gui.Widget(), 0, 7)
         sub_table = gui.Table(width=140, height=35)
-        table.add(sub_table, 1, 5)
-        sub_table.add(cancel_button, 0,6)
-        sub_table.add(ok_button, 1,6)
+        table.add(sub_table, 1, 7)
+        sub_table.add(cancel_button, 0,8)
+        sub_table.add(ok_button, 1,8)
 
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0)
         container.add(table, self.client.screen.get_width() / 2 - 150, self.client.screen.get_height() / 2 - 120)
@@ -103,14 +113,20 @@ class SettingsScreen:
 #****************************************************************************
     def accept_settings(self, obj):
         orig_play_music = self.client.settings.play_music
+        orig_narrate = self.client.settings.play_narrate
         self.client.settings.playername = self.nickname_input.value
         self.client.settings.fullscreen = self.fullscreen_select.value
         self.client.settings.play_music = self.mute_music_select.value
         self.client.settings.play_sound = self.mute_sound_select.value
+        self.client.settings.play_narrate = self.mute_narrate_select.value
         if self.client.settings.play_music == False:
             self.client.moonaudio.end_music()
         elif orig_play_music == False:
             self.client.moonaudio.music("water.ogg")
+        if self.client.settings.play_narrate == False and orig_narrate == True:
+            self.client.moonaudio.narrate("goodbye.ogg")
+        if self.client.settings.play_narrate == True and orig_narrate == False:
+            self.client.moonaudio.narrate("hello.ogg")
         self.client.moonaudio.sound("buttonclick.ogg")
         self.client.settings.save_settings()
         self.app.quit()

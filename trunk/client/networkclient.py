@@ -198,7 +198,6 @@ class NetworkClient(pb.Referenceable):
         self.client.deathtypes.append(unittype)
         self.client.deathX.append(x)
         self.client.deathY.append(y)
-        #pygame.time.wait(200)
 
 #****************************************************************************
 # recieve assigned playerID from server
@@ -211,6 +210,8 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def remote_update_energy(self, energy):
         self.client.energy = energy
+        if self.client.energy < self.client.game.get_unit_cost(self.client.selected_weap):
+            self.client.selected_weap = "bomb" #game automatically switches to bomb when energy gets low
         logging.info("your energy = %r" % energy)
 
 #****************************************************************************
