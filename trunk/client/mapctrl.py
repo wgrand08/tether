@@ -73,6 +73,11 @@ class Mapctrl:
     def handle_mouse_release(self, pos, button):
         if button == 1: 
             self.define_tiles_within_rectangle()
+        if self.client.heldbutton == "firing":
+            pygame.mixer.stop()
+            for unit in self.client.selected_unit.values():
+                self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, self.client.firepower)
+                
         self.client.heldbutton = "void"
 
 #****************************************************************************

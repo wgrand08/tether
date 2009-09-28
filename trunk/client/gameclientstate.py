@@ -60,7 +60,7 @@ class GameClientState:
         self.myturn = False 
         self.selected_weap = "hub"
         self.rotate_position = 360
-        self.firepower = 1
+        self.firepower = 0
         self.playerID = 0
         self.energy = 0
         self.conf_startX = 0
@@ -68,6 +68,7 @@ class GameClientState:
         self.conf_endX = 0
         self.conf_endY = 0
         self.heldbutton = "void"
+        self.power_direction = "up"
         self.dying_unit = False
 
         self.selected_unit = {}

@@ -21,6 +21,7 @@ import pygame
 class HoldButton:
     def __init__(self, client):
         self.client = client
+        self.just_released = False
 
     def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 2
         if (self.client.rotate_position > 360):
@@ -44,4 +45,13 @@ class HoldButton:
         pygame.time.delay(3)
 
     def firing(self):
-        placeholder = True
+        if self.client.power_direction == "up":
+            self.client.firepower = self.client.firepower + 1
+        if self.client.power_direction == "down":
+            self.client.firepower = self.client.firepower - 1
+        if self.client.firepower == 15:
+            self.client.power_direction = "down"
+        if self.client.firepower == 1:
+            self.client.moonaudio.sound("energybar.ogg")
+            self.client.power_direction = "up"
+        pygame.time.delay(3)

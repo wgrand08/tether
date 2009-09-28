@@ -158,13 +158,13 @@ class Mappanel:
         container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_skipbutton, None)
 
-        self.uppower_button = gui.Button(_(" + "))
+        """self.uppower_button = gui.Button(_(" + "))
         container.add(self.uppower_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.85)
         self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None)
 
         self.downpower_button = gui.Button(_(" - "))
         container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.85)
-        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
+        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)"""
 
         self.app.init(container) 
         self.draw_panel()
@@ -202,9 +202,11 @@ class Mappanel:
             y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
             self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))
         temp_loc = 780
-        for show_power in range(1, (self.client.firepower + 1)): #display power bar
-            temp_loc = temp_loc + 7
-            pygame.draw.line(self.client.screen, (255,10,10), (temp_loc, 24), (temp_loc, 96), 1)
+
+        if self.client.firepower != 0:
+            for show_power in range(1, (self.client.firepower + 1)): #display power bar
+                temp_loc = temp_loc + 7
+                pygame.draw.line(self.client.screen, (255,10,10), (temp_loc, 24), (temp_loc, 96), 1)
 
 
         #display the currently selected unit/weapon
@@ -212,6 +214,9 @@ class Mappanel:
         blit_x = self.client.screen.get_width() * 0.86
         blit_y = self.client.screen.get_height() * 0.75
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
+        if self.client.heldbutton == "firing":
+            self.client.holdbutton.firing()
 
 
         self.app.repaint()
@@ -270,12 +275,15 @@ class Mappanel:
         if self.client.myturn == True:
             self.client.heldbutton = "decrease"
 
+    def use_firebutton(self, obj):
+        if self.client.myturn == True:
+            self.client.heldbutton = "firing"
+
     def choosebomb(self, obj):
         if self.client.myturn == True:
             if self.client.energy < self.client.game.get_unit_cost(unit):
                 self.client.moonaudio.narrate("no_energy.ogg")
             else:
-                logging.info("bomb selected")
                 self.client.selected_weap = 'bomb'
 
     def chooseantiair(self, obj):
@@ -319,8 +327,10 @@ class Mappanel:
 
     def choosehub(self, obj):
         if self.client.myturn == True:
-            logging.info("hub selected")
-            self.client.selected_weap = 'hub'
+            if self.client.energy < self.client.game.get_unit_cost("hub"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = 'hub'
 
     def chooseoffense(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")
@@ -330,12 +340,6 @@ class Mappanel:
 
     def choosevirus(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")
-
-    def use_firebutton(self, obj):
-        if self.client.myturn == True:
-            for unit in self.client.selected_unit.values():
-                self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, self.client.firepower)
-                placeholder = True
 
     def use_skipbutton(self, obj):
         self.client.netclient.skip_round()
