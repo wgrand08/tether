@@ -40,8 +40,6 @@ class Mapview:
                 self.view_x = unit.x - 14
                 self.view_y = unit.y - 14
 
-        self.view_delta_x = 0 #for scrolling viewer
-        self.view_delta_y = 0
         self.tileset = self.client.tileset
         self.rect = pygame.Rect(0,0,self.client.screen_width - self.tileset.panel_width, self.client.screen_height - self.tileset.panel_height)
  
@@ -173,8 +171,8 @@ class Mapview:
 # Increments the mapview scrolling (moves one step).
 #****************************************************************************
     def delta_scroll(self):
-        self.view_x += (self.view_delta_x / 10)
-        self.view_y += (self.view_delta_y / 10)
+        self.view_x += (self.client.view_delta_x / 10)
+        self.view_y += (self.client.view_delta_y / 10)
 
 #****************************************************************************
 # Centers the view on a specified tile.

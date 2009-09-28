@@ -50,6 +50,27 @@ class Mapctrl:
             elif event.type == MOUSEMOTION:
                 self.mouse_motion(pygame.mouse.get_pos())
 
+
+            elif event.type == KEYDOWN and event.key == K_DOWN:
+                self.client.view_delta_y = 10
+            elif event.type == KEYUP and event.key == K_DOWN:
+                self.client.view_delta_y = 0
+
+            elif event.type == KEYDOWN and event.key == K_UP:
+                self.client.view_delta_y = -10
+            elif event.type == KEYUP and event.key == K_UP:
+                self.client.view_delta_y = 0
+
+            elif event.type == KEYDOWN and event.key == K_RIGHT:
+                self.client.view_delta_x = 10
+            elif event.type == KEYUP and event.key == K_RIGHT:
+                self.client.view_delta_x = 0
+
+            elif event.type == KEYDOWN and event.key == K_LEFT:
+                self.client.view_delta_x = -10
+            elif event.type == KEYUP and event.key == K_LEFT:
+                self.client.view_delta_x = 0
+
             self.client.mappanel.app.event(event)
 
 #****************************************************************************

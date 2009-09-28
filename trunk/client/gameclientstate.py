@@ -67,6 +67,8 @@ class GameClientState:
         self.conf_startY = 0
         self.conf_endX = 0
         self.conf_endY = 0
+        self.view_delta_x = 0
+        self.view_delta_y = 0
         self.heldbutton = "void"
         self.power_direction = "up"
         self.dying_unit = False
