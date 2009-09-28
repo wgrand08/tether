@@ -237,6 +237,7 @@ class NetworkClient(pb.Referenceable):
             else:
                 self.client.myturn = True
                 self.client.firepower = 0
+                self.client.power_direction = "up"
                 logging.info("It's your turn commander")
                 self.client.moonaudio.narrate("your_turn.ogg")
         else:

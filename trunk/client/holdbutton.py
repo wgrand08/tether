@@ -52,6 +52,6 @@ class HoldButton:
         if self.client.firepower == 15:
             self.client.power_direction = "down"
         if self.client.firepower == 1:
-            self.client.moonaudio.sound("energybar.ogg")
+            self.client.moonaudio.sound("powerbar.ogg")
             self.client.power_direction = "up"
-        pygame.time.delay(3)
+        pygame.time.delay(50)
