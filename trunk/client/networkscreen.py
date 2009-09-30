@@ -161,8 +161,8 @@ class PregameScreen:
 #  
 #****************************************************************************
     def show(self):
-        width = 300
-        height = 150
+        width = 600
+        height = 300
         self.app = gui.Desktop()
         self.app.connect(gui.QUIT, self.app.quit, None)
         container = gui.Container(align=-1, valign=-1)
@@ -180,12 +180,12 @@ class PregameScreen:
         self.message_out = StringStream(self.lines)
         self.box = gui.ScrollArea(self.lines, width, height)
 
-        self.chat_table.td(self.box) #broken
+        self.chat_table.td(self.box) 
 
         self.chat_table.tr()
-        self.line = gui.Input() #broken
-        self.line.style.width = width #broken
-        self.chat_table.td(self.line) #broken
+        self.line = gui.Input()
+        self.line.style.width = width
+        self.chat_table.td(self.line)
 
         self.chat_table.tr()
         self.chat_table.td(MySpacer(1,1, self.box))
@@ -203,7 +203,7 @@ class PregameScreen:
         sub_table.add(connect_button, 1,0)
 
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0)
-        container.add(table, self.client.screen.get_width() / 2 - 150, self.client.screen.get_height() / 2 - 120)
+        container.add(table, self.client.screen.get_width() / 2 - 300, self.client.screen.get_height() / 2 - 120)
         container.add(self.message_label, self.client.screen.get_width() / 2 - 160, self.client.screen.get_height() * 0.315)
 
         self.message_out.write("Connected sucessfully to MoonPy server.")
@@ -240,6 +240,7 @@ class PregameScreen:
 #****************************************************************************
     def cancel_callback(self):
         self.client.moonaudio.sound("buttonclick.ogg")
+        self.client.netclient.disconnect()
         self.app.quit()
         mainmenu.MainMenu(self.client)
 

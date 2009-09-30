@@ -58,7 +58,7 @@ class ClientPerspective(pb.Avatar):
     def perspective_login(self, username, version):
         if version != self.state.settings.version:
             return "login_failed"
-        elif username == "server" or username == "Server": #the name 'server' is reserved
+        elif username == "server" or username == "Server": #the name 'server' is reserved for messages from the real server
             return "login_failed"
         else:
             self.conn_info.username = username
@@ -66,9 +66,7 @@ class ClientPerspective(pb.Avatar):
             if self.conn_info.playerID > self.state.settings.max_players:
                 return "login_failed"
             else:
-                join_message = "%s has joined the game" % username
-                self.handler.remote_all('chat', join_message)
-                join_message = "as playerID %s" % self.conn_info.playerID
+                join_message = "Server: %s has joined the game as player %s" % (username, str(self.conn_info.playerID))
                 self.handler.remote_all('chat', join_message)
                 return self.conn_info.playerID 
 
@@ -142,8 +140,8 @@ class ClientPerspective(pb.Avatar):
             self.state.process_death()
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
-            self.handler.remote(self.conn_info.ref, 'map', net_map)
-            self.handler.remote(self.conn_info.ref, 'unit_list', net_unit_list)
+            self.handler.remote(self.conn_info.ref, "map", net_map)
+            self.handler.remote(self.conn_info.ref, "unit_list", net_unit_list)
             foundplayer = False
             while not foundplayer:
                 self.state.currentplayer += 1
@@ -153,7 +151,7 @@ class ClientPerspective(pb.Avatar):
                     if search != self.state.currentplayer:
                         foundplayer = True
                     
-            self.handler.remote_all('next_turn', self.state.currentplayer)
+            self.handler.remote_all("next_turn", self.state.currentplayer)
 
 #****************************************************************************
 #forward chat information to all clients
@@ -168,8 +166,8 @@ class ClientPerspective(pb.Avatar):
     def logout(self):
         logging.info("logged out")
         del self.handler.clients[self.conn_info.ref]
-        #todo: need to add code to handle players that are no longer in the game
-
+        message = "Server: Player %s has left the game" % str(self.conn_info.playerID)
+        self.handler.remote_all('chat', message)
 
 #****************************************************************************
 #

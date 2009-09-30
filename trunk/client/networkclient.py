@@ -107,6 +107,7 @@ class NetworkClient(pb.Referenceable):
     def connected(self, perspective):
         self.perspective = perspective
         perspective.callRemote('login', self.username, self.client.settings.version).addCallback(self.login_result)
+        
         logging.info("connected.")
 
 #****************************************************************************
@@ -117,9 +118,21 @@ class NetworkClient(pb.Referenceable):
             logging.info("Server denied login")
         else:
             self.client.playerID = result
+
             logging.info("Server accepted login")
             logging.info("Your playerID = %r" % self.client.playerID)
             self.client.enter_pregame()
+            message = "Server: Welcome player %s" % self.client.playerID
+            self.client.pregame.show_message(message)
+
+#****************************************************************************
+# player disconnects from server
+#****************************************************************************
+    def disconnect(self):
+        logging.info("Disconnected from server")
+        if reactor.running:
+            reactor.stop()
+        
 
 #****************************************************************************
 # send chat information
