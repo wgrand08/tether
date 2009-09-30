@@ -62,10 +62,12 @@ class Game:
         movements.update({type:movecost})
         self.unit_types.update({"tether":UnitType("tether", "tether", 0, "doodad", movements)})
 
-        self.terrain_types.update({"ocean":TerrainType("ocean", "Ocean")})
+        #self.terrain_types.update({"ocean":TerrainType("ocean", "Ocean")})
         self.terrain_types.update({"grass":TerrainType("grass", "grass")})
-        self.terrain_types.update({"coast":TerrainType("coast", "Coast")})
+        #self.terrain_types.update({"coast":TerrainType("coast", "Coast")})
         self.terrain_types.update({"water":TerrainType("water", "water")})
+        self.terrain_types.update({"energy":TerrainType("energy", "energy")})
+        self.terrain_types.update({"rocks":TerrainType("rocks", "rocks")})
 
 
 #****************************************************************************
@@ -163,7 +165,7 @@ class Game:
         if type_id == "balloon":
             hp = 1
         if type_id == "tether" or type_id == "void":
-            hp = 100 #tethers should not die except by disconnection
+            hp = 1000 #tethers should not die except by disconnection
         return hp
 
 #****************************************************************************
@@ -174,9 +176,11 @@ class Game:
         if type_id == "bomb" or type_id == "missile" or type_id == "spike":
             power = 3
         if type_id == "crawler":
-            power = 5
+            power = 4
         if type_id == "emp":
             power = 2
+        if type_id == "cluster":
+            power = 1
         return power
 
 #****************************************************************************
