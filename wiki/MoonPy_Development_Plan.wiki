@@ -25,16 +25,16 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Units are launched in a true circle: complete
   * At least 4 players can play together: complete
   * Units require energy: complete
-  * Map has energy pools on it: in progress
-  * Energy collectors provide energy to player: planned
+  * Map has energy pools on it: complete
+  * Players gain energy when ending round: complete
   * Game processes rounds in addition to turns: complete
   * Game animation is working correctly: complete
 
 = Requirements for version 0.8.00 =
 
   * Map displays water: complete
-  * Units/tethers are destroyed if they land in water: planned
-  * Game generates random maps: planned
+  * Units/tethers are destroyed if they land in water: complete
+  * Game generates random maps: complete
   * All OMBC units/weapons implemented and working correctly: planned
   * Power bar needs to function correctly: complete
 
