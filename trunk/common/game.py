@@ -42,6 +42,42 @@ class Game:
         type = "grass"
         movecost = 0
         movements.update({type:movecost})
+        self.unit_types.update({"offense":UnitType("offense", "offense", 0, "build", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"tower":UnitType("tower", "tower", 0, "build", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"antiair":UnitType("antiair", "hub", 0, "build", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"balloon":UnitType("balloon", "balloon", 0, "balloon", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"bridge":UnitType("bridge", "bridge", 0, "build", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"collector":UnitType("collector", "collector", 0, "build", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
         self.unit_types.update({"crater":UnitType("crater", "crater", 0, "doodad", movements)})
 
         movements = {}

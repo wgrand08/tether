@@ -45,9 +45,58 @@
   </unit>
 </file>
 
-<file src="buildings/unit_hub.png">
+<file src="buildings/hub.png">
   <unit name="hub" frames="1" x="1" y="1" 
         width="48" height="48" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/offense.png">
+  <unit name="offense" frames="1" x="1" y="1" 
+        width="48" height="48" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/tower.png">
+  <unit name="tower" frames="1" x="1" y="1" 
+        width="48" height="48" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/antiair.png">
+  <unit name="antiair" frames="1" x="1" y="1" 
+        width="48" height="48" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/balloon.png">
+  <unit name="balloon" frames="1" x="1" y="1" 
+        width="48" height="48" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/bridge.png">
+  <unit name="bridge" frames="1" x="1" y="1" 
+        width="48" height="48" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/collector.png">
+  <unit name="collector" frames="1" x="1" y="1" 
+        width="48" height="48" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/tether.png">
+  <unit name="tether" frames="1" x="1" y="1" 
+        width="24" height="24" pixelalpha="true">
     <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>
@@ -55,13 +104,6 @@
 <file src="misc/void.png">
   <unit name="void" frames="1" x="1" y="1" 
         width="48" height="48" pixelalpha="true">
-    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-  </unit>
-</file>
-
-<file src="buildings/unit_tether.png">
-  <unit name="tether" frames="1" x="1" y="1" 
-        width="24" height="24" pixelalpha="true">
     <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>

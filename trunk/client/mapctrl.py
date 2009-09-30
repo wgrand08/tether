@@ -137,7 +137,7 @@ class Mapctrl:
                 unit = self.client.map.get_unit(map_pos)
                 if unit: 
                     self.client.selected_unit = {}
-                    if unit.typeset == "build" and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                    if (unit.type == "hub" or unit.type =="offense") and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                             self.client.selected_unit.update({map_pos:unit})
                             logging.info("Selected unit ID %r" % unit.id)

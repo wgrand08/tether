@@ -262,16 +262,17 @@ class NetworkClient(pb.Referenceable):
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):
-        if self.client.mappanel:
-            self.client.mappanel.show_message(message)
-        if self.client.pregame:
-            self.client.pregame.show_message(message)
         if next_player == self.client.playerID:
             if self.client.energy < 1:
                 self.skip_round()
             else:
                 message = "Server: It's your turn commander"
-                self.client.mappanel.show_message(message)
+                if self.client.mappanel:
+                    self.client.mappanel.show_message(message)
+                elif self.client.pregame:
+                    self.client.pregame.show_message(message)
+                else:
+                    logging.info("unable to find panel for displaying message")
                 self.client.myturn = True
                 self.client.firepower = 0
                 self.client.power_direction = "up"
