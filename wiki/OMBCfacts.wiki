@@ -36,7 +36,7 @@ Amount of HP each unit has
 Amount of damage each weapon does with a direct hit
   * Bomb = 3
   * Missile = 3
-  * Crawler = 5
+  * Crawler = 4
   * Energy = 6
   * EMP = 2
   * Spike = 3
