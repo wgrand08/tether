@@ -98,10 +98,10 @@ class ClientPerspective(pb.Avatar):
             coord = (coordX, coordY)
             offset = 0, 0
             self.state.deathlist = []
+            self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
+            self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
             if self.state.interrupted_tether == False:
                 self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
-                self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
-                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
                 self.state.determine_hit(unit, coord)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 

@@ -28,7 +28,7 @@ class MapGen:
         self.map = map
         self.ruleset = ruleset
         self.waterlevel = 6
-        self.maxheight = 20 
+        self.maxheight = 22 
 
         logging.info("Generating a random new map")
         self.generate_heights()
@@ -68,5 +68,14 @@ class MapGen:
         for x in range(self.map.xsize):
             for y in range(self.map.ysize):
                 tile = self.map.get_tile((x, y))
-                tile.type = self.ruleset.get_terrain_type('grass')
-
+                if (int(heightmap_a[x,y]) == 0):
+                    tile.type = self.ruleset.get_terrain_type("water")
+                elif (int(heightmap_a[x, y])) == 4:
+                    tile.type = self.ruleset.get_terrain_type("rocks")
+                elif (int(heightmap_a[x, y])) == 3:
+                    if randint(0, 250) == 5:
+                        tile.type = self.ruleset.get_terrain_type("energy")
+                    else:
+                        tile.type = self.ruleset.get_terrain_type("grass")
+                else:
+                    tile.type = self.ruleset.get_terrain_type("grass")

@@ -97,12 +97,29 @@ class Game:
 #****************************************************************************
 #turns a unit into a crater
 #****************************************************************************
-#Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into something else. Tethers become 'void' while everything else becomes a crater."""
+#Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into something else. Tethers become 'void' while just about everything else becomes a crater."""
     def remove_unit(self, unit):
+        endX = unit.x
+        endY = unit.y
+        tile1 = self.map.get_tile((endX, endY))
+        tile2 = self.map.get_tile((endX + 1, endY))
+        tile3 = self.map.get_tile((endX, endY + 1))
+        tile4 = self.map.get_tile((endX + 1, endY + 1))
+        if (tile1.type == self.get_terrain_type("grass")) and (tile2.type == self.get_terrain_type("grass")) and (tile3.type == self.get_terrain_type("grass")) and (tile4.type == self.get_terrain_type("grass")) : #craters are only placed on grass
+            unit_type_id = "crater"
+
+        else: #if even partially placed on rocks or water or energy, no crater is formed
+            unit_type_id = "void"
+
         if unit.typeset == "tether": #tethers do not leave craters when destroyed
             unit_type_id = "void"
-        else:
-            unit_type_id = 'crater'
+
+        if unit.typeset == "ballon": #balloons do not leave craters when destroyed
+            unit_type_id = "void"
+
+        if unit.typeset == "virus": #viruses do not leave craters when destroyed
+            unit_type_id = "void"
+
         unit_type = self.get_unit_type(unit_type_id)
         self.map.change_unit(unit, unit_type)
         unit.typeset = 'doodad'
@@ -145,10 +162,12 @@ class Game:
 #****************************************************************************
     def get_unit_typeset(self, type_id):
         typeset = "doodad"
-        if type_id == "hub" or type_id == "tower" or type_id == "balloon" or type_id == "converter" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
+        if type_id == "hub" or type_id == "tower" or type_id == "converter" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
             typeset = "build"
-        elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike" or type_id == "recall":
+        elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike" or type_id == "recall" or type_id == "virus":
             typeset = "weap"
+        elif type_id == "ballon":
+            typeset = "ballon"
         elif type_id == "tether":
             typeset = "tether"
         return typeset

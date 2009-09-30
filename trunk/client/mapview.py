@@ -255,7 +255,13 @@ class Mapview:
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
             return
         else: 
-            if self.client.game.get_unit_typeset(self.client.launch_type) == "build":
+            if self.client.splashed == True:
+                self.client.moonaudio.sound("watersplash.ogg")
+                self.client.splashed = False
+            elif self.client.hit_rock == True:
+                self.client.moonaudio.sound("mediumboom.ogg")
+                self.client.hit_rock = False
+            elif self.client.game.get_unit_typeset(self.client.launch_type) == "build":
                 self.client.moonaudio.sound("landing.ogg")
             self.client.launched = False
             self.client.landed = True

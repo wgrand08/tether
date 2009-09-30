@@ -228,6 +228,18 @@ class NetworkClient(pb.Referenceable):
         logging.info("player %r tried to cheat" % playerID)
 
 #****************************************************************************
+# server detects something landing in water
+#****************************************************************************
+    def remote_splash(self):
+        self.client.splashed = True
+
+#****************************************************************************
+# server detects a building landing on a rock
+#****************************************************************************
+    def remote_hit_rock(self):
+        self.client.hit_rock = True
+
+#****************************************************************************
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):

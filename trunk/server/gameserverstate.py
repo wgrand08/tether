@@ -57,7 +57,14 @@ class ServerState:
             MapGen(self.map, self.game)
 
             for player in range(0, self.totalplayers):
-                self.game.create_unit('hub', (randint(5, 175), randint(5, 175)), (0,0), (player + 1), 0)
+                unplaced = True
+                while unplaced: #make certain starting hub is placed on grass
+                    x = randint(5, 175)
+                    y = randint(5, 175)
+                    tile = self.map.get_tile((x, y))
+                    if tile.type == self.game.get_terrain_type("grass"):
+                        unplaced = False
+                self.game.create_unit('hub', (x, y), (0,0), (player + 1), 0)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -132,6 +139,13 @@ class ServerState:
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
                     double_tether = False
+                    tile = self.map.get_tile((endX, endY))
+                    if tile.type == self.game.get_terrain_type("water"): #determine if tether lands in water
+                        self.interrupted_tether = True
+                        victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
+                        victim.hp = 0
+                        self.connections.remote_all("splash")
+                        return (start_tile.x, start_tile.y, endX, endY)
                     if (target.x == endX and target.y == endY): #determine if tether crosses another unit/tether
                         if (target.typeset != "doodad") and (target.parentID != parentID):
                             if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
@@ -168,6 +182,56 @@ class ServerState:
                     elif rotation > 289 and rotation < 339 and find_target > 2 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+
+        #determine if building landed on rocks or water
+        if self.game.get_unit_typeset(child) == "build":
+            tile = self.map.get_tile((endX, endY))
+            if tile.type == self.game.get_terrain_type("rocks"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter)
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("water"):
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter)
+                victim.hp = 0
+                self.connections.remote_all("splash")
+
+            tile = self.map.get_tile((endX + 1, endY))
+            if tile.type == self.game.get_terrain_type("rocks"):
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter)
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("water"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter)
+                victim.hp = 0
+                self.connections.remote_all("splash")
+
+            tile = self.map.get_tile((endX, endY + 1))
+            if tile.type == self.game.get_terrain_type("rocks"):
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("water"):
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("splash")
+
+            tile = self.map.get_tile((endX + 1, endY + 1))
+            if tile.type == self.game.get_terrain_type("rocks"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("water"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("splash")
 
         return (start_tile.x, start_tile.y, endX, endY)
 

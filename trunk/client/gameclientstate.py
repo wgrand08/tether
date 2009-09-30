@@ -63,6 +63,8 @@ class GameClientState:
         self.firepower = 0
         self.playerID = 0
         self.energy = 0
+        self.showHP = False
+        self.showradius = False
         self.conf_startX = 0
         self.conf_startY = 0
         self.conf_endX = 0
@@ -72,6 +74,8 @@ class GameClientState:
         self.heldbutton = "void"
         self.power_direction = "up"
         self.dying_unit = False
+        self.splashed = False
+        self.hit_rock = False
 
         self.selected_unit = {}
 

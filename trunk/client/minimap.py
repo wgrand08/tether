@@ -57,8 +57,10 @@ class Minimap:
                 tile = self.client.map.get_tile((x, y))
                 if (tile.type.id == "water"):
                     color = (12, 42, 130)
-                elif (tile.type.id == "coast"):
-                    color = (12, 42, 170)
+                elif (tile.type.id == "rocks"):
+                    color = (200, 200, 200)
+                elif (tile.type.id == "energy"):
+                    color = (255, 0, 255)
                 else: #regular ground
                     color = (25, 175, 75)    
                 terrain_data.append(color)
@@ -82,7 +84,7 @@ class Minimap:
                 if unit.playerID == self.client.playerID:
                     color = (255, 255, 0)
                 else:
-                    color = (250, 10, 10)
+                    color = (255, 10, 10)
                 drawer.point((x, y), fill=(color))
                 drawer.point(((x + 1), y), fill=(color))
                 drawer.point((x, (y + 1)), fill=(color))
