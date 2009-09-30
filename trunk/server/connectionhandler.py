@@ -58,6 +58,8 @@ class ClientPerspective(pb.Avatar):
     def perspective_login(self, username, version):
         if version != self.state.settings.version:
             return "login_failed"
+        elif username == "server" or username == "Server": #the name 'server' is reserved
+            return "login_failed"
         else:
             self.conn_info.username = username
             self.conn_info.playerID = self.state.max_players(self.handler.clients)

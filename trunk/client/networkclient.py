@@ -218,6 +218,8 @@ class NetworkClient(pb.Referenceable):
 # recieve command to restore energy and begin a new round
 #****************************************************************************
     def remote_next_round(self):
+        message = "Server: round over"
+        self.client.mappanel.show_message(message)
         self.client.moonaudio.narrate("round_over.ogg")
 
 #****************************************************************************
@@ -225,7 +227,11 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def remote_cheat_signal(self, playerID):
         self.client.moonaudio.narrate("cheat.ogg")
-        logging.info("player %r tried to cheat" % playerID)
+        message = "Server: Player ", str(playerID), " tried to cheat"
+        if self.client.mappanel:
+            self.client.mappanel.show_message(message)
+        if self.client.pregame:
+            self.client.pregame.show_message(message)
 
 #****************************************************************************
 # server detects something landing in water
@@ -243,16 +249,22 @@ class NetworkClient(pb.Referenceable):
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):
+        if self.client.mappanel:
+            self.client.mappanel.show_message(message)
+        if self.client.pregame:
+            self.client.pregame.show_message(message)
         if next_player == self.client.playerID:
             if self.client.energy < 1:
                 self.skip_round()
             else:
+                message = "Server: It's your turn commander"
+                self.client.mappanel.show_message(message)
                 self.client.myturn = True
                 self.client.firepower = 0
                 self.client.power_direction = "up"
-                logging.info("It's your turn commander")
                 self.client.moonaudio.narrate("your_turn.ogg")
         else:
+            message = "Server: It is player " + str(next_player) + "'s turn"
+            self.client.mappanel.show_message(message)
             self.client.myturn = False
-            logging.info("It is player %r turn" % next_player)
 
