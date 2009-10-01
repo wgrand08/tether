@@ -97,7 +97,7 @@ class Mapctrl:
         if self.client.heldbutton == "firing":
             pygame.mixer.stop()
             for unit in self.client.selected_unit.values():
-                if unit.name == "offense":
+                if unit.type.id == "offense":
                     firepower = self.client.firepower * 2
                 else:
                     firepower = self.client.firepower

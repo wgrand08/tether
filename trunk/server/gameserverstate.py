@@ -95,7 +95,7 @@ class ServerState:
             for unit in self.map.unitstore.values():
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True 
-                    self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset)
+                    self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset, unit.playerID, unit.type.id)
                     self.game.remove_unit(unit)
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
@@ -158,28 +158,28 @@ class ServerState:
                                 double_tether = True #doesn't place 'doubled' tethers due to rounding
                 if double_tether == False:
                     #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
-                    if (rotation < 23 or rotation > 338) and find_target > 1 and find_target < (power - 1):
+                    if (rotation < 23 or rotation > 338) and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-                    elif rotation > 22 and rotation < 67 and find_target > 2 and find_target < (power - 1):
+                    elif rotation > 22 and rotation < 67 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-                    elif rotation > 66 and rotation < 111 and find_target > 2 and find_target < (power - 1):
+                    elif rotation > 66 and rotation < 111 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-                    elif rotation > 110 and rotation < 155 and find_target > 3 and find_target < (power - 1):
+                    elif rotation > 110 and rotation < 155 and find_target > 2 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-                    elif rotation > 154 and rotation < 200 and find_target > 2 and find_target < (power - 1):
+                    elif rotation > 154 and rotation < 200 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-                    elif rotation > 199 and rotation < 245 and find_target > 2 and find_target < (power - 1):
+                    elif rotation > 199 and rotation < 245 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-                    elif rotation > 244 and rotation < 290 and find_target > 1 and find_target < (power - 1):
+                    elif rotation > 244 and rotation < 290 and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
-                    elif rotation > 289 and rotation < 339 and find_target > 2 and find_target < (power - 1):
+                    elif rotation > 289 and rotation < 339 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
 

@@ -272,9 +272,21 @@ class Mapview:
 # Displays explosions
 #****************************************************************************
     def show_explosion(self):
+
+        place = 0
+        for deathname in self.client.deathname:
+            map_pos = self.client.deathX[place], self.client.deathY[place]
+            blitX, blitY = self.map_to_gui(map_pos)
+            unit_surface = self.tileset.get_unit_surf_from_tile(deathname, 0, self.client.deathplayerID[place])
+            if self.client.deathtypes[place] != "weap" or deathname != "recall":
+                self.client.screen.blit(unit_surface, (blitX, blitY))
+            place = place + 1
+
         unittype = self.client.deathtypes.pop(0)
         deathX = self.client.deathX.pop(0)
         deathY = self.client.deathY.pop(0)
+        deathplayerid = self.client.deathplayerID.pop(0)
+        deathname = self.client.deathname.pop(0)
         if unittype == "build":
             self.client.moonaudio.sound("biggestboom.ogg")
             map_pos = deathX, deathY

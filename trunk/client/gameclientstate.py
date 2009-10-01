@@ -92,6 +92,8 @@ class GameClientState:
         self.deathtypes = []
         self.deathX = []
         self.deathY = []
+        self.deathplayerID = []
+        self.deathname = []
 
 
 #****************************************************************************

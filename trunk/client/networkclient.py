@@ -118,7 +118,6 @@ class NetworkClient(pb.Referenceable):
             logging.info("Server denied login")
         else:
             self.client.playerID = result
-
             logging.info("Server accepted login")
             logging.info("Your playerID = %r" % self.client.playerID)
             self.client.enter_pregame()
@@ -206,11 +205,13 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # recieve unit death data from server
 #****************************************************************************
-    def remote_kill_unit(self, x, y, unittype):
+    def remote_kill_unit(self, x, y, unittype, playerID, name):
         self.client.dying_unit = True
         self.client.deathtypes.append(unittype)
         self.client.deathX.append(x)
         self.client.deathY.append(y)
+        self.client.deathplayerID.append(playerID)
+        self.client.deathname.append(name)
 
 #****************************************************************************
 # recieve assigned playerID from server
