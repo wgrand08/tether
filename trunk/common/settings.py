@@ -37,8 +37,8 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.705
-        self.string_version = "0.7.05"
+        self.version = 0.710
+        self.string_version = "0.7.10"
         self.max_players = 4
         self.playername = "Commander"
         self.fullscreen = False

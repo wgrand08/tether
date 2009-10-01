@@ -149,13 +149,13 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-    def set_unit(self, unit, pos, offset, typeset, hp, launcher, parentID):
+    def set_unit(self, unit, pos, offset, typeset, hp, name, parentID):
         if (self.get_unit(pos) == None) or (typeset == "weap"):
             self.unitstore.update({unit.id:unit})
             (unit.x, unit.y) = pos
             unit.typeset = typeset
             unit.hp = hp
-            unit.launcher = launcher
+            unit.name = name
             unit.parentID = parentID
             unit.offset = offset
             

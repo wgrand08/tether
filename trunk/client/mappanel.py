@@ -336,7 +336,11 @@ class Mappanel:
                 self.client.selected_weap = "hub"
 
     def chooseoffense(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.myturn == True:
+            if self.client.energy < self.client.game.get_unit_cost("offense"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "offense"
 
     def chooseshield(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")

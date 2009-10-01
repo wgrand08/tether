@@ -125,9 +125,9 @@ class Game:
         self.unit_counter += 1
         typeset = self.get_unit_typeset(unit_type_id)
         hp = self.get_unit_hp(unit_type_id)
-        launcher = self.check_launcher(unit_type_id)
+        name = unit_type_id
         unit_type = self.get_unit_type(unit_type_id)
-        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, launcher, parentID)
+        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, name, parentID)
 
 #****************************************************************************
 #turns a unit into a crater
@@ -259,15 +259,6 @@ class Game:
             return False
         else:
             return True
-
-#****************************************************************************
-#Determine if a unit is capable of launching
-#****************************************************************************
-    def check_launcher(self, type_id):
-        if type_id == "hub" or type_id == "offense":
-            return True
-        else:
-            return False
 
 #****************************************************************************
 #
