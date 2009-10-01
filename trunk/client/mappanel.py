@@ -47,7 +47,7 @@ class Mappanel:
 
 
         self.input_rect = pygame.Rect(1, self.client.screen_height - 14, self.client.screen_width - 250, 14)
-        self.msgview_rect = pygame.Rect(1, self.client.screen_height - 72, self.client.screen_width - 250, 42)
+        self.msgview_rect = pygame.Rect(1, self.client.screen_height - 72, self.client.screen_width - 250, 50)
 
         self.chat_table = gui.Table(width=self.msgview_rect.width,height=self.msgview_rect.height)
 

@@ -98,9 +98,7 @@ class Game:
         movements.update({type:movecost})
         self.unit_types.update({"tether":UnitType("tether", "tether", 0, "doodad", movements)})
 
-        #self.terrain_types.update({"ocean":TerrainType("ocean", "Ocean")})
         self.terrain_types.update({"grass":TerrainType("grass", "grass")})
-        #self.terrain_types.update({"coast":TerrainType("coast", "Coast")})
         self.terrain_types.update({"water":TerrainType("water", "water")})
         self.terrain_types.update({"energy":TerrainType("energy", "energy")})
         self.terrain_types.update({"rocks":TerrainType("rocks", "rocks")})
@@ -127,8 +125,9 @@ class Game:
         self.unit_counter += 1
         typeset = self.get_unit_typeset(unit_type_id)
         hp = self.get_unit_hp(unit_type_id)
+        launcher = self.check_launcher(unit_type_id)
         unit_type = self.get_unit_type(unit_type_id)
-        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID)
+        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, launcher, parentID)
 
 #****************************************************************************
 #turns a unit into a crater
@@ -214,7 +213,7 @@ class Game:
     def get_unit_hp(self, type_id):
         hp = 0
         if type_id == "hub" or type_id == "converter":
-            hp = 3 #should be 5 but set to 3 for debug purposes
+            hp = 5 
         if type_id == "tower" or type_id == "antiair" or type_id == "offense" or type_id == "shield" or type_id == "crawler":
             hp = 3
         if type_id == "balloon":
@@ -261,6 +260,14 @@ class Game:
         else:
             return True
 
+#****************************************************************************
+#Determine if a unit is capable of launching
+#****************************************************************************
+    def check_launcher(self, type_id):
+        if type_id == "hub" or type_id == "offense":
+            return True
+        else:
+            return False
 
 #****************************************************************************
 #

@@ -133,11 +133,13 @@ class Mapctrl:
             xx = 0
 #following code is to determine if a unit has been selected. There are 4 seperate checks due to each unit occupying 4 tiles on the map. 
             while (xx <= segments_x):
-                map_pos = self.client.mapview.gui_to_map((x, y))
+                subX = x
+                subY = y
+                map_pos = self.client.mapview.gui_to_map((subX, subY))
                 unit = self.client.map.get_unit(map_pos)
                 if unit: 
                     self.client.selected_unit = {}
-                    if (unit.type == "hub" or unit.type =="offense") and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                    if unit.launcher == True and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                             self.client.selected_unit.update({map_pos:unit})
                             logging.info("Selected unit ID %r" % unit.id)
@@ -149,7 +151,7 @@ class Mapctrl:
                     unit = self.client.map.get_unit(map_pos)
                     if unit: 
                         self.client.selected_unit = {}
-                        if unit.typeset == "build" and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                        if unit.launcher == True and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                             if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                 self.client.selected_unit.update({map_pos:unit})
                                 logging.info("Selected unit ID %r" % unit.id)
@@ -161,7 +163,7 @@ class Mapctrl:
                         unit = self.client.map.get_unit(map_pos)
                         if unit: 
                             self.client.selected_unit = {}
-                            if unit.typeset == "build" and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                            if unit.launcher == True and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                                 if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                     self.client.selected_unit.update({map_pos:unit})
                                     logging.info("Selected unit ID %r" % unit.id)
@@ -173,7 +175,7 @@ class Mapctrl:
                             unit = self.client.map.get_unit(map_pos)
                             if unit: 
                                 self.client.selected_unit = {}
-                                if unit.typeset == "build" and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                if unit.launcher == True and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                         self.client.selected_unit.update({map_pos:unit})
                                         logging.info("Selected unit ID %r" % unit.id)

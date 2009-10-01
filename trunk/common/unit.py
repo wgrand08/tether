@@ -37,6 +37,7 @@ class Unit:
         self.rotate = 3
         self.typeset = None
         self.hp = 0
+        self.launcher = False
         self.parentID = 0
         self.disabled = False
         self.collecting = False
