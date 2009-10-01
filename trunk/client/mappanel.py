@@ -209,6 +209,10 @@ class Mappanel:
                 pygame.draw.line(self.client.screen, (255,10,10), (temp_loc, 24), (temp_loc, 96), 1)
 
 
+        for selected in self.client.selected_unit.values(): #prevent offenses from launching non-weapons
+            if selected.name == "offense" and self.client.game.get_unit_typeset(self.client.selected_weap) != "weap":
+                self.client.selected_weap = "bomb"
+
         #display the currently selected unit/weapon
         unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, self.client.playerID)
         blit_x = self.client.screen.get_width() * 0.86

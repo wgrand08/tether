@@ -199,10 +199,13 @@ class Game:
         typeset = "doodad"
         if type_id == "hub" or type_id == "tower" or type_id == "converter" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
             typeset = "build"
-        elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike" or type_id == "recall" or type_id == "virus":
+        elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike" or type_id == "virus":
             typeset = "weap"
-        elif type_id == "ballon":
+        #following do not really follow the standard rules for buildings or weapons so they have their own typeset
+        elif type_id == "ballon": 
             typeset = "ballon"
+        elif type_id == "recall":
+            typeset = "recall"
         elif type_id == "tether":
             typeset = "tether"
         return typeset
