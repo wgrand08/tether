@@ -138,6 +138,7 @@ class GameClientState:
 
         self.username = username
         self.netclient = NetworkClient(self) 
+        logging.info("attempting to connect to: %s" % address)
         self.netclient.connect(address, 6112, username)
 
 #****************************************************************************
@@ -146,7 +147,6 @@ class GameClientState:
     def start_game(self):
         logging.info("Init game state")
         self.game = Game(self.map)
-
         self.tileset.load_tileset()
         self.mapctrl = Mapctrl(self)
         self.mappanel = Mappanel(self)

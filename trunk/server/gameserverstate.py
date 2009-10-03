@@ -158,30 +158,42 @@ class ServerState:
                                 double_tether = True #doesn't place 'doubled' tethers due to rounding
                 if double_tether == False:
                     #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
+                    testX = round(endX)
+                    testY = round(endX)
+                    testX = str(testX)
+                    testY = str(testY)
                     if (rotation < 23 or rotation > 338) and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 22 and rotation < 67 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 66 and rotation < 111 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 110 and rotation < 155 and find_target > 2 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 154 and rotation < 200 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 199 and rotation < 245 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 244 and rotation < 290 and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 289 and rotation < 339 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        logging.info("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or water
         if self.game.get_unit_typeset(child) == "build":
