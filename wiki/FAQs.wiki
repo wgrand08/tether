@@ -8,7 +8,7 @@
   Moonbase Commander has quite often been called "the best game no one has ever heard of". Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
 
   * Well then where can I go to play the game?
-  We used to have a copy of the free trial available for download here. Sadly because of space limitations we have had to remove it to make room for other stuff. You could do a web search to find a copy online, or you could simply download and play MoonPy from our [http://code.google.com/p/tether/downloads/list downloads page].
+  We used to have a copy of the free trial available for download here. Sadly because of space limitations we have had to remove it to make room for other stuff. You could do a web search to find a copy online, or you could simply download and play MoonPy.
 
   * Moonbase Commander absolutely rocks! Why recreate something thats so perfect?
   While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not recieved any support from the parent company for over 7 years we assume that they will never be resolved. Rather then live with it we started this project to resolve these flaws ourselves.
@@ -18,6 +18,9 @@
 
  * How far along is MoonPy?
  MoonPy is currently at a stage where 4 player free for all games are possible. Hubs and bombs are the only units/weapons available, but beyond that it is playable. Be aware that it's a work in progress and to expect some bugs even with the "stable" versions.
+
+ * Hey, where did the MoonPy downloads go?
+ MoonPy is currently going through some major development right now and progress is moving so fast it isn't worth the time for us to package it. Once we have implemented all of the features we want for now and have worked out the worst of the bugs we'll start offering download packages. Until then you'll need to download via [http://code.google.com/p/tether/source/checkout SVN]. 
 
   * Why are you using python, why not a real programming language like C++?
   There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
