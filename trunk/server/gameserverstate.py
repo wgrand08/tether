@@ -253,14 +253,16 @@ class ServerState:
     def determine_hit(self, unit, pos):
         x, y = pos
         power = self.game.get_unit_power(unit)
+        blasted = []
         for target in self.map.unitstore.values():
             for targetx in range(target.x, target.x + 2):
                 for targety in range(target.y, target.y + 2):
                     for hitx in range(x, x + 2):
                         for hity in range(y, y + 2):
-                            #print"possible floats gameserverstate.py line 160: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
+                            #print"possible floats gameserverstate.py line 260: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
                             if targetx == hitx and targety == hity and target.typeset != "doodad":
                                 target.hp = target.hp - power
+                                blasted.append(target.id)
 
 #****************************************************************************
 #calculate the number of players currently connected to the game
