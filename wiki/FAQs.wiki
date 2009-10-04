@@ -20,7 +20,7 @@
  MoonPy is currently at a stage where 4 player free for all games are possible. Hubs and bombs are the only units/weapons available, but beyond that it is playable. Be aware that it's a work in progress and to expect some bugs even with the "stable" versions.
 
  * Hey, where did the MoonPy downloads go?
- MoonPy is currently going through some major development right now and progress is moving so fast it isn't worth the time for us to package it. Once we have implemented all of the features we want for now and have worked out the worst of the bugs we'll start offering download packages. Until then you'll need to download via [http://code.google.com/p/tether/source/checkout SVN]. 
+ Although we had archives available previously, MoonPy is currently going through some major development right now and progress is moving so fast it isn't worth the time for us to package it. Once we have implemented all of the features we want and have worked out the worst of the bugs we'll start offering download packages. Until then you can either download the deprecated archives or download via [http://code.google.com/p/tether/source/checkout SVN]. 
 
   * Why are you using python, why not a real programming language like C++?
   There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
