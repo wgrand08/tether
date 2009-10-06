@@ -37,6 +37,7 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Game generates random maps: complete
   * Power bar needs to function correctly: complete
   * All OMBC units/weapons implemented and working correctly: in progress
+  * Game is stable enough to be played: planned
 
 = Requirements for version 0.9.00 = 
   * Fog of War
