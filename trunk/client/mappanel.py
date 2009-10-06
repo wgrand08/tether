@@ -210,7 +210,8 @@ class Mappanel:
 
 
         for selected in self.client.selected_unit.values(): #prevent offenses from launching non-weapons
-            if selected.name == "offense" and self.client.game.get_unit_typeset(self.client.selected_weap) != "weap":
+            if selected.type.id == "offense" and self.client.game.get_unit_typeset(self.client.selected_weap) != "weap":
+                self.client.moonaudio.narrate("invalid_choice.ogg")
                 self.client.selected_weap = "bomb"
 
         #display the currently selected unit/weapon

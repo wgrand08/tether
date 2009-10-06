@@ -37,8 +37,8 @@ class Unit:
         self.rotate = 3
         self.typeset = None
         self.hp = 0
-        self.name = None
         self.parentID = 0
         self.disabled = False
         self.collecting = False
+        self.blasted = False
 
