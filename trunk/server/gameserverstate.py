@@ -271,9 +271,17 @@ class ServerState:
                         for hity in range(y, y + 2):
                             #print"possible floats gameserverstate.py line 260: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
                             if targetx == hitx and targety == hity and target.typeset == "build" and target.blasted == False:
-                                logging.info("hit target for %s" % power)
-                                target.hp = target.hp - power
-                                target.blasted = True
+                                if unit == "repair":
+                                    logging.info("repaired target for 1")
+                                    target.hp = target.hp + 1
+                                    logging.info("it's current HP = %s" % target.hp)
+                                    if target.hp > self.game.get_unit_hp(target.type.id):
+                                        target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
+                                        target.blasted = True
+                                else:
+                                    logging.info("hit target for %s" % power)
+                                    target.hp = target.hp - power
+                                    target.blasted = True
 
 #****************************************************************************
 #calculate the number of players currently connected to the game
@@ -291,7 +299,7 @@ class ServerState:
     def calculate_energy(self, playerID, energy):
         energy = energy + 7
         for unit in self.map.unitstore.values():
-            if unit.playerID == playerID and unit.type == "collector" and unit.disabled == False:
+            if unit.playerID == playerID and unit.type.id == "collector" and unit.disabled == False:
                 energy = energy + 1
                 logging.info("added unpowered collector energy")
                 if unit.collecting == True:

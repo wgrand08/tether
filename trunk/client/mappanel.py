@@ -304,7 +304,10 @@ class Mappanel:
             self.client.selected_weap = "tower"
 
     def chooserepair(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.energy < self.client.game.get_unit_cost("repair"):
+            self.client.moonaudio.narrate("no_energy.ogg")
+        else:
+            self.client.selected_weap = "repair"
 
     def choosecluster(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")
