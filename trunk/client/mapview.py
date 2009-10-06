@@ -241,7 +241,7 @@ class Mapview:
 #****************************************************************************
     def show_launch(self):
         if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
-            self.client.launch_step = self.client.launch_step + .25
+            self.client.launch_step = self.client.launch_step + .5
             temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
             if temp_rotation < 1:
                 temp_rotation = self.client.launch_direction + 270

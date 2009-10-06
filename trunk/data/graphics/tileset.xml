@@ -87,7 +87,7 @@
   </unit>
 </file>
 
-<file src="buildings/converter.png">
+<file src="buildings/collector.png">
   <unit name="collector" frames="1" x="1" y="1" 
         width="48" height="48" pixelalpha="true">
     <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>

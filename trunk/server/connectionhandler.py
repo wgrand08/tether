@@ -92,16 +92,17 @@ class ClientPerspective(pb.Avatar):
         if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
         else:
-            (startx, starty, coordX, coordY) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
+            (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
             coordX = int(coordX)
             coordY = int(coordY)
             coord = (coordX, coordY)
             offset = 0, 0
             self.state.deathlist = []
+            self.conn_info.Idisabled = [] #todo: process disabling info
             self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
             self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
             if self.state.interrupted_tether == False:
-                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID)
+                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting)
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY))
                 self.state.determine_hit(unit, coord)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)

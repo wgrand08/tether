@@ -64,7 +64,7 @@ class ServerState:
                     tile = self.map.get_tile((x, y))
                     if tile.type == self.game.get_terrain_type("grass"):
                         unplaced = False
-                self.game.create_unit('hub', (x, y), (0,0), (player + 1), 0)
+                self.game.create_unit('hub', (x, y), (0,0), (player + 1), 0, False)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -81,8 +81,8 @@ class ServerState:
 #****************************************************************************
 #add a unit
 #****************************************************************************
-    def add_unit(self, unit_type, unit_loc, offset, playerID, parentID):
-        self.game.create_unit(unit_type, unit_loc, offset, playerID, parentID)
+    def add_unit(self, unit_type, unit_loc, offset, playerID, parentID, collecting):
+        self.game.create_unit(unit_type, unit_loc, offset, playerID, parentID, collecting)
 
 #****************************************************************************
 #find and remove all units without any HP remaining
@@ -114,6 +114,7 @@ class ServerState:
         power = power * 2 #compensating for higher map resolution
         offsetX = 0
         offsetY = 0
+        collecting = False
         for find_target in range(1, power):
             temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
             if temp_rotation < 1:
@@ -164,35 +165,35 @@ class ServerState:
                     testY = str(testY)
                     if (rotation < 23 or rotation > 338) and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 22 and rotation < 67 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 66 and rotation < 111 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 110 and rotation < 155 and find_target > 2 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 154 and rotation < 200 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 199 and rotation < 245 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 244 and rotation < 290 and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 289 and rotation < 339 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent)
+                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False)
                         logging.info("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or water
@@ -208,6 +209,8 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter)
                 victim.hp = 0
                 self.connections.remote_all("splash")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
 
             tile = self.map.get_tile((endX + 1, endY))
             if tile.type == self.game.get_terrain_type("rocks"):
@@ -220,6 +223,8 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter)
                 victim.hp = 0
                 self.connections.remote_all("splash")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
 
             tile = self.map.get_tile((endX, endY + 1))
             if tile.type == self.game.get_terrain_type("rocks"):
@@ -232,6 +237,8 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter) 
                 victim.hp = 0
                 self.connections.remote_all("splash")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
 
             tile = self.map.get_tile((endX + 1, endY + 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
@@ -244,8 +251,11 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter) 
                 victim.hp = 0
                 self.connections.remote_all("splash")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
 
-        return (start_tile.x, start_tile.y, endX, endY)
+        logging.info("collecting = %r" % collecting)
+        return (start_tile.x, start_tile.y, endX, endY, collecting)
 
 #****************************************************************************
 #Find out if a unit is hit or not
@@ -281,10 +291,12 @@ class ServerState:
     def calculate_energy(self, playerID, energy):
         energy = energy + 7
         for unit in self.map.unitstore.values():
-            if unit.playerID == playerID and unit.type == "converter" and unit.disabled == False:
+            if unit.playerID == playerID and unit.type == "collector" and unit.disabled == False:
                 energy = energy + 1
-            if unit.collecting == True:
-                energy = energy + 2
+                logging.info("added unpowered collector energy")
+                if unit.collecting == True:
+                    energy = energy + 2
+                    logging.info("added powered collector energy")
         if energy > 35:
             energy = 35
         return (energy)

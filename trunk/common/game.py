@@ -121,12 +121,12 @@ class Game:
 #****************************************************************************
 #create a new unit and place it on the map
 #****************************************************************************
-    def create_unit(self, unit_type_id, pos, offset, playerID, parentID):
+    def create_unit(self, unit_type_id, pos, offset, playerID, parentID, collecting):
         self.unit_counter += 1
         typeset = self.get_unit_typeset(unit_type_id)
         hp = self.get_unit_hp(unit_type_id)
         unit_type = self.get_unit_type(unit_type_id)
-        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID)
+        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting)
 
 #****************************************************************************
 #turns a unit into a crater
@@ -196,7 +196,7 @@ class Game:
 #****************************************************************************
     def get_unit_typeset(self, type_id):
         typeset = "doodad"
-        if type_id == "hub" or type_id == "tower" or type_id == "converter" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
+        if type_id == "hub" or type_id == "tower" or type_id == "collector" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
             typeset = "build"
         elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike" or type_id == "virus":
             typeset = "weap"
@@ -214,7 +214,7 @@ class Game:
 #****************************************************************************
     def get_unit_hp(self, type_id):
         hp = 0
-        if type_id == "hub" or type_id == "converter":
+        if type_id == "hub" or type_id == "collector":
             hp = 5 
         if type_id == "tower" or type_id == "antiair" or type_id == "offense" or type_id == "shield" or type_id == "crawler":
             hp = 3
@@ -248,7 +248,7 @@ class Game:
             cost = 1
         if type_id == "ballon" or type_id == "emp" or type_id == "spike" or type_id == "mines" or type_id == "recall" or type_id == "missile":
             cost = 3
-        if type_id == "hub" or type_id == "shield" or type_id == "converter" or type_id == "crawler" or type_id == "offense" or type_id == "virus":
+        if type_id == "hub" or type_id == "shield" or type_id == "collector" or type_id == "crawler" or type_id == "offense" or type_id == "virus":
             cost = 7
         return cost
 
