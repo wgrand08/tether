@@ -93,6 +93,8 @@ class ServerState:
         while notclear:
             notclear = False
             for unit in self.map.unitstore.values():
+                if unit.typeset == "tether" and unit.hp > 0: #tethers heal between turns so they never die except by death of parent
+                    unit.hp = 1000
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True 
                     self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset, unit.playerID, unit.type.id)
@@ -100,6 +102,53 @@ class ServerState:
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
+
+#****************************************************************************
+#detonate all crawlers/mines that are too close to something
+#****************************************************************************
+    def detonate_waiters(self):
+        for unit in self.map.unitstore.values():
+            blasted = False
+            if unit.type.id == "mines":
+                power = self.game.get_unit_power(unit.type.id)
+                radius = 4
+                endX = unit.x
+                endY = unit.y
+                for find_target in range(1, radius):
+                    spinner = 0
+                    while spinner < 360:
+                        endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                        endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                        endX = round(endX, 0)
+                        endY = round(endY, 0)
+                        endX = endX + unit.x
+                        endY = endY + unit.y
+                        for target in self.map.unitstore.values():
+                            #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                            if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
+                                unit.hp = 0 #target detonates, damage is incurred while processing death
+                        spinner = spinner + 5
+
+            elif unit.type.id == "crawler":
+                power = self.game.get_unit_power(unit)
+                radius = 1
+                endX = unit.x
+                endY = unit.y
+                for find_target in range(1, radius):
+                    spinner = 0
+                    while spinner < 360:
+                        endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                        endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                        endX = round(endX, 0)
+                        endY = round(endY, 0)
+                        endX = endX + unit.x
+                        endY = endY + unit.y
+                        for target in self.map.unitstore.values():
+                            #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                            if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
+                                unit.hp = 0 #target detonates, damage is incurred while processing death
+                        spinner = spinner + 5
+
 
 #****************************************************************************
 #Determine where a shot lands
@@ -258,12 +307,83 @@ class ServerState:
         return (start_tile.x, start_tile.y, endX, endY, collecting)
 
 #****************************************************************************
+#Determine where a split shot lands
+#****************************************************************************
+    def split_trajectory(self, parentID, rotation, power, child, playerID):
+        unit = self.map.get_unit_from_id(parentID)
+        start_tile = self.map.get_tile_from_unit(unit)
+        endX = start_tile.x
+        endY = start_tile.y
+        self.interrupted_tether = False
+        power = power + 4 #launching has minimal range
+        power = power * 2 #compensating for higher map resolution
+        offsetX = 0
+        offsetY = 0
+        arc = power - round((power / 2), 0) #find location where shots split
+        temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
+        if temp_rotation < 1:
+            temp_rotation = rotation + 270
+        endX = arc * math.cos(temp_rotation / 180.0 * math.pi)
+        endY = arc * math.sin(temp_rotation / 180.0 * math.pi)
+        endX = round(endX, 0)
+        endY = round(endY, 0)
+        splitX = endX + start_tile.x
+        splitY = endY + start_tile.y
+
+        #code for looping the map edges
+        if splitX < 0:
+            splitX = self.map.xsize + endX
+        if splitX > self.map.xsize - 1:
+            splitX = endX - (self.map.xsize - 1)
+        if splitY < 0:
+            splitY = self.map.ysize + endY
+        if splitY > self.map.ysize - 1:
+            splitY = endY - (self.map.ysize - 1)
+
+        end_arc = power - arc
+        endX = end_arc * math.cos(temp_rotation / 180.0 * math.pi)
+        endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
+        endX = round(endX, 0)
+        endY = round(endY, 0)
+        coordX1 = endX + splitX
+        coordY1 = endY + splitY
+        default_rotation = temp_rotation
+
+        temp_rotation = default_rotation + 45
+        if temp_rotation > 360:
+            temp_rotation = default_rotation - 315
+
+        endX = end_arc * math.cos(temp_rotation / 180.0 * math.pi)
+        endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
+        endX = round(endX, 0)
+        endY = round(endY, 0)
+        coordX2 = endX + splitX
+        coordY2 = endY + splitY
+
+        temp_rotation = default_rotation - 45
+        if temp_rotation < 1:
+            temp_rotation = default_rotation + 315
+
+        endX = end_arc * math.cos(temp_rotation / 180.0 * math.pi)
+        endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
+        endX = round(endX, 0)
+        endY = round(endY, 0)
+        coordX3 = endX + splitX
+        coordY3 = endY + splitY
+
+
+
+        return (start_tile.x, start_tile.y, coordX1, coordY1, coordX2, coordY2, coordX3, coordY3)
+
+
+
+#****************************************************************************
 #Find out if a unit is hit or not
 #****************************************************************************
     def determine_hit(self, unit, pos, player):
         x, y = pos
         power = self.game.get_unit_power(unit)
-        if unit != "crawler":
+        if unit != "crawler" or unit != "mines":
             for target in self.map.unitstore.values():
                 target.blasted = False
                 for targetx in range(target.x, target.x + 2):
@@ -279,10 +399,83 @@ class ServerState:
                                         if target.hp > self.game.get_unit_hp(target.type.id):
                                             target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
                                             target.blasted = True
+                                    elif unit == "spike": #spike on a building
+                                        target.hp = target.hp - power
+                                        for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
+                                            if target2.id == target.playerID:
+                                                target2.hp = target.hp - 1
+                                    elif unit == "recall":
+                                        if target.playerID == player.playerID: #if own target, insta-death
+                                            player.energy = player.energy + target.hp
+                                            target.hp = 0
+                                            target.blasted = True
+                                        else:
+                                            if target.hp < 3: #if not own target
+                                                player.energy = player.energy + target.hp
+                                                target.hp = 0
+                                                target.blasted = True
+                                            else:
+                                                player.energy = player.energy + power
+                                                target.hp = target.hp - power
+                                                target.blasted = True
                                     else:
                                         logging.info("hit target for %s" % power)
                                         target.hp = target.hp - power
                                         target.blasted = True
+                                elif targetx == hitx and targety == hity and target.typeset == "tether" and unit == "spike": #spikes landing on tethers zaps buildings on both ends
+                                    (target1, target2) = self.game.find_tether_ends(target)
+                                    for tetherend in self.map.unitstore.values():
+                                        if tetherend.id == target1 or tetherend.id == target2:
+                                            tetherend.hp = tetherend.hp - 1
+                                            logging.info("spike damaged unit %s" % tetherend.id)
+                                    return #spikes only affect one tether, so when one tether is hit, no further damage is calculated
+
+        """for target in self.map.unitstore.values():
+            target.blasted = False
+            for targetx in range(target.x, target.x + 2):
+                for targety in range(target.y, target.y + 2):
+                    for hitx in range(x, x + 2):
+                        for hity in range(y, y + 2):
+                            #print"possible floats gameserverstate.py line 260: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
+                            if targetx == hitx and targety == hity and target.typeset == "build" and target.blasted == False:
+                                if unit == "repair":
+                                    logging.info("repaired target for 1")
+                                    target.hp = target.hp + 1
+                                    logging.info("it's current HP = %s" % target.hp)
+                                    if target.hp > self.game.get_unit_hp(target.type.id):
+                                        target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
+                                        target.blasted = True
+                                elif unit == "spike": #spike on a building
+                                    target.hp = target.hp - power
+                                    for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
+                                        if target2.id == target.playerID:
+                                            target2.hp = target.hp - 1
+                                elif unit == "recall":
+                                    if target.playerID == player.playerID: #if own target, insta-death
+                                        player.energy = player.energy + target.hp
+                                        target.hp = 0
+                                        target.blasted = True
+                                    else:
+                                        if target.hp < 3: #if not own target
+                                            player.energy = player.energy + target.hp
+                                            target.hp = 0
+                                            target.blasted = True
+                                        else:
+                                            player.energy = player.energy + power
+                                            target.hp = target.hp - power
+                                            target.blasted = True
+                                else:
+                                    logging.info("hit target for %s" % power)
+                                    target.hp = target.hp - power
+                                    target.blasted = True
+                            elif targetx == hitx and targety == hity and target.typeset == "tether" and unit == "spike": #spikes landing on tethers zaps buildings on both ends
+                                (target1, target2) = self.game.find_tether_ends(target)
+                                for tetherend in self.map.unitstore.values():
+                                    if tetherend.id == target1 or tetherend.id == target2:
+                                        tetherend.hp = tetherend.hp - 1
+                                        logging.info("spike damaged unit %s" % tetherend.id)
+                                return #spikes only affect one tether, so when one tether is hit, no further damage is calculated"""
+
         if unit == "emp":
             radius = 15 #the radius the EMP will be 15 on a side so it will be 30 from side to side, this is about half of a hubs launch range minux the minimum which appears to be how OMBC works
             endX = x

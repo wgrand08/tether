@@ -138,6 +138,12 @@ class Game:
         type = "grass"
         movecost = 0
         movements.update({type:movecost})
+        self.unit_types.update({"spike":UnitType("spike", "spike", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
         self.unit_types.update({"virus":UnitType("virus", "virus", 0, "weap", movements)})
 
         movements = {}
@@ -153,14 +159,14 @@ class Game:
 
 
 #****************************************************************************
-#
+#Process next phase of game
 #****************************************************************************
     def game_next_phase(self): 
         self.time = (self.time + 1) % 1024
         self.move_units()
 
 #****************************************************************************
-#
+#Move units todo: this code is now obsolete and should be removed
 #****************************************************************************
     def move_units(self):
         for unit in self.map.get_unit_list():
@@ -179,7 +185,7 @@ class Game:
 #****************************************************************************
 #turns a unit into a crater
 #****************************************************************************
-#Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into something else. Tethers become 'void' while just about everything else becomes a crater."""
+#Due to problems actually removing unit information completely from the unit list it became much easier to have destroyed units turn into something else. Tethers become 'void' while just about everything else becomes a crater.
     def remove_unit(self, unit):
         endX = unit.x
         endY = unit.y
@@ -244,15 +250,13 @@ class Game:
 #****************************************************************************
     def get_unit_typeset(self, type_id):
         typeset = "doodad"
-        if type_id == "hub" or type_id == "tower" or type_id == "collector" or type_id == "antiair" or type_id == "offense" or type_id == "shield":
+        if type_id == "hub" or type_id == "tower" or type_id == "collector" or type_id == "antiair" or type_id == "offense" or type_id == "shield" or type_id == "bridge":
             typeset = "build"
-        elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike" or type_id == "virus":
+        elif type_id == "bomb" or type_id == "cluster" or type_id == "missile" or type_id == "crawler" or type_id == "emp" or type_id == "spike" or type_id == "virus" or type_id == "recall":
             typeset = "weap"
         #following do not really follow the standard rules for buildings or weapons so they have their own typeset
         elif type_id == "ballon": 
             typeset = "ballon"
-        elif type_id == "recall":
-            typeset = "recall"
         elif type_id == "tether":
             typeset = "tether"
         return typeset
@@ -266,7 +270,7 @@ class Game:
             hp = 5 
         if type_id == "tower" or type_id == "antiair" or type_id == "offense" or type_id == "shield" or type_id == "crawler":
             hp = 3
-        if type_id == "balloon":
+        if type_id == "balloon" or type_id == "bridge" or type_id == "mines":
             hp = 1
         if type_id == "tether" or type_id == "void":
             hp = 1000 #tethers should not die except by disconnection
@@ -277,7 +281,7 @@ class Game:
 #****************************************************************************
     def get_unit_power(self, type_id):
         power = 0
-        if type_id == "bomb" or type_id == "missile" or type_id == "spike":
+        if type_id == "bomb" or type_id == "missile" or type_id == "spike" or type_id == "recall":
             power = 3
         if type_id == "crawler":
             power = 4
@@ -305,13 +309,29 @@ class Game:
 #Determine if a unit is tethered
 #****************************************************************************
     def check_tether(self, type_id): #returns boolean of a unit is tethered or not
-        if (self.get_unit_typeset(type_id) != "build") or (type_id == "balloon"): #all buildings except balloons have tethers, nothing else does
+        if self.get_unit_typeset(type_id) != "build" or type_id == "bridge": #all buildings except bridges have tethers, nothing else does. Note that balloons are not considered buildings
             return False
         else:
             return True
 
 #****************************************************************************
-#
+#Find units on both ends of a tether
+#****************************************************************************
+    def find_tether_ends(self, tether):
+        notfound = True
+        while notfound == True:
+            for test in self.map.unitstore.values():
+                if test.id == tether.parentID:
+                    if test.typeset == "tether":
+                        tether = test
+                    else: #found outer end of tether, other end is it's parentID
+                        target1 = test.id
+                        target2 = test.parentID
+            notfound = False
+        return target1, target2
+
+#****************************************************************************
+#get terrain type
 #****************************************************************************
     def get_terrain_type(self, type_id):
         return self.terrain_types[type_id]

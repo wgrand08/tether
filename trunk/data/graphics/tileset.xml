@@ -47,7 +47,7 @@
 
 <file src="weapons/cluster.png">
   <unit name="cluster" frames="1" x="1" y="1" 
-        width="48" height="48" pixalalpha="true">
+        width="24" height="24" pixalalpha="true">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>
@@ -67,7 +67,7 @@
 
 <file src="weapons/mines.png">
   <unit name="mines" frames="1" x="1" y="1" 
-        width="48" height="48" pixalalpha="true">
+        width="24" height="24" pixalalpha="true">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>
 </file>
@@ -88,6 +88,13 @@
 
 <file src="weapons/repair.png">
   <unit name="repair" frames="1" x="1" y="1" 
+        width="48" height="48" pixalalpha="true">
+        <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="weapons/spike.png">
+  <unit name="spike" frames="1" x="1" y="1" 
         width="48" height="48" pixalalpha="true">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>

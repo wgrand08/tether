@@ -84,6 +84,8 @@ class GameClientState:
         self.landed = False
         self.launch_startx = 0
         self.launch_starty = 0
+        self.launch_splitx = 0
+        self.launch_splity = 0
         self.launch_direction = 0
         self.launch_distance = 0
         self.launch_step = 1

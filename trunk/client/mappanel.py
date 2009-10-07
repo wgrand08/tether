@@ -94,9 +94,9 @@ class Mappanel:
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.30)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosecluster, None)
 
-        self.bomb_button = gui.Button(_(" reclaim "))
+        self.bomb_button = gui.Button(_(" recall "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.35)
-        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosereclaim, None)
+        self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooserecall, None)
 
         self.bomb_button = gui.Button(_(" spike "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.35)
@@ -158,13 +158,13 @@ class Mappanel:
         container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_skipbutton, None)
 
-        self.uppower_button = gui.Button(_(" + "))
+        """self.uppower_button = gui.Button(_(" + "))
         container.add(self.uppower_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.85)
         self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None)
 
         self.downpower_button = gui.Button(_(" - "))
         container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.85)
-        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)
+        self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)"""
 
         self.app.init(container) 
         self.draw_panel()
@@ -310,13 +310,22 @@ class Mappanel:
             self.client.selected_weap = "repair"
 
     def choosecluster(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.energy < self.client.game.get_unit_cost("cluster"):
+            self.client.moonaudio.narrate("no_energy.ogg")
+        else:
+            self.client.selected_weap = "cluster"
 
-    def choosereclaim(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+    def chooserecall(self, obj):
+        if self.client.energy < self.client.game.get_unit_cost("recall"):
+            self.client.moonaudio.narrate("no_energy.ogg")
+        else:
+            self.client.selected_weap = "recall"
 
     def choosespike(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.energy < self.client.game.get_unit_cost("spike"):
+            self.client.moonaudio.narrate("no_energy.ogg")
+        else:
+            self.client.selected_weap = "spike"
 
     def chooseballoon(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")
@@ -332,7 +341,11 @@ class Mappanel:
         self.client.moonaudio.narrate("disabled.ogg")
 
     def choosemines(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.myturn == True:
+            if self.client.energy < self.client.game.get_unit_cost("mines"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "mines"
 
     def choosecrawler(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")

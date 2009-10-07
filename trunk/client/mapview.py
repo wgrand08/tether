@@ -139,6 +139,17 @@ class Mapview:
         blit_x = gui_x
         blit_y = gui_y
 
+        if unit.type.id == "mines":
+            tempX = blit_x + 12
+            tempY = blit_y + 12
+            scale = 4 * 24
+            pygame.draw.circle(self.client.screen, (255, 75, 10), (tempX, tempY), scale, 1)
+
+        if unit.type.id == "shields":
+            placeholder = True
+        if unit.type.id == "antiair":
+            placeholder = True
+
         #find and show rotation indicator on selected unit
         for selected in self.client.selected_unit.values():
 
@@ -240,32 +251,101 @@ class Mapview:
 # Displays launched unit
 #****************************************************************************
     def show_launch(self):
-        if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
-            self.client.launch_step = self.client.launch_step + .5
-            temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
-            if temp_rotation < 1:
-                temp_rotation = self.client.launch_direction + 270
-            endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
-            endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
-            endX = endX + self.client.launch_startx
-            endY = endY + self.client.launch_starty
-            map_pos = endX, endY
-            blit_x, blit_y = self.map_to_gui(map_pos)
-            unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
-            self.client.screen.blit(unit_surface, (blit_x, blit_y))
+        if self.client.launch_type == "cluster" or self.client.launch_type == "mines":
+            if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+                self.client.launch_step = self.client.launch_step + .5
+                temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
+                if temp_rotation < 1:
+                    temp_rotation = self.client.launch_direction + 270
+                midpoint = ((self.client.launch_distance + 3.5) * 2) - round((((self.client.launch_distance + 3.5) * 2) / 2), 0)
+                if self.client.launch_step < midpoint:
+                    logging.info("unsplit cluster")
+                    endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = endX + self.client.launch_startx
+                    endY = endY + self.client.launch_starty
+                    self.client.launch_splitx = endX
+                    self.client.launch_splity = endY
+                    map_pos = endX, endY
+                    blit_x, blit_y = self.map_to_gui(map_pos)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                else:
+                    logging.info("split a cluster")
+                    endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = endX + self.client.launch_startx
+                    endY = endY + self.client.launch_starty
+                    map_pos = endX, endY
+                    blit_x, blit_y = self.map_to_gui(map_pos)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
+                    default_rotation = temp_rotation
+
+                    temp_rotation = default_rotation + 45
+                    if temp_rotation > 360:
+                        temp_rotation = default_rotation - 315
+
+                    launch_step = self.client.launch_step - midpoint
+                    endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = endX + self.client.launch_splitx
+                    endY = endY + self.client.launch_splity
+                    map_pos = endX, endY
+                    blit_x, blit_y = self.map_to_gui(map_pos)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
+                    temp_rotation = default_rotation - 45
+                    if temp_rotation < 1:
+                        temp_rotation = default_rotation + 315
+
+                    launch_step = self.client.launch_step - midpoint
+                    endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = endX + self.client.launch_splitx
+                    endY = endY + self.client.launch_splity
+                    map_pos = endX, endY
+                    blit_x, blit_y = self.map_to_gui(map_pos)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
+            else: 
+                if self.client.launch_type == "mines":
+                    self.client.moonaudio.sound("landing.ogg")
+                self.client.launched = False
+                self.client.landed = True
+                self.client.launch_step = 1
             return
-        else: 
-            if self.client.splashed == True:
-                self.client.moonaudio.sound("watersplash.ogg")
-                self.client.splashed = False
-            elif self.client.hit_rock == True:
-                self.client.moonaudio.sound("mediumboom.ogg")
-                self.client.hit_rock = False
-            elif self.client.game.get_unit_typeset(self.client.launch_type) == "build":
-                self.client.moonaudio.sound("landing.ogg")
-            self.client.launched = False
-            self.client.landed = True
-            self.client.launch_step = 1
+
+        else:
+            if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+                self.client.launch_step = self.client.launch_step + .5
+                temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
+                if temp_rotation < 1:
+                    temp_rotation = self.client.launch_direction + 270
+                endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                endX = endX + self.client.launch_startx
+                endY = endY + self.client.launch_starty
+                map_pos = endX, endY
+                blit_x, blit_y = self.map_to_gui(map_pos)
+                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                return
+            else: 
+                if self.client.splashed == True:
+                    self.client.moonaudio.sound("watersplash.ogg")
+                    self.client.splashed = False
+                elif self.client.hit_rock == True:
+                    self.client.moonaudio.sound("mediumboom.ogg")
+                    self.client.hit_rock = False
+                elif self.client.game.get_unit_typeset(self.client.launch_type) == "build":
+                    self.client.moonaudio.sound("landing.ogg")
+                self.client.launched = False
+                self.client.landed = True
+                self.client.launch_step = 1
             return
 
 #****************************************************************************
@@ -300,7 +380,13 @@ class Mapview:
                 pygame.display.flip()
                 pygame.time.wait(2)
         if unittype == "weap":
-            if deathname == "emp":
+            if deathname == "recall":
+                self.client.moonaudio.sound("recall.ogg")   
+            elif deathname == "repair":
+                self.client.moonaudio.sound("repair.ogg")
+            elif deathname == "spike":
+                self.client.moonaudio.sound("spike.ogg")
+            elif deathname == "emp":
                 self.client.moonaudio.sound("emp.ogg")
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)

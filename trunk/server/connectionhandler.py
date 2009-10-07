@@ -91,6 +91,41 @@ class ClientPerspective(pb.Avatar):
         self.state.waitingplayers = 0
         if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+        elif unit == "mines" or unit == "cluster":
+            (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
+            coord1X = int(coord1X)
+            coord1Y = int(coord1Y)
+            coord2X = int(coord2X)
+            coord2Y = int(coord2Y)
+            coord3X = int(coord3X)
+            coord3Y = int(coord3Y)
+            coord1 = (coord1X, coord1Y)
+            coord2 = (coord2X, coord2Y)
+            coord3 = (coord3X, coord3Y)
+            offset = 0, 0
+            self.state.deathlist = []
+            if self.conn_info.undisable == True: #undisabling units caused by this player previously
+                logging.info("undisabling units")
+                for undisable in self.conn_info.Idisabled:
+                    for finddisabled in self.state.map.unitstore.values():
+                        if finddisabled == undisable:
+                            finddisabled.disabled = False
+            self.conn_info.undisable = False
+            self.conn_info.Idisabled = []
+            self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
+            self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
+            collecting = False
+            if self.state.interrupted_tether == False:
+                self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting)
+                self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting)
+                self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting)
+                logging.info("added " + unit + " at: " + str(coord1X) + ", " + str(coord1Y))
+                logging.info("added " + unit + " at: " + str(coord2X) + ", " + str(coord2Y))
+                logging.info("added " + unit + " at: " + str(coord3X) + ", " + str(coord3Y))
+                self.state.determine_hit(unit, coord1, self.conn_info)
+                self.state.determine_hit(unit, coord2, self.conn_info)
+                self.state.determine_hit(unit, coord3, self.conn_info)
+            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
         else:
             (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
             coordX = int(coordX)
@@ -154,6 +189,7 @@ class ClientPerspective(pb.Avatar):
         self.state.waitingplayers += 1
         if self.state.waitingplayers == self.state.max_players(self.handler.clients):
             self.state.waitingplayers = 0
+            self.state.detonate_waiters()
             self.state.process_death()
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
