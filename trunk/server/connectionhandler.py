@@ -104,7 +104,8 @@ class ClientPerspective(pb.Avatar):
             if self.state.interrupted_tether == False:
                 self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting)
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY))
-                self.state.determine_hit(unit, coord)
+                self.conn_info.Idisabled = []
+                self.state.determine_hit(unit, coord, self.conn_info)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
 #****************************************************************************

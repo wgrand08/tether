@@ -300,17 +300,30 @@ class Mapview:
                 pygame.display.flip()
                 pygame.time.wait(2)
         if unittype == "weap":
-            self.client.moonaudio.sound("mediumboom.ogg")
-            map_pos = deathX, deathY
-            blitX, blitY = self.map_to_gui(map_pos)
-            blitX = blitX + 24
-            blitY = blitY + 24
-            scale = 0
-            while scale < 24:
-                scale = scale + 1
-                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
-                pygame.display.flip()
-                pygame.time.wait(2)
+            if deathname == "emp":
+                self.client.moonaudio.sound("emp.ogg")
+                map_pos = deathX, deathY
+                blitX, blitY = self.map_to_gui(map_pos)
+                blitX = blitX + 24
+                blitY = blitY + 24
+                scale = 0
+                while scale < 360:
+                    scale = scale + 1
+                    pygame.draw.circle(self.client.screen, (10, 75, 255), (blitX, blitY), scale, 0)
+                    pygame.display.flip()
+                    pygame.time.wait(2)
+            else:
+                self.client.moonaudio.sound("mediumboom.ogg")
+                map_pos = deathX, deathY
+                blitX, blitY = self.map_to_gui(map_pos)
+                blitX = blitX + 24
+                blitY = blitY + 24
+                scale = 0
+                while scale < 24:
+                    scale = scale + 1
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.display.flip()
+                    pygame.time.wait(2)
 
 
         if unittype == "tether":

@@ -260,28 +260,50 @@ class ServerState:
 #****************************************************************************
 #Find out if a unit is hit or not
 #****************************************************************************
-    def determine_hit(self, unit, pos):
+    def determine_hit(self, unit, pos, player):
         x, y = pos
         power = self.game.get_unit_power(unit)
-        for target in self.map.unitstore.values():
-            target.blasted = False
-            for targetx in range(target.x, target.x + 2):
-                for targety in range(target.y, target.y + 2):
-                    for hitx in range(x, x + 2):
-                        for hity in range(y, y + 2):
-                            #print"possible floats gameserverstate.py line 260: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
-                            if targetx == hitx and targety == hity and target.typeset == "build" and target.blasted == False:
-                                if unit == "repair":
-                                    logging.info("repaired target for 1")
-                                    target.hp = target.hp + 1
-                                    logging.info("it's current HP = %s" % target.hp)
-                                    if target.hp > self.game.get_unit_hp(target.type.id):
-                                        target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
+        if unit != "crawler":
+            for target in self.map.unitstore.values():
+                target.blasted = False
+                for targetx in range(target.x, target.x + 2):
+                    for targety in range(target.y, target.y + 2):
+                        for hitx in range(x, x + 2):
+                            for hity in range(y, y + 2):
+                                #print"possible floats gameserverstate.py line 260: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
+                                if targetx == hitx and targety == hity and target.typeset == "build" and target.blasted == False:
+                                    if unit == "repair":
+                                        logging.info("repaired target for 1")
+                                        target.hp = target.hp + 1
+                                        logging.info("it's current HP = %s" % target.hp)
+                                        if target.hp > self.game.get_unit_hp(target.type.id):
+                                            target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
+                                            target.blasted = True
+                                    else:
+                                        logging.info("hit target for %s" % power)
+                                        target.hp = target.hp - power
                                         target.blasted = True
-                                else:
-                                    logging.info("hit target for %s" % power)
-                                    target.hp = target.hp - power
-                                    target.blasted = True
+        if unit == "emp":
+            radius = 15 #the radius the EMP will be 15 on a side so it will be 30 from side to side, this is about half of a hubs launch range minux the minimum which appears to be how OMBC works
+            endX = x
+            endY = y
+            for find_target in range(1, radius):
+                spinner = 0
+                while spinner < 360:
+                    endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                    endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                    endX = round(endX, 0)
+                    endY = round(endY, 0)
+                    endX = endX + x
+                    endY = endY + y
+                    for target in self.map.unitstore.values():
+                        #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                        if target.x == endX and target.y == endY and target.typeset == "build":
+                            target.disabled = True
+                            player.Idisabled.append(target.id)
+                            logging.info("you disabled a %r" % target.type.id)
+                    spinner = spinner + 5
+
 
 #****************************************************************************
 #calculate the number of players currently connected to the game

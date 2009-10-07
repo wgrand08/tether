@@ -96,6 +96,54 @@ class Game:
         type = "grass"
         movecost = 0
         movements.update({type:movecost})
+        self.unit_types.update({"cluster":UnitType("cluster", "cluster", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"crawler":UnitType("crawler", "crawler", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"emp":UnitType("emp", "emp", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"mines":UnitType("mines", "mines", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"missile":UnitType("missile", "missile", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"recall":UnitType("recall", "recall", 0, "recall", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"repair":UnitType("repair", "repair", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"virus":UnitType("virus", "virus", 0, "weap", movements)})
+
+        movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
         self.unit_types.update({"tether":UnitType("tether", "tether", 0, "doodad", movements)})
 
         self.terrain_types.update({"grass":TerrainType("grass", "grass")})

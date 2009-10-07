@@ -322,7 +322,11 @@ class Mappanel:
         self.client.moonaudio.narrate("disabled.ogg")
 
     def chooseEMP(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.myturn == True:
+            if self.client.energy < self.client.game.get_unit_cost("emp"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "emp"
 
     def choosemissile(self, obj):
         self.client.moonaudio.narrate("disabled.ogg")
