@@ -301,6 +301,7 @@ class ServerState:
                         if target.x == endX and target.y == endY and target.typeset == "build":
                             target.disabled = True
                             player.Idisabled.append(target.id)
+                            player.undisable = True
                             logging.info("you disabled a %r" % target.type.id)
                     spinner = spinner + 5
 

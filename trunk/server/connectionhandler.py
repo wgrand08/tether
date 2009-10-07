@@ -98,13 +98,19 @@ class ClientPerspective(pb.Avatar):
             coord = (coordX, coordY)
             offset = 0, 0
             self.state.deathlist = []
-            self.conn_info.Idisabled = [] #todo: process disabling info
+            if self.conn_info.undisable == True: #undisabling units caused by this player previously
+                logging.info("undisabling units")
+                for undisable in self.conn_info.Idisabled:
+                    for finddisabled in self.state.map.unitstore.values():
+                        if finddisabled == undisable:
+                            finddisabled.disabled = False
+            self.conn_info.undisable = False
+            self.conn_info.Idisabled = []
             self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
             self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
             if self.state.interrupted_tether == False:
                 self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting)
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY))
-                self.conn_info.Idisabled = []
                 self.state.determine_hit(unit, coord, self.conn_info)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
@@ -116,6 +122,14 @@ class ClientPerspective(pb.Avatar):
         #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
         self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
         self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
+        if self.conn_info.undisable == True: #undisabling units caused by this player previously
+            logging.info("undisabling units")
+            for undisable in self.conn_info.Idisabled:
+                for finddisabled in self.state.map.unitstore.values():
+                    if finddisabled == undisable:
+                        finddisabled.disabled = False
+        self.conn_info.undisable = False
+        self.conn_info.Idisabled = []
         if len(self.state.skippedplayers) >= self.state.max_players(self.handler.clients):
             self.state.skippedplayers = []
             self.state.skippedplayers.append(0)

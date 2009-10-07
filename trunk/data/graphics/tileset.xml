@@ -73,7 +73,7 @@
 </file>
 
 <file src="weapons/missile.png">
-  <unit name="bomb" frames="1" x="1" y="1" 
+  <unit name="missile" frames="1" x="1" y="1" 
         width="48" height="48" pixalalpha="true">
         <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
   </unit>

@@ -29,5 +29,6 @@ class ConnInfo:
         self.address = address
         self.playerID = 0
         self.energy = 11
+        self.undisable = False
         self.Idisabled = []
 
