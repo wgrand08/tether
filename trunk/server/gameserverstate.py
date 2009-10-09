@@ -64,7 +64,7 @@ class ServerState:
                     tile = self.map.get_tile((x, y))
                     if tile.type == self.game.get_terrain_type("grass"):
                         unplaced = False
-                self.game.create_unit('hub', (x, y), (0,0), (player + 1), 0, False)
+                self.game.create_unit('hub', (x, y), (0,0), (player + 1), 0, False, 360)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -81,8 +81,8 @@ class ServerState:
 #****************************************************************************
 #add a unit
 #****************************************************************************
-    def add_unit(self, unit_type, unit_loc, offset, playerID, parentID, collecting):
-        self.game.create_unit(unit_type, unit_loc, offset, playerID, parentID, collecting)
+    def add_unit(self, unit_type, unit_loc, offset, playerID, parentID, collecting, dir):
+        self.game.create_unit(unit_type, unit_loc, offset, playerID, parentID, collecting, dir)
 
 #****************************************************************************
 #find and remove all units without any HP remaining
@@ -102,6 +102,12 @@ class ServerState:
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
+
+#****************************************************************************
+#find and move viruses
+#****************************************************************************
+    def process_virus(self):
+        logging.info("Placeholder in gameserverstate.py line 110")
 
 #****************************************************************************
 #detonate all crawlers/mines that are too close to something
@@ -148,6 +154,15 @@ class ServerState:
                             if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
                                 unit.hp = 0 #target detonates, damage is incurred while processing death
                         spinner = spinner + 5
+
+
+#****************************************************************************
+#Move all crawlers at the end of the round
+#****************************************************************************
+    def move_crawlers(self):
+        for unit in self.map.unitstore.values(): #note, in OMBC crawlers move about half a power bar in length
+            if unit.type.id == "crawler":
+                
 
 
 #****************************************************************************
@@ -404,6 +419,8 @@ class ServerState:
                                         for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
                                             if target2.id == target.playerID:
                                                 target2.hp = target.hp - 1
+                                    elif unit == "virus":
+                                        target.virused = True:
                                     elif unit == "recall":
                                         if target.playerID == player.playerID: #if own target, insta-death
                                             player.energy = player.energy + target.hp

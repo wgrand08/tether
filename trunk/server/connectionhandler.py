@@ -116,9 +116,9 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
             collecting = False
             if self.state.interrupted_tether == False:
-                self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting)
-                self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting)
-                self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting)
+                self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
                 logging.info("added " + unit + " at: " + str(coord1X) + ", " + str(coord1Y))
                 logging.info("added " + unit + " at: " + str(coord2X) + ", " + str(coord2Y))
                 logging.info("added " + unit + " at: " + str(coord3X) + ", " + str(coord3Y))
@@ -144,7 +144,7 @@ class ClientPerspective(pb.Avatar):
             self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
             self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
             if self.state.interrupted_tether == False:
-                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting)
+                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY))
                 self.state.determine_hit(unit, coord, self.conn_info)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
@@ -155,6 +155,8 @@ class ClientPerspective(pb.Avatar):
     def perspective_skip_round(self):
         self.state.skippedplayers.append(self.conn_info.playerID)
         #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
+        self.state.detonate_waiters()
+        self.state.process_death()
         self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
         self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
         if self.conn_info.undisable == True: #undisabling units caused by this player previously
@@ -165,9 +167,10 @@ class ClientPerspective(pb.Avatar):
                         finddisabled.disabled = False
         self.conn_info.undisable = False
         self.conn_info.Idisabled = []
-        if len(self.state.skippedplayers) >= self.state.max_players(self.handler.clients):
+        if (len(self.state.skippedplayers) - 1) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
             self.state.skippedplayers = []
             self.state.skippedplayers.append(0)
+            self.state.move_crawlers()
             self.handler.remote_all('next_round')
             self.state.currentplayer = 1 #todo: add code to randomize/rotate the starting player for each round
         else:
@@ -180,6 +183,13 @@ class ClientPerspective(pb.Avatar):
                     if search != self.state.currentplayer:
                         foundplayer = True
 
+        self.state.detonate_waiters()
+        self.state.process_virus()
+        self.state.process_death()
+        net_map = self.network_prepare(self.state.map.mapstore) 
+        net_unit_list = self.network_prepare(self.state.map.unitstore) 
+        self.handler.remote_all("map", net_map)
+        self.handler.remote_all("unit_list", net_unit_list)
         self.handler.remote_all('next_turn', self.state.currentplayer)
 
 #****************************************************************************
@@ -190,6 +200,7 @@ class ClientPerspective(pb.Avatar):
         if self.state.waitingplayers == self.state.max_players(self.handler.clients):
             self.state.waitingplayers = 0
             self.state.detonate_waiters()
+            self.state.process_virus()
             self.state.process_death()
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 

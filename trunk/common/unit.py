@@ -41,4 +41,6 @@ class Unit:
         self.disabled = False
         self.collecting = False
         self.blasted = False
+        self.virused = False
+        self.just_virused = False
 

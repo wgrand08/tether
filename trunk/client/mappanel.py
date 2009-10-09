@@ -348,7 +348,11 @@ class Mappanel:
                 self.client.selected_weap = "mines"
 
     def choosecrawler(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.myturn == True:
+            if self.client.energy < self.client.game.get_unit_cost("crawler"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "crawler"
 
     def choosecollector(self, obj):
         if self.client.myturn == True:
@@ -375,7 +379,11 @@ class Mappanel:
         self.client.moonaudio.narrate("disabled.ogg")
 
     def choosevirus(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.myturn == True:
+            if self.client.energy < self.client.game.get_unit_cost("virus"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "virus"
 
     def use_skipbutton(self, obj):
         self.client.netclient.skip_round()

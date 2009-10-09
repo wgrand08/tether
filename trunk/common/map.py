@@ -149,7 +149,7 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-    def set_unit(self, unit, pos, offset, typeset, hp, parentID, collecting):
+    def set_unit(self, unit, pos, offset, typeset, hp, parentID, collecting, dir):
         if (self.get_unit(pos) == None) or (typeset == "weap"):
             self.unitstore.update({unit.id:unit})
             (unit.x, unit.y) = pos
@@ -158,6 +158,7 @@ class Map:
             unit.parentID = parentID
             unit.offset = offset
             unit.collecting = collecting
+            unit.dir = dir
             
 #****************************************************************************
 # transforms one unit type into another type

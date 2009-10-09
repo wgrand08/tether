@@ -175,12 +175,14 @@ class Game:
 #****************************************************************************
 #create a new unit and place it on the map
 #****************************************************************************
-    def create_unit(self, unit_type_id, pos, offset, playerID, parentID, collecting):
+    def create_unit(self, unit_type_id, pos, offset, playerID, parentID, collecting, dir):
         self.unit_counter += 1
         typeset = self.get_unit_typeset(unit_type_id)
         hp = self.get_unit_hp(unit_type_id)
         unit_type = self.get_unit_type(unit_type_id)
-        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting)
+        if unit_type_id != "crawler": #all units face same direction except for crawlers
+            dir = 360
+        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting, dir)
 
 #****************************************************************************
 #turns a unit into a crater
