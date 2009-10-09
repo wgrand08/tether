@@ -59,6 +59,7 @@ The EMP has the largest radius of effect of any of the weapons. The damage radiu
 The image below has both the AA and the mines fired at absolute minimum power to help estimate the radius of their 'trigger zones'
 
 http://tether.googlecode.com/svn/wiki/images/radius_example1.png
+
 As can be seen, the mines are just under the minimum range while anti-airs seem to reach about 25% farther then minimum.
 
 = Power Bar =
