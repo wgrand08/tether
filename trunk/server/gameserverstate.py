@@ -107,7 +107,20 @@ class ServerState:
 #find and move viruses
 #****************************************************************************
     def process_virus(self):
-        logging.info("Placeholder in gameserverstate.py line 110")
+        for unit in self.map.unitstore.values():
+            if unit.virused == True and unit.just_virused == True:
+                unit.just_virused = False
+            if unit.virused == True and unit.just_virused == False:
+                unit.virused = False
+                unit.just_virused = True
+                unit.hp = unit.hp - 1
+                if unit.hp < 1:
+                    unit.hp = 1
+                for find_tethered in self.map.unitstore.values():
+                    if unit.just_virused == False and (find_tethered.id == unit.parentID or find_tethered.parentID == unit.id):
+                        logging.info("virus has spread to unit %s" % find_tethered.id)
+                        find_tethered.virused = True
+                        find_tether.just_virused = False
 
 #****************************************************************************
 #detonate all crawlers/mines that are too close to something
@@ -161,8 +174,21 @@ class ServerState:
 #****************************************************************************
     def move_crawlers(self):
         for unit in self.map.unitstore.values(): #note, in OMBC crawlers move about half a power bar in length
-            if unit.type.id == "crawler":
-                
+            if unit.type.id == "crawler" and unit.disabled == False:
+                temp_rotation = unit.dir
+                start_tile = self.map.get_tile_from_unit(unit)
+                for find_target in range(1, 15):
+                    temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
+                    if temp_rotation < 1:
+                        temp_rotation = rotation + 270
+                    endX = find_target * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = round(endX, 0)
+                    endY = round(endY, 0)
+                    endX = endX + start_tile.x
+                    endY = endY + start_tile.y
+                unit.x = endX
+                unit.y = endY
 
 
 #****************************************************************************
@@ -171,7 +197,7 @@ class ServerState:
     def find_trajectory(self, parentID, rotation, power, child, playerID):
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
-        endX = start_tile.x
+        endX = start_tile.x #todo: can this be safely removed?
         endY = start_tile.y
         self.interrupted_tether = False
         power = power + 4 #launching has minimal range
@@ -420,7 +446,7 @@ class ServerState:
                                             if target2.id == target.playerID:
                                                 target2.hp = target.hp - 1
                                     elif unit == "virus":
-                                        target.virused = True:
+                                        target.virused = True
                                     elif unit == "recall":
                                         if target.playerID == player.playerID: #if own target, insta-death
                                             player.energy = player.energy + target.hp
