@@ -295,7 +295,11 @@ class Mappanel:
         self.client.moonaudio.narrate("disabled.ogg")
 
     def choosebridge(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.myturn == True:
+            if self.client.energy < self.client.game.get_unit_cost("bridge"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "bridge"
 
     def choosetower(self, obj):
         if self.client.energy < self.client.game.get_unit_cost("tower"):

@@ -108,6 +108,9 @@ class ServerState:
 #****************************************************************************
     def process_virus(self):
         for unit in self.map.unitstore.values():
+            if unit.virused == True and unit.type != "build": #remove viruses from non-buildings
+                unit.virused = False
+                unit.just_virused = False
             if unit.virused == True and unit.just_virused == True:
                 unit.just_virused = False
             if unit.virused == True and unit.just_virused == False:
@@ -121,6 +124,16 @@ class ServerState:
                         logging.info("virus has spread to unit %s" % find_tethered.id)
                         find_tethered.virused = True
                         find_tether.just_virused = False
+
+#****************************************************************************
+#handle bridges, units in water and destruction
+#****************************************************************************
+    def handle_water(self): #todo: convert all death by water to this function
+        for unit in self.map.unitstore.values():
+            if unit.type.id == "bridge":
+                tile = self.map.get_tile((unit.x, unit.y))
+                if tile.type != self.game.get_terrain_type("water"):
+                    unit.hp = 0 #killing bridges that don't land on water
 
 #****************************************************************************
 #detonate all crawlers/mines that are too close to something
@@ -287,9 +300,10 @@ class ServerState:
                         logging.info("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or water
+        #todo: move all destruction of units by landing in water to function 'handle_water'
         if self.game.get_unit_typeset(child) == "build":
             tile = self.map.get_tile((endX, endY))
-            if tile.type == self.game.get_terrain_type("rocks"): 
+            if tile.type == self.game.get_terrain_type("rocks"):
                 self.interrupted_tether = True
                 victim = self.map.get_unit_from_id(self.game.unit_counter)
                 victim.hp = 0
@@ -412,8 +426,6 @@ class ServerState:
         coordX3 = endX + splitX
         coordY3 = endY + splitY
 
-
-
         return (start_tile.x, start_tile.y, coordX1, coordY1, coordX2, coordY2, coordX3, coordY3)
 
 
@@ -472,52 +484,6 @@ class ServerState:
                                             tetherend.hp = tetherend.hp - 1
                                             logging.info("spike damaged unit %s" % tetherend.id)
                                     return #spikes only affect one tether, so when one tether is hit, no further damage is calculated
-
-        """for target in self.map.unitstore.values():
-            target.blasted = False
-            for targetx in range(target.x, target.x + 2):
-                for targety in range(target.y, target.y + 2):
-                    for hitx in range(x, x + 2):
-                        for hity in range(y, y + 2):
-                            #print"possible floats gameserverstate.py line 260: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
-                            if targetx == hitx and targety == hity and target.typeset == "build" and target.blasted == False:
-                                if unit == "repair":
-                                    logging.info("repaired target for 1")
-                                    target.hp = target.hp + 1
-                                    logging.info("it's current HP = %s" % target.hp)
-                                    if target.hp > self.game.get_unit_hp(target.type.id):
-                                        target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
-                                        target.blasted = True
-                                elif unit == "spike": #spike on a building
-                                    target.hp = target.hp - power
-                                    for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
-                                        if target2.id == target.playerID:
-                                            target2.hp = target.hp - 1
-                                elif unit == "recall":
-                                    if target.playerID == player.playerID: #if own target, insta-death
-                                        player.energy = player.energy + target.hp
-                                        target.hp = 0
-                                        target.blasted = True
-                                    else:
-                                        if target.hp < 3: #if not own target
-                                            player.energy = player.energy + target.hp
-                                            target.hp = 0
-                                            target.blasted = True
-                                        else:
-                                            player.energy = player.energy + power
-                                            target.hp = target.hp - power
-                                            target.blasted = True
-                                else:
-                                    logging.info("hit target for %s" % power)
-                                    target.hp = target.hp - power
-                                    target.blasted = True
-                            elif targetx == hitx and targety == hity and target.typeset == "tether" and unit == "spike": #spikes landing on tethers zaps buildings on both ends
-                                (target1, target2) = self.game.find_tether_ends(target)
-                                for tetherend in self.map.unitstore.values():
-                                    if tetherend.id == target1 or tetherend.id == target2:
-                                        tetherend.hp = tetherend.hp - 1
-                                        logging.info("spike damaged unit %s" % tetherend.id)
-                                return #spikes only affect one tether, so when one tether is hit, no further damage is calculated"""
 
         if unit == "emp":
             radius = 15 #the radius the EMP will be 15 on a side so it will be 30 from side to side, this is about half of a hubs launch range minux the minimum which appears to be how OMBC works

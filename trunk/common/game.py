@@ -207,7 +207,10 @@ class Game:
         if unit.typeset == "ballon": #balloons do not leave craters when destroyed
             unit_type_id = "void"
 
-        if unit.typeset == "virus": #viruses do not leave craters when destroyed
+        if unit.type.id == "virus": #viruses do not leave craters when destroyed
+            unit_type_id = "void"
+            
+        if unit.type.id == "bridge": #bridges do not leave craters
             unit_type_id = "void"
 
         unit_type = self.get_unit_type(unit_type_id)
