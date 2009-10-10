@@ -167,20 +167,24 @@ class ClientPerspective(pb.Avatar):
                         finddisabled.disabled = False
         self.conn_info.undisable = False
         self.conn_info.Idisabled = []
-        if (len(self.state.skippedplayers) - 1) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
+        if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
+            logging.info("if")
             self.state.skippedplayers = []
             self.state.skippedplayers.append(0)
             self.state.move_crawlers()
             self.handler.remote_all('next_round')
             self.state.currentplayer = 1 #todo: add code to randomize/rotate the starting player for each round
         else:
+            logging.info("else")
             foundplayer = False
             while not foundplayer:
                 self.state.currentplayer += 1
                 if self.state.currentplayer > self.state.max_players(self.handler.clients):
                     self.state.currentplayer = 0
                 for search in self.state.skippedplayers:
-                    if search != self.state.currentplayer:
+                    logging.info("searching found %s" % search)
+                    logging.info("currentplayer = %s" % self.state.currentplayer)
+                    if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
                         foundplayer = True
 
         self.state.detonate_waiters()
@@ -207,13 +211,21 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all("map", net_map)
             self.handler.remote_all("unit_list", net_unit_list)
             foundplayer = False
-            while not foundplayer:
-                self.state.currentplayer += 1
-                if self.state.currentplayer > self.state.max_players(self.handler.clients):
-                    self.state.currentplayer = 0
-                for search in self.state.skippedplayers:
-                    if search != self.state.currentplayer:
-                        foundplayer = True
+            if self.state.max_players(self.handler.clients) > 2:
+                while not foundplayer:
+                    self.state.currentplayer += 1
+                    if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                        logging.info("max players = %s" % self.state.max_players(self.handler.clients))
+                        self.state.currentplayer = 0
+                    for search in self.state.skippedplayers:
+                        logging.info("searching found %s" % search)
+                        logging.info("currentplayer = %s" % self.state.currentplayer)
+                        if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
+                            logging.info("found searching found %s" % search)
+                            logging.info("found currentplayer = %s" % self.state.currentplayer)
+                            foundplayer = True
+            else:
+                self.state.currentplayer = 1
                     
             self.handler.remote_all("next_turn", self.state.currentplayer)
 
