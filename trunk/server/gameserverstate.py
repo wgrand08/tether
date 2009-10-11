@@ -102,6 +102,7 @@ class ServerState:
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
+        self.handle_water()
 
 #****************************************************************************
 #find and move viruses
@@ -124,16 +125,34 @@ class ServerState:
                         logging.info("virus has spread to unit %s" % find_tethered.id)
                         find_tethered.virused = True
                         find_tether.just_virused = False
+        self.process_death()
 
 #****************************************************************************
 #handle bridges, units in water and destruction
 #****************************************************************************
     def handle_water(self): #todo: convert all death by water to this function
         for unit in self.map.unitstore.values():
+            tile = self.map.get_tile((unit.x, unit.y))
             if unit.type.id == "bridge":
-                tile = self.map.get_tile((unit.x, unit.y))
                 if tile.type != self.game.get_terrain_type("water"):
                     unit.hp = 0 #killing bridges that don't land on water
+            elif unit.typeset == "build"
+                if tile.type != self.game.get_terrain_type("water"):
+                    gosplash = True
+                    for unit2 in self.map.unitstore.values():
+                        if unit2.x == unit.x and unit2.y == unit.y and unit2.type.id == "bridge":
+                            gosplash = false
+                    if gosplash == True:
+                        unit.hp = 0
+            elif unit.typeset == "tether":
+                if tile.type != self.game.get_terrain_type("water"):
+                    gosplash = True
+                    for unit2 in self.map.unitstore.values():
+                        if unit2.x == unit.x and unit2.y == unit.y and unit2.type.id == "bridge":
+                            gosplash = false
+                    if gosplash == True:
+                        (target1, target2) = self.game.find_tether_ends(unit)
+                        target1.hp = 0
 
 #****************************************************************************
 #detonate all crawlers/mines that are too close to something
@@ -180,6 +199,7 @@ class ServerState:
                             if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
                                 unit.hp = 0 #target detonates, damage is incurred while processing death
                         spinner = spinner + 5
+        self.process_virus()
 
 
 #****************************************************************************
@@ -308,11 +328,6 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter)
                 victim.hp = 0
                 self.connections.remote_all("hit_rock")
-            elif tile.type == self.game.get_terrain_type("water"):
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter)
-                victim.hp = 0
-                self.connections.remote_all("splash")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
@@ -322,11 +337,6 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter)
                 victim.hp = 0
                 self.connections.remote_all("hit_rock")
-            elif tile.type == self.game.get_terrain_type("water"): 
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter)
-                victim.hp = 0
-                self.connections.remote_all("splash")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
@@ -336,11 +346,6 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter) 
                 victim.hp = 0
                 self.connections.remote_all("hit_rock")
-            elif tile.type == self.game.get_terrain_type("water"):
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
-                self.connections.remote_all("splash")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
@@ -350,11 +355,6 @@ class ServerState:
                 victim = self.map.get_unit_from_id(self.game.unit_counter) 
                 victim.hp = 0
                 self.connections.remote_all("hit_rock")
-            elif tile.type == self.game.get_terrain_type("water"): 
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
-                self.connections.remote_all("splash")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
@@ -518,6 +518,7 @@ class ServerState:
             placeholder = placeholder + 1
         self.totalplayers = placeholder
         return placeholder
+
 #****************************************************************************
 #Calculate the amount of energy per player
 #****************************************************************************

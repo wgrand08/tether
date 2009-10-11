@@ -156,7 +156,6 @@ class ClientPerspective(pb.Avatar):
         self.state.skippedplayers.append(self.conn_info.playerID)
         #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
         self.state.detonate_waiters()
-        self.state.handle_water()
         self.state.process_death()
         self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
         self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
@@ -189,7 +188,6 @@ class ClientPerspective(pb.Avatar):
                         foundplayer = True
 
         self.state.detonate_waiters()
-        self.state.process_virus()
         self.state.process_death()
         net_map = self.network_prepare(self.state.map.mapstore) 
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
@@ -205,8 +203,6 @@ class ClientPerspective(pb.Avatar):
         if self.state.waitingplayers == self.state.max_players(self.handler.clients):
             self.state.waitingplayers = 0
             self.state.detonate_waiters()
-            self.state.process_virus()
-            self.state.handle_water()
             self.state.process_death()
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
