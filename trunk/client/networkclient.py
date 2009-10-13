@@ -58,7 +58,6 @@ class NetworkClient(pb.Referenceable):
         self.serverPort = serverPort
         self.username = username
         factory = pb.PBClientFactory()
-        #reactor.connectTCP("localhost", 6112, factory)
         reactor.connectTCP(server, 6112, factory)
         df = factory.login(UsernamePassword("guest", "guest"), self)
         df.addCallback(self.connected)

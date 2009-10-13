@@ -332,7 +332,7 @@ class Game:
                     else: #found outer end of tether, other end is it's parentID
                         target1 = test.id
                         target2 = test.parentID
-            notfound = False
+                        notfound = False
         return target1, target2
 
 #****************************************************************************
