@@ -40,6 +40,8 @@ These are the general requirements for each major release of MoonPy. Currently w
   * All major bugs found and fixed: in progess
 
 = Requirements for version 0.9.00 = 
+  * Ability to play against bots
+  * Team play available
   * Fog of War
   * Balloons
   * Wind
