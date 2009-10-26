@@ -292,7 +292,10 @@ class Mappanel:
                 self.client.selected_weap = "bomb"
 
     def chooseantiair(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+            if self.client.energy < self.client.game.get_unit_cost("antiair"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "antiair"
 
     def choosebridge(self, obj):
         if self.client.myturn == True:
@@ -380,7 +383,10 @@ class Mappanel:
                 self.client.selected_weap = "offense"
 
     def chooseshield(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.energy < self.client.game.get_unit_cost("shield"):
+            self.client.moonaudio.narrate("no_energy.ogg")
+        else:
+            self.client.selected_weap = "shield"
 
     def choosevirus(self, obj):
         if self.client.myturn == True:

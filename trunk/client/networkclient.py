@@ -203,6 +203,13 @@ class NetworkClient(pb.Referenceable):
                     self.client.moonaudio.sound("longtether.ogg")
 
 #****************************************************************************
+# recieve defense data from server
+#****************************************************************************
+    def remote_triggered_defense(self):
+        logging.info("defense triggered")
+        self.client.moonaudio.sound("laser.ogg")
+
+#****************************************************************************
 # recieve unit death data from server
 #****************************************************************************
     def remote_kill_unit(self, x, y, unittype, playerID, name):

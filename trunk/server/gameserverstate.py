@@ -272,17 +272,41 @@ class ServerState:
             if endY > self.map.ysize - 1:
                 endY = endY - (self.map.ysize - 1)
 
+            #determine if shot is intercepted by either an AA or shield
+            for lookD in self.map.unitstore.values():
+                if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and (lookD.disabled == False or lookD.virused == False):
+                    radius = 6
+                    searchX = lookD.x
+                    searchY = lookD.y
+                    for find_target in range(1, radius):
+                        spinner = 0
+                        while spinner < 360:
+                            searchX = find_target * math.cos(spinner / 180.0 * math.pi)
+                            searchY = find_target * math.sin(spinner / 180.0 * math.pi)
+                            searchX = round(endX, 0)
+                            searchY = round(endY, 0)
+                            searchX = searchX + lookD.x
+                            searchY = searchY + lookD.y
+                            if searchX == endX and searchY == endY
+                                spinner = 360
+                                self.interrupted_tether = True
+                                victim = self.map.get_unit_from_id(self.game.unit_counter)
+                                victim.hp = 0
+                                self.connections.remote_all("triggered_defense")
+                                if lookD.type.id == "antiair":
+                                    lookD.disabled == True
+                                return (start_tile.x, start_tile.y, endX, endY, collecting)
+                            else:
+                                spinner = spinner + 5
+
+
+
+
             #placing tethers if applicable
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
                     double_tether = False
                     tile = self.map.get_tile((endX, endY))
-                    """if tile.type == self.game.get_terrain_type("water"): #determine if tether lands in water
-                        self.interrupted_tether = True
-                        victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
-                        victim.hp = 0
-                        self.connections.remote_all("splash")
-                        return (start_tile.x, start_tile.y, endX, endY, collecting)"""
                     if (target.x == endX and target.y == endY): #determine if tether crosses another unit/tether
                         if (target.typeset != "doodad") and (target.parentID != parentID):
                             if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
