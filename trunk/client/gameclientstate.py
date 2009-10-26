@@ -91,6 +91,7 @@ class GameClientState:
         self.launch_step = 1
         self.playerlaunched = 0
         self.launch_type = None
+        self.missilelock = False
         self.deathtypes = []
         self.deathX = []
         self.deathY = []
@@ -108,6 +109,7 @@ class GameClientState:
         self.mapctrl.handle_events()
         self.mappanel.draw_minimap()
         if self.landed == True:
+            self.missilelock = False
             self.landed = False
             self.netclient.land_unit()
         pygame.display.flip()

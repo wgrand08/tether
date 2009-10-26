@@ -44,6 +44,7 @@ class ServerState:
         self.interrupted_tether = False
         self.waitingplayers = 0
         self.totalplayers = 0
+        self.lockedmissile = False
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -241,6 +242,7 @@ class ServerState:
 #Determine where a shot lands
 #****************************************************************************
     def find_trajectory(self, parentID, rotation, power, child, playerID):
+        self.lockedmissile = False
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
         endX = start_tile.x #todo: can this be safely removed?
@@ -283,11 +285,11 @@ class ServerState:
                         while spinner < 360:
                             searchX = find_target * math.cos(spinner / 180.0 * math.pi)
                             searchY = find_target * math.sin(spinner / 180.0 * math.pi)
-                            searchX = round(endX, 0)
-                            searchY = round(endY, 0)
+                            searchX = round(searchX, 0)
+                            searchY = round(searchY, 0)
                             searchX = searchX + lookD.x
                             searchY = searchY + lookD.y
-                            if searchX == endX and searchY == endY
+                            if searchX == endX and searchY == endY:
                                 spinner = 360
                                 self.interrupted_tether = True
                                 victim = self.map.get_unit_from_id(self.game.unit_counter)
@@ -299,8 +301,29 @@ class ServerState:
                             else:
                                 spinner = spinner + 5
 
-
-
+            #handle missile lockons
+            if child == "missile" and self.lockedmissile == False:
+                radius = 6
+                searchX = endX
+                searchY = endY
+                for find_target in range(1, radius):
+                    spinner = 0
+                    while spinner < 360:
+                        searchX = find_target * math.cos(spinner / 180.0 * math.pi)
+                        searchY = find_target * math.sin(spinner / 180.0 * math.pi)
+                        searchX = round(searchX, 0)
+                        searchY = round(searchY, 0)
+                        searchX = searchX + endX
+                        searchY = searchY + endY
+                        for target in self.map.unitstore.values():
+                            if target.playerID != playerID and searchX == target.x and searchY == target.y and target.typeset == "build":
+                                #found a target and changing trajectory to hit it
+                                rotation = spinner
+                                power = find_target
+                                self.lockedmissile = True
+                                spinner = 360
+                        else:
+                            spinner = spinner + 5
 
             #placing tethers if applicable
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers

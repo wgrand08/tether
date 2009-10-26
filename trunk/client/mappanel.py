@@ -169,7 +169,6 @@ class Mappanel:
         self.app.init(container) 
         self.draw_panel()
 
-
 #****************************************************************************
 # Draws the panel background.
 #****************************************************************************
@@ -223,10 +222,8 @@ class Mappanel:
         if self.client.heldbutton == "firing":
             self.client.holdbutton.firing()
 
-
         self.app.repaint()
         self.app.update(self.client.screen)
-
 
 #****************************************************************************
 # Draws the mini map to the screen.
@@ -241,7 +238,6 @@ class Mappanel:
     def show_message(self, text):
         self.message_out.write(text) 
         self.line.focus()
-
 
 #****************************************************************************
 # User clicked enter
@@ -259,7 +255,6 @@ class Mappanel:
         (x, y) = pos
         if self.minimap_rect.collidepoint(x, y):
           self.minimap.handle_mouse_click(pos)
-
 
 #****************************************************************************
 # Handle button inputs
@@ -345,7 +340,11 @@ class Mappanel:
                 self.client.selected_weap = "emp"
 
     def choosemissile(self, obj):
-        self.client.moonaudio.narrate("disabled.ogg")
+        if self.client.myturn == True:
+            if self.client.energy < self.client.game.get_unit_cost("missile"):
+                self.client.moonaudio.narrate("no_energy.ogg")
+            else:
+                self.client.selected_weap = "missile"
 
     def choosemines(self, obj):
         if self.client.myturn == True:

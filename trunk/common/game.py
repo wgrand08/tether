@@ -214,9 +214,10 @@ class Game:
             unit_type_id = "void"
 
         unit_type = self.get_unit_type(unit_type_id)
-        self.map.change_unit(unit, unit_type)
+        #self.map.change_unit(unit, unit_type)
         unit.typeset = 'doodad'
         unit.hp = 0
+        self.map.remove_unit(unit)
 
 #****************************************************************************
 #finds a units parent

@@ -159,6 +159,13 @@ class Map:
             unit.offset = offset
             unit.collecting = collecting
             unit.dir = dir
+
+#****************************************************************************
+# removes unit completely
+#****************************************************************************
+    def remove_unit(self, unit):
+        logging.info("removed a %s" % unit.type.id)
+        self.unitstore.pop(unit.id)
             
 #****************************************************************************
 # transforms one unit type into another type

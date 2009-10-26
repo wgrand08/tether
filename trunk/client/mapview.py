@@ -146,9 +146,16 @@ class Mapview:
             pygame.draw.circle(self.client.screen, (255, 75, 10), (tempX, tempY), scale, 1)
 
         if unit.type.id == "shields":
-            placeholder = True
+            tempX = blit_x + 12
+            tempY = blit_y + 12
+            scale = 6 * 24
+            pygame.draw.circle(self.client.screen, (255, 75, 10), (tempX, tempY), scale, 1)
+
         if unit.type.id == "antiair":
-            placeholder = True
+            tempX = blit_x + 12
+            tempY = blit_y + 12
+            scale = 6 * 24
+            pygame.draw.circle(self.client.screen, (255, 75, 10), (tempX, tempY), scale, 1)
 
         #find and show rotation indicator on selected unit
         for selected in self.client.selected_unit.values():
@@ -319,6 +326,55 @@ class Mapview:
                 self.client.launch_step = 1
             return
 
+        if self.client.launch_type == "missile":
+            if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+                self.client.launch_step = self.client.launch_step + .5
+                temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
+                if temp_rotation < 1:
+                    temp_rotation = self.client.launch_direction + 270
+                endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                endX = endX + self.client.launch_startx
+                endY = endY + self.client.launch_starty
+                map_pos = endX, endY
+
+                #find possible trajectory change in midflight
+                radius = 6
+                searchX = endX
+                searchY = endY
+                for find_target in range(1, radius):
+                    spinner = 0
+                    while spinner < 360:
+                        searchX = find_target * math.cos(spinner / 180.0 * math.pi)
+                        searchY = find_target * math.sin(spinner / 180.0 * math.pi)
+                        searchX = round(searchX, 0)
+                        searchY = round(searchY, 0)
+                        searchX = searchX + endX
+                        searchY = searchY + endY
+                        for target in self.map.unitstore.values():
+                            if target.playerID != playerID and searchX == target.x and searchY == target.y and target.typeset == "build":
+                                #found a target and changing trajectory to hit it
+                                self.client.launch_direction = spinner
+                                self.client.launch_distance = find_target
+                                self.client.missilelock = True
+                                spinner = 360
+                                logging.info("missile homed in on target")
+                        else:
+                            spinner = spinner + 5
+
+                blit_x, blit_y = self.map_to_gui(map_pos)
+                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                return
+            else: 
+                if self.client.splashed == True:
+                    self.client.moonaudio.sound("watersplash.ogg")
+                    self.client.splashed = False
+                self.client.launched = False
+                self.client.landed = True
+                self.client.launch_step = 1
+            return
+
         else:
             if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
                 self.client.launch_step = self.client.launch_step + .5
@@ -384,6 +440,8 @@ class Mapview:
                 self.client.moonaudio.sound("recall.ogg")   
             elif deathname == "repair":
                 self.client.moonaudio.sound("repair.ogg")
+            elif deathname == "virus":
+                self.client.moonaudio.sound("virus.ogg")
             elif deathname == "spike":
                 self.client.moonaudio.sound("spike.ogg")
             elif deathname == "emp":
