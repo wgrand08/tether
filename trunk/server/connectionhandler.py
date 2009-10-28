@@ -226,7 +226,7 @@ class ClientPerspective(pb.Avatar):
                                     foundplayer = True
                     else:
                         logging.info("no skips yet")
-                        if self.state.currentplayer = 0:
+                        if self.state.currentplayer == 0:
                             self.state.currentplayer = 1
                         foundplayer = True
                         logging.info("found currentplayer = %s" % self.state.currentplayer)
