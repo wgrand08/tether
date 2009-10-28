@@ -128,8 +128,6 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
         else: #handling normal shots
             (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
-            coordX = int(coordX)
-            coordY = int(coordY)
             coord = (coordX, coordY)
             offset = 0, 0
             self.state.deathlist = []
@@ -145,7 +143,7 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
             if self.state.interrupted_tether == False:
                 self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
-                logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY))
+                logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
                 self.state.determine_hit(unit, coord, self.conn_info)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 

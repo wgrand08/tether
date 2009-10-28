@@ -186,8 +186,8 @@ class ServerState:
                         endY = find_target * math.sin(spinner / 180.0 * math.pi)
                         endX = round(endX, 0)
                         endY = round(endY, 0)
-                        endX = endX + unit.x
-                        endY = endY + unit.y
+                        endX = int(endX) + unit.x
+                        endY = int(endY) + unit.y
                         for target in self.map.unitstore.values():
                             #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                             if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
@@ -206,8 +206,8 @@ class ServerState:
                         endY = find_target * math.sin(spinner / 180.0 * math.pi)
                         endX = round(endX, 0)
                         endY = round(endY, 0)
-                        endX = endX + unit.x
-                        endY = endY + unit.y
+                        endX = int(endX) + unit.x
+                        endY = int(endY) + unit.y
                         for target in self.map.unitstore.values():
                             #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                             if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
@@ -232,8 +232,8 @@ class ServerState:
                     endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
                     endX = round(endX, 0)
                     endY = round(endY, 0)
-                    endX = endX + start_tile.x
-                    endY = endY + start_tile.y
+                    endX = int(endX) + start_tile.x
+                    endY = int(endY) + start_tile.y
                 unit.x = endX
                 unit.y = endY
 
@@ -261,8 +261,8 @@ class ServerState:
             endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
             endX = round(endX, 0)
             endY = round(endY, 0)
-            endX = endX + start_tile.x
-            endY = endY + start_tile.y
+            endX = int(endX) + start_tile.x
+            endY = int(endY) + start_tile.y
 
             #code for looping the map edges
             if endX < 0:
@@ -342,41 +342,39 @@ class ServerState:
                                 double_tether = True #doesn't place 'doubled' tethers due to rounding
                 if double_tether == False:
                     #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
-                    testX = round(endX)
-                    testY = round(endX)
-                    testX = str(testX)
-                    testY = str(testY)
+                    testX = str(endX)
+                    testY = str(endY)
                     if (rotation < 23 or rotation > 338) and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 22 and rotation < 67 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 66 and rotation < 111 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 110 and rotation < 155 and find_target > 2 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 154 and rotation < 200 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 199 and rotation < 245 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 244 and rotation < 290 and find_target > 0 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
                     elif rotation > 289 and rotation < 339 and find_target > 1 and find_target < (power - 1):
                         chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (round(endX, 0), round(endY, 0)), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or water
@@ -442,8 +440,8 @@ class ServerState:
         endY = arc * math.sin(temp_rotation / 180.0 * math.pi)
         endX = round(endX, 0)
         endY = round(endY, 0)
-        splitX = endX + start_tile.x
-        splitY = endY + start_tile.y
+        splitX = int(endX) + start_tile.x
+        splitY = int(endY) + start_tile.y
 
         #code for looping the map edges
         if splitX < 0:
@@ -460,8 +458,8 @@ class ServerState:
         endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
         endX = round(endX, 0)
         endY = round(endY, 0)
-        coordX1 = endX + splitX
-        coordY1 = endY + splitY
+        coordX1 = int(endX) + splitX
+        coordY1 = int(endY) + splitY
         default_rotation = temp_rotation
 
         temp_rotation = default_rotation + 45
@@ -472,8 +470,8 @@ class ServerState:
         endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
         endX = round(endX, 0)
         endY = round(endY, 0)
-        coordX2 = endX + splitX
-        coordY2 = endY + splitY
+        coordX2 = int(endX) + splitX
+        coordY2 = int(endY) + splitY
 
         temp_rotation = default_rotation - 45
         if temp_rotation < 1:
@@ -483,8 +481,8 @@ class ServerState:
         endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
         endX = round(endX, 0)
         endY = round(endY, 0)
-        coordX3 = endX + splitX
-        coordY3 = endY + splitY
+        coordX3 = int(endX) + splitX
+        coordY3 = int(endY) + splitY
 
         return (start_tile.x, start_tile.y, coordX1, coordY1, coordX2, coordY2, coordX3, coordY3)
 
@@ -503,7 +501,6 @@ class ServerState:
                     for targety in range(target.y, target.y + 2):
                         for hitx in range(x, x + 2):
                             for hity in range(y, y + 2):
-                                #print"possible floats gameserverstate.py line 260: ", targetx, ", ", targety, ", ", target.x, ", ", target.y
                                 if targetx == hitx and targety == hity and target.typeset == "build" and target.blasted == False:
                                     if unit == "repair":
                                         logging.info("repaired target for 1")
@@ -556,8 +553,8 @@ class ServerState:
                     endY = find_target * math.sin(spinner / 180.0 * math.pi)
                     endX = round(endX, 0)
                     endY = round(endY, 0)
-                    endX = endX + x
-                    endY = endY + y
+                    endX = int(endX) + x
+                    endY = int(endY) + y
                     for target in self.map.unitstore.values():
                         #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                         if target.x == endX and target.y == endY and target.typeset == "build":
