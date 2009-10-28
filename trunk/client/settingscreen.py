@@ -112,8 +112,9 @@ class SettingsScreen:
 #User wishes to keep changes and settings are automatically saved
 #****************************************************************************
     def accept_settings(self, obj):
+        if self.client.settings.play_narrate == True and self.mute_narrate_select.value == False:
+            self.client.moonaudio.narrate("goodbye.ogg")
         orig_play_music = self.client.settings.play_music
-        orig_narrate = self.client.settings.play_narrate
         self.client.settings.playername = self.nickname_input.value
         self.client.settings.fullscreen = self.fullscreen_select.value
         self.client.settings.play_music = self.mute_music_select.value
@@ -123,8 +124,6 @@ class SettingsScreen:
             self.client.moonaudio.end_music()
         elif orig_play_music == False:
             self.client.moonaudio.music("water.ogg")
-        if self.client.settings.play_narrate == False and orig_narrate == True:
-            self.client.moonaudio.narrate("goodbye.ogg")
         if self.client.settings.play_narrate == True and orig_narrate == False:
             self.client.moonaudio.narrate("hello.ogg")
         self.client.moonaudio.sound("buttonclick.ogg")
