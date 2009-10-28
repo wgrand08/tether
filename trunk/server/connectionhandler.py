@@ -91,7 +91,7 @@ class ClientPerspective(pb.Avatar):
         self.state.waitingplayers = 0
         if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
-        elif unit == "mines" or unit == "cluster":
+        elif unit == "mines" or unit == "cluster": #handling 'split' shots
             (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
             coord1X = int(coord1X)
             coord1Y = int(coord1Y)
@@ -126,7 +126,7 @@ class ClientPerspective(pb.Avatar):
                 self.state.determine_hit(unit, coord2, self.conn_info)
                 self.state.determine_hit(unit, coord3, self.conn_info)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
-        else:
+        else: #handling normal shots
             (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
             coordX = int(coordX)
             coordY = int(coordY)
@@ -209,7 +209,7 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all("map", net_map)
             self.handler.remote_all("unit_list", net_unit_list)
             foundplayer = False
-            if self.state.max_players(self.handler.clients) > 2:
+            if self.state.max_players(self.handler.clients) > 1:
                 while not foundplayer:
                     self.state.currentplayer += 1
                     if self.state.currentplayer > self.state.max_players(self.handler.clients):
