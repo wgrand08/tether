@@ -215,13 +215,22 @@ class ClientPerspective(pb.Avatar):
                     if self.state.currentplayer > self.state.max_players(self.handler.clients):
                         logging.info("max players = %s" % self.state.max_players(self.handler.clients))
                         self.state.currentplayer = 0
-                    for search in self.state.skippedplayers:
-                        logging.info("searching found %s" % search)
-                        logging.info("currentplayer = %s" % self.state.currentplayer)
-                        if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
-                            logging.info("found searching found %s" % search)
-                            logging.info("found currentplayer = %s" % self.state.currentplayer)
-                            foundplayer = True
+                    if len(self.state.skippedplayers) > 1:
+                        for search in self.state.skippedplayers:
+                            logging.info("searching found skipped player# %s" % search)
+                            logging.info("currentplayer = %s" % self.state.currentplayer)
+                            if search != 0:
+                                if int(search) != self.state.currentplayer and self.state.currentplayer > 0:
+                                    logging.info("found searching found %s" % search)
+                                    logging.info("found currentplayer = %s" % self.state.currentplayer)
+                                    foundplayer = True
+                    else:
+                        logging.info("no skips yet")
+                        if self.state.currentplayer = 0:
+                            self.state.currentplayer = 1
+                        foundplayer = True
+                        logging.info("found currentplayer = %s" % self.state.currentplayer)
+                        
             else:
                 logging.info("only one player logged in")
                 self.state.currentplayer = 1
