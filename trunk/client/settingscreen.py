@@ -115,6 +115,7 @@ class SettingsScreen:
         if self.client.settings.play_narrate == True and self.mute_narrate_select.value == False:
             self.client.moonaudio.narrate("goodbye.ogg")
         orig_play_music = self.client.settings.play_music
+        orig_narrate = self.client.settings.play_narrate
         self.client.settings.playername = self.nickname_input.value
         self.client.settings.fullscreen = self.fullscreen_select.value
         self.client.settings.play_music = self.mute_music_select.value
