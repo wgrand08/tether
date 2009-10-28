@@ -223,6 +223,7 @@ class ClientPerspective(pb.Avatar):
                             logging.info("found currentplayer = %s" % self.state.currentplayer)
                             foundplayer = True
             else:
+                logging.info("only one player logged in")
                 self.state.currentplayer = 1
                     
             self.handler.remote_all("next_turn", self.state.currentplayer)
