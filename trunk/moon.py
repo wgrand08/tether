@@ -1,4 +1,4 @@
-#!/usr/bin/python2.5
+#!/usr/bin/python
  
 """Copyright 2009:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
