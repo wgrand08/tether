@@ -133,11 +133,10 @@ class Tileset:
                 per_pixel_alpha = ("true" == str(tileNode.getAttribute('pixelalpha')))
                 self.animstore.update({name: frames})
 
-                for playerID in range(1, (self.client.settings.max_players + 1)):
-                    #print"in tileset 136 processed playerID ", playerID, "for unit ", name
+                for teamID in range(1, 4):
                     typeset = self.client.game.get_unit_typeset(name)
                     if typeset == "build" or typeset == "tether":
-                        color = self.client.game.get_player_color(int(playerID))
+                        color = self.client.game.get_unit_color(int(teamID))
                     else:
                         color = None
 
@@ -146,7 +145,7 @@ class Tileset:
                         sloty = int(frameNode.getAttribute('slot-y'))
                         dir = frameNode.getAttribute('dir')
                         frame = frameNode.getAttribute('anim_frame')
-                        key = name + dir + frame + str(playerID)
+                        key = name + dir + frame + str(teamID)
                         sub_x = x + slotx * width + slotx
                         sub_y = y + sloty * height + sloty
                         self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color)

@@ -231,19 +231,28 @@ class Game:
 #****************************************************************************
 #Get color based off playerID
 #****************************************************************************
-    def get_player_color(self, playerID): #todo add more colors
+    def get_unit_color(self, teamID): #The players own units are green, allies are blue, enemies are red
         color = None
-        if playerID == 1:
+        if teamID == 1:
+            color = (10,255,10)
+        elif teamID == 2:
+            color = (10,10,255)
+        elif teamID == 3:
             color = (255,10,10)
-        elif playerID == 2:
-            color = (0,39,228)
-        elif playerID == 3:
-            color = (0,255,0)
-        elif playerID == 4:
-            color = (0,0,0)
         else:
-            logging.error("PlayerID %r not assigned a color yet" % (playerID))
+            logging.info("error specifying colors")
         return color
+
+#****************************************************************************
+#Get units team number
+#****************************************************************************
+    def get_unit_team(self, clientID, playerID): #team 1 is the players own units, team 2 is allied units, team 3 is enemies
+        if clientID == playerID:
+            team = 1
+        #todo: add allied abilities which will be team 2
+        else:
+            team = 3
+        return team
 
 #****************************************************************************
 #identify unit type

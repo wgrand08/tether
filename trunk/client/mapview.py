@@ -134,7 +134,8 @@ class Mapview:
         #draw units themselves
         gui_x, gui_y = self.map_to_gui(map_pos)
 
-        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, unit.playerID)
+        #unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, unit.playerID)
+        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
 
         blit_x = gui_x
         blit_y = gui_y

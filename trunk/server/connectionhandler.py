@@ -63,12 +63,9 @@ class ClientPerspective(pb.Avatar):
         else:
             self.conn_info.username = username
             self.conn_info.playerID = self.state.max_players(self.handler.clients)
-            if self.conn_info.playerID > self.state.settings.max_players:
-                return "login_failed"
-            else:
-                join_message = "Server: %s has joined the game as player %s" % (username, str(self.conn_info.playerID))
-                self.handler.remote_all('chat', join_message)
-                return self.conn_info.playerID 
+            join_message = "Server: %s has joined the game as player %s" % (username, str(self.conn_info.playerID))
+            self.handler.remote_all('chat', join_message)
+            return self.conn_info.playerID 
 
 #****************************************************************************
 #command that everyone is ready and the game actually starts

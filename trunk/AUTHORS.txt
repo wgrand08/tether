@@ -2,12 +2,11 @@ moon.py was developed by project tether:
 http://code.google.com/p/tether
 
 Primary Contributors to project tether are:
-Kevin Clement
-Isaac Carroll
-Jon Handy
-David Carroll
-Daniel Carroll
-
+Kevin Clement <Donkyhotay> (Project Maintainer, Lead Developer)
+Isaac Carroll <Zaak> (Code support, Bugfixing)
+Jon Handy <Mightily> (Bugtesting, Sound Effects)
+David Carroll <GildedBear> (graphics)
+stijndw1337 (graphics)
 
 
 Special thanks to the OpenRTS team who's open
