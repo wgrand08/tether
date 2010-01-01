@@ -37,7 +37,7 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Game generates random maps: complete
   * Power bar needs to function correctly: complete
   * All OMBC units/weapons implemented and working correctly: complete
-  * All major bugs found and fixed: in progess
+  * All major bugs (those affecting our ability to play) found and fixed: in progess
 
 = Requirements for version 0.9.00 = 
   * Ability to play against bots
