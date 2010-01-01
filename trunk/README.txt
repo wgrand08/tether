@@ -4,7 +4,7 @@ http://code.google.com/p/tether/
 
 REQUIREMENTS
 ---------------------
-This game requires Python2.5, Pygame1.8.1 or higher and PIL1.1.6 or higher in order to run successfully. The official websites for these are at:
+This game requires Python2.5, Pygame1.8.1, and PIL1.1.6 or higher in order to run successfully. The official websites for these are at:
 http://www.python.org
 http://www.pygame.org
 http://www.pythonware.com/products/pil/

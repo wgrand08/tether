@@ -174,7 +174,7 @@ class Mapview:
                 endY = 175 * math.sin(temp_rotation / 180.0 * math.pi)
                 finalX = endX + startX
                 finalY = endY + startY
-                pygame.draw.line(self.client.screen, self.client.game.get_player_color(self.client.playerID), (startX, startY), (finalX, finalY), 1)
+                pygame.draw.line(self.client.screen, (255, 10, 10), (startX, startY), (finalX, finalY), 1)
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
 #****************************************************************************

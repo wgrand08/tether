@@ -135,7 +135,7 @@ class Tileset:
 
                 for teamID in range(1, 4):
                     typeset = self.client.game.get_unit_typeset(name)
-                    if typeset == "build" or typeset == "tether":
+                    if typeset == "build" or typeset == "tether" or typeset == "weap" or typeset == "balloon":
                         color = self.client.game.get_unit_color(int(teamID))
                     else:
                         color = None
@@ -208,15 +208,8 @@ class Tileset:
             for pixel in data_orig:
                 (red, green, blue, a) = pixel
                 (new_r, new_g, new_b) = color
-                if green == 0:
-                    if new_r = 255:
-                        placeholder = True
-                    elif new_g = 255:
-                        placeholder = True
-                    elif new_b = 255:
-                        placeholder = True
-
-                    #new_color = (red * new_r / 255, new_g * red / 255, new_b * red / 255, a)
+                if ((red < blue + 10 and red > blue - 10) and (green < red - 50 or green < blue - 50)) or (red < blue + 30 and red > blue - 30) and (green < red - 100 or green < blue - 100):
+                    new_color = (red * new_r / 255, new_g * red / 255, new_b * red / 255, a)
                     data_color.append(new_color)
                 else:
                     data_color.append(pixel)

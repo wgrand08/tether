@@ -5,8 +5,8 @@ Primary Contributors to project tether are:
 Kevin Clement <Donkyhotay> (Project Maintainer, Lead Developer)
 Isaac Carroll <Zaak> (Code support, Bugfixing)
 Jon Handy <Mightily> (Bugtesting, Sound Effects)
-David Carroll <GildedBear> (graphics)
-Stijn De Wachter <stijndw1337> (graphics)
+David Carroll <GildedBear> (graphics - Mystic Pyramids)
+Stijn De Wachter <stijndw1337> (graphics - NiceCone)
 
 
 Special thanks to the OpenRTS team who's open
