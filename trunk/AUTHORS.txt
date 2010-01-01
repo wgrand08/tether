@@ -6,7 +6,7 @@ Kevin Clement <Donkyhotay> (Project Maintainer, Lead Developer)
 Isaac Carroll <Zaak> (Code support, Bugfixing)
 Jon Handy <Mightily> (Bugtesting, Sound Effects)
 David Carroll <GildedBear> (graphics)
-stijndw1337 (graphics)
+Stijn De Wachter <stijndw1337> (graphics)
 
 
 Special thanks to the OpenRTS team who's open
