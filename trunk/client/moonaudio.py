@@ -24,10 +24,16 @@ class MoonAudio:
     def __init__(self, client):
         self.client = client
 
-    def music(self, chosen_song):
+    def intro(self):
         if self.client.settings.play_music == True:
-            pygame.mixer.music.load(os.path.join('data/music',chosen_song))
+            pygame.mixer.music.load(os.path.join('data/music/intro.ogg'))
             pygame.mixer.music.play(-1)
+
+    def music(self, songID):
+        if self.client.settings.play_music == True:
+            chosen_song = "song" + str(songID) + ".ogg"
+            pygame.mixer.music.load(os.path.join('data/music/',chosen_song))
+            pygame.mixer.music.play(1)
 
     def sound(self, chosen_sound):
         if self.client.settings.play_sound == True:

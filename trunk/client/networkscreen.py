@@ -255,7 +255,8 @@ class PregameScreen:
 #****************************************************************************
 #
 #****************************************************************************
-    def start_game(self): 
+    def start_game(self):
+        self.client.moonaudio.end_music()
         self.loop.stop()
         self.app.quit()
         self.client.start_game()

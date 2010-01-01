@@ -44,7 +44,7 @@ class Main:
         self.initialize_locale()
 
         self.create_main_window()
-        self.client.moonaudio.music("water.ogg")
+        self.client.moonaudio.intro()
         self.intro = introscreen.IntroScreen(self.client.screen)
 
         mainmenu = MainMenu(self.client)

@@ -23,6 +23,7 @@ from networkclient import *
 from tileset import *
 from holdbutton import *
 from moonaudio import *
+from random import *
 from twisted.internet import task, reactor
 
 from common.map import * 
@@ -108,6 +109,9 @@ class GameClientState:
         self.mapview.drawmap()
         self.mapctrl.handle_events()
         self.mappanel.draw_minimap()
+        if pygame.mixer.music.get_busy() == False: #cycles through songs
+            song = randint(1, 7)
+            self.moonaudio.music(song)
         if self.landed == True:
             self.missilelock = False
             self.landed = False

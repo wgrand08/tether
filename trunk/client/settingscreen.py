@@ -124,7 +124,7 @@ class SettingsScreen:
         if self.client.settings.play_music == False:
             self.client.moonaudio.end_music()
         elif orig_play_music == False:
-            self.client.moonaudio.music("water.ogg")
+            self.client.moonaudio.intro()
         if self.client.settings.play_narrate == True and orig_narrate == False:
             self.client.moonaudio.narrate("hello.ogg")
         self.client.moonaudio.sound("buttonclick.ogg")
