@@ -214,7 +214,7 @@ class Mappanel:
                 self.client.selected_weap = "bomb"
 
         #display the currently selected unit/weapon
-        unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, self.client.playerID)
+        unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, 1)
         blit_x = self.client.screen.get_width() * 0.86
         blit_y = self.client.screen.get_height() * 0.80
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
