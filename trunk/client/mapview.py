@@ -361,11 +361,12 @@ class Mapview:
                         for target in self.map.unitstore.values():
                             if target.playerID != playerID and searchX == target.x and searchY == target.y and target.typeset == "build":
                                 #found a target and changing trajectory to hit it
+                                self.client.moonaudio.sound("lockon.ogg")
                                 self.client.launch_direction = spinner
                                 self.client.launch_distance = find_target
                                 self.client.missilelock = True
                                 spinner = 360
-                                logging.info("missile homed in on target")
+                                logging.debug("missile homed in on target")
                         else:
                             spinner = spinner + 5
 
