@@ -253,7 +253,7 @@ class ServerState:
         endY = start_tile.y
         self.interrupted_tether = False
         power = power + 4 #launching has minimal range
-        power = power * 2 #compensating for higher map resolution
+        #power = power * 2 #compensating for higher map resolution
         offsetX = 0
         offsetY = 0
         collecting = False
@@ -382,7 +382,6 @@ class ServerState:
                         logging.info("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or water
-        #todo: move all destruction of units by landing in water to function 'handle_water'
         if self.game.get_unit_typeset(child) == "build":
             tile = self.map.get_tile((endX, endY))
             if tile.type == self.game.get_terrain_type("rocks"):
@@ -420,7 +419,7 @@ class ServerState:
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
-        logging.info("collecting = %r" % collecting)
+        logging.debug("collecting = %r" % collecting)
         return (start_tile.x, start_tile.y, endX, endY, collecting)
 
 #****************************************************************************

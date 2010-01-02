@@ -267,6 +267,12 @@ class NetworkClient(pb.Referenceable):
         self.client.hit_rock = True
 
 #****************************************************************************
+# server detects collector landing on an energy pool
+#****************************************************************************
+    def remote_collecting_energy(self):
+        self.client.collecting_energy = True
+
+#****************************************************************************
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):

@@ -141,6 +141,8 @@ class ClientPerspective(pb.Avatar):
             if self.state.interrupted_tether == False:
                 self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
+                if collecting == True:
+                    self.handler.remote(self.conn_info.ref, "collecting_energy")
                 self.state.determine_hit(unit, coord, self.conn_info)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
@@ -163,7 +165,6 @@ class ClientPerspective(pb.Avatar):
         self.conn_info.undisable = False
         self.conn_info.Idisabled = []
         if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
-            logging.info("if")
             self.state.skippedplayers = []
             self.state.skippedplayers.append(0)
             self.state.move_crawlers()
@@ -212,22 +213,22 @@ class ClientPerspective(pb.Avatar):
                         self.state.currentplayer = 0
                     if len(self.state.skippedplayers) > 1:
                         for search in self.state.skippedplayers:
-                            logging.info("searching found skipped player# %s" % search)
-                            logging.info("currentplayer = %s" % self.state.currentplayer)
+                            logging.debug("searching found skipped player# %s" % search)
+                            logging.debug("currentplayer = %s" % self.state.currentplayer)
                             if search != 0:
                                 if int(search) != self.state.currentplayer and self.state.currentplayer > 0:
-                                    logging.info("found searching found %s" % search)
-                                    logging.info("found currentplayer = %s" % self.state.currentplayer)
+                                    logging.debug("found searching found %s" % search)
+                                    logging.info("currentplayer = %s" % self.state.currentplayer)
                                     foundplayer = True
                     else:
-                        logging.info("no skips yet")
+                        logging.debug("no skips yet")
                         if self.state.currentplayer == 0:
                             self.state.currentplayer = 1
                         foundplayer = True
-                        logging.info("found currentplayer = %s" % self.state.currentplayer)
+                        logging.info("currentplayer = %s" % self.state.currentplayer)
                         
             else:
-                logging.info("only one player logged in")
+                logging.info(" currentplayer = 1 (solo game)")
                 self.state.currentplayer = 1
                     
             self.handler.remote_all("next_turn", self.state.currentplayer)

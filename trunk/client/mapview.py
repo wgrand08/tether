@@ -377,7 +377,8 @@ class Mapview:
             return
 
         else:
-            if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+            #if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+            if (self.client.launch_step < (self.client.launch_distance + 3.5)):
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
@@ -400,6 +401,10 @@ class Mapview:
                     self.client.hit_rock = False
                 elif self.client.game.get_unit_typeset(self.client.launch_type) == "build":
                     self.client.moonaudio.sound("landing.ogg")
+                if self.client.collecting_energy == True:
+                    self.client.moonaudio.sound("recall.ogg")
+                    self.client.moonaudio.narrate("capture.ogg")
+                    self.client.collecting_energy = False
                 self.client.launched = False
                 self.client.landed = True
                 self.client.launch_step = 1

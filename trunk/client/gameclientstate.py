@@ -77,6 +77,7 @@ class GameClientState:
         self.dying_unit = False
         self.splashed = False
         self.hit_rock = False
+        self.collecting_energy = False
 
         self.selected_unit = {}
 
