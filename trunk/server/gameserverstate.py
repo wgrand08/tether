@@ -137,19 +137,22 @@ class ServerState:
         logging.debug("handling water")
         for unit in self.map.unitstore.values():
             tile = self.map.get_tile((unit.x, unit.y))
+            tile2 = self.map.get_tile((unit.x + 1, unit.y))
+            tile3 = self.map.get_tile((unit.x, unit.y + 1))
+            tile4 = self.map.get_tile((unit.x + 1, unit.y +1))
             if unit.type.id == "bridge":
-                if tile.type != self.game.get_terrain_type("water"):
+                if tile.type != self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water"):
                     unit.hp = 0 #killing bridges that don't land on water
             elif unit.typeset == "build":
-                if tile.type == self.game.get_terrain_type("water"):
+                if tile.type == self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water"):
                     gosplash = True
                     for unit2 in self.map.unitstore.values():
-                        if unit2.x == unit.x and unit2.y == unit.y and unit2.type.id == "bridge":
+                        if (unit2.x == unit.x and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y + 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == (unit.y + 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y - 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == (unit.y - 1) and unit2.type.id == "bridge"):
                             gosplash = false
                     if gosplash == True:
                         unit.hp = 0
                         self.connections.remote_all("splash")
-                        logging.info("went splash")
+                        logging.info("building went splash")
             elif unit.typeset == "tether":
                 if tile.type == self.game.get_terrain_type("water"):
                     logging.info("tether in water?")
