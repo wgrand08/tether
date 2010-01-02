@@ -29,42 +29,41 @@ import common.log
 # Check dependencies (Pygame).
 #****************************************************************************
 def dependencyCheck():
-  logging.info('Platform: ' + platform.platform())
-  logging.info('Python version ' + sys.version)
-  try:
-    import pygame
-    logging.info('Pygame version: ' + pygame.version.ver)
-  except ImportError, err:
-    logging.error('Loading dependency "pygame" failed: ' + str(err))
-    sys.exit(1)
-  try :
-    import PIL.Image as Image
-    logging.info('Python Image Library version ' + Image.VERSION)
-  except ImportError, err:
-    logging.info('Loading dependency "PIL" failed: ' + str(err))
-    sys.exit(1)
-  try:
-    import twisted
-    if hasattr(twisted, '__version__'):
-      logging.info('Twisted version ' + twisted.__version__)
-    else:
-      logging.info('Twisted version unknown (probably old)')
-  except ImportError, err:
-    logging.error('Loading dependency "twisted" failed: ' + str(err))
-    sys.exit(1)
+    logging.info('Platform: ' + platform.platform())
+    logging.info('Python version ' + sys.version)
+    try:
+        import pygame
+        logging.info('Pygame version: ' + pygame.version.ver)
+    except ImportError, err:
+      logging.error('Loading dependency "pygame" failed: ' + str(err))
+      sys.exit(1)
+    try :
+        import PIL.Image as Image
+        logging.info('Python Image Library version ' + Image.VERSION)
+    except ImportError, err:
+      logging.info('Loading dependency "PIL" failed: ' + str(err))
+      sys.exit(1)
+    try:
+      import twisted
+      if hasattr(twisted, '__version__'):
+        logging.info('Twisted version ' + twisted.__version__)
+      else:
+        logging.info('Twisted version unknown (probably old)')
+    except ImportError, err:
+      logging.error('Loading dependency "twisted" failed: ' + str(err))
+      sys.exit(1)
 
 
 def main():
 
-  #logLevel = logging.WARNING
-  if os.path.exists("MoonPy.log"):
-    os.remove('MoonPy.log')
-  LOG_FILENAME = 'MoonPy.log'
-  logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)  
+    if os.path.exists("MoonPy.log"):
+        os.remove('MoonPy.log')
+    LOG_FILENAME = 'MoonPy.log'
+    logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
 
-  dependencyCheck()
-  import client.main
-  client = client.main.Main()
+    dependencyCheck()
+    import client.main
+    client = client.main.Main()
 
 main()
 
