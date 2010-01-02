@@ -471,7 +471,7 @@ class Mapview:
                     pygame.time.wait(2)
             elif deathname == "crawler":
                 placeholder = True
-            elif deathname == "mines"
+            elif deathname == "mines":
                 placeholder = True
             else:
                 self.client.moonaudio.sound("mediumboom.ogg")
