@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import logging
 import platform
 import sys
+import os
 
 import common.log
 
@@ -40,14 +41,14 @@ def dependencyCheck():
     import PIL.Image as Image
     logging.info('Python Image Library version ' + Image.VERSION)
   except ImportError, err:
-    logging.error('Loading dependency "PIL" failed: ' + str(err))
+    logging.info('Loading dependency "PIL" failed: ' + str(err))
     sys.exit(1)
   try:
     import twisted
     if hasattr(twisted, '__version__'):
       logging.info('Twisted version ' + twisted.__version__)
     else:
-      logging.debug('Twisted version unknown (probably old)')
+      logging.info('Twisted version unknown (probably old)')
   except ImportError, err:
     logging.error('Loading dependency "twisted" failed: ' + str(err))
     sys.exit(1)
@@ -56,8 +57,10 @@ def dependencyCheck():
 def main():
 
   #logLevel = logging.WARNING
-  logLevel = logging.INFO
-  common.log.setUpLogging(logLevel)
+  if os.path.exists("MoonPy.log"):
+    os.remove('MoonPy.log')
+  LOG_FILENAME = 'MoonPy.log'
+  logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)  
 
   dependencyCheck()
   import client.main

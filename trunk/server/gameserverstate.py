@@ -90,7 +90,7 @@ class ServerState:
 #****************************************************************************
     def process_death(self):
         #This function searches for units without any HP remaining, removes them from the game, then sets the HP of any dependent units connected to them to 0. This function then repeats the process until all dependent units are found and removed
-        logging.info("process death")
+        logging.debug("processing death")
         notclear = True 
         while notclear:
             notclear = False
@@ -110,7 +110,7 @@ class ServerState:
 #find and move viruses
 #****************************************************************************
     def process_virus(self):
-        logging.info("process virus")
+        logging.debug("processing virus")
         for unit in self.map.unitstore.values():
             if unit.virused == True and unit.type != "build": #remove viruses from non-buildings
                 unit.virused = False
@@ -134,7 +134,7 @@ class ServerState:
 #handle bridges, units in water and destruction
 #****************************************************************************
     def handle_water(self): #todo: convert all death by water to this function
-        logging.info("handling water")
+        logging.debug("handling water")
         for unit in self.map.unitstore.values():
             tile = self.map.get_tile((unit.x, unit.y))
             if unit.type.id == "bridge":
@@ -171,7 +171,7 @@ class ServerState:
 #detonate all crawlers/mines that are too close to something
 #****************************************************************************
     def detonate_waiters(self):
-        logging.info("detonate waiters")
+        logging.debug("detonating waiters")
         for unit in self.map.unitstore.values():
             blasted = False
             if unit.type.id == "mines":
@@ -189,7 +189,7 @@ class ServerState:
                         endX = int(endX) + unit.x
                         endY = int(endY) + unit.y
                         for target in self.map.unitstore.values():
-                            #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                            logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                             if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
                                 unit.hp = 0 #target detonates, damage is incurred while processing death
                         spinner = spinner + 5
@@ -220,6 +220,7 @@ class ServerState:
 #Move all crawlers at the end of the round
 #****************************************************************************
     def move_crawlers(self):
+        logging.debug("moving crawlers")
         for unit in self.map.unitstore.values(): #note, in OMBC crawlers move about half a power bar in length
             if unit.type.id == "crawler" and unit.disabled == False:
                 temp_rotation = unit.dir

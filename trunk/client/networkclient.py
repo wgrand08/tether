@@ -155,7 +155,7 @@ class NetworkClient(pb.Referenceable):
             self.client.pregame.show_message(message)
 
     def remote_network_sync(self):
-        logging.info("* Network sync")
+        logging.debug("* Network sync")
         self.client.game_next_phase()
 
 
