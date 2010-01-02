@@ -200,13 +200,16 @@ class Mappanel:
         for y in range (height / panel_right_center.get_height() + 1): 
             y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
             self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))
-        temp_loc = 780
+        temp_loc = 782
 
+        pygame.draw.line(self.client.screen, (255, 10, 10), (temp_loc + 105, 24), (temp_loc + 105, 96), 1)
+        pygame.draw.line(self.client.screen, (255, 10, 10), (temp_loc, 24), (temp_loc, 96), 1)
+        pygame.draw.line(self.client.screen, (255, 10, 10), (temp_loc, 96), (temp_loc + 105, 96), 1)
+        pygame.draw.line(self.client.screen, (255, 10, 10), (temp_loc, 24), (temp_loc + 105, 24), 1)
         if self.client.firepower != 0:
             for show_power in range(1, (self.client.firepower + 1)): #display power bar
-                temp_loc = temp_loc + 7
-                pygame.draw.line(self.client.screen, (255,10,10), (temp_loc, 24), (temp_loc, 96), 1)
-
+                temp_loc = temp_loc + 5
+                pygame.draw.line(self.client.screen, (10,255,10), (temp_loc, 24), (temp_loc, 96), 1)
 
         for selected in self.client.selected_unit.values(): #prevent offenses from launching non-weapons
             if selected.type.id == "offense" and self.client.game.get_unit_typeset(self.client.selected_weap) != "weap":

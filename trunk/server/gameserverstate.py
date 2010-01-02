@@ -60,8 +60,8 @@ class ServerState:
             for player in range(0, self.totalplayers):
                 unplaced = True
                 while unplaced: #make certain starting hub is placed on grass
-                    x = randint(5, 175)
-                    y = randint(5, 175)
+                    x = randint(5, 85)
+                    y = randint(5, 85)
                     tile = self.map.get_tile((x, y))
                     if tile.type == self.game.get_terrain_type("grass"):
                         unplaced = False
@@ -104,6 +104,10 @@ class ServerState:
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
+                    if unit.type.id == "mines":
+                        placeholder = True #Todo: handle detonation of mines and crawlers
+                    if unit.type.id == "Crawler":
+                        placeholder = True
         self.handle_water()
 
 #****************************************************************************
@@ -179,7 +183,7 @@ class ServerState:
             blasted = False
             if unit.type.id == "mines":
                 power = self.game.get_unit_power(unit.type.id)
-                radius = 4
+                radius = 3
                 endX = unit.x
                 endY = unit.y
                 for find_target in range(1, radius):
@@ -253,7 +257,6 @@ class ServerState:
         endY = start_tile.y
         self.interrupted_tether = False
         power = power + 4 #launching has minimal range
-        #power = power * 2 #compensating for higher map resolution
         offsetX = 0
         offsetY = 0
         collecting = False
@@ -307,7 +310,7 @@ class ServerState:
 
             #handle missile lockons
             if child == "missile" and self.lockedmissile == False:
-                radius = 6
+                radius = 4
                 searchX = endX
                 searchY = endY
                 for find_target in range(1, radius):
@@ -432,7 +435,6 @@ class ServerState:
         endY = start_tile.y
         self.interrupted_tether = False
         power = power + 4 #launching has minimal range
-        power = power * 2 #compensating for higher map resolution
         offsetX = 0
         offsetY = 0
         arc = power - round((power / 2), 0) #find location where shots split
@@ -546,7 +548,7 @@ class ServerState:
                                     return #spikes only affect one tether, so when one tether is hit, no further damage is calculated
 
         if unit == "emp":
-            radius = 15 #the radius the EMP will be 15 on a side so it will be 30 from side to side, this is about half of a hubs launch range minux the minimum which appears to be how OMBC works
+            radius = 8 
             endX = x
             endY = y
             for find_target in range(1, radius):

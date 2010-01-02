@@ -49,7 +49,7 @@ class HoldButton:
             self.client.firepower = self.client.firepower + 1
         if self.client.power_direction == "down":
             self.client.firepower = self.client.firepower - 1
-        if self.client.firepower == 15:
+        if self.client.firepower == 20:
             self.client.power_direction = "down"
         if self.client.firepower == 1:
             self.client.moonaudio.sound("powerbar.ogg")

@@ -143,20 +143,26 @@ class Mapview:
         if unit.type.id == "mines":
             tempX = blit_x + 12
             tempY = blit_y + 12
-            scale = 4 * 24
-            pygame.draw.circle(self.client.screen, (255, 75, 10), (tempX, tempY), scale, 1)
+            scale = 3 * 24
+            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+            teamcolor = self.client.game.get_unit_color(colorID)
+            pygame.draw.circle(self.client.screen, teamcolor , (tempX, tempY), scale, 1)
 
         if unit.type.id == "shields":
             tempX = blit_x + 12
             tempY = blit_y + 12
             scale = 6 * 24
-            pygame.draw.circle(self.client.screen, (255, 75, 10), (tempX, tempY), scale, 1)
+            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+            teamcolor = self.client.game.get_unit_color(colorID)
+            pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
 
         if unit.type.id == "antiair":
             tempX = blit_x + 12
             tempY = blit_y + 12
             scale = 6 * 24
-            pygame.draw.circle(self.client.screen, (255, 75, 10), (tempX, tempY), scale, 1)
+            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+            teamcolor = self.client.game.get_unit_color(colorID)
+            pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
 
         #find and show rotation indicator on selected unit
         for selected in self.client.selected_unit.values():
@@ -260,12 +266,12 @@ class Mapview:
 #****************************************************************************
     def show_launch(self):
         if self.client.launch_type == "cluster" or self.client.launch_type == "mines":
-            if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+            if (self.client.launch_step < ((self.client.launch_distance + 3.5))):
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
                     temp_rotation = self.client.launch_direction + 270
-                midpoint = ((self.client.launch_distance + 3.5) * 2) - round((((self.client.launch_distance + 3.5) * 2) / 2), 0)
+                midpoint = ((self.client.launch_distance + 3.5)) - round((((self.client.launch_distance + 3.5)) / 2), 0)
                 if self.client.launch_step < midpoint:
                     logging.info("unsplit cluster")
                     endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
@@ -328,7 +334,7 @@ class Mapview:
             return
 
         if self.client.launch_type == "missile":
-            if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
+            if (self.client.launch_step < ((self.client.launch_distance + 3.5))):
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
@@ -340,7 +346,7 @@ class Mapview:
                 map_pos = endX, endY
 
                 #find possible trajectory change in midflight
-                radius = 6
+                radius = 4
                 searchX = endX
                 searchY = endY
                 for find_target in range(1, radius):
@@ -457,11 +463,15 @@ class Mapview:
                 blitX = blitX + 24
                 blitY = blitY + 24
                 scale = 0
-                while scale < 360:
+                while scale < 192:
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (10, 75, 255), (blitX, blitY), scale, 0)
                     pygame.display.flip()
                     pygame.time.wait(2)
+            elif deathname == "crawler":
+                placeholder = True
+            elif deathname == "mines"
+                placeholder = True
             else:
                 self.client.moonaudio.sound("mediumboom.ogg")
                 map_pos = deathX, deathY

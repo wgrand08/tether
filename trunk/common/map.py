@@ -31,8 +31,8 @@ from unit import *
 class Map:
 
     def __init__(self, game_state):
-        self.xsize = 180
-        self.ysize = 180
+        self.xsize = 90
+        self.ysize = 90
         self.mapstore = {}
         self.unitstore = {} 
         self.game_state = game_state
