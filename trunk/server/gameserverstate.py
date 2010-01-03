@@ -104,20 +104,26 @@ class ServerState:
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
+                    radius = self.game.get_unit_radius(unit.type.id) + 1
                     if unit.type.id == "mines" and unit.disabled == False:
-                        radius = 2
                         power = self.game.get_unit_power(unit)
                         endX = unit.x
                         endY = unit.y
-                        for find_target in range(1, radius):
+                        for find_target in range(0, radius):
                             spinner = 0
                             while spinner < 360:
-                                endX = find_target * math.cos(spinner / 180.0 * math.pi)
-                                endY = find_target * math.sin(spinner / 180.0 * math.pi)
-                                endX = round(endX, 0)
-                                endY = round(endY, 0)
-                                endX = int(endX) + unit.x
-                                endY = int(endY) + unit.y
+                                if find_target == 0:
+                                    endX = unit.x
+                                    endY = unit.y
+                                    spinner = 355
+                                else:
+                                    endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                                    endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                    endX = round(endX, 0)
+                                    endY = round(endY, 0)
+                                    endX = int(endX) + unit.x
+                                    endY = int(endY) + unit.y
+                                logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                                 for target in self.map.unitstore.values():
                                     logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                                     if target.x == endX and target.y == endY and target.typeset != "doodad":
@@ -125,19 +131,24 @@ class ServerState:
                                         target.blasted = True
                                 spinner = spinner + 5
                     if unit.type.id == "crawler" and unit.disabled == False:
-                        radius = 3
                         power = self.game.get_unit_power(unit)
                         endX = unit.x
                         endY = unit.y
-                        for find_target in range(1, radius):
+                        for find_target in range(0, radius):
                             spinner = 0
                             while spinner < 360:
-                                endX = find_target * math.cos(spinner / 180.0 * math.pi)
-                                endY = find_target * math.sin(spinner / 180.0 * math.pi)
-                                endX = round(endX, 0)
-                                endY = round(endY, 0)
-                                endX = int(endX) + unit.x
-                                endY = int(endY) + unit.y
+                                if find_target == 0:
+                                    endX = unit.x
+                                    endY = unit.y
+                                    spinner = 355
+                                else:
+                                    endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                                    endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                    endX = round(endX, 0)
+                                    endY = round(endY, 0)
+                                    endX = int(endX) + unit.x
+                                    endY = int(endY) + unit.y
+                                logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                                 for target in self.map.unitstore.values():
                                     logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                                     if target.x == endX and target.y == endY and target.typeset != "doodad":
@@ -146,18 +157,23 @@ class ServerState:
                                 spinner = spinner + 5
                     if unit.type.id == "collector" and unit.disabled == False:
                         logging.info("collector went critical")
-                        radius = 5
                         endX = unit.x
                         endY = unit.y
-                        for find_target in range(1, radius):
+                        for find_target in range(0, radius):
                             spinner = 0
                             while spinner < 360:
-                                endX = find_target * math.cos(spinner / 180.0 * math.pi)
-                                endY = find_target * math.sin(spinner / 180.0 * math.pi)
-                                endX = round(endX, 0)
-                                endY = round(endY, 0)
-                                endX = int(endX) + unit.x
-                                endY = int(endY) + unit.y
+                                if find_target == 0:
+                                    endX = unit.x
+                                    endY = unit.y
+                                    spinner = 355
+                                else:
+                                    endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                                    endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                    endX = round(endX, 0)
+                                    endY = round(endY, 0)
+                                    endX = int(endX) + unit.x
+                                    endY = int(endY) + unit.y
+                                logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                                 for target in self.map.unitstore.values():
                                     logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                                     if target.x == endX and target.y == endY and target.typeset != "doodad":
@@ -200,26 +216,34 @@ class ServerState:
             tile = self.map.get_tile((unit.x, unit.y))
             tile2 = self.map.get_tile((unit.x + 1, unit.y))
             tile3 = self.map.get_tile((unit.x, unit.y + 1))
-            tile4 = self.map.get_tile((unit.x + 1, unit.y +1))
+            tile4 = self.map.get_tile((unit.x + 1, unit.y + 1))
+            tile5 = self.map.get_tile((unit.x - 1, unit.y - 1))
+            tile6 = self.map.get_tile((unit.x - 1, unit.y))
+            tile7 = self.map.get_tile((unit.x, unit.y - 1))
+            tile8 = self.map.get_tile((unit.x + 1, unit.y - 1))
+            tile9 = self.map.get_tile((unit.x - 1, unit.y + 1))
+
             if unit.type.id == "bridge":
-                if tile.type != self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water"):
+                if tile.type != self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water") and tile5.type != self.game.get_terrain_type("water") and tile6.type != self.game.get_terrain_type("water") and tile7.type != self.game.get_terrain_type("water") and tile8.type != self.game.get_terrain_type("water") and tile9.type != self.game.get_terrain_type("water"):
                     unit.hp = 0 #killing bridges that don't land on water
+
             elif unit.typeset == "build":
-                if tile.type == self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water"):
+                if tile.type == self.game.get_terrain_type("water") or tile2.type == self.game.get_terrain_type("water") or tile3.type == self.game.get_terrain_type("water") or tile4.type == self.game.get_terrain_type("water") or tile5.type == self.game.get_terrain_type("water") or tile6.type == self.game.get_terrain_type("water") or tile7.type == self.game.get_terrain_type("water") or tile8.type == self.game.get_terrain_type("water") or tile9.type == self.game.get_terrain_type("water"):
                     gosplash = True
                     for unit2 in self.map.unitstore.values():
-                        if (unit2.x == unit.x and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y + 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == (unit.y + 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y - 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == (unit.y - 1) and unit2.type.id == "bridge"):
+                        if (unit2.x == unit.x and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y + 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == (unit.y + 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y - 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == (unit.y - 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == (unit.y + 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == (unit.y - 1) and unit2.type.id == "bridge"):
                             gosplash = false
                     if gosplash == True:
                         unit.hp = 0
                         self.connections.remote_all("splash")
                         logging.info("building went splash")
+
             elif unit.typeset == "tether":
                 if tile.type == self.game.get_terrain_type("water"):
                     logging.info("tether in water?")
                     gosplash = True
                     for unit2 in self.map.unitstore.values():
-                        if unit2.type.id == "bridge" and ((unit2.x == unit.x and unit2.y == unit.y) or ((unit2.x + 1) == unit.x and unit2.y == unit.y) or (unit2.x == unit.x and (unit2.y + 1 == unit.y)) or ((unit2.x + 1) == unit.x and (unit2.y + 1) == unit.y)):
+                        if unit2.type.id == "bridge" and ((unit2.x == unit.x and unit2.y == unit.y) or ((unit2.x + 1) == unit.x and unit2.y == unit.y) or (unit2.x == unit.x and (unit2.y + 1 == unit.y)) or ((unit2.x + 1) == unit.x and (unit2.y + 1) == unit.y) or ((unit2.x - 1) == unit.x and (unit2.y - 1) == unit.y) or ((unit2.x + 1) == unit.x and (unit2.y - 1) == unit.y) or ((unit2.x - 1) == unit.x and (unit2.y + 1) == unit.y) or ((unit2.x - 1) == unit.x and (unit2.y) == unit.y) or ((unit2.x) == unit.x and (unit2.y - 1) == unit.y)):
                             gosplash = False
                     if gosplash == True:
                         logging.info("splashing a tether")
@@ -260,7 +284,7 @@ class ServerState:
 
             elif unit.type.id == "crawler":
                 power = self.game.get_unit_power(unit)
-                radius = 1
+                radius = 1 #note this is different then the explosive radius!
                 endX = unit.x
                 endY = unit.y
                 for find_target in range(1, radius):
@@ -313,7 +337,7 @@ class ServerState:
         endX = start_tile.x #todo: can this be safely removed?
         endY = start_tile.y
         self.interrupted_tether = False
-        power = power + 4 #launching has minimal range
+        power = power + 6 #launching has minimal range, if modifying to forget to change animation distance to compensate
         offsetX = 0
         offsetY = 0
         collecting = False
@@ -398,7 +422,7 @@ class ServerState:
                         if (target.typeset != "doodad") and (target.parentID != parentID):
                             if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
                                 logging.info("You crossed a tether at step %r" % find_target)
-                                if find_target == 1:
+                                if find_target < 3: #don't remove when crossing on the first tether piece
                                     self.interrupted_tether = True
                                     return (start_tile.x, start_tile.y, endX, endY, collecting)
                                 else:
@@ -412,38 +436,10 @@ class ServerState:
                     #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
                     testX = str(endX)
                     testY = str(endY)
-                    if (rotation < 23 or rotation > 338) and find_target > 0 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 22 and rotation < 67 and find_target > 1 and find_target < (power - 2):
+                    if find_target > 1 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 66 and rotation < 111 and find_target > 1 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 110 and rotation < 155 and find_target > 2 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 154 and rotation < 200 and find_target > 1 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 199 and rotation < 245 and find_target > 1 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 244 and rotation < 290 and find_target > 0 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 289 and rotation < 339 and find_target > 1 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.info("added tether at " + testX + ", " + testY)
+                        logging.debug("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or water
         if self.game.get_unit_typeset(child) == "build":
@@ -475,6 +471,51 @@ class ServerState:
                 collecting = True
 
             tile = self.map.get_tile((endX + 1, endY + 1))
+            if tile.type == self.game.get_terrain_type("rocks"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
+
+            tile = self.map.get_tile((endX - 1, endY - 1))
+            if tile.type == self.game.get_terrain_type("rocks"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
+
+            tile = self.map.get_tile((endX - 1, endY))
+            if tile.type == self.game.get_terrain_type("rocks"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
+
+            tile = self.map.get_tile((endX, endY - 1))
+            if tile.type == self.game.get_terrain_type("rocks"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
+
+            tile = self.map.get_tile((endX - 1, endY + 1))
+            if tile.type == self.game.get_terrain_type("rocks"): 
+                self.interrupted_tether = True
+                victim = self.map.get_unit_from_id(self.game.unit_counter) 
+                victim.hp = 0
+                self.connections.remote_all("hit_rock")
+            elif tile.type == self.game.get_terrain_type("energy"):
+                collecting = True
+
+            tile = self.map.get_tile((endX + 1, endY - 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
                 self.interrupted_tether = True
                 victim = self.map.get_unit_from_id(self.game.unit_counter) 
@@ -560,78 +601,78 @@ class ServerState:
     def determine_hit(self, unit, pos, player):
         x, y = pos
         power = self.game.get_unit_power(unit)
+        radius = self.game.get_unit_radius(unit) + 1
+        for target in self.map.unitstore.values():
+            target.blasted = False #clearing all targets
         if unit != "crawler" or unit != "mines":
-            for target in self.map.unitstore.values():
-                target.blasted = False
-                for targetx in range(target.x, target.x + 2):
-                    for targety in range(target.y, target.y + 2):
-                        for hitx in range(x, x + 2):
-                            for hity in range(y, y + 2):
-                                if targetx == hitx and targety == hity and target.typeset == "build" and target.blasted == False:
-                                    if unit == "repair":
-                                        logging.info("repaired target for 1")
-                                        target.hp = target.hp + 1
-                                        logging.info("it's current HP = %s" % target.hp)
-                                        if target.hp > self.game.get_unit_hp(target.type.id):
-                                            target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
-                                            target.blasted = True
-                                    elif unit == "spike": #spike on a building
-                                        target.hp = target.hp - power
-                                        for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
-                                            if target2.id == target.playerID:
-                                                target2.hp = target.hp - 1
-                                    elif unit == "virus":
-                                        target.virused = True
-                                    elif unit == "recall":
-                                        if target.playerID == player.playerID: #if own target, insta-death
-                                            player.energy = player.energy + target.hp
-                                            target.hp = 0
-                                            target.blasted = True
-                                            target.disabled = True
-                                        else:
-                                            if target.hp < 3: #if not own target
-                                                player.energy = player.energy + target.hp
-                                                target.hp = 0
-                                                target.blasted = True
-                                                target.disabled = True
-                                            else:
-                                                player.energy = player.energy + power
-                                                target.hp = target.hp - power
-                                                target.blasted = True
-                                    else:
-                                        logging.info("hit target for %s" % power)
-                                        target.hp = target.hp - power
-                                        target.blasted = True
-                                elif targetx == hitx and targety == hity and target.typeset == "tether" and unit == "spike": #spikes landing on tethers zaps buildings on both ends
-                                    (target1, target2) = self.game.find_tether_ends(target)
-                                    for tetherend in self.map.unitstore.values():
-                                        if tetherend.id == target1 or tetherend.id == target2:
-                                            tetherend.hp = tetherend.hp - 1
-                                            logging.info("spike damaged unit %s" % tetherend.id)
-                                    return #spikes only affect one tether, so when one tether is hit, no further damage is calculated
-
-        if unit == "emp":
-            radius = 8 
             endX = x
             endY = y
-            for find_target in range(1, radius):
+            for find_target in range(0, radius):
                 spinner = 0
                 while spinner < 360:
-                    endX = find_target * math.cos(spinner / 180.0 * math.pi)
-                    endY = find_target * math.sin(spinner / 180.0 * math.pi)
-                    endX = round(endX, 0)
-                    endY = round(endY, 0)
-                    endX = int(endX) + x
-                    endY = int(endY) + y
+                    if find_target == 0:
+                        endX = x
+                        endY = y
+                        spinner = 355
+                    else:
+                        endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                        endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                        endX = round(endX, 0)
+                        endY = round(endY, 0)
+                        endX = int(endX) + x
+                        endY = int(endY) + y
+                    logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                     for target in self.map.unitstore.values():
-                        #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
-                        if target.x == endX and target.y == endY and target.typeset == "build":
-                            target.disabled = True
-                            player.Idisabled.append(target.id)
-                            player.undisable = True
-                            logging.info("you disabled a %r" % target.type.id)
+                        logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                        if target.x == endX and target.y == endY and target.typeset == "build" and target.blasted == False:
+                            logging.info("detected hit")
+                            if unit == "emp":
+                                target.disabled = True
+                                player.Idisabled.append(target.id)
+                                player.undisable = True
+                                logging.info("you disabled a %r" % target.type.id)
+                            elif unit == "repair":
+                                logging.info("repaired target for 1")
+                                target.hp = target.hp + 1
+                                logging.info("it's current HP = %s" % target.hp)
+                                if target.hp > self.game.get_unit_hp(target.type.id):
+                                    target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
+                                    target.blasted = True
+                            elif unit == "spike": #spike on a building
+                                target.hp = target.hp - power
+                                for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
+                                    if target2.id == target.playerID:
+                                        target2.hp = target.hp - 1
+                            elif unit == "virus":
+                                target.virused = True
+                            elif unit == "recall":
+                                if target.playerID == player.playerID: #if own target, insta-death
+                                    player.energy = player.energy + target.hp
+                                    target.hp = 0
+                                    target.blasted = True
+                                    target.disabled = True
+                                else:
+                                    if target.hp < 3: #if not own target
+                                        player.energy = player.energy + target.hp
+                                        target.hp = 0
+                                        target.blasted = True
+                                        target.disabled = True
+                                    else:
+                                        player.energy = player.energy + power
+                                        target.hp = target.hp - power
+                                        target.blasted = True
+                            else:
+                                logging.info("hit target for %s" % power)
+                                target.hp = target.hp - power
+                                target.blasted = True
+                        elif target.x == endX and target.y == endY and target.typeset == "tether" and unit == "spike": #spikes landing on tethers zaps buildings on both ends
+                            (target1, target2) = self.game.find_tether_ends(target)
+                            for tetherend in self.map.unitstore.values():
+                                if tetherend.id == target1 or tetherend.id == target2:
+                                    tetherend.hp = tetherend.hp - 1
+                                    logging.info("spike damaged unit %s" % tetherend.id)
+                            return #spikes only affect one tether, so when one tether is hit, no further damage is calculated
                     spinner = spinner + 5
-
 
 #****************************************************************************
 #calculate the number of players currently connected to the game

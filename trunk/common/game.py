@@ -150,7 +150,7 @@ class Game:
         type = "grass"
         movecost = 0
         movements.update({type:movecost})
-        self.unit_types.update({"tether":UnitType("tether", "tether", 0, "doodad", movements)})
+        self.unit_types.update({"tether":UnitType("tether", "tether", 0, "tether", movements)})
 
         self.terrain_types.update({"grass":TerrainType("grass", "grass")})
         self.terrain_types.update({"water":TerrainType("water", "water")})
@@ -217,7 +217,11 @@ class Game:
         #self.map.change_unit(unit, unit_type)
         unit.typeset = 'doodad'
         unit.hp = 0
-        logging.info("removed a " + str(unit.type.id) + " at location: " + str(unit.x) + ", " + str(unit.y))
+        if unit.type.id == "tether":
+            logging.debug("removed a " + str(unit.type.id) + " at location: " + str(unit.x) + ", " + str(unit.y))
+        else:
+            logging.info("removed a " + str(unit.type.id) + " at location: " + str(unit.x) + ", " + str(unit.y))
+
         self.map.remove_unit(unit)
 
 #****************************************************************************
@@ -312,13 +316,13 @@ class Game:
 #****************************************************************************
     def get_unit_radius(self, type_id):
         if type_id == "crawler":
-            radius = 4
+            radius = 5
         elif type_id == "emp":
-            radius = 8
+            radius = 9
         elif type_id == "mines":
             radius = 2
         elif type_id == "collector":
-            radius = 5
+            radius = 6
         else:
             radius = 1
         return radius

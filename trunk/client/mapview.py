@@ -139,6 +139,9 @@ class Mapview:
 
         blit_x = gui_x
         blit_y = gui_y
+        if unit.typeset == "build" or unit.typeset == "doodad": #centering 3x3 graphics
+            blit_x = gui_x - 24 
+            blit_y = gui_y - 24
 
         if unit.type.id == "mines":
             tempX = blit_x + 12
@@ -149,16 +152,16 @@ class Mapview:
             pygame.draw.circle(self.client.screen, teamcolor , (tempX, tempY), scale, 1)
 
         if unit.type.id == "shields":
-            tempX = blit_x + 12
-            tempY = blit_y + 12
+            tempX = blit_x + 36
+            tempY = blit_y + 36
             scale = 6 * 24
             colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
 
         if unit.type.id == "antiair":
-            tempX = blit_x + 12
-            tempY = blit_y + 12
+            tempX = blit_x + 36
+            tempY = blit_y + 36
             scale = 6 * 24
             colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
             teamcolor = self.client.game.get_unit_color(colorID)
@@ -166,22 +169,23 @@ class Mapview:
 
         #find and show rotation indicator on selected unit
         for selected in self.client.selected_unit.values():
-
             if unit.id == selected.id:
                 rotation = self.client.rotate_position
                 endX = unit.x
                 endY = unit.y
-                startX = blit_x + 24
-                startY = blit_y + 24
+                startX = blit_x + 36
+                startY = blit_y + 36
                 temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
                     temp_rotation = rotation + 270
                 endX = 175 * math.cos(temp_rotation / 180.0 * math.pi)
                 endY = 175 * math.sin(temp_rotation / 180.0 * math.pi)
-                finalX = endX + startX
-                finalY = endY + startY
+                finalX = endX + startX + 1
+                finalY = endY + startY + 1
                 pygame.draw.line(self.client.screen, (255, 10, 10), (startX, startY), (finalX, finalY), 1)
+
         self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
 
 #****************************************************************************
 # Divides n by d
@@ -266,7 +270,7 @@ class Mapview:
 #****************************************************************************
     def show_launch(self):
         if self.client.launch_type == "cluster" or self.client.launch_type == "mines":
-            if (self.client.launch_step < ((self.client.launch_distance + 3.5))):
+            if (self.client.launch_step < ((self.client.launch_distance + 5))):
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
@@ -334,7 +338,7 @@ class Mapview:
             return
 
         if self.client.launch_type == "missile":
-            if (self.client.launch_step < ((self.client.launch_distance + 3.5))):
+            if (self.client.launch_step < ((self.client.launch_distance + 5))):
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
@@ -384,8 +388,7 @@ class Mapview:
             return
 
         else:
-            #if (self.client.launch_step < ((self.client.launch_distance + 3.5) * 2)):
-            if (self.client.launch_step < (self.client.launch_distance + 3.5)):
+            if (self.client.launch_step < (self.client.launch_distance + 5)):
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
@@ -396,6 +399,12 @@ class Mapview:
                 endY = endY + self.client.launch_starty
                 map_pos = endX, endY
                 blit_x, blit_y = self.map_to_gui(map_pos)
+                if self.client.game.get_unit_typeset(self.client.launch_type) == "build":
+                    blit_x = blit_x - 24
+                    blit_y = blit_y - 24
+                """elif self.client.game.get_unit_typeset(self.client.launch_type) == "weap":
+                    blit_x = blit_x - 12
+                    blit_y = blit_y - 12"""
                 unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 return
@@ -428,6 +437,9 @@ class Mapview:
             blitX, blitY = self.map_to_gui(map_pos)
             unit_surface = self.tileset.get_unit_surf_from_tile(deathname, 0, self.client.deathplayerID[place])
             if self.client.deathtypes[place] != "weap" or deathname != "recall":
+                if self.client.deathtypes[place] == "build":
+                    blitX = blitX - 24
+                    blitY = blitY - 24
                 self.client.screen.blit(unit_surface, (blitX, blitY))
             place = place + 1
 
@@ -439,30 +451,17 @@ class Mapview:
         deathdisabled = self.client.deathdisabled.pop(0)
         radius = self.client.game.get_unit_radius(deathname)
         if unittype == "build":
-            if deathname == "collector" and deathdisabled == False:
-                self.client.moonaudio.sound("biggestboom.ogg")
-                map_pos = deathX, deathY
-                blitX, blitY = self.map_to_gui(map_pos)
-                blitX = blitX + 24
-                blitY = blitY + 24
-                scale = 0
-                while scale < (radius * 24):
-                    scale = scale + 1
-                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
-                    pygame.display.flip()
-                    pygame.time.wait(2)
-            else:
-                self.client.moonaudio.sound("biggestboom.ogg")
-                map_pos = deathX, deathY
-                blitX, blitY = self.map_to_gui(map_pos)
-                blitX = blitX + 24
-                blitY = blitY + 24
-                scale = 0
-                while scale < (radius * 24):
-                    scale = scale + 1
-                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
-                    pygame.display.flip()
-                    pygame.time.wait(2)
+            self.client.moonaudio.sound("biggestboom.ogg")
+            map_pos = deathX, deathY
+            blitX, blitY = self.map_to_gui(map_pos)
+            blitX = blitX + 36
+            blitY = blitY + 36
+            scale = 0
+            while scale < (radius * 24):
+                scale = scale + 1
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                pygame.display.flip()
+                pygame.time.wait(2)
         if unittype == "weap":
             if deathname == "recall":
                 self.client.moonaudio.sound("recall.ogg")   
@@ -488,8 +487,8 @@ class Mapview:
                 self.client.moonaudio.sound("mediumboom.ogg")
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)
-                blitX = blitX + 24
-                blitY = blitY + 24
+                blitX = blitX + 12
+                blitY = blitY + 12
                 scale = 0
                 while scale < (radius * 24):
                     scale = scale + 1

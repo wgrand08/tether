@@ -146,7 +146,8 @@ class ClientPerspective(pb.Avatar):
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
                 if collecting == True:
                     self.handler.remote(self.conn_info.ref, "collecting_energy")
-                self.state.determine_hit(unit, coord, self.conn_info)
+                if self.state.game.get_unit_typeset(unit) == "weap":
+                    self.state.determine_hit(unit, coord, self.conn_info)
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
 #****************************************************************************

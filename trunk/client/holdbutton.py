@@ -34,8 +34,8 @@ class HoldButton:
 
     def increasepower(self):
         self.client.firepower = self.client.firepower + 1
-        if self.client.firepower > 20:
-            self.client.firepower = 20
+        if self.client.firepower > 25:
+            self.client.firepower = 25
         pygame.time.delay(3)
 
     def decreasepower(self):
@@ -49,9 +49,9 @@ class HoldButton:
             self.client.firepower = self.client.firepower + 1
         if self.client.power_direction == "down":
             self.client.firepower = self.client.firepower - 1
-        if self.client.firepower == 20:
+        if self.client.firepower == 25:
             self.client.power_direction = "down"
         if self.client.firepower == 1:
             self.client.moonaudio.sound("powerbar.ogg")
             self.client.power_direction = "up"
-        pygame.time.delay(40)
+        pygame.time.delay(30)
