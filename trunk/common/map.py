@@ -164,7 +164,6 @@ class Map:
 # removes unit completely
 #****************************************************************************
     def remove_unit(self, unit):
-        logging.info("removed a %s" % unit.type.id)
         self.unitstore.pop(unit.id)
             
 #****************************************************************************

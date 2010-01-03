@@ -57,8 +57,10 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_login(self, username, version):
         if version != self.state.settings.version:
+            logging.warning("Server refused login due to version mismatch")
             return "login_failed"
         elif username == "server" or username == "Server": #the name 'server' is reserved for messages from the real server
+            logging.warning("Server refused login due to invalid username")
             return "login_failed"
         else:
             self.conn_info.username = username
@@ -88,6 +90,7 @@ class ClientPerspective(pb.Avatar):
         self.state.waitingplayers = 0
         if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + self.conn_info.playerID + " attempted to use " + self.state.game.get_unit_cost(unit) + " energy when server reports only having " + self.conn_info.energy + " energy!")
         elif unit == "mines" or unit == "cluster": #handling 'split' shots
             (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
             coord1X = int(coord1X)

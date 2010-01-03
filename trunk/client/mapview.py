@@ -143,7 +143,7 @@ class Mapview:
         if unit.type.id == "mines":
             tempX = blit_x + 12
             tempY = blit_y + 12
-            scale = 3 * 24
+            scale = 2 * 24
             colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor , (tempX, tempY), scale, 1)
@@ -436,18 +436,33 @@ class Mapview:
         deathY = self.client.deathY.pop(0)
         deathplayerid = self.client.deathplayerID.pop(0)
         deathname = self.client.deathname.pop(0)
+        deathdisabled = self.client.deathdisabled.pop(0)
         if unittype == "build":
-            self.client.moonaudio.sound("biggestboom.ogg")
-            map_pos = deathX, deathY
-            blitX, blitY = self.map_to_gui(map_pos)
-            blitX = blitX + 24
-            blitY = blitY + 24
-            scale = 0
-            while scale < 48:
-                scale = scale + 1
-                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
-                pygame.display.flip()
-                pygame.time.wait(2)
+            if deathname == "collector" and deathdisabled == False:
+                self.client.moonaudio.sound("biggestboom.ogg")
+                radius = 5
+                map_pos = deathX, deathY
+                blitX, blitY = self.map_to_gui(map_pos)
+                blitX = blitX + 24
+                blitY = blitY + 24
+                scale = 0
+                while scale < (radius * 24):
+                    scale = scale + 1
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.display.flip()
+                    pygame.time.wait(2)
+            else:
+                self.client.moonaudio.sound("biggestboom.ogg")
+                map_pos = deathX, deathY
+                blitX, blitY = self.map_to_gui(map_pos)
+                blitX = blitX + 24
+                blitY = blitY + 24
+                scale = 0
+                while scale < 48:
+                    scale = scale + 1
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.display.flip()
+                    pygame.time.wait(2)
         if unittype == "weap":
             if deathname == "recall":
                 self.client.moonaudio.sound("recall.ogg")   
@@ -459,20 +474,43 @@ class Mapview:
                 self.client.moonaudio.sound("spike.ogg")
             elif deathname == "emp":
                 self.client.moonaudio.sound("emp.ogg")
+                radius = 8
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
                 blitY = blitY + 24
                 scale = 0
-                while scale < 192:
+                while scale < (radius * 24):
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (10, 75, 255), (blitX, blitY), scale, 0)
                     pygame.display.flip()
                     pygame.time.wait(2)
-            elif deathname == "crawler":
-                placeholder = True
-            elif deathname == "mines":
-                placeholder = True
+            elif deathname == "mines" and deathdisabled == False:
+                self.client.moonaudio.sound("mediumboom.ogg")
+                radius = 2
+                map_pos = deathX, deathY
+                blitX, blitY = self.map_to_gui(map_pos)
+                blitX = blitX + 24
+                blitY = blitY + 24
+                scale = 0
+                while scale < (radius * 24):
+                    scale = scale + 1
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.display.flip()
+                    pygame.time.wait(2)
+            elif deathname == "crawler" and deathdisabled == False:
+                self.client.moonaudio.sound("biggestboom.ogg")
+                radius = 3
+                map_pos = deathX, deathY
+                blitX, blitY = self.map_to_gui(map_pos)
+                blitX = blitX + 24
+                blitY = blitY + 24
+                scale = 0
+                while scale < (radius * 24):
+                    scale = scale + 1
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.display.flip()
+                    pygame.time.wait(2)
             else:
                 self.client.moonaudio.sound("mediumboom.ogg")
                 map_pos = deathX, deathY

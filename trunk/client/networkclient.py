@@ -212,13 +212,14 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # recieve unit death data from server
 #****************************************************************************
-    def remote_kill_unit(self, x, y, unittype, playerID, name):
+    def remote_kill_unit(self, x, y, unittype, playerID, name, disabled):
         self.client.dying_unit = True
         self.client.deathtypes.append(unittype)
         self.client.deathX.append(x)
         self.client.deathY.append(y)
         self.client.deathplayerID.append(playerID)
         self.client.deathname.append(name)
+        self.client.deathdisabled.append(disabled)
 
 #****************************************************************************
 # recieve assigned playerID from server

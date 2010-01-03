@@ -217,6 +217,7 @@ class Game:
         #self.map.change_unit(unit, unit_type)
         unit.typeset = 'doodad'
         unit.hp = 0
+        logging.info("removed a " + str(unit.type.id) + " at location: " + str(unit.x) + ", " + str(unit.y))
         self.map.remove_unit(unit)
 
 #****************************************************************************
@@ -296,7 +297,7 @@ class Game:
 #****************************************************************************
     def get_unit_power(self, type_id):
         power = 0
-        if type_id == "bomb" or type_id == "missile" or type_id == "spike" or type_id == "recall":
+        if type_id == "bomb" or type_id == "missile" or type_id == "spike" or type_id == "recall" or type_id == "mines":
             power = 3
         if type_id == "crawler":
             power = 4

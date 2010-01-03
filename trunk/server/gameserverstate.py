@@ -99,15 +99,72 @@ class ServerState:
                     unit.hp = 1000
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True 
-                    self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset, unit.playerID, unit.type.id)
+                    self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset, unit.playerID, unit.type.id, unit.disabled)
                     self.game.remove_unit(unit)
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
-                    if unit.type.id == "mines":
-                        placeholder = True #Todo: handle detonation of mines and crawlers
-                    if unit.type.id == "Crawler":
-                        placeholder = True
+                    if unit.type.id == "mines" and unit.disabled == False:
+                        radius = 2
+                        power = self.game.get_unit_power(unit)
+                        endX = unit.x
+                        endY = unit.y
+                        for find_target in range(1, radius):
+                            spinner = 0
+                            while spinner < 360:
+                                endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                                endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                endX = round(endX, 0)
+                                endY = round(endY, 0)
+                                endX = int(endX) + unit.x
+                                endY = int(endY) + unit.y
+                                for target in self.map.unitstore.values():
+                                    logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                                    if target.x == endX and target.y == endY and target.typeset != "doodad":
+                                        target.hp = target.hp - power #unit is caught in explosion and damaged
+                                        target.blasted = True
+                                spinner = spinner + 5
+                    if unit.type.id == "crawler" and unit.disabled == False:
+                        radius = 3
+                        power = self.game.get_unit_power(unit)
+                        endX = unit.x
+                        endY = unit.y
+                        for find_target in range(1, radius):
+                            spinner = 0
+                            while spinner < 360:
+                                endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                                endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                endX = round(endX, 0)
+                                endY = round(endY, 0)
+                                endX = int(endX) + unit.x
+                                endY = int(endY) + unit.y
+                                for target in self.map.unitstore.values():
+                                    logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                                    if target.x == endX and target.y == endY and target.typeset != "doodad":
+                                        target.hp = target.hp - power #unit is caught in explosion and damaged
+                                        target.blasted = True
+                                spinner = spinner + 5
+                    if unit.type.id == "collector" and unit.disabled == False:
+                        logging.info("collector went critical")
+                        radius = 5
+                        endX = unit.x
+                        endY = unit.y
+                        for find_target in range(1, radius):
+                            spinner = 0
+                            while spinner < 360:
+                                endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                                endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                endX = round(endX, 0)
+                                endY = round(endY, 0)
+                                endX = int(endX) + unit.x
+                                endY = int(endY) + unit.y
+                                for target in self.map.unitstore.values():
+                                    logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                                    if target.x == endX and target.y == endY and target.typeset != "doodad":
+                                        logging.info("unit got caught in nuke")
+                                        target.hp = target.hp - 5 #unit is caught in explosion and damaged
+                                        target.blasted = True
+                                spinner = spinner + 5
         self.handle_water()
 
 #****************************************************************************
@@ -183,7 +240,7 @@ class ServerState:
             blasted = False
             if unit.type.id == "mines":
                 power = self.game.get_unit_power(unit.type.id)
-                radius = 3
+                radius = 2
                 endX = unit.x
                 endY = unit.y
                 for find_target in range(1, radius):
@@ -341,45 +398,49 @@ class ServerState:
                         if (target.typeset != "doodad") and (target.parentID != parentID):
                             if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
                                 logging.info("You crossed a tether at step %r" % find_target)
-                                self.interrupted_tether = True
-                                victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
-                                victim.hp = 0
-                                return (start_tile.x, start_tile.y, endX, endY, collecting)
+                                if find_target == 1:
+                                    self.interrupted_tether = True
+                                    return (start_tile.x, start_tile.y, endX, endY, collecting)
+                                else:
+                                    self.interrupted_tether = True
+                                    victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
+                                    victim.hp = 0
+                                    return (start_tile.x, start_tile.y, endX, endY, collecting)
                             else:
                                 double_tether = True #doesn't place 'doubled' tethers due to rounding
                 if double_tether == False:
                     #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
                     testX = str(endX)
                     testY = str(endY)
-                    if (rotation < 23 or rotation > 338) and find_target > 0 and find_target < (power - 1):
+                    if (rotation < 23 or rotation > 338) and find_target > 0 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 #tethers have reverse dependency compared to buildings
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 22 and rotation < 67 and find_target > 1 and find_target < (power - 1):
+                    elif rotation > 22 and rotation < 67 and find_target > 1 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 66 and rotation < 111 and find_target > 1 and find_target < (power - 1):
+                    elif rotation > 66 and rotation < 111 and find_target > 1 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 110 and rotation < 155 and find_target > 2 and find_target < (power - 1):
+                    elif rotation > 110 and rotation < 155 and find_target > 2 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 154 and rotation < 200 and find_target > 1 and find_target < (power - 1):
+                    elif rotation > 154 and rotation < 200 and find_target > 1 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 199 and rotation < 245 and find_target > 1 and find_target < (power - 1):
+                    elif rotation > 199 and rotation < 245 and find_target > 1 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 244 and rotation < 290 and find_target > 0 and find_target < (power - 1):
+                    elif rotation > 244 and rotation < 290 and find_target > 0 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
-                    elif rotation > 289 and rotation < 339 and find_target > 1 and find_target < (power - 1):
+                    elif rotation > 289 and rotation < 339 and find_target > 1 and find_target < (power - 2):
                         chain_parent = self.game.unit_counter + 2 
                         self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                         logging.info("added tether at " + testX + ", " + testY)
@@ -526,11 +587,13 @@ class ServerState:
                                             player.energy = player.energy + target.hp
                                             target.hp = 0
                                             target.blasted = True
+                                            target.disabled = True
                                         else:
                                             if target.hp < 3: #if not own target
                                                 player.energy = player.energy + target.hp
                                                 target.hp = 0
                                                 target.blasted = True
+                                                target.disabled = True
                                             else:
                                                 player.energy = player.energy + power
                                                 target.hp = target.hp - power
