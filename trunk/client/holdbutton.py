@@ -34,8 +34,8 @@ class HoldButton:
 
     def increasepower(self):
         self.client.firepower = self.client.firepower + 1
-        if self.client.firepower > 15:
-            self.client.firepower = 15
+        if self.client.firepower > 20:
+            self.client.firepower = 20
         pygame.time.delay(3)
 
     def decreasepower(self):

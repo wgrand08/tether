@@ -437,10 +437,10 @@ class Mapview:
         deathplayerid = self.client.deathplayerID.pop(0)
         deathname = self.client.deathname.pop(0)
         deathdisabled = self.client.deathdisabled.pop(0)
+        radius = self.client.game.get_unit_radius(deathname)
         if unittype == "build":
             if deathname == "collector" and deathdisabled == False:
                 self.client.moonaudio.sound("biggestboom.ogg")
-                radius = 5
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
@@ -458,7 +458,7 @@ class Mapview:
                 blitX = blitX + 24
                 blitY = blitY + 24
                 scale = 0
-                while scale < 48:
+                while scale < (radius * 24):
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
                     pygame.display.flip()
@@ -474,7 +474,6 @@ class Mapview:
                 self.client.moonaudio.sound("spike.ogg")
             elif deathname == "emp":
                 self.client.moonaudio.sound("emp.ogg")
-                radius = 8
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
@@ -487,7 +486,6 @@ class Mapview:
                     pygame.time.wait(2)
             elif deathname == "mines" and deathdisabled == False:
                 self.client.moonaudio.sound("mediumboom.ogg")
-                radius = 2
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
@@ -500,7 +498,6 @@ class Mapview:
                     pygame.time.wait(2)
             elif deathname == "crawler" and deathdisabled == False:
                 self.client.moonaudio.sound("biggestboom.ogg")
-                radius = 3
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
@@ -518,12 +515,11 @@ class Mapview:
                 blitX = blitX + 24
                 blitY = blitY + 24
                 scale = 0
-                while scale < 24:
+                while scale < (radius * 24):
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
                     pygame.display.flip()
                     pygame.time.wait(2)
-
 
         if unittype == "tether":
             pop = random.randint(1, 6)
@@ -545,7 +541,7 @@ class Mapview:
             blitX = blitX + 12
             blitY = blitY + 12
             scale = 0
-            while scale < 24:
+            while scale < (radius * 24):
                 scale = scale + 1
                 pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
                 pygame.display.flip()

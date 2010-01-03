@@ -308,6 +308,22 @@ class Game:
         return power
 
 #****************************************************************************
+#get the explosive radius of a weapon
+#****************************************************************************
+    def get_unit_radius(self, type_id):
+        if type_id == "crawler":
+            radius = 4
+        elif type_id == "emp":
+            radius = 8
+        elif type_id == "mines":
+            radius = 2
+        elif type_id == "collector":
+            radius = 5
+        else:
+            radius = 1
+        return radius
+
+#****************************************************************************
 #get the cost of a unit or weapon
 #****************************************************************************
     def get_unit_cost(self, type_id):
