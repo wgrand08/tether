@@ -111,6 +111,8 @@ class Mapctrl:
     def define_tiles_within_rectangle(self):
         w = self.client.tileset.tile_width / 2
         h = self.client.tileset.tile_height / 6
+        #w = self.client.tileset.tile_width
+        #h = self.client.tileset.tile_height
         half_w = w / 2
         half_h = h / 2
         (x1, y1) = self.select_pos_start
@@ -135,56 +137,116 @@ class Mapctrl:
         while (yy <= segments_y): 
             x = x1
             xx = 0
-#following code is to determine if a unit has been selected. There are 4 seperate checks due to each unit occupying 4 tiles on the map. 
+#following code is to determine if a unit has been selected. There are 4 seperate checks due to each unit occupying 9 tiles on the map. 
             while (xx <= segments_x):
                 subX = x
                 subY = y
                 map_pos = self.client.mapview.gui_to_map((subX, subY))
-                unit = self.client.map.get_unit(map_pos)
+                unit = self.client.map.get_selectable_unit(map_pos)
                 if unit: 
-                    self.client.selected_unit = {}
                     if (unit.type.id == "hub" or unit.type.id == "offense") and unit.playerID == self.client.playerID: #only allow players to select their own buildings
                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+                            self.client.selected_unit = {}
                             self.client.selected_unit.update({map_pos:unit})
                             logging.info("Selected unit ID %r" % unit.id)
-                            logging.info("It's parent ID is %r" % unit.parentID)
+                            logging.debug("It's parent ID is %r" % unit.parentID)
                 else:
                     subX = x - 24
                     subY = y - 24
                     map_pos = self.client.mapview.gui_to_map((subX, subY))
-                    unit = self.client.map.get_unit(map_pos)
+                    unit = self.client.map.get_selectable_unit(map_pos)
                     if unit: 
-                        self.client.selected_unit = {}
-                        if (unit.type.id == "hub" or unit.type.id == "offense") and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                        if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                            self.client.selected_unit = {}
                             if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+
                                 self.client.selected_unit.update({map_pos:unit})
                                 logging.info("Selected unit ID %r" % unit.id)
-                                logging.info("It's parent ID is %r" % unit.parentID)
+                                logging.debug("It's parent ID is %r" % unit.parentID)
                     else:
                         subX = x - 24
                         subY = y
                         map_pos = self.client.mapview.gui_to_map((subX, subY))
-                        unit = self.client.map.get_unit(map_pos)
+                        unit = self.client.map.get_selectable_unit(map_pos)
                         if unit: 
-                            self.client.selected_unit = {}
-                            if (unit.type.id == "hub" or unit.type.id == "offense") and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                            if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                self.client.selected_unit = {}
                                 if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                     self.client.selected_unit.update({map_pos:unit})
                                     logging.info("Selected unit ID %r" % unit.id)
-                                    logging.info("It's parent ID is %r" % unit.parentID)
+                                    logging.debug("It's parent ID is %r" % unit.parentID)
                         else:
                             subX = x
                             subY = y - 24
                             map_pos = self.client.mapview.gui_to_map((subX, subY))
-                            unit = self.client.map.get_unit(map_pos)
+                            unit = self.client.map.get_selectable_unit(map_pos)
                             if unit: 
-                                self.client.selected_unit = {}
-                                if (unit.type.id == "hub" or unit.type.id == "offense") and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                    self.client.selected_unit = {}
                                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                         self.client.selected_unit.update({map_pos:unit})
                                         logging.info("Selected unit ID %r" % unit.id)
-                                        logging.info("It's parent ID is %r" % unit.parentID)
-
+                                        logging.debug("It's parent ID is %r" % unit.parentID)
+                            else:
+                                subX = x + 24
+                                subY = y + 24
+                                map_pos = self.client.mapview.gui_to_map((subX, subY))
+                                unit = self.client.map.get_selectable_unit(map_pos)
+                                if unit: 
+                                    if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                        self.client.selected_unit = {}
+                                        if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+                                            self.client.selected_unit.update({map_pos:unit})
+                                            logging.info("Selected unit ID %r" % unit.id)
+                                            logging.debug("It's parent ID is %r" % unit.parentID)
+                                else:
+                                    subX = x
+                                    subY = y + 24
+                                    map_pos = self.client.mapview.gui_to_map((subX, subY))
+                                    unit = self.client.map.get_selectable_unit(map_pos)
+                                    if unit: 
+                                        if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                            self.client.selected_unit = {}
+                                            if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+                                                self.client.selected_unit.update({map_pos:unit})
+                                                logging.info("Selected unit ID %r" % unit.id)
+                                                logging.debug("It's parent ID is %r" % unit.parentID)
+                                    else:
+                                        subX = x + 24
+                                        subY = y
+                                        map_pos = self.client.mapview.gui_to_map((subX, subY))
+                                        unit = self.client.map.get_selectable_unit(map_pos)
+                                        if unit: 
+                                            if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                                self.client.selected_unit = {}
+                                                if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+                                                    self.client.selected_unit.update({map_pos:unit})
+                                                    logging.info("Selected unit ID %r" % unit.id)
+                                                    logging.debug("It's parent ID is %r" % unit.parentID)
+                                        else:
+                                            subX = x + 24
+                                            subY = y - 24
+                                            map_pos = self.client.mapview.gui_to_map((subX, subY))
+                                            unit = self.client.map.get_selectable_unit(map_pos)
+                                            if unit: 
+                                                if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                                    self.client.selected_unit = {}
+                                                    if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+                                                        self.client.selected_unit.update({map_pos:unit})
+                                                        logging.info("Selected unit ID %r" % unit.id)
+                                                        logging.debug("It's parent ID is %r" % unit.parentID)
+                                            else:
+                                                subX = x - 24
+                                                subY = y + 24
+                                                map_pos = self.client.mapview.gui_to_map((subX, subY))
+                                                unit = self.client.map.get_selectable_unit(map_pos)
+                                                if unit: 
+                                                    if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                                        self.client.selected_unit = {}
+                                                        if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
+                                                            self.client.selected_unit.update({map_pos:unit})
+                                                            logging.info("Selected unit ID %r" % unit.id)
+                                                            logging.debug("It's parent ID is %r" % unit.parentID)
 
                 yy += 1
                 y += inc_y

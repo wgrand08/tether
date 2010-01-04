@@ -99,6 +99,16 @@ class Map:
         return None
 
 #****************************************************************************
+#report selectable unit from location
+#****************************************************************************
+    def get_selectable_unit(self, pos):
+        x, y = pos
+        for unit in self.unitstore.values():
+            if unit.x == x and unit.y == y and (unit.type.id == "hub" or unit.type.id == "offense"):
+                return unit
+        return None
+
+#****************************************************************************
 #report any unit from location
 #****************************************************************************
     def get_doodad(self, pos):
