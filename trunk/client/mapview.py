@@ -120,7 +120,7 @@ class Mapview:
         if not unit:
             return 
 
-        if unit.typeset == "doodad": #make certain when placing units that 'doodads' are always on the bottom
+        if unit.typeset == "doodad": #doodads and are always on bottom
             for unit2 in self.map.unitstore.values():
                 if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
                     unit = self.map.get_unit(real_map_pos)
@@ -451,8 +451,8 @@ class Mapview:
             self.client.moonaudio.sound("biggestboom.ogg")
             map_pos = deathX, deathY
             blitX, blitY = self.map_to_gui(map_pos)
-            blitX = blitX + 36
-            blitY = blitY + 36
+            blitX = blitX + 12
+            blitY = blitY + 12
             scale = 0
             while scale < (radius * 24):
                 scale = scale + 1

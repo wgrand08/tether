@@ -57,9 +57,19 @@ class Map:
 #
 #****************************************************************************
     def get_tile(self, pos):
+        (endX,endY) = pos
+        if endX < 0:
+            endX = self.xsize + endX
+        if endX > self.xsize - 1:
+            endX = endX - (self.xsize - 1)
+        if endY < 0:
+            endY = self.ysize + endY
+        if endY > self.ysize - 1:
+            endY = endY - (self.ysize - 1)        
         try:
-            return self.mapstore[pos]
+            return self.mapstore[(endX, endY)]
         except KeyError:
+            logging.critical("get_tile error with pos = %s, %s", (endX, endY))
             raise MapTileError
 
 #****************************************************************************
@@ -160,7 +170,8 @@ class Map:
 # Places the unit at the map position.
 #****************************************************************************
     def set_unit(self, unit, pos, offset, typeset, hp, parentID, collecting, dir):
-        if (self.get_unit(pos) == None) or (typeset == "weap"):
+        landing = self.get_unit(pos)
+        if (landing == None) or (typeset == "weap") or (landing.type.id == "bridge") or (landing.type.id == "balloon"):
             self.unitstore.update({unit.id:unit})
             (unit.x, unit.y) = pos
             unit.typeset = typeset
@@ -169,6 +180,8 @@ class Map:
             unit.offset = offset
             unit.collecting = collecting
             unit.dir = dir
+        else:
+            logging.error("Attempted to add unit but nothing was placed!")
 
 #****************************************************************************
 # removes unit completely

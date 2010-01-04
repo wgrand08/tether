@@ -62,8 +62,17 @@ class ServerState:
                 while unplaced: #make certain starting hub is placed on grass
                     x = randint(5, 85)
                     y = randint(5, 85)
-                    tile = self.map.get_tile((x, y))
-                    if tile.type == self.game.get_terrain_type("grass"):
+                    (tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9) = self.game.find_connecting_points(x, y)
+                    tile1 = self.map.get_tile(tile1)
+                    tile2 = self.map.get_tile(tile2)
+                    tile3 = self.map.get_tile(tile3)
+                    tile4 = self.map.get_tile(tile4)
+                    tile5 = self.map.get_tile(tile5)
+                    tile6 = self.map.get_tile(tile6)
+                    tile7 = self.map.get_tile(tile7)
+                    tile8 = self.map.get_tile(tile8)
+                    tile9 = self.map.get_tile(tile9)
+                    if tile1.type == self.game.get_terrain_type("grass") and tile2.type == self.game.get_terrain_type("grass") and tile3.type == self.game.get_terrain_type("grass") and tile4.type == self.game.get_terrain_type("grass") and tile5.type == self.game.get_terrain_type("grass") and tile6.type == self.game.get_terrain_type("grass") and tile7.type == self.game.get_terrain_type("grass") and tile8.type == self.game.get_terrain_type("grass") and tile9.type == self.game.get_terrain_type("grass"):
                         unplaced = False
                 self.game.create_unit('hub', (x, y), (0,0), (player + 1), 0, False, 360)
 
@@ -213,47 +222,54 @@ class ServerState:
     def handle_water(self): #todo: convert all death by water to this function
         logging.debug("handling water")
         for unit in self.map.unitstore.values():
-            tile = self.map.get_tile((unit.x, unit.y))
-            tile2 = self.map.get_tile((unit.x + 1, unit.y))
-            tile3 = self.map.get_tile((unit.x, unit.y + 1))
-            tile4 = self.map.get_tile((unit.x + 1, unit.y + 1))
-            tile5 = self.map.get_tile((unit.x - 1, unit.y - 1))
-            tile6 = self.map.get_tile((unit.x - 1, unit.y))
-            tile7 = self.map.get_tile((unit.x, unit.y - 1))
-            tile8 = self.map.get_tile((unit.x + 1, unit.y - 1))
-            tile9 = self.map.get_tile((unit.x - 1, unit.y + 1))
+            tile1 = self.map.get_tile((unit.x, unit.y))
+            tile2 = self.map.get_tile(((unit.x + 1), unit.y))
+            tile3 = self.map.get_tile((unit.x, (unit.y + 1)))
+            tile4 = self.map.get_tile(((unit.x + 1), (unit.y + 1)))
+            tile5 = self.map.get_tile(((unit.x - 1), (unit.y - 1)))
+            tile6 = self.map.get_tile(((unit.x - 1), unit.y))
+            tile7 = self.map.get_tile((unit.x, (unit.y - 1)))
+            tile8 = self.map.get_tile(((unit.x + 1), (unit.y - 1)))
+            tile9 = self.map.get_tile(((unit.x - 1), (unit.y + 1)))
 
             if unit.type.id == "bridge":
-                if tile.type != self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water") and tile5.type != self.game.get_terrain_type("water") and tile6.type != self.game.get_terrain_type("water") and tile7.type != self.game.get_terrain_type("water") and tile8.type != self.game.get_terrain_type("water") and tile9.type != self.game.get_terrain_type("water"):
+                if tile1.type != self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water") and tile5.type != self.game.get_terrain_type("water") and tile6.type != self.game.get_terrain_type("water") and tile7.type != self.game.get_terrain_type("water") and tile8.type != self.game.get_terrain_type("water") and tile9.type != self.game.get_terrain_type("water"):
                     unit.hp = 0 #killing bridges that don't land on water
+                    self.process_death()
 
             elif unit.typeset == "build":
-                if tile.type == self.game.get_terrain_type("water") or tile2.type == self.game.get_terrain_type("water") or tile3.type == self.game.get_terrain_type("water") or tile4.type == self.game.get_terrain_type("water") or tile5.type == self.game.get_terrain_type("water") or tile6.type == self.game.get_terrain_type("water") or tile7.type == self.game.get_terrain_type("water") or tile8.type == self.game.get_terrain_type("water") or tile9.type == self.game.get_terrain_type("water"):
+                if tile1.type == self.game.get_terrain_type("water") or tile2.type == self.game.get_terrain_type("water") or tile3.type == self.game.get_terrain_type("water") or tile4.type == self.game.get_terrain_type("water") or tile5.type == self.game.get_terrain_type("water") or tile6.type == self.game.get_terrain_type("water") or tile7.type == self.game.get_terrain_type("water") or tile8.type == self.game.get_terrain_type("water") or tile9.type == self.game.get_terrain_type("water"):
                     gosplash = True
                     for unit2 in self.map.unitstore.values():
-                        if (unit2.x == unit.x and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y + 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == (unit.y + 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == unit.y and unit2.type.id == "bridge") or (unit2.x == unit.x and (unit2.y - 1) == unit.y and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == (unit.y - 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x - 1) and unit2.y == (unit.y + 1) and unit2.type.id == "bridge") or (unit2.x == (unit.x + 1) and unit2.y == (unit.y - 1) and unit2.type.id == "bridge"):
-                            gosplash = false
+                        (crosscheck1, crosscheck2, crosscheck3, crosscheck4, crosscheck5, crosscheck6, crosscheck7, crosscheck8, crosscheck9) = self.game.find_connecting_points(unit2.x, unit2.y)
+                        if  unit2.type.id == "bridge" and (crosscheck1 == (unit.x, unit.y) or crosscheck2 == (unit.x, unit.y) or crosscheck3 == (unit.x, unit.y) or crosscheck4 == (unit.x, unit.y) or crosscheck5 == (unit.x, unit.y) or crosscheck6 == (unit.x, unit.y) or crosscheck7 == (unit.x, unit.y) or crosscheck8 == (unit.x, unit.y) or crosscheck9 == (unit.x, unit.y)):
+                            gosplash = False
                     if gosplash == True:
                         unit.hp = 0
                         self.connections.remote_all("splash")
                         logging.info("building went splash")
+                        self.process_death()
 
             elif unit.typeset == "tether":
-                if tile.type == self.game.get_terrain_type("water"):
-                    logging.info("tether in water?")
+                if tile1.type == self.game.get_terrain_type("water"):
                     gosplash = True
                     for unit2 in self.map.unitstore.values():
-                        if unit2.type.id == "bridge" and ((unit2.x == unit.x and unit2.y == unit.y) or ((unit2.x + 1) == unit.x and unit2.y == unit.y) or (unit2.x == unit.x and (unit2.y + 1 == unit.y)) or ((unit2.x + 1) == unit.x and (unit2.y + 1) == unit.y) or ((unit2.x - 1) == unit.x and (unit2.y - 1) == unit.y) or ((unit2.x + 1) == unit.x and (unit2.y - 1) == unit.y) or ((unit2.x - 1) == unit.x and (unit2.y + 1) == unit.y) or ((unit2.x - 1) == unit.x and (unit2.y) == unit.y) or ((unit2.x) == unit.x and (unit2.y - 1) == unit.y)):
+                        (crosscheck1, crosscheck2, crosscheck3, crosscheck4, crosscheck5, crosscheck6, crosscheck7, crosscheck8, crosscheck9) = self.game.find_connecting_points(unit2.x, unit2.y)
+                        logging.debug("tether is at location " + str(unit.x) + ", " + str(unit.y))
+                        logging.debug("comparing unit.type " + str(unit2.type.id))
+                        logging.debug("comparing all unit locations %s %s %s %s %s %s %s %s %s" % (crosscheck1, crosscheck2, crosscheck3, crosscheck4, crosscheck5, crosscheck6, crosscheck7, crosscheck8, crosscheck9))
+                        if  unit2.type.id == "bridge" and  (crosscheck1 == (unit.x, unit.y) or crosscheck2 == (unit.x, unit.y) or crosscheck3 == (unit.x, unit.y) or crosscheck4 == (unit.x, unit.y) or crosscheck5 == (unit.x, unit.y) or crosscheck6 == (unit.x, unit.y) or crosscheck7 == (unit.x, unit.y) or crosscheck8 == (unit.x, unit.y) or crosscheck9 == (unit.x, unit.y)):
                             gosplash = False
                     if gosplash == True:
-                        logging.info("splashing a tether")
+                        logging.info("splashing a tether %s" % str(unit.id))
                         (target1, target2) = self.game.find_tether_ends(unit)
-                        logging.info("tried destroying target1 as %s" % target1)
+                        logging.debug("Destroying %s as end of splashed tether" % target1)
                         for target in self.map.unitstore.values():
                             if target.id == target1:
                                 target.hp = 0
                                 self.connections.remote_all("splash")
-                                logging.info("went splash")
+                                logging.info("finished splashing")
+                                self.process_death()
 
 #****************************************************************************
 #detonate all crawlers/mines that are too close to something

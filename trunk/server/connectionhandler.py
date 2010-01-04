@@ -157,7 +157,6 @@ class ClientPerspective(pb.Avatar):
         self.state.skippedplayers.append(self.conn_info.playerID)
         #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
         self.state.detonate_waiters()
-        self.state.process_death()
         self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
         self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
         if self.conn_info.undisable == True: #undisabling units caused by this player previously
@@ -188,12 +187,12 @@ class ClientPerspective(pb.Avatar):
                         foundplayer = True
 
         self.state.detonate_waiters()
-        self.state.process_death()
         net_map = self.network_prepare(self.state.map.mapstore) 
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
         self.handler.remote_all("map", net_map)
         self.handler.remote_all("unit_list", net_unit_list)
         self.handler.remote_all('next_turn', self.state.currentplayer)
+        self.state.game.unit_dump()
 
 #****************************************************************************
 #after all clients reports it has completed animation server sends updated map and process death
@@ -203,7 +202,6 @@ class ClientPerspective(pb.Avatar):
         if self.state.waitingplayers == self.state.max_players(self.handler.clients):
             self.state.waitingplayers = 0
             self.state.detonate_waiters()
-            self.state.process_death()
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
             self.handler.remote_all("map", net_map)

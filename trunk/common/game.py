@@ -180,8 +180,9 @@ class Game:
         typeset = self.get_unit_typeset(unit_type_id)
         hp = self.get_unit_hp(unit_type_id)
         unit_type = self.get_unit_type(unit_type_id)
-        if unit_type_id != "crawler": #all units face same direction except for crawlers
+        if unit_type_id != "crawler" or unit_type_id != "missile": #all units face same direction except for crawlers and missiles
             dir = 360
+        logging.debug("creating unit# %s", self.unit_counter)
         self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting, dir)
 
 #****************************************************************************
@@ -192,9 +193,9 @@ class Game:
         endX = unit.x
         endY = unit.y
         tile1 = self.map.get_tile((endX, endY))
-        tile2 = self.map.get_tile((endX + 1, endY))
-        tile3 = self.map.get_tile((endX, endY + 1))
-        tile4 = self.map.get_tile((endX + 1, endY + 1))
+        tile2 = self.map.get_tile(((endX + 1), endY))
+        tile3 = self.map.get_tile((endX, (endY + 1)))
+        tile4 = self.map.get_tile(((endX + 1), (endY + 1)))
         if (tile1.type == self.get_terrain_type("grass")) and (tile2.type == self.get_terrain_type("grass")) and (tile3.type == self.get_terrain_type("grass")) and (tile4.type == self.get_terrain_type("grass")) : #craters are only placed on grass
             unit_type_id = "crater"
 
@@ -202,6 +203,9 @@ class Game:
             unit_type_id = "void"
 
         if unit.typeset == "tether": #tethers do not leave craters when destroyed
+            unit_type_id = "void"
+
+        if unit.typeset == "weap": #weapons do not leave creaters
             unit_type_id = "void"
 
         if unit.typeset == "ballon": #balloons do not leave craters when destroyed
@@ -213,16 +217,17 @@ class Game:
         if unit.type.id == "bridge": #bridges do not leave craters
             unit_type_id = "void"
 
-        unit_type = self.get_unit_type(unit_type_id)
-        #self.map.change_unit(unit, unit_type)
-        unit.typeset = 'doodad'
-        unit.hp = 0
+
         if unit.type.id == "tether":
             logging.debug("removed a " + str(unit.type.id) + " at location: " + str(unit.x) + ", " + str(unit.y))
         else:
             logging.info("removed a " + str(unit.type.id) + " at location: " + str(unit.x) + ", " + str(unit.y))
 
-        self.map.remove_unit(unit)
+        unit_type = self.get_unit_type(unit_type_id)
+        self.map.change_unit(unit, unit_type)
+        unit.typeset = 'doodad'
+        unit.hp = 0
+        #self.map.remove_unit(unit)
 
 #****************************************************************************
 #finds a units parent
@@ -315,6 +320,7 @@ class Game:
 #get the explosive radius of a weapon
 #****************************************************************************
     def get_unit_radius(self, type_id):
+        typeset = self.get_unit_typeset(type_id)
         if type_id == "crawler":
             radius = 5
         elif type_id == "emp":
@@ -323,6 +329,8 @@ class Game:
             radius = 2
         elif type_id == "collector":
             radius = 6
+        elif typeset == "build":
+            radius = 2
         else:
             radius = 1
         return radius
@@ -357,20 +365,100 @@ class Game:
         notfound = True
         while notfound == True:
             for test in self.map.unitstore.values():
+                #print("searching for tether end with unitID " + str(test.id) + " from unitID " + str(tether.parentID))
                 if test.id == tether.parentID:
                     if test.typeset == "tether":
                         tether = test
                     else: #found outer end of tether, other end is it's parentID
+                        #print("found tether end: unitID " +str(test.id))
                         target1 = test.id
                         target2 = test.parentID
                         notfound = False
         return target1, target2
 
 #****************************************************************************
+#Find all points surrounding a point
+#****************************************************************************
+    def find_connecting_points(self, x, y):
+        endX = x
+        endY = y
+        self.loop_map(endX, endY)
+        tile1 = (endX, endY)
+
+        endX = x + 1
+        endY = endY
+        self.loop_map(endX, endY)
+        tile2 = (endX, endY)
+
+        endX = x
+        endY = y + 1
+        self.loop_map(endX, endY)
+        tile3 = (endX, endY)
+
+        endX = x + 1
+        endY = y + 1
+        self.loop_map(endX, endY)
+        tile4 = (endX, endY)
+
+        endX = x - 1
+        endY = y
+        self.loop_map(endX, endY)
+        tile5 = (endX, endY)
+
+        endX = x
+        endY = y - 1
+        self.loop_map(endX, endY)
+        tile6 = (endX, endY)
+
+        endX = x - 1
+        endY = y - 1
+        self.loop_map(endX, endY)
+        tile7 = (endX, endY)
+
+        endX = x + 1
+        endY = y - 1
+        self.loop_map(endX, endY)
+        tile8 = (endX, endY)
+
+        endX = x - 1
+        endY = y + 1
+        self.loop_map(endX, endY)
+        tile9 = (endX, endY)
+
+        return(tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9)
+        
+
+#****************************************************************************
+#Check if a point is over the map and looping if it is
+#****************************************************************************
+    def loop_map(self, endX, endY):
+        if endX < 0:
+            endX = self.map.xsize + endX
+        if endX > self.map.xsize - 1:
+            endX = endX - (self.map.xsize - 1)
+        if endY < 0:
+            endY = self.map.ysize + endY
+        if endY > self.map.ysize - 1:
+            endY = endY - (self.map.ysize - 1) 
+
+#****************************************************************************
 #get terrain type
 #****************************************************************************
     def get_terrain_type(self, type_id):
         return self.terrain_types[type_id]
+
+#****************************************************************************
+#Dump a list of all units
+#****************************************************************************
+    def unit_dump(self):
+        logging.debug("******************************")
+        logging.debug("Unit dump list")
+        logging.debug("******************************")
+        for unit in self.map.unitstore.values():
+            logging.debug("unit# " + str(unit.id) + ", type " + str(unit.type.id) + ", parentID " + str(unit.parentID) + ", loc " + str(unit.x) + " - " + str(unit.y))
+        logging.debug("******************************")
+        logging.debug("End List")
+        logging.debug("******************************")
  
 #****************************************************************************
 #
@@ -407,3 +495,5 @@ class UnitType:
                 return 1
         except:
            return 0
+
+
