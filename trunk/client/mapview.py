@@ -402,9 +402,6 @@ class Mapview:
                 if self.client.game.get_unit_typeset(self.client.launch_type) == "build":
                     blit_x = blit_x - 24
                     blit_y = blit_y - 24
-                """elif self.client.game.get_unit_typeset(self.client.launch_type) == "weap":
-                    blit_x = blit_x - 12
-                    blit_y = blit_y - 12"""
                 unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 return

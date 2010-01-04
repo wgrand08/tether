@@ -195,11 +195,11 @@ class NetworkClient(pb.Referenceable):
         self.client.launched = True
         self.client.moonaudio.sound("throw.ogg")
         if self.client.game.check_tether(unit) == True:
-                if power < 6:
+                if power < 9:
                     self.client.moonaudio.sound("shorttether.ogg")
-                elif power > 5 and power < 10:
+                elif power > 8 and power < 17:
                     self.client.moonaudio.sound("mediumtether.ogg")
-                elif power > 11:
+                elif power > 16:
                     self.client.moonaudio.sound("longtether.ogg")
 
 #****************************************************************************
@@ -259,7 +259,8 @@ class NetworkClient(pb.Referenceable):
 # server detects something landing in water
 #****************************************************************************
     def remote_splash(self):
-        self.client.splashed = True
+        self.client.moonaudio.sound("watersplash.ogg")
+        #self.client.splashed = True
 
 #****************************************************************************
 # server detects a building landing on a rock
