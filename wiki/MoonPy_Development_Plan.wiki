@@ -36,11 +36,11 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Units/tethers are destroyed if they land in water: complete
   * Game generates random maps: complete
   * Power bar needs to function correctly: complete
-  * All OMBC units/weapons implemented and working correctly: complete
+  * All non-FOW OMBC units/weapons implemented and working correctly: complete
   * All major bugs (those affecting our ability to play) found and fixed: in progess
 
 = Requirements for version 0.9.00 = 
-  * Ability to play against bots
+  * Placeholder graphics replaced
   * Team play available
   * Fog of War
   * Balloons
@@ -50,6 +50,7 @@ These are the general requirements for each major release of MoonPy. Currently w
 
 = Requirements for version 1.0.00 = 
 
-  * All minor bugs bugs found and fixed
+  * Ability to play against bots
   * Ability to create custom mods
   * Hotseat capabilities
+  * All minor bugs bugs found and fixed
