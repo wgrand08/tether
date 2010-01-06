@@ -286,7 +286,7 @@ class Mapview:
                     self.client.launch_splity = endY
                     map_pos = endX, endY
                     blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 else:
                     logging.info("split a cluster")
@@ -296,7 +296,7 @@ class Mapview:
                     endY = endY + self.client.launch_starty
                     map_pos = endX, endY
                     blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
                     default_rotation = temp_rotation
@@ -312,7 +312,7 @@ class Mapview:
                     endY = endY + self.client.launch_splity
                     map_pos = endX, endY
                     blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
                     temp_rotation = default_rotation - 45
@@ -326,7 +326,7 @@ class Mapview:
                     endY = endY + self.client.launch_splity
                     map_pos = endX, endY
                     blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
             else: 
@@ -375,7 +375,7 @@ class Mapview:
                             spinner = spinner + 5
 
                 blit_x, blit_y = self.map_to_gui(map_pos)
-                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 return
             else: 
@@ -402,7 +402,7 @@ class Mapview:
                 if self.client.game.get_unit_typeset(self.client.launch_type) == "build":
                     blit_x = blit_x - 24
                     blit_y = blit_y - 24
-                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.playerlaunched)
+                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 return
             else: 
@@ -432,7 +432,7 @@ class Mapview:
         for deathname in self.client.deathname:
             map_pos = self.client.deathX[place], self.client.deathY[place]
             blitX, blitY = self.map_to_gui(map_pos)
-            unit_surface = self.tileset.get_unit_surf_from_tile(deathname, 0, self.client.deathplayerID[place])
+            unit_surface = self.tileset.get_unit_surf_from_tile(deathname, 0, self.client.game.get_unit_team(self.client.playerID, self.client.deathplayerID[place]))
             if self.client.deathtypes[place] != "weap" or deathname != "recall":
                 if self.client.deathtypes[place] == "build":
                     blitX = blitX - 24
