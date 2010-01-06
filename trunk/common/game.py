@@ -224,10 +224,12 @@ class Game:
             logging.info("removed a " + str(unit.type.id) + " at location: " + str(unit.x) + ", " + str(unit.y))
 
         unit_type = self.get_unit_type(unit_type_id)
-        self.map.change_unit(unit, unit_type)
-        unit.typeset = 'doodad'
         unit.hp = 0
-        #self.map.remove_unit(unit)
+        if unit_type_id == "void":
+            self.map.remove_unit(unit)
+        else:
+            self.map.change_unit(unit, unit_type)
+            unit.typeset = 'doodad'
 
 #****************************************************************************
 #finds a units parent
