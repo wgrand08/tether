@@ -141,13 +141,16 @@ class ClientPerspective(pb.Avatar):
             self.conn_info.Idisabled = []
             self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
             self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
-            if self.state.interrupted_tether == False:
-                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
-                logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
-                if collecting == True:
-                    self.handler.remote(self.conn_info.ref, "collecting_energy")
-                if self.state.game.get_unit_typeset(unit) == "weap":
-                    self.state.determine_hit(unit, coord, self.conn_info)
+            self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+            logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
+            if self.state.interrupted_tether == True:
+                victim = self.state.map.get_unit_from_id(self.state.game.unit_counter)
+                victim.disabled = True
+                victim.hp = 0
+            elif self.state.game.get_unit_typeset(unit) == "weap":
+                self.state.determine_hit(unit, coord, self.conn_info)
+            elif collecting == True:
+                self.handler.remote(self.conn_info.ref, "collecting_energy")
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
 #****************************************************************************

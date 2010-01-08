@@ -192,11 +192,19 @@ class Game:
     def remove_unit(self, unit):
         endX = unit.x
         endY = unit.y
-        tile1 = self.map.get_tile((endX, endY))
-        tile2 = self.map.get_tile(((endX + 1), endY))
-        tile3 = self.map.get_tile((endX, (endY + 1)))
-        tile4 = self.map.get_tile(((endX + 1), (endY + 1)))
-        if (tile1.type == self.get_terrain_type("grass")) and (tile2.type == self.get_terrain_type("grass")) and (tile3.type == self.get_terrain_type("grass")) and (tile4.type == self.get_terrain_type("grass")) : #craters are only placed on grass
+
+        (tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9) = self.find_connecting_points(endX, endY)
+        tile1 = self.map.get_tile(tile1)
+        tile2 = self.map.get_tile(tile2)
+        tile3 = self.map.get_tile(tile3)
+        tile4 = self.map.get_tile(tile4)
+        tile5 = self.map.get_tile(tile5)
+        tile6 = self.map.get_tile(tile6)
+        tile7 = self.map.get_tile(tile7)
+        tile8 = self.map.get_tile(tile8)
+        tile9 = self.map.get_tile(tile9)
+
+        if tile1.type == self.get_terrain_type("grass") and tile2.type == self.get_terrain_type("grass") and tile3.type == self.get_terrain_type("grass") and tile4.type == self.get_terrain_type("grass") and tile5.type == self.get_terrain_type("grass") and tile6.type == self.get_terrain_type("grass") and tile7.type == self.get_terrain_type("grass") and tile8.type == self.get_terrain_type("grass") and tile9.type == self.get_terrain_type("grass"): #craters are only placed on grass
             unit_type_id = "crater"
 
         else: #if even partially placed on rocks or water or energy, no crater is formed

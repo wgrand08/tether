@@ -139,7 +139,7 @@ class Mapview:
 
         blit_x = gui_x
         blit_y = gui_y
-        if unit.typeset == "build" or unit.typeset == "doodad": #centering 3x3 graphics
+        if unit.typeset == "build": #centering 3x3 graphics
             blit_x = gui_x - 24 
             blit_y = gui_y - 24
 
@@ -277,7 +277,7 @@ class Mapview:
                     temp_rotation = self.client.launch_direction + 270
                 midpoint = ((self.client.launch_distance + 3.5)) - round((((self.client.launch_distance + 3.5)) / 2), 0)
                 if self.client.launch_step < midpoint:
-                    logging.info("unsplit cluster")
+                    #logging.info("unsplit cluster")
                     endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
                     endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
                     endX = endX + self.client.launch_startx
@@ -289,7 +289,7 @@ class Mapview:
                     unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 else:
-                    logging.info("split a cluster")
+                    #logging.info("split a cluster")
                     endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
                     endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
                     endX = endX + self.client.launch_startx

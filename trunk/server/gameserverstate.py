@@ -347,6 +347,7 @@ class ServerState:
 #Determine where a shot lands
 #****************************************************************************
     def find_trajectory(self, parentID, rotation, power, child, playerID):
+        logging.info("player %s launched a %s" % (parentID, child))
         self.lockedmissile = False
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
@@ -396,8 +397,6 @@ class ServerState:
                             if searchX == endX and searchY == endY:
                                 spinner = 360
                                 self.interrupted_tether = True
-                                victim = self.map.get_unit_from_id(self.game.unit_counter)
-                                victim.hp = 0
                                 self.connections.remote_all("triggered_defense")
                                 if lookD.type.id == "antiair":
                                     lookD.disabled == True
@@ -443,8 +442,6 @@ class ServerState:
                                     return (start_tile.x, start_tile.y, endX, endY, collecting)
                                 else:
                                     self.interrupted_tether = True
-                                    victim = self.map.get_unit_from_id(self.game.unit_counter) #find and kill partially laid tether
-                                    victim.hp = 0
                                     return (start_tile.x, start_tile.y, endX, endY, collecting)
                             else:
                                 double_tether = True #doesn't place 'doubled' tethers due to rounding
@@ -461,54 +458,42 @@ class ServerState:
         if self.game.get_unit_typeset(child) == "build":
             tile = self.map.get_tile((endX, endY))
             if tile.type == self.game.get_terrain_type("rocks"):
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter)
-                victim.hp = 0
+                self.interrupted_tether = True                
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
             tile = self.map.get_tile((endX + 1, endY))
             if tile.type == self.game.get_terrain_type("rocks"):
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter)
-                victim.hp = 0
+                self.interrupted_tether = True               
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
             tile = self.map.get_tile((endX, endY + 1))
             if tile.type == self.game.get_terrain_type("rocks"):
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
+                self.interrupted_tether = True                                 
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
             tile = self.map.get_tile((endX + 1, endY + 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
+                self.interrupted_tether = True                
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
             tile = self.map.get_tile((endX - 1, endY - 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
+                self.interrupted_tether = True                                 
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
 
             tile = self.map.get_tile((endX - 1, endY))
             if tile.type == self.game.get_terrain_type("rocks"): 
-                self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
+                self.interrupted_tether = True                 
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
@@ -516,8 +501,6 @@ class ServerState:
             tile = self.map.get_tile((endX, endY - 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
                 self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
@@ -525,8 +508,7 @@ class ServerState:
             tile = self.map.get_tile((endX - 1, endY + 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
                 self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
+
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
@@ -534,8 +516,6 @@ class ServerState:
             tile = self.map.get_tile((endX + 1, endY - 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
                 self.interrupted_tether = True
-                victim = self.map.get_unit_from_id(self.game.unit_counter) 
-                victim.hp = 0
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy"):
                 collecting = True
