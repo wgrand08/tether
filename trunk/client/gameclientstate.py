@@ -112,7 +112,7 @@ class GameClientState:
         self.mapctrl.handle_events()
         self.mappanel.draw_minimap()
         if pygame.mixer.music.get_busy() == False: #cycles through songs
-            song = randint(1, 14)
+            song = randint(1, 13)
             self.moonaudio.music(song)
         if self.landed == True:
             self.missilelock = False

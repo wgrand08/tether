@@ -7,6 +7,7 @@ Isaac Carroll <Zaak> (Code support, Bugfixing)
 Jon Handy <Mightily> (Bugtesting, Sound Effects)
 David Carroll <GildedBear> (graphics - Mystic Pyramids)
 Stijn De Wachter <stijndw1337> (graphics - NiceCone)
+Nils Ingvarsson <ArchAngel> (Music)
 
 
 Special thanks to the OpenRTS team who's open
