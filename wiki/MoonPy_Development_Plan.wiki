@@ -40,13 +40,13 @@ These are the general requirements for each major release of MoonPy. Currently w
   * All major bugs (those affecting our ability to play) found and fixed: in progess
 
 = Requirements for version 0.9.00 = 
-  * Placeholder graphics replaced
-  * Team play available
-  * Fog of War
-  * Balloons
-  * Wind
-  * Ability to create custom maps
-  * Ability to load/save games
+  * Placeholder graphics replaced: in progress
+  * Team play available: planned
+  * Fog of War: planned
+  * Balloons: planned
+  * Wind: planned
+  * Ability to create custom maps: planned
+  * Ability to load/save games: planned
 
 = Requirements for version 1.0.00 = 
 
