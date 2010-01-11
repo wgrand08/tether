@@ -275,7 +275,7 @@ class Mapview:
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
                     temp_rotation = self.client.launch_direction + 270
-                midpoint = ((self.client.launch_distance + 3.5)) - round((((self.client.launch_distance + 3.5)) / 2), 0)
+                midpoint = (self.client.launch_distance + 3.5) - round(((self.client.launch_distance + 3.5) / 2), 0)
                 if self.client.launch_step < midpoint:
                     #logging.info("unsplit cluster")
                     endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
@@ -286,7 +286,7 @@ class Mapview:
                     self.client.launch_splity = endY
                     map_pos = endX, endY
                     blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 else:
                     #logging.info("split a cluster")
