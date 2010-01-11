@@ -92,7 +92,7 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
             logging.critical("PlayerID " + self.conn_info.playerID + " attempted to use " + self.state.game.get_unit_cost(unit) + " energy when server reports only having " + self.conn_info.energy + " energy!")
         elif unit == "mines" or unit == "cluster": #handling 'split' shots
-            (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
+            (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y, disabled1, disabled2, disabled3) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
             coord1X = int(coord1X)
             coord1Y = int(coord1Y)
             coord2X = int(coord2X)
@@ -115,17 +115,26 @@ class ClientPerspective(pb.Avatar):
             self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
             self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
             collecting = False
-            if self.state.interrupted_tether == False:
-                self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
-                self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
-                self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
-                logging.info("added " + unit + " at: " + str(coord1X) + ", " + str(coord1Y))
-                logging.info("added " + unit + " at: " + str(coord2X) + ", " + str(coord2Y))
-                logging.info("added " + unit + " at: " + str(coord3X) + ", " + str(coord3Y))
+
+            self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
+            self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
+            self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
+
+            """self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
+            if disabled1 == False:
                 self.state.determine_hit(unit, coord1, self.conn_info)
+            self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
+            if disabled2 == False:
                 self.state.determine_hit(unit, coord2, self.conn_info)
-                self.state.determine_hit(unit, coord3, self.conn_info)
+            self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
+            if disabled3 == False:
+                self.state.determine_hit(unit, coord3, self.conn_info)"""
+
+            logging.info("added " + unit + " at: " + str(coord1X) + ", " + str(coord1Y))
+            logging.info("added " + unit + " at: " + str(coord2X) + ", " + str(coord2Y))
+            logging.info("added " + unit + " at: " + str(coord3X) + ", " + str(coord3Y))
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
+
         else: #handling normal shots
             (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
             coord = (coordX, coordY)

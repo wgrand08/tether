@@ -216,6 +216,9 @@ class Game:
         if unit.typeset == "weap": #weapons do not leave creaters
             unit_type_id = "void"
 
+        if unit.type.id == "cluster":
+            unit_type_id = "crater"
+
         if unit.typeset == "ballon": #balloons do not leave craters when destroyed
             unit_type_id = "void"
 

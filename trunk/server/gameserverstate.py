@@ -537,6 +537,7 @@ class ServerState:
         offsetX = 0
         offsetY = 0
 
+
         arc = int(power - round((power / 2), 0)) #find location where shots split
         for find_target in range(1, arc):
             temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
@@ -580,7 +581,7 @@ class ServerState:
                                 self.connections.remote_all("triggered_defense")
                                 if lookD.type.id == "antiair":
                                     lookD.disabled = True
-                                return (start_tile.x, start_tile.y, endX, endY, endX, endY, endX, endY)
+                                return (start_tile.x, start_tile.y, splitX, splitY, splitX, splitY, splitX, splitY, True, True, True)
                             else:
                                 spinner = spinner + 5
 
@@ -725,7 +726,7 @@ class ServerState:
                             else:
                                 spinner = spinner + 5
 
-        return (start_tile.x, start_tile.y, coordX1, coordY1, coordX2, coordY2, coordX3, coordY3)
+        return (start_tile.x, start_tile.y, coordX1, coordY1, coordX2, coordY2, coordX3, coordY3, a1hit, a2hit, a3hit)
 
 
 
