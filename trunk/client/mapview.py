@@ -285,8 +285,13 @@ class Mapview:
                     self.client.launch_splitx = endX
                     self.client.launch_splity = endY
                     map_pos = endX, endY
-                    blit_x, blit_y = self.map_to_gui(map_pos)
                     unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                    blit_x, blit_y = self.map_to_gui(map_pos)
+                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                    blit_x = blit_x + 24
+                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                    blit_y = blit_y + 24
+                    blit_x = blit_x - 12
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 else:
                     #logging.info("split a cluster")

@@ -346,7 +346,8 @@ class ServerState:
 #****************************************************************************
 #Determine where a shot lands
 #****************************************************************************
-    def find_trajectory(self, parentID, rotation, power, child, playerID):
+    def find_trajectory(self, parentID, rotation, power, child, player):
+        playerID = player.playerID
         logging.info("player %s launched a %s" % (parentID, child))
         self.lockedmissile = False
         unit = self.map.get_unit_from_id(parentID)
@@ -400,6 +401,8 @@ class ServerState:
                                 self.connections.remote_all("triggered_defense")
                                 if lookD.type.id == "antiair":
                                     lookD.disabled = True
+                                    player.Idisabled.append(lookD.id)
+                                    player.undisable = True
                                     print("anti-air reloading")
                                 return (start_tile.x, start_tile.y, endX, endY, collecting)
                             else:
@@ -527,7 +530,8 @@ class ServerState:
 #****************************************************************************
 #Determine where a split shot lands
 #****************************************************************************
-    def split_trajectory(self, parentID, rotation, power, child, playerID):
+    def split_trajectory(self, parentID, rotation, power, child, player):
+        playerID = player.playerID
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
         endX = start_tile.x
@@ -581,6 +585,8 @@ class ServerState:
                                 self.connections.remote_all("triggered_defense")
                                 if lookD.type.id == "antiair":
                                     lookD.disabled = True
+                                    player.Idisabled.append(lookD.id)
+                                    player.undisable = True
                                 return (start_tile.x, start_tile.y, splitX, splitY, splitX, splitY, splitX, splitY, True, True, True)
                             else:
                                 spinner = spinner + 5
@@ -631,6 +637,8 @@ class ServerState:
                                 a1hit = True
                                 if lookD.type.id == "antiair":
                                     lookD.disabled = True
+                                    player.Idisabled.append(lookD.id)
+                                    player.undisable = True
                             else:
                                 spinner = spinner + 5
 
@@ -677,6 +685,8 @@ class ServerState:
                                 a2hit = True
                                 if lookD.type.id == "antiair":
                                     lookD.disabled = True
+                                    player.Idisabled.append(lookD.id)
+                                    player.undisable = True
                             else:
                                 spinner = spinner + 5
 
@@ -723,6 +733,8 @@ class ServerState:
                                 a3hit = True
                                 if lookD.type.id == "antiair":
                                     lookD.disabled = True
+                                    player.Idisabled.append(lookD.id)
+                                    player.undisable = True
                             else:
                                 spinner = spinner + 5
 

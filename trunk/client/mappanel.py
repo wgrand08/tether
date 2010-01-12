@@ -217,10 +217,22 @@ class Mappanel:
                 self.client.selected_weap = "bomb"
 
         #display the currently selected unit/weapon
-        unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, 1)
-        blit_x = self.client.screen.get_width() * 0.86
-        blit_y = self.client.screen.get_height() * 0.80
-        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+        if self.client.selected_weap == "cluster":
+            unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, 1)
+            blit_x = self.client.screen.get_width() * 0.86
+            blit_y = self.client.screen.get_height() * 0.80
+            self.client.screen.blit(unit_surface, (blit_x, blit_y))
+            blit_x = (self.client.screen.get_width() * 0.86) + 24
+            blit_y = (self.client.screen.get_height() * 0.80)
+            self.client.screen.blit(unit_surface, (blit_x, blit_y))
+            blit_x = (self.client.screen.get_width() * 0.86) + 12
+            blit_y = (self.client.screen.get_height() * 0.80) + 24
+            self.client.screen.blit(unit_surface, (blit_x, blit_y))            
+        else:
+            unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, 1)
+            blit_x = self.client.screen.get_width() * 0.86
+            blit_y = self.client.screen.get_height() * 0.80
+            self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
         if self.client.heldbutton == "firing":
             self.client.holdbutton.firing()

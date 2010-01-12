@@ -92,7 +92,7 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
             logging.critical("PlayerID " + self.conn_info.playerID + " attempted to use " + self.state.game.get_unit_cost(unit) + " energy when server reports only having " + self.conn_info.energy + " energy!")
         elif unit == "mines" or unit == "cluster": #handling 'split' shots
-            (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y, disabled1, disabled2, disabled3) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
+            (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y, disabled1, disabled2, disabled3) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info)
             coord1X = int(coord1X)
             coord1Y = int(coord1Y)
             coord2X = int(coord2X)
@@ -110,6 +110,7 @@ class ClientPerspective(pb.Avatar):
                     for finddisabled in self.state.map.unitstore.values():
                         if finddisabled == undisable:
                             finddisabled.disabled = False
+                            print"undisabled a " + str(finddisabled.type.id)
             self.conn_info.undisable = False
             self.conn_info.Idisabled = []
             self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
@@ -117,10 +118,6 @@ class ClientPerspective(pb.Avatar):
             collecting = False
 
             self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
-            self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
-            self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
-
-            """self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
             if disabled1 == False:
                 self.state.determine_hit(unit, coord1, self.conn_info)
             self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
@@ -128,7 +125,7 @@ class ClientPerspective(pb.Avatar):
                 self.state.determine_hit(unit, coord2, self.conn_info)
             self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
             if disabled3 == False:
-                self.state.determine_hit(unit, coord3, self.conn_info)"""
+                self.state.determine_hit(unit, coord3, self.conn_info)
 
             logging.info("added " + unit + " at: " + str(coord1X) + ", " + str(coord1Y))
             logging.info("added " + unit + " at: " + str(coord2X) + ", " + str(coord2Y))
@@ -136,7 +133,7 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
 
         else: #handling normal shots
-            (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info.playerID)
+            (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info)
             coord = (coordX, coordY)
             offset = 0, 0
             self.state.deathlist = []
@@ -146,6 +143,7 @@ class ClientPerspective(pb.Avatar):
                     for finddisabled in self.state.map.unitstore.values():
                         if finddisabled == undisable:
                             finddisabled.disabled = False
+                            print"undisabled a " + str(finddisabled.type.id)
             self.conn_info.undisable = False
             self.conn_info.Idisabled = []
             self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
@@ -177,6 +175,7 @@ class ClientPerspective(pb.Avatar):
                 for finddisabled in self.state.map.unitstore.values():
                     if finddisabled == undisable:
                         finddisabled.disabled = False
+                        print"undisabled a " + str(finddisabled.type.id)
         self.conn_info.undisable = False
         self.conn_info.Idisabled = []
         if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
