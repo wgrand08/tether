@@ -78,10 +78,6 @@ class GameClientState:
         self.splashed = False
         self.hit_rock = False
         self.collecting_energy = False
-
-        self.selected_unit = {}
-
-
         self.launched = False
         self.landed = False
         self.launch_startx = 0
@@ -100,6 +96,7 @@ class GameClientState:
         self.deathplayerID = []
         self.deathname = []
         self.deathdisabled = []
+        self.selected_unit = {}
 
 
 #****************************************************************************

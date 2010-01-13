@@ -31,4 +31,6 @@ class ConnInfo:
         self.energy = 11
         self.undisable = False
         self.Idisabled = []
+        self.reload = False
+        self.Ireloading = []
 

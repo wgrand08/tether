@@ -358,26 +358,32 @@ class Mapview:
                 radius = 4
                 searchX = endX
                 searchY = endY
-                for find_target in range(1, radius):
-                    spinner = 0
-                    while spinner < 360:
-                        searchX = find_target * math.cos(spinner / 180.0 * math.pi)
-                        searchY = find_target * math.sin(spinner / 180.0 * math.pi)
-                        searchX = round(searchX, 0)
-                        searchY = round(searchY, 0)
-                        searchX = searchX + endX
-                        searchY = searchY + endY
-                        for target in self.map.unitstore.values():
-                            if target.playerID != playerID and searchX == target.x and searchY == target.y and target.typeset == "build":
-                                #found a target and changing trajectory to hit it
-                                self.client.moonaudio.sound("lockon.ogg")
-                                self.client.launch_direction = spinner
-                                self.client.launch_distance = find_target
-                                self.client.missilelock = True
-                                spinner = 360
-                                logging.debug("missile homed in on target")
-                        else:
-                            spinner = spinner + 5
+                if self.client.missilelock == False:
+                    for find_target in range(1, radius):
+                        spinner = 0
+                        while spinner < 360:
+                            searchX = find_target * math.cos(spinner / 180.0 * math.pi)
+                            searchY = find_target * math.sin(spinner / 180.0 * math.pi)
+                            searchX = round(searchX, 0)
+                            searchY = round(searchY, 0)
+                            searchX = int(searchX) + int(endX)
+                            searchY = int(searchY) + int(endY)
+                            for target in self.map.unitstore.values():
+                                if target.playerID != self.client.playerID and searchX == target.x and searchY == target.y and target.typeset == "build":
+                                    #found a target and changing trajectory to hit it
+                                    self.client.moonaudio.sound("lockon.ogg")
+                                    self.client.missilelock = True
+                                    self.client.launch_startx = endX
+                                    self.client.launch_starty = endY
+                                    self.client.launch_distance = find_target - 5
+                                    self.client.launch_step = 1
+                                    self.client.launch_direction = spinner + 90
+                                    if self.client.launch_direction > 359:
+                                        self.client.launch_direction = self.client.launch_direction - 270
+                                    spinner = 360
+                                    
+                            else:
+                                spinner = spinner + 5
 
                 blit_x, blit_y = self.map_to_gui(map_pos)
                 unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))

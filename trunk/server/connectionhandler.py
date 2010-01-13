@@ -88,6 +88,20 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_launch_unit(self, parentID, unit, rotation, power):
         self.state.waitingplayers = 0
+        if self.conn_info.reload == True: #reloading units remain disabled until the end of this turn
+            print "reloading AA's"
+            logging.info("reloading AA's")
+            for loaded in self.conn_info.Ireloading:
+                for findloaded in self.state.map.unitstore.values():
+                    if findloaded.id == loaded:
+                        findloaded.reloading = False
+                        findloaded.disabled = True
+                        self.conn_info.Idisabled.append(findloaded.id)
+                        self.conn_info.undisable = True
+                        print"will finish reload at end of this turn"
+        self.conn_info.reload = False
+        self.conn_info.Ireloading = []
+
         if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
             logging.critical("PlayerID " + self.conn_info.playerID + " attempted to use " + self.state.game.get_unit_cost(unit) + " energy when server reports only having " + self.conn_info.energy + " energy!")
@@ -108,7 +122,7 @@ class ClientPerspective(pb.Avatar):
                 logging.info("undisabling units")
                 for undisable in self.conn_info.Idisabled:
                     for finddisabled in self.state.map.unitstore.values():
-                        if finddisabled == undisable:
+                        if finddisabled.id == undisable :
                             finddisabled.disabled = False
                             print"undisabled a " + str(finddisabled.type.id)
             self.conn_info.undisable = False
@@ -141,7 +155,7 @@ class ClientPerspective(pb.Avatar):
                 logging.info("undisabling units")
                 for undisable in self.conn_info.Idisabled:
                     for finddisabled in self.state.map.unitstore.values():
-                        if finddisabled == undisable:
+                        if finddisabled.id == undisable:
                             finddisabled.disabled = False
                             print"undisabled a " + str(finddisabled.type.id)
             self.conn_info.undisable = False
@@ -173,7 +187,7 @@ class ClientPerspective(pb.Avatar):
             logging.info("undisabling units")
             for undisable in self.conn_info.Idisabled:
                 for finddisabled in self.state.map.unitstore.values():
-                    if finddisabled == undisable:
+                    if finddisabled.id == undisable:
                         finddisabled.disabled = False
                         print"undisabled a " + str(finddisabled.type.id)
         self.conn_info.undisable = False

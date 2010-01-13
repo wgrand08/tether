@@ -194,6 +194,7 @@ class NetworkClient(pb.Referenceable):
         self.client.playerlaunched = pID
         self.client.launched = True
         self.client.moonaudio.sound("throw.ogg")
+        self.client.missilelock = False
         if self.client.game.check_tether(unit) == True:
                 if power < 9:
                     self.client.moonaudio.sound("shorttether.ogg")
