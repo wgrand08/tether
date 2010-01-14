@@ -43,5 +43,8 @@ class Unit:
         self.blasted = False
         self.virused = False
         self.just_virused = False
+        self.was_virused = False
+        self.was_virused2 = False
+        self.check_virus = False
         self.reloading = False
 

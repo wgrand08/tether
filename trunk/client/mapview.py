@@ -62,12 +62,18 @@ class Mapview:
             self.client.holdbutton.decreasepower()
 
 
+        #this order determines layering of the map, terrain is on the bottom, then doodads, then tethers, then units, last are the indicators which are above everything except for the selected unit
         for pos in mapcoord_list:
             self.draw_tile_terrain(pos)
-
+        for pos in mapcoord_list:
+            self.draw_doodad(pos)
+        for pos in mapcoord_list:
+            self.draw_tether(pos)
         for pos in mapcoord_list:
             self.draw_unit(pos)
-
+        for pos in mapcoord_list:
+            self.draw_indicators(pos)
+    
         if self.client.launched == True:
             self.show_launch()
 
@@ -110,26 +116,60 @@ class Mapview:
             self.client.screen.blit(surface2, (blit_x + self.tileset.tile_width / 2, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
             self.client.screen.blit(surface3, (blit_x + self.tileset.tile_width / 4, blit_y + self.tileset.tile_height / 6), [0,0, blit_width, blit_height])
             self.client.screen.blit(surface4, (blit_x, blit_y - self.tileset.tile_height / 10), [0,0, blit_width, blit_height])
+
+#****************************************************************************
+# Draws doodads to canvas view
+#****************************************************************************
+    def draw_doodad(self, map_pos):
+        real_map_pos = self.map.wrap_map_pos(map_pos)
+        unit = self.map.get_doodad(real_map_pos) 
+        if not unit:
+            return 
+        if unit.typeset != "doodad":
+            return
+
+        #draw units themselves
+        gui_x, gui_y = self.map_to_gui(map_pos)
+
+        #unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, unit.playerID)
+        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+
+        blit_x = gui_x
+        blit_y = gui_y
+        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
+#****************************************************************************
+# Draws tethers to canvas view
+#****************************************************************************
+    def draw_tether(self, map_pos):
+        real_map_pos = self.map.wrap_map_pos(map_pos)
+        unit = self.map.get_unit(real_map_pos) 
+        if not unit:
+            return
+        if unit.typeset != "tether": 
+            return
+
+        #draw units themselves
+        gui_x, gui_y = self.map_to_gui(map_pos)
+
+        #unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, unit.playerID)
+        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+
+        blit_x = gui_x
+        blit_y = gui_y
+        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+
 #****************************************************************************
 # Draws a single map tile with a unit to the mapview canvas.
 #****************************************************************************
     def draw_unit(self, map_pos):
         real_map_pos = self.map.wrap_map_pos(map_pos)
-        unit = self.map.get_doodad(real_map_pos) 
+        unit = self.map.get_unit(real_map_pos) 
 
         if not unit:
             return 
-
-        if unit.typeset == "doodad": #doodads and are always on bottom
-            for unit2 in self.map.unitstore.values():
-                if (unit2.x == unit.x) and (unit2.y == unit.y) and (unit2.typeset != "doodad"):
-                    unit = self.map.get_unit(real_map_pos)
-                elif ((unit.x + 1) == unit2.x) and (unit.y == unit2.y) and (unit2.typeset != "doodad"):
-                    return
-                elif (unit.x == unit2.x) and ((unit.y + 1) == unit2.y) and (unit2.typeset != "doodad"):
-                    return
-                elif ((unit.x + 1) == unit2.x) and ((unit.y + 1) == unit2.y) and (unit2.typeset != "doodad"):
-                    return
+        if unit.typeset == "tether":
+            return
 
         #draw units themselves
         gui_x, gui_y = self.map_to_gui(map_pos)
@@ -142,6 +182,33 @@ class Mapview:
         if unit.typeset == "build": #centering 3x3 graphics
             blit_x = gui_x - 24 
             blit_y = gui_y - 24
+
+        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+        if unit.virused == True:
+            status_surface = self.tileset.get_unit_surf_from_tile("virus_status", 0, 3)
+            self.client.screen.blit(status_surface, (blit_x, blit_y))
+        if unit.disabled == True:
+            status_surface = self.tileset.get_unit_surf_from_tile("disable_status", 0, 3)
+            self.client.screen.blit(status_surface, ((blit_x + 48), blit_y))
+
+            #pygame.draw.line(self.client.screen, (255, 10, 10), (startX, startY), (finalX, finalY), 1)
+            
+
+#****************************************************************************
+# Draws the rotator
+#****************************************************************************
+    def draw_indicators(self, map_pos):
+        real_map_pos = self.map.wrap_map_pos(map_pos)
+        unit = self.map.get_unit(real_map_pos) 
+
+        if not unit:
+            return 
+
+        #draw units themselves
+        gui_x, gui_y = self.map_to_gui(map_pos)
+
+        blit_x = gui_x
+        blit_y = gui_y
 
         if unit.type.id == "mines":
             tempX = blit_x + 12
@@ -167,9 +234,21 @@ class Mapview:
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
 
+        if unit.typeset == "build":
+            for show_health in range(1, unit.hp + 1):
+                blit_x = gui_x - 24 
+                blit_y = gui_y - 24
+                colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+                teamcolor = self.client.game.get_unit_color(colorID)
+                pygame.draw.line(self.client.screen, teamcolor, (blit_x + (show_health * 10), blit_y + 72), (blit_x + (show_health * 10), blit_y + 62), 5)
+            
+
         #find and show rotation indicator on selected unit
         for selected in self.client.selected_unit.values():
             if unit.id == selected.id:
+                unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+                blit_x = gui_x - 24 
+                blit_y = gui_y - 24
                 rotation = self.client.rotate_position
                 endX = unit.x
                 endY = unit.y
@@ -183,8 +262,18 @@ class Mapview:
                 finalX = endX + startX + 1
                 finalY = endY + startY + 1
                 pygame.draw.line(self.client.screen, (255, 10, 10), (startX, startY), (finalX, finalY), 1)
-
-        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                if unit.typeset == "build":
+                    for show_health in range(1, unit.hp + 1):
+                        colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+                        teamcolor = self.client.game.get_unit_color(colorID)
+                        pygame.draw.line(self.client.screen, teamcolor, (blit_x + (show_health * 10), blit_y + 72), (blit_x + (show_health * 10), blit_y + 62), 5)
+                if unit.virused == True:
+                    status_surface = self.tileset.get_unit_surf_from_tile("virus_status", 0, 3)
+                    self.client.screen.blit(status_surface, (blit_x, blit_y))
+                if unit.disabled == True:
+                    status_surface = self.tileset.get_unit_surf_from_tile("disable_status", 0, 3)
+                    self.client.screen.blit(status_surface, ((blit_x + 48), blit_y))
 
 
 #****************************************************************************

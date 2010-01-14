@@ -177,6 +177,21 @@
   </unit>
 </file>
 
+<file src="interface/disable_status.png">
+  <unit name="disable_status" frames="1" x="1" y="1" 
+        width="24" height="24" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="interface/virus_status.png">
+  <unit name="virus_status" frames="1" x="1" y="1" 
+        width="24" height="24" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+
 <file src="interface/cursors.png">
   <cursor name="goto" frames="6" x="1" y="1" 
         width="32" height="32" pixelalpha="true">

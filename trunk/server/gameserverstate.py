@@ -103,6 +103,7 @@ class ServerState:
         while notclear:
             notclear = False
             for unit in self.map.unitstore.values():
+                unit.check_virus = False
                 if unit.typeset == "tether" and unit.hp > 0: #tethers heal between turns so they never die except by death of parent
                     unit.hp = 1000
                 if (unit.hp < 1 and unit.typeset != "doodad"):
@@ -196,23 +197,42 @@ class ServerState:
 #****************************************************************************
     def process_virus(self):
         logging.debug("processing virus")
+        logging.debug("new virus process")
         for unit in self.map.unitstore.values():
-            if unit.virused == True and unit.type != "build": #remove viruses from non-buildings
+            unit.check_virus = True
+            if unit.was_virused == True:
+                if unit.was_virused2 == True:
+                    unit.was_virused = False
+                else:
+                    unit.was_virused = False
+            if unit.virused == True and unit.typeset != "build": #remove viruses from non-buildings
                 unit.virused = False
                 unit.just_virused = False
-            if unit.virused == True and unit.just_virused == True:
-                unit.just_virused = False
-            if unit.virused == True and unit.just_virused == False:
-                unit.virused = False
-                unit.just_virused = True
-                unit.hp = unit.hp - 1
-                if unit.hp < 1:
-                    unit.hp = 1
-                for find_tethered in self.map.unitstore.values():
-                    if unit.just_virused == False and (find_tethered.id == unit.parentID or find_tethered.parentID == unit.id):
-                        logging.info("virus has spread to unit %s" % find_tethered.id)
-                        find_tethered.virused = True
-                        find_tether.just_virused = False
+                logging.debug("removed virus from non-building " + str(unit.id))
+                logging.debug("listed typeset here is " + str(unit.typeset))
+
+            elif unit.virused == True and unit.typeset == "build": #virus is spreading
+                if unit.just_virused == True: #don't spread if just virused
+                    unit.just_virused = False
+                    logging.debug("unit " + str(unit.id) + " remains virused but is not just-virused")
+                else: #virus will spread
+                    unit.virused = False
+                    unit.was_virused = True
+                    logging.debug("virus has expired from unit " + str(unit.id))
+                    if unit.hp > 1:
+                        unit.hp = unit.hp - 1
+                        logging.debug("virus damaged unit " + str(unit.id))
+                    for find_tethered in self.map.unitstore.values():
+                        if find_tethered.was_virused == False and find_tethered.was_virused2 == False and (find_tethered.id == unit.parentID or find_tethered.parentID == unit.id) and find_tethered.typeset == "build":
+                            logging.info("virus has spread to unit %s" % find_tethered.id)
+                            logging.debug("virus has spread to unit " + str(find_tethered.id))
+                            find_tethered.virused = True
+                            if find_tethered.id > unit.id:
+                                unit.was_virused2 = True
+                            if find_tethered.check_virus == False:
+                                find_tethered.just_virused = True
+                            else:
+                                find_tethered.just_virused = False
         self.process_death()
 
 #****************************************************************************
@@ -500,6 +520,21 @@ class ServerState:
 
         #determine if building landed on rocks or water
         if self.game.get_unit_typeset(child) == "build":
+            if self.game.check_tether(child) == True:            
+                for target in self.map.unitstore.values():
+                    double_tether = False
+                    tile = self.map.get_tile((endX, endY))
+                    if (target.x == endX and target.y == endY): #determine if tether crosses another unit/tether
+                        if (target.typeset != "doodad") and (target.parentID != parentID):
+                            if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
+                                logging.info("You crossed a tether at step %r" % find_target)
+                                self.interrupted_tether = True
+                                return (start_tile.x, start_tile.y, endX, endY, collecting)
+                            else:
+                                double_tether = True #doesn't place 'doubled' tethers due to rounding
+                                logging.error("Building landed on it's own tether")
+                                #raise RuntimeError('Tether landed on itself')
+
             tile = self.map.get_tile((endX, endY))
             if tile.type == self.game.get_terrain_type("rocks"):
                 self.interrupted_tether = True                
@@ -815,6 +850,7 @@ class ServerState:
                             logging.info("detected hit")
                             if unit == "emp":
                                 target.disabled = True
+                                target.blasted = True
                                 player.Idisabled.append(target.id)
                                 player.undisable = True
                                 logging.info("you disabled a %r" % target.type.id)
@@ -832,6 +868,10 @@ class ServerState:
                                         target2.hp = target.hp - 1
                             elif unit == "virus":
                                 target.virused = True
+                                target.just_virused = True
+                                target.was_virused = False
+                                target.was_virused2 = False
+                                target.blasted = True
                             elif unit == "recall":
                                 if target.playerID == player.playerID: #if own target, insta-death
                                     player.energy = player.energy + target.hp

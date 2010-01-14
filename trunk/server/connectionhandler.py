@@ -89,7 +89,6 @@ class ClientPerspective(pb.Avatar):
     def perspective_launch_unit(self, parentID, unit, rotation, power):
         self.state.waitingplayers = 0
         if self.conn_info.reload == True: #reloading units remain disabled until the end of this turn
-            print "reloading AA's"
             logging.info("reloading AA's")
             for loaded in self.conn_info.Ireloading:
                 for findloaded in self.state.map.unitstore.values():
@@ -98,81 +97,125 @@ class ClientPerspective(pb.Avatar):
                         findloaded.disabled = True
                         self.conn_info.Idisabled.append(findloaded.id)
                         self.conn_info.undisable = True
-                        print"will finish reload at end of this turn"
         self.conn_info.reload = False
         self.conn_info.Ireloading = []
 
+        nocheat = True #trying to detect cheating clients
+        for checkcheat in self.state.map.unitstore.values():
+            if checkcheat.id == parentID and (checkcheat.disabled == True or checkcheat.virused == True):
+                self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+                logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to launch from disabled unit " + str(parentID))
+                nocheat = False
         if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
-            logging.critical("PlayerID " + self.conn_info.playerID + " attempted to use " + self.state.game.get_unit_cost(unit) + " energy when server reports only having " + self.conn_info.energy + " energy!")
-        elif unit == "mines" or unit == "cluster": #handling 'split' shots
-            (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y, disabled1, disabled2, disabled3) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info)
-            coord1X = int(coord1X)
-            coord1Y = int(coord1Y)
-            coord2X = int(coord2X)
-            coord2Y = int(coord2Y)
-            coord3X = int(coord3X)
-            coord3Y = int(coord3Y)
-            coord1 = (coord1X, coord1Y)
-            coord2 = (coord2X, coord2Y)
-            coord3 = (coord3X, coord3Y)
-            offset = 0, 0
-            self.state.deathlist = []
-            if self.conn_info.undisable == True: #undisabling units caused by this player previously
-                logging.info("undisabling units")
-                for undisable in self.conn_info.Idisabled:
-                    for finddisabled in self.state.map.unitstore.values():
-                        if finddisabled.id == undisable :
-                            finddisabled.disabled = False
-                            print"undisabled a " + str(finddisabled.type.id)
-            self.conn_info.undisable = False
-            self.conn_info.Idisabled = []
-            self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
-            self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
-            collecting = False
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to use " + str(self.state.game.get_unit_cost(unit)) + " energy when server reports only having " + str(self.conn_info.energy + " energy!"))
+            nocheat = False
 
-            self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
-            if disabled1 == False:
-                self.state.determine_hit(unit, coord1, self.conn_info)
-            self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
-            if disabled2 == False:
-                self.state.determine_hit(unit, coord2, self.conn_info)
-            self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
-            if disabled3 == False:
-                self.state.determine_hit(unit, coord3, self.conn_info)
+        if nocheat == True:
+            if unit == "mines" or unit == "cluster": #handling 'split' shots
+                (startx, starty, coord1X, coord1Y, coord2X, coord2Y, coord3X, coord3Y, disabled1, disabled2, disabled3) = self.state.split_trajectory(parentID, rotation, power, unit, self.conn_info)
+                coord1X = int(coord1X)
+                coord1Y = int(coord1Y)
+                coord2X = int(coord2X)
+                coord2Y = int(coord2Y)
+                coord3X = int(coord3X)
+                coord3Y = int(coord3Y)
+                coord1 = (coord1X, coord1Y)
+                coord2 = (coord2X, coord2Y)
+                coord3 = (coord3X, coord3Y)
+                offset = 0, 0
+                self.state.deathlist = []
+                if self.conn_info.undisable == True: #undisabling units caused by this player previously
+                    logging.info("undisabling units")
+                    for undisable in self.conn_info.Idisabled:
+                        for finddisabled in self.state.map.unitstore.values():
+                            if finddisabled.id == undisable :
+                                finddisabled.disabled = False
+                                print"undisabled a " + str(finddisabled.type.id)
+                self.conn_info.undisable = False
+                self.conn_info.Idisabled = []
+                self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
+                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
+                collecting = False
 
-            logging.info("added " + unit + " at: " + str(coord1X) + ", " + str(coord1Y))
-            logging.info("added " + unit + " at: " + str(coord2X) + ", " + str(coord2Y))
-            logging.info("added " + unit + " at: " + str(coord3X) + ", " + str(coord3Y))
-            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
+                self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                if disabled1 == False:
+                    self.state.determine_hit(unit, coord1, self.conn_info)
+                self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                if disabled2 == False:
+                    self.state.determine_hit(unit, coord2, self.conn_info)
+                self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                if disabled3 == False:
+                    self.state.determine_hit(unit, coord3, self.conn_info)
 
-        else: #handling normal shots
-            (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info)
-            coord = (coordX, coordY)
-            offset = 0, 0
-            self.state.deathlist = []
-            if self.conn_info.undisable == True: #undisabling units caused by this player previously
-                logging.info("undisabling units")
-                for undisable in self.conn_info.Idisabled:
-                    for finddisabled in self.state.map.unitstore.values():
-                        if finddisabled.id == undisable:
-                            finddisabled.disabled = False
-                            print"undisabled a " + str(finddisabled.type.id)
-            self.conn_info.undisable = False
-            self.conn_info.Idisabled = []
-            self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
-            self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
-            self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
-            logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
-            if self.state.interrupted_tether == True:
-                victim = self.state.map.get_unit_from_id(self.state.game.unit_counter)
-                victim.disabled = True
-                victim.hp = 0
-            elif self.state.game.get_unit_typeset(unit) == "weap":
-                self.state.determine_hit(unit, coord, self.conn_info)
-            elif collecting == True:
-                self.handler.remote(self.conn_info.ref, "collecting_energy")
-            self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
+                logging.info("added " + unit + " at: " + str(coord1X) + ", " + str(coord1Y))
+                logging.info("added " + unit + " at: " + str(coord2X) + ", " + str(coord2Y))
+                logging.info("added " + unit + " at: " + str(coord3X) + ", " + str(coord3Y))
+                self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
+
+            else: #handling normal shots
+                (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info)
+                coord = (coordX, coordY)
+                offset = 0, 0
+                self.state.deathlist = []
+                if self.conn_info.undisable == True: #undisabling units caused by this player previously
+                    logging.info("undisabling units")
+                    for undisable in self.conn_info.Idisabled:
+                        for finddisabled in self.state.map.unitstore.values():
+                            if finddisabled.id == undisable:
+                                finddisabled.disabled = False
+                                print"undisabled a " + str(finddisabled.type.id)
+                self.conn_info.undisable = False
+                self.conn_info.Idisabled = []
+                self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
+                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
+                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
+                if self.state.interrupted_tether == True:
+                    victim = self.state.map.get_unit_from_id(self.state.game.unit_counter)
+                    victim.disabled = True
+                    victim.hp = 0
+                elif self.state.game.get_unit_typeset(unit) == "weap":
+                    self.state.determine_hit(unit, coord, self.conn_info)
+                elif collecting == True:
+                    self.handler.remote(self.conn_info.ref, "collecting_energy")
+                self.handler.remote_all('show_launch', startx, starty, rotation, power, unit, self.conn_info.playerID)
+
+        else: #cheaters miss their turn but no other penalty
+            self.state.detonate_waiters()
+            net_map = self.network_prepare(self.state.map.mapstore) 
+            net_unit_list = self.network_prepare(self.state.map.unitstore) 
+            self.handler.remote_all("map", net_map)
+            self.handler.remote_all("unit_list", net_unit_list)
+            foundplayer = False
+            if self.state.max_players(self.handler.clients) > 1:
+                while not foundplayer:
+                    self.state.currentplayer += 1
+                    if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                        logging.info("max players = %s" % self.state.max_players(self.handler.clients))
+                        self.state.currentplayer = 0
+                    if len(self.state.skippedplayers) > 1:
+                        for search in self.state.skippedplayers:
+                            logging.debug("searching found skipped player# %s" % search)
+                            logging.debug("currentplayer = %s" % self.state.currentplayer)
+                            if search != 0:
+                                if int(search) != self.state.currentplayer and self.state.currentplayer > 0:
+                                    logging.debug("found searching found %s" % search)
+                                    logging.info("currentplayer = %s" % self.state.currentplayer)
+                                    foundplayer = True
+                    else:
+                        logging.debug("no skips yet")
+                        if self.state.currentplayer == 0:
+                            self.state.currentplayer = 1
+                        foundplayer = True
+                        logging.info("currentplayer = %s" % self.state.currentplayer)
+                        
+            else:
+                logging.info(" currentplayer = 1 (solo game)")
+                self.state.currentplayer = 1
+                    
+            self.handler.remote_all("next_turn", self.state.currentplayer)
+            
 
 #****************************************************************************
 #recieve command indicating that this player is skipping all turns until round is over
