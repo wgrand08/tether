@@ -1,5 +1,5 @@
 #labels Phase-Support,Deprecated
-#Instructions on how to play MoonPy
+# Instructions on how to play MoonPy
 
 = Object of Game =
 
@@ -8,11 +8,11 @@ Destroy your enemies!
 
 = Installation = 
 
- * Download and install python
- * Download and install pygame
- * Download and install PIL
- * Download MoonPy and extract the folder
- * Run moon.py
+ # Download and install python
+ # Download and install pygame
+ # Download and install PIL
+ # Download MoonPy and extract the folder
+ # Run moon.py
 
 
 = Gameplay =
