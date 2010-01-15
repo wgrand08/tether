@@ -57,7 +57,7 @@ class GameClientState:
         self.clock = pygame.time.Clock()
         self.fps = 40
         self.loop = task.LoopingCall(self.mainloop)
-        self.process_confirmation = False
+        self.ishost = False
         self.myturn = False 
         self.selected_weap = "hub"
         self.rotate_position = 360
@@ -115,6 +115,12 @@ class GameClientState:
             self.missilelock = False
             self.landed = False
             self.netclient.land_unit()
+        if self.selected_unit == {}:
+            for unit in self.map.unitstore.values():
+                if unit.playerID == self.playerID and (unit.type.id == "hub" or unit.type.id == "offense"):
+                    map_pos = (unit.x, unit.y)
+                    self.selected_unit = {}
+                    self.selected_unit.update({map_pos:unit})
         pygame.display.flip()
 
 

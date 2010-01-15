@@ -73,6 +73,7 @@ class NetworkClient(pb.Referenceable):
 # command to actually fire something
 #****************************************************************************
     def launch_unit(self, parentID, unit, rotation, power):
+        self.client.myturn == False
         self.perspective.callRemote('launch_unit', parentID, unit, rotation, power)
 
 #****************************************************************************
@@ -165,6 +166,12 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def remote_unit_list(self, net_unit_list):
         self.client.map.unitstore = self.network_handle(net_unit_list)
+        for unit in self.client.map.unitstore.values(): #update selected unit with updated information
+            for unit2 in self.client.selected_unit.values():
+                if unit.id == unit2.id:
+                    map_pos = (unit.x, unit.y)
+                    self.client.selected_unit = {}
+                    self.client.selected_unit.update({map_pos:unit})
 
 #****************************************************************************
 # recieve updated map information

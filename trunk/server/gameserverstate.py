@@ -44,6 +44,9 @@ class ServerState:
         self.interrupted_tether = False
         self.waitingplayers = 0
         self.totalplayers = 0
+        self.runningserver = False
+        self.doubletether = False
+        self.takingturn = False
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -373,6 +376,7 @@ class ServerState:
         endX = start_tile.x #todo: can this be safely removed?
         endY = start_tile.y
         self.interrupted_tether = False
+        self.doubletether = False
         power = power + 6 #launching has minimal range, if modifying to forget to change animation distance to compensate
         offsetX = 0
         offsetY = 0
@@ -531,9 +535,8 @@ class ServerState:
                                 self.interrupted_tether = True
                                 return (start_tile.x, start_tile.y, endX, endY, collecting)
                             else:
-                                double_tether = True #doesn't place 'doubled' tethers due to rounding
-                                logging.error("Building landed on it's own tether")
-                                #raise RuntimeError('Tether landed on itself')
+                                self.doubletether = True #doesn't place 'doubled' tethers due to rounding
+                                logging.debug("Building landed on it's own tether")
 
             tile = self.map.get_tile((endX, endY))
             if tile.type == self.game.get_terrain_type("rocks"):

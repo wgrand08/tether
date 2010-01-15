@@ -54,9 +54,16 @@ class Game:
         type = "grass"
         movecost = 0
         movements.update({type:movecost})
-        self.unit_types.update({"antiair":UnitType("antiair", "hub", 0, "build", movements)})
+        self.unit_types.update({"antiair":UnitType("antiair", "antiair", 0, "build", movements)})
+
 
         movements = {}
+        type = "grass"
+        movecost = 0
+        movements.update({type:movecost})
+        self.unit_types.update({"shield":UnitType("shield", "shield", 0, "build", movements)})
+        movements = {}
+
         type = "grass"
         movecost = 0
         movements.update({type:movecost})
@@ -184,6 +191,26 @@ class Game:
             dir = 360
         logging.debug("creating unit# %s", self.unit_counter)
         self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting, dir)
+
+#****************************************************************************
+#converts tether to unit to avoid double-tethers
+#****************************************************************************
+    def tether2unit(self, unit_type_id, pos, offset, playerID, parentID, collecting, dir):
+        typeset = self.get_unit_typeset(unit_type_id)
+        hp = self.get_unit_hp(unit_type_id)
+        unit_type = self.get_unit_type(unit_type_id)
+        (x, y) = pos
+        for unit in self.map.unitstore.values():
+            if unit.x == x and unit.y == y:
+                unit_type = self.get_unit_type(unit_type_id)
+                unit.typeset = typeset
+                unit.hp = hp
+                unit.collecting = collecting
+                unit.dir = dir
+                unit.parentID = parentID
+                self.map.change_unit(unit_type_id, unit_type)
+        logging.debug("creating unit# %s", self.unit_counter)
+
 
 #****************************************************************************
 #turns a unit into a crater

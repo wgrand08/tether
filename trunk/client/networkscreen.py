@@ -136,6 +136,7 @@ class NetworkScreen:
 #
 #****************************************************************************
     def host_callback(self, obj):
+        self.client.ishost = True
         self.client.moonaudio.sound("buttonclick.ogg")
         nick = self.client.settings.playername
         self.app.quit()
@@ -191,8 +192,9 @@ class PregameScreen:
         self.chat_table.td(MySpacer(1,1, self.box))
 
         table.add(self.chat_table, 0, 1)
-        connect_button = gui.Button(_("Start Game"))
-        connect_button.connect(gui.CLICK, self.start_callback)
+        if self.client.ishost == True:
+            connect_button = gui.Button(_("Start Game"))
+            connect_button.connect(gui.CLICK, self.start_callback)
         cancel_button = gui.Button(_("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_callback)
 
@@ -200,7 +202,8 @@ class PregameScreen:
         sub_table = gui.Table(width=140, height=35)
         table.add(sub_table, 0, 3)
         sub_table.add(cancel_button, 0,0)
-        sub_table.add(connect_button, 1,0)
+        if self.client.ishost == True:
+            sub_table.add(connect_button, 1,0)
 
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0)
         container.add(table, self.client.screen.get_width() / 2 - 300, self.client.screen.get_height() / 2 - 120)

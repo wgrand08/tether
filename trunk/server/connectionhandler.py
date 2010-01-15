@@ -73,15 +73,18 @@ class ClientPerspective(pb.Avatar):
 #command that everyone is ready and the game actually starts
 #****************************************************************************
     def perspective_init_game(self):
-        self.state.setup_new_game()
-        net_map = self.network_prepare(self.state.map.mapstore) 
-        net_unit_list = self.network_prepare(self.state.map.unitstore) 
-        self.handler.remote_all('map', net_map)
-        self.handler.remote_all('unit_list', net_unit_list)
-        self.handler.remote_all('start_client_game')
-        self.handler.remote_all('update_energy', 11) #all players start with 11 energy
-        self.state.currentplayer = 1 #player1 goes first 
-        self.handler.remote_all('next_turn', self.state.currentplayer)
+        if self.state.runningserver == False:
+            self.state.runningserver = True
+            self.state.setup_new_game()
+            net_map = self.network_prepare(self.state.map.mapstore) 
+            net_unit_list = self.network_prepare(self.state.map.unitstore) 
+            self.handler.remote_all('map', net_map)
+            self.handler.remote_all('unit_list', net_unit_list)
+            self.handler.remote_all('start_client_game')
+            self.handler.remote_all('update_energy', 11) #all players start with 11 energy
+            self.state.currentplayer = 1 #player1 goes first 
+            self.handler.remote_all('next_turn', self.state.currentplayer)
+            self.state.takingturn = False
 
 #****************************************************************************
 # recieve command for launching a unit, signifying a players turn is done
@@ -101,6 +104,16 @@ class ClientPerspective(pb.Avatar):
         self.conn_info.Ireloading = []
 
         nocheat = True #trying to detect cheating clients
+        if self.conn_info.playerID != self.state.currentplayer:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to fire when it was player " + str(self.state.currentplayer) + " turn")
+            nocheat = False
+        if self.state.takingturn == True:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to fire again after they had already fired")
+            nocheat = False
+        else:
+            self.state.takingturn = True
         for checkcheat in self.state.map.unitstore.values():
             if checkcheat.id == parentID and (checkcheat.disabled == True or checkcheat.virused == True):
                 self.handler.remote_all("cheat_signal", self.conn_info.playerID)
@@ -169,7 +182,10 @@ class ClientPerspective(pb.Avatar):
                 self.conn_info.Idisabled = []
                 self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
                 self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
-                self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                if self.state.doubletether == False:
+                    self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                else:
+                    self.state.game.tether2unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
                 if self.state.interrupted_tether == True:
                     victim = self.state.map.get_unit_from_id(self.state.game.unit_counter)
@@ -260,6 +276,7 @@ class ClientPerspective(pb.Avatar):
         self.handler.remote_all("map", net_map)
         self.handler.remote_all("unit_list", net_unit_list)
         self.handler.remote_all('next_turn', self.state.currentplayer)
+        self.state.takingturn = False
         self.state.game.unit_dump()
 
 #****************************************************************************
