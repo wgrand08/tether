@@ -1,6 +1,4 @@
-#labels Phase-Support,Deprecated
-# Instructions on how to play MoonPy
-
+#labels Phase-Support
 = Object of Game =
 
 Destroy your enemies!
@@ -25,16 +23,52 @@ All units units are launched similar to many artillery games like scorched3D. On
 
 MoonPy progresses in rounds *and* turns. Each player can launch one unit on their turn. Whenever a unit is launched, energy based on the energy level is used up. All players continue taking turns until they either run out of energy or choose to skip their turns. Once every player has either run out of energy or skipped their turn the round ends. When the round ends all players regain energy. 
 
+== Tethers ==
+Most units are connected to each other by tethers. When a hub is destoyed all tethered units that were launched by that hub are also destroyed. This means if your main hub (the one you start the game with) is destroyed you have lost the game since all units are ultimately connected to that hub.
 
 = Units = 
 
 == Level 1 ==
 
+Bomb: Most basic weapon, does 3 damage
+
+Anti-Air: 3HP, shoots down incoming shots within it's range. Requires a turn to reload afterwards
+
+Bridge: 3HP, allows tethers and buildings to cross water.
+
+Cluster Bomb: Splits into 3 mini-bombs midflight. Each mini-bomb does 1 damage
+
+Repair: Restores unit for 1HP
+
+Tower: 3HP, expands your view in fog of war
+
 
 == Level 3 ==
 
+EMP: Disables units within large radius, does 2 damage if it lands directly on a unit.
 
-== Level 4 == 
+Missile: Automatically flys towards the nearest enemy target it detects while being launched, does 3 damage
+
+Mines: 3HP, mines land on the ground and detonate if an enemy gets too close, does 3 damage per mine
+
+Recall: Converts a unit into energy without causing them to explode. Does 3 damage to enemy units and 5 damage to your own.
+
+Spike: Spikes travel down tethers allowing them to hit more then one building and do damage when landing on a tether. Does 3 damage if it lands directly on a unit, 1 damage if it travels down a tether
 
 
-= Differences between MoonPy and OMBC = 
+== Level 7 == 
+
+Crawler: 3HP, crawlers travel forward each round until they run into something. At which point they detonate for 4 damage.
+
+Collector: 5HP, provides 3 energy per round if placed on an energy pool. Provides 1 energy per round if placed on normal ground. When destroyed they explode in a large radius for 5 damage
+
+Offense: 3HP, fires weapons at twice the range of a hub, but is unable to launch buildings.
+
+Shield: 3HP, shoots down incoming shots within it's range. Unlike the anti-air it does not need to reload between turns.
+
+Virus: Infects units, infected units are disabled and can not be used for that turn. During each turn the virus deals one damage to the infected unit and travels down the tether to infect another unit. This continues until all connected units have been infected. Although viruses can deal damage they can not destroy units.
+
+Hub: 5HP, your primary unit. It is capable of launching all other units including other hubs.
+
+
+= Differences between MoonPy and OMBC =
