@@ -17,7 +17,7 @@ Destroy your enemies!
 
 == How to 'move' ==
 
-All units units are launched similar to many artillery games like scorched3D. On your turn select the unit you wish to fire from. Choose the direction you wish to fire, then choose the weapon you wish to fire. When ready hold down the fire button. The power indicator will start moving up and down. Releasing the fire button will launch the unit in the direction selected with the power the power indicator ended on.
+All units units are launched similar to many artillery games like scorched3D, except with a top down perspective. On your turn select the unit you wish to fire from. Choose the direction you wish to fire, then choose the weapon you wish to fire. When ready hold down the fire button. The power indicator will start moving up and down. Releasing the fire button will launch the unit in the direction selected with the power the power indicator ended on.
 
 == Energy, rounds, and turns ==
 
