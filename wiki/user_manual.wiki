@@ -30,7 +30,7 @@ Most units are connected to each other by tethers. When a hub is destoyed all te
 
 == Level 1 ==
 
-Bomb: Most basic weapon, does 3 damage
+http://code.google.com/p/tether/svn/wiki/images/hub.png Bomb: Most basic weapon, does 3 damage
 
 Anti-Air: 3HP, shoots down incoming shots within it's range. Requires a turn to reload afterwards
 
