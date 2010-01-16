@@ -208,7 +208,7 @@ class Game:
                 unit.collecting = collecting
                 unit.dir = dir
                 unit.parentID = parentID
-                self.map.change_unit(unit_type_id, unit_type)
+                self.map.change_unit(unit, unit_type)
         logging.debug("creating unit# %s", self.unit_counter)
 
 

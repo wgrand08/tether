@@ -47,6 +47,7 @@ class ServerState:
         self.runningserver = False
         self.doubletether = False
         self.takingturn = False
+        self.endgame = False
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -87,7 +88,6 @@ class ServerState:
 # This method is called every second.
 #****************************************************************************
     def mainloop(self):
-        #place code here to find out if a player has lost all units and if so declare them dead
         self.connections.remote_all('network_sync')
 
 #****************************************************************************
@@ -914,6 +914,23 @@ class ServerState:
             placeholder = placeholder + 1
         self.totalplayers = placeholder
         return placeholder
+
+#****************************************************************************
+#calculate the number of players currently connected to the game
+#****************************************************************************
+    def eliminate_players(self, clients):
+        for player in clients:
+            player.isdead = True
+            for unit in self.map.unitstore.values():
+                if unit.playerID == player.playerID and unit.type.id == "hub":
+                    player.isdead = False #player is proven alive if they have at least one hub
+        lifecount = 0
+        for player in clients:
+            if player.isdead == False:
+                lifecount += 1
+        if lifecount == 1:
+            self.endgame = True
+            logging.info("A winner has been determined")
 
 #****************************************************************************
 #Calculate the amount of energy per player

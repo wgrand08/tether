@@ -33,4 +33,5 @@ class ConnInfo:
         self.Idisabled = []
         self.reload = False
         self.Ireloading = []
+        self.isdead = False
 

@@ -90,6 +90,8 @@ class ClientPerspective(pb.Avatar):
 # recieve command for launching a unit, signifying a players turn is done
 #****************************************************************************
     def perspective_launch_unit(self, parentID, unit, rotation, power):
+        if self.state.endgame == True: #when game is over no actions are permitted
+            return
         self.state.waitingplayers = 0
         if self.conn_info.reload == True: #reloading units remain disabled until the end of this turn
             logging.info("reloading AA's")
@@ -199,6 +201,7 @@ class ClientPerspective(pb.Avatar):
 
         else: #cheaters miss their turn but no other penalty
             self.state.detonate_waiters()
+            self.state.eliminate_players(self.handler.clients)
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
             self.handler.remote_all("map", net_map)
@@ -237,9 +240,12 @@ class ClientPerspective(pb.Avatar):
 #recieve command indicating that this player is skipping all turns until round is over
 #****************************************************************************
     def perspective_skip_round(self):
+        if self.state.endgame == True: #when game is over no actions are permitted
+            return
         self.state.skippedplayers.append(self.conn_info.playerID)
         #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
         self.state.detonate_waiters()
+        self.state.eliminate_players(self.handler.clients)
         self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
         self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
         if self.conn_info.undisable == True: #undisabling units caused by this player previously
@@ -248,7 +254,6 @@ class ClientPerspective(pb.Avatar):
                 for finddisabled in self.state.map.unitstore.values():
                     if finddisabled.id == undisable:
                         finddisabled.disabled = False
-                        print"undisabled a " + str(finddisabled.type.id)
         self.conn_info.undisable = False
         self.conn_info.Idisabled = []
         if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
@@ -258,7 +263,6 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all('next_round')
             self.state.currentplayer = 1 #todo: add code to randomize/rotate the starting player for each round
         else:
-            logging.info("else")
             foundplayer = False
             while not foundplayer:
                 self.state.currentplayer += 1
@@ -271,12 +275,15 @@ class ClientPerspective(pb.Avatar):
                         foundplayer = True
 
         self.state.detonate_waiters()
+        self.state.eliminate_players(self.handler.clients)
         net_map = self.network_prepare(self.state.map.mapstore) 
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
         self.handler.remote_all("map", net_map)
         self.handler.remote_all("unit_list", net_unit_list)
         self.handler.remote_all('next_turn', self.state.currentplayer)
         self.state.takingturn = False
+        if self.state.endgame == True:
+            self.handler.remote_all("endgame")
         self.state.game.unit_dump()
 
 #****************************************************************************
@@ -287,6 +294,7 @@ class ClientPerspective(pb.Avatar):
         if self.state.waitingplayers == self.state.max_players(self.handler.clients):
             self.state.waitingplayers = 0
             self.state.detonate_waiters()
+            self.state.eliminate_players(self.handler.clients)
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
             self.handler.remote_all("map", net_map)
@@ -320,6 +328,8 @@ class ClientPerspective(pb.Avatar):
                     
             self.handler.remote_all("next_turn", self.state.currentplayer)
             self.state.takingturn = False
+            if self.state.endgame == True:
+                self.handler.remote_all("endgame")
 
 #****************************************************************************
 #forward chat information to all clients

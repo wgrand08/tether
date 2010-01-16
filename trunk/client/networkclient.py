@@ -283,6 +283,17 @@ class NetworkClient(pb.Referenceable):
         self.client.collecting_energy = True
 
 #****************************************************************************
+# server has ended the game
+#****************************************************************************
+    def remote_endgame(self):
+        self.client.moonaudio.narrate("winner.ogg")
+        message = "Server: Game Over"
+        if self.client.mappanel:
+            self.client.mappanel.show_message(message)
+        if self.client.pregame:
+            self.client.pregame.show_message(message)
+
+#****************************************************************************
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):
