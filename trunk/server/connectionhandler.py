@@ -319,6 +319,7 @@ class ClientPerspective(pb.Avatar):
                 self.state.currentplayer = 1
                     
             self.handler.remote_all("next_turn", self.state.currentplayer)
+            self.state.takingturn = False
 
 #****************************************************************************
 #forward chat information to all clients
