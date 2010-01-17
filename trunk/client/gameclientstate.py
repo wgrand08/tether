@@ -180,9 +180,9 @@ class GameClientState:
 #****************************************************************************
     def quit(self):
         if reactor.running:
-          reactor.stop()
+            reactor.stop()
         if self.mappanel:
-          self.mappanel.app.quit()
+            self.mappanel.app.quit()
         pygame.quit()
         sys.exit(0)
  

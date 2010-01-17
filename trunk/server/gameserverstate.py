@@ -48,6 +48,7 @@ class ServerState:
         self.doubletether = False
         self.takingturn = False
         self.endgame = False
+        self.roundplayer = 1
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -928,6 +929,12 @@ class ServerState:
         for player in clients:
             if player.isdead == False:
                 lifecount += 1
+                unskipped = True
+                for findskipped in self.skippedplayers: #skipping dead player if not pre-skipped
+                    if findskipped == player.playerID:
+                        unskipped = False
+                if unskipped == True:
+                    self.skippedplayers.append(player.playerID)
         if lifecount == 1:
             self.endgame = True
             logging.info("A winner has been determined")

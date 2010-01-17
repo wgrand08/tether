@@ -73,7 +73,10 @@ class ClientPerspective(pb.Avatar):
 #command that everyone is ready and the game actually starts
 #****************************************************************************
     def perspective_init_game(self):
-        if self.state.runningserver == False:
+        if self.state.max_players(self.handler.clients) == 1:
+            solo_message = "Server: Not enough players to begin!"
+            self.handler.remote_all('chat', solo_message)
+        elif self.state.runningserver == False:
             self.state.runningserver = True
             self.state.setup_new_game()
             net_map = self.network_prepare(self.state.map.mapstore) 
@@ -124,6 +127,10 @@ class ClientPerspective(pb.Avatar):
         if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
             logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to use " + str(self.state.game.get_unit_cost(unit)) + " energy when server reports only having " + str(self.conn_info.energy + " energy!"))
+            nocheat = False
+        if self.conn_info.isdead == True:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to take a turn after dying")
             nocheat = False
 
         if nocheat == True:
@@ -259,20 +266,25 @@ class ClientPerspective(pb.Avatar):
         if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
             self.state.skippedplayers = []
             self.state.skippedplayers.append(0)
+            for player in self.handler.clients:
+                if player.isdead == True:
+                    self.state.skippedplayers.append(player.playerID) #skipping dead players
             self.state.move_crawlers()
             self.handler.remote_all('next_round')
-            self.state.currentplayer = 1 #todo: add code to randomize/rotate the starting player for each round
-        else:
-            foundplayer = False
-            while not foundplayer:
-                self.state.currentplayer += 1
-                if self.state.currentplayer > self.state.max_players(self.handler.clients):
-                    self.state.currentplayer = 0
-                for search in self.state.skippedplayers:
-                    logging.info("searching found %s" % search)
-                    logging.info("currentplayer = %s" % self.state.currentplayer)
-                    if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
-                        foundplayer = True
+            self.state.roundplayer += 1
+            if self.state.roundplayer > self.state.max_players(self.handler.clients):
+                self.state.roundplayer = 1
+            self.state.currentplayer = self.state.roundplayer - 1 #remember currentplayer will be incremented soon
+        foundplayer = False
+        while not foundplayer:
+            self.state.currentplayer += 1
+            if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                self.state.currentplayer = 0
+            for search in self.state.skippedplayers:
+                logging.info("searching found %s" % search)
+                logging.info("currentplayer = %s" % self.state.currentplayer)
+                if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
+                    foundplayer = True
 
         self.state.detonate_waiters()
         self.state.eliminate_players(self.handler.clients)
