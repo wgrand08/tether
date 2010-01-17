@@ -49,7 +49,7 @@ http://tether.googlecode.com/svn/wiki/images/emp.png EMP: Disables units within 
 
 http://tether.googlecode.com/svn/wiki/images/missile.png Missile: Automatically flys towards the nearest enemy target it detects while being launched, does 3 damage
 
-Mines: 3HP, mines land on the ground and detonate if an enemy gets too close, does 3 damage per mine
+http://tether.googlecode.com/svn/wiki/images/mine.png Mines: 3HP, mines land on the ground and detonate if an enemy gets too close, does 3 damage per mine
 
 http://tether.googlecode.com/svn/wiki/images/recall.png Recall: Converts a unit into energy without causing them to explode. Does 3 damage to enemy units and 5 damage to your own.
 
