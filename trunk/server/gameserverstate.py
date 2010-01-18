@@ -47,6 +47,7 @@ class ServerState:
         self.runningserver = False
         self.doubletether = False
         self.takingturn = False
+        self.isdead = 0
         self.endgame = False
         self.roundplayer = 1
  
@@ -916,28 +917,6 @@ class ServerState:
         self.totalplayers = placeholder
         return placeholder
 
-#****************************************************************************
-#calculate the number of players currently connected to the game
-#****************************************************************************
-    def eliminate_players(self, clients):
-        for player in clients:
-            player.isdead = True
-            for unit in self.map.unitstore.values():
-                if unit.playerID == player.playerID and unit.type.id == "hub":
-                    player.isdead = False #player is proven alive if they have at least one hub
-        lifecount = 0
-        for player in clients:
-            if player.isdead == False:
-                lifecount += 1
-                unskipped = True
-                for findskipped in self.skippedplayers: #skipping dead player if not pre-skipped
-                    if findskipped == player.playerID:
-                        unskipped = False
-                if unskipped == True:
-                    self.skippedplayers.append(player.playerID)
-        if lifecount == 1:
-            self.endgame = True
-            logging.info("A winner has been determined")
 
 #****************************************************************************
 #Calculate the amount of energy per player

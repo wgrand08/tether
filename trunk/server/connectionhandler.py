@@ -208,7 +208,11 @@ class ClientPerspective(pb.Avatar):
 
         else: #cheaters miss their turn but no other penalty
             self.state.detonate_waiters()
-            self.state.eliminate_players(self.handler.clients)
+            self.eliminate_players()
+            if self.state.isdead == self.state.max_players(self.handler.clients):
+                if self.state.endgame == False:
+                    self.state.endgame = True
+                    self.handler.remote_all("endgame")
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
             self.handler.remote_all("map", net_map)
@@ -252,7 +256,11 @@ class ClientPerspective(pb.Avatar):
         self.state.skippedplayers.append(self.conn_info.playerID)
         #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
         self.state.detonate_waiters()
-        self.state.eliminate_players(self.handler.clients)
+        self.eliminate_players()
+        if self.state.isdead == self.state.max_players(self.handler.clients):
+            if self.state.endgame == False:
+                self.state.endgame = True
+                self.handler.remote_all("endgame")
         self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
         self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
         if self.conn_info.undisable == True: #undisabling units caused by this player previously
@@ -287,7 +295,11 @@ class ClientPerspective(pb.Avatar):
                     foundplayer = True
 
         self.state.detonate_waiters()
-        self.state.eliminate_players(self.handler.clients)
+        self.eliminate_players()
+        if self.state.isdead == self.state.max_players(self.handler.clients):
+            if self.state.endgame == False:
+                self.state.endgame = True
+                self.handler.remote_all("endgame")
         net_map = self.network_prepare(self.state.map.mapstore) 
         net_unit_list = self.network_prepare(self.state.map.unitstore) 
         self.handler.remote_all("map", net_map)
@@ -306,7 +318,11 @@ class ClientPerspective(pb.Avatar):
         if self.state.waitingplayers == self.state.max_players(self.handler.clients):
             self.state.waitingplayers = 0
             self.state.detonate_waiters()
-            self.state.eliminate_players(self.handler.clients)
+            self.eliminate_players()
+            if self.state.isdead == self.state.max_players(self.handler.clients):
+                if self.state.endgame == False:
+                    self.state.endgame = True
+                    self.handler.remote_all("endgame")
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
             self.handler.remote_all("map", net_map)
@@ -360,6 +376,24 @@ class ClientPerspective(pb.Avatar):
         self.handler.remote_all('chat', message)
 
 #****************************************************************************
+#calculate the number of players currently connected to the game
+#****************************************************************************
+    def eliminate_players(self):
+        self.conn_info.isdead = True
+        unskipped = True
+        for unit in self.state.map.unitstore.values():
+            if unit.playerID == self.conn_info.playerID and unit.type.id == "hub":
+                self.conn_info.isdead = False #player is proven alive if they have at least one hub
+            else:
+                self.state.isdead += 1
+        if self.conn_info.isdead == True:
+            for findskipped in self.state.skippedplayers: #skipping dead player if not pre-skipped
+                if findskipped == self.conn_info.playerID:
+                    unskipped = False
+            if unskipped == True:
+                self.state.skippedplayers.append(self.conn_info.playerID)
+
+#****************************************************************************
 #
 #****************************************************************************
 class ConnectionHandler:
@@ -391,7 +425,12 @@ class ConnectionHandler:
             address = client_ref.broker.transport.getPeer()
             playerID = 0
             energy = 0
-            conn_info = ConnInfo(client_ref, name, address, playerID, energy)
+            undisable = False
+            Idisabled = []
+            reload = False
+            Ireloading = []
+            isdead = False
+            conn_info = ConnInfo(client_ref, name, address, playerID, energy, Idisabled, reload, Ireloading, isdead)
             perspective = ClientPerspective(conn_info, self, self.state)
             self.clients[client_ref] = conn_info
             return (pb.IPerspective, perspective, perspective.logout) 
