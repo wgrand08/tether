@@ -23,37 +23,35 @@ All units units are launched similar to many artillery games like scorched3D, ex
 
 MoonPy progresses in rounds *and* turns. Each player can launch one unit on their turn. Whenever a unit is launched, energy based on the energy level is used up. All players continue taking turns until they either run out of energy or choose to skip their turns. Once every player has either run out of energy or skipped their turn the round ends. When the round ends all players regain energy. 
 
-== Tethers ==
-Most units are connected to each other by tethers. When a hub is destoyed all tethered units that were launched by that hub are also destroyed. This means if your main hub (the one you start the game with) is destroyed you have lost the game since all units are ultimately connected to that hub.
 
 = Units = 
 
 == Level 1 ==
 
-http://tether.googlecode.com/svn/wiki/images/bomb.png Bomb: Most basic weapon, does 3 damage
+http://tether.googlecode.com/svn/wiki/images/units/bomb.png Bomb: Most basic weapon, does 3 damage
 
-http://tether.googlecode.com/svn/wiki/images/antiair.png Anti-Air: 3HP, shoots down incoming shots within it's range. Requires a turn to reload afterwards
+http://tether.googlecode.com/svn/wiki/images/units/antiair.png Anti-Air: 3HP, shoots down incoming shots within it's range. Requires a turn to reload afterwards
 
-http://tether.googlecode.com/svn/wiki/images/bridge.png Bridge: 3HP, allows tethers and buildings to cross water.
+http://tether.googlecode.com/svn/wiki/images/units/bridge.png Bridge: 3HP, allows tethers and buildings to cross water.
 
-http://tether.googlecode.com/svn/wiki/images/cluster.png Cluster Bomb: Splits into 3 mini-bombs midflight. Each mini-bomb does 1 damage
+http://tether.googlecode.com/svn/wiki/images/units/cluster.png Cluster Bomb: Splits into 3 mini-bombs midflight. Each mini-bomb does 1 damage
 
-http://tether.googlecode.com/svn/wiki/images/repair.png Repair: Restores unit it lands on for 1HP
+http://tether.googlecode.com/svn/wiki/images/units/repair.png Repair: Restores unit it lands on for 1HP
 
-http://tether.googlecode.com/svn/wiki/images/tower.png Tower: 3HP, expands your view in fog of war
+http://tether.googlecode.com/svn/wiki/images/units/tower.png Tower: 3HP, expands your view in fog of war
 
 
 == Level 3 ==
 
-http://tether.googlecode.com/svn/wiki/images/emp.png EMP: Disables units within large radius, does 2 damage if it lands directly on a unit.
+http://tether.googlecode.com/svn/wiki/images/units/emp.png EMP: Disables units within large radius, does 2 damage if it lands directly on a unit.
 
-http://tether.googlecode.com/svn/wiki/images/missile.png Missile: Automatically flys towards the nearest enemy target it detects while being launched, does 3 damage
+http://tether.googlecode.com/svn/wiki/images/units/missile.png Missile: Automatically flys towards the nearest enemy target it detects while being launched, does 3 damage
 
-http://tether.googlecode.com/svn/wiki/images/mine.png Mines: 3HP, mines land on the ground and detonate if an enemy gets too close, does 3 damage per mine
+http://tether.googlecode.com/svn/wiki/images/units/mine.png Mines: 3HP, mines land on the ground and detonate if an enemy gets too close, does 3 damage per mine
 
-http://tether.googlecode.com/svn/wiki/images/recall.png Recall: Converts a unit into energy without causing them to explode. Does 3 damage to enemy units and 5 damage to your own.
+http://tether.googlecode.com/svn/wiki/images/units/recall.png Recall: Converts a unit into energy without causing them to explode. Does 3 damage to enemy units and 5 damage to your own.
 
-http://tether.googlecode.com/svn/wiki/images/spike.png Spike: Spikes travel down tethers allowing them to hit more then one building and do damage when landing on a tether. Does 3 damage if it lands directly on a unit, 1 damage if it travels down a tether
+http://tether.googlecode.com/svn/wiki/images/units/spike.png Spike: Spikes travel down tethers allowing them to hit more then one building and do damage when landing on a tether. Does 3 damage if it lands directly on a unit, 1 damage if it travels down a tether
 
 
 == Level 7 == 
@@ -62,13 +60,25 @@ http://tether.googlecode.com/svn/wiki/images/crawler.png Crawler: 3HP, crawlers 
 
 http://tether.googlecode.com/svn/wiki/images/collector.png Collector: 5HP, provides 3 energy per round if placed on an energy pool. Provides 1 energy per round if placed on normal ground. When destroyed they explode in a large radius for 5 damage
 
-http://tether.googlecode.com/svn/wiki/images/offense.png Offense: 3HP, fires weapons at twice the range of a hub, but is unable to launch buildings.
+http://tether.googlecode.com/svn/wiki/images/units/offense.png Offense: 3HP, fires weapons at twice the range of a hub, but is unable to launch buildings.
 
 http://tether.googlecode.com/svn/wiki/shield.png Shield: 3HP, shoots down incoming shots within it's range. Unlike the anti-air it does not need to reload between turns.
 
-http://tether.googlecode.com/svn/wiki/images/virus.png Virus: Infects units, infected units are disabled and can not be used for that turn. During each turn the virus deals one damage to the infected unit and travels down the tether to infect another unit. This continues until all connected units have been infected. Although viruses can deal damage they can not destroy units.
+http://tether.googlecode.com/svn/wiki/images/units/virus.png Virus: Infects units, infected units are disabled and can not be used for that turn. During each turn the virus deals one damage to the infected unit and travels down the tether to infect another unit. This continues until all connected units have been infected. Although viruses can deal damage they can not destroy units.
 
-http://tether.googlecode.com/svn/wiki/images/hub.png Hub: 5HP, your primary unit. It is capable of launching all other units including other hubs.
+http://tether.googlecode.com/svn/wiki/images/units/hub.png Hub: 5HP, your primary unit. It is capable of launching all other units including other hubs.
+
+
+== Misc == 
+http://tether.googlecode.com/svn/wiki/images/terrain/tether.png Tether: Most units are connected to each other by tethers. When a hub is destoyed all tethered units that were launched by that hub are also destroyed. This means if your main hub (the one you start the game with) is destroyed you have lost the game since all units are ultimately connected to that hub.
+
+http://tether.googlecode.com/svn/wiki/images/terrain/tile_grass.png Grass: Regular ground, all units can be placed on it.
+
+http://tether.googlecode.com/svn/wiki/images/terrain/tile_energy.png Energy Pool: Placing a collector on an energy pool provides extra energy per turn
+
+http://tether.googlecode.com/svn/wiki/images/terrain/tile_rocks.png Rocks: Tethers can cross rocks but buildings that land on them are destroyed
+
+http://tether.googlecode.com/svn/wiki/images/terrain/tile_water.png Water: All units except for bridges and crawlers are destroyed when landing in water. Bridges can be used to cross water. 
 
 
 = Differences between MoonPy and Moonbase Commander =
