@@ -56,13 +56,13 @@ http://tether.googlecode.com/svn/wiki/images/units/spike.png Spike: Spikes trave
 
 == Level 7 == 
 
-http://tether.googlecode.com/svn/wiki/images/crawler.png Crawler: 3HP, crawlers travel forward each round until they run into something. At which point they detonate for 4 damage.
+http://tether.googlecode.com/svn/wiki/images/units/crawler.png Crawler: 3HP, crawlers travel forward each round until they run into something. At which point they detonate for 4 damage.
 
-http://tether.googlecode.com/svn/wiki/images/collector.png Collector: 5HP, provides 3 energy per round if placed on an energy pool. Provides 1 energy per round if placed on normal ground. When destroyed they explode in a large radius for 5 damage
+http://tether.googlecode.com/svn/wiki/images/unit/collector.png Collector: 5HP, provides 3 energy per round if placed on an energy pool. Provides 1 energy per round if placed on normal ground. When destroyed they explode in a large radius for 5 damage
 
 http://tether.googlecode.com/svn/wiki/images/units/offense.png Offense: 3HP, fires weapons at twice the range of a hub, but is unable to launch buildings.
 
-http://tether.googlecode.com/svn/wiki/shield.png Shield: 3HP, shoots down incoming shots within it's range. Unlike the anti-air it does not need to reload between turns.
+http://tether.googlecode.com/svn/wiki/images/units/shield.png Shield: 3HP, shoots down incoming shots within it's range. Unlike the anti-air it does not need to reload between turns.
 
 http://tether.googlecode.com/svn/wiki/images/units/virus.png Virus: Infects units, infected units are disabled and can not be used for that turn. During each turn the virus deals one damage to the infected unit and travels down the tether to infect another unit. This continues until all connected units have been infected. Although viruses can deal damage they can not destroy units.
 
