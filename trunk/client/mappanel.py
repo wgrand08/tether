@@ -402,7 +402,10 @@ class Mappanel:
             self.client.selected_weap = "virus"
 
     def use_skipbutton(self, obj):
-        self.client.netclient.skip_round()
+        if self.client.myturn == True:
+            self.client.netclient.skip_round()
+        else:
+            self.client.moonaudio.narrate("not_turn.ogg")
 
 #****************************************************************************
 # Hack, to scroll to the latest new message.

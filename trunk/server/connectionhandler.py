@@ -253,62 +253,80 @@ class ClientPerspective(pb.Avatar):
     def perspective_skip_round(self):
         if self.state.endgame == True: #when game is over no actions are permitted
             return
-        self.state.skippedplayers.append(self.conn_info.playerID)
-        #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
-        self.state.detonate_waiters()
-        self.eliminate_players()
-        if self.state.isdead == self.state.max_players(self.handler.clients):
-            if self.state.endgame == False:
-                self.state.endgame = True
-                self.handler.remote_all("endgame")
-        self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
-        self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
-        if self.conn_info.undisable == True: #undisabling units caused by this player previously
-            logging.info("undisabling units")
-            for undisable in self.conn_info.Idisabled:
-                for finddisabled in self.state.map.unitstore.values():
-                    if finddisabled.id == undisable:
-                        finddisabled.disabled = False
-        self.conn_info.undisable = False
-        self.conn_info.Idisabled = []
-        if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
-            self.state.skippedplayers = []
-            self.state.skippedplayers.append(0)
-            for player in self.handler.clients:
-                if player.isdead == True:
-                    self.state.skippedplayers.append(player.playerID) #skipping dead players
-            self.state.move_crawlers()
-            self.handler.remote_all('next_round')
-            self.state.roundplayer += 1
-            if self.state.roundplayer > self.state.max_players(self.handler.clients):
-                self.state.roundplayer = 1
-            self.state.currentplayer = self.state.roundplayer - 1 #remember currentplayer will be incremented soon
-        foundplayer = False
-        while not foundplayer:
-            self.state.currentplayer += 1
-            if self.state.currentplayer > self.state.max_players(self.handler.clients):
-                self.state.currentplayer = 0
-            for search in self.state.skippedplayers:
-                logging.info("searching found %s" % search)
-                logging.info("currentplayer = %s" % self.state.currentplayer)
-                if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
-                    foundplayer = True
 
-        self.state.detonate_waiters()
-        self.eliminate_players()
-        if self.state.isdead == self.state.max_players(self.handler.clients):
-            if self.state.endgame == False:
-                self.state.endgame = True
+        nocheat = True #trying to detect cheating clients
+        if self.conn_info.playerID != self.state.currentplayer:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to fire when it was player " + str(self.state.currentplayer) + " turn")
+            nocheat = False
+        if self.state.takingturn == True:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to fire again after they had already fired")
+            nocheat = False
+        else:
+            self.state.takingturn = True
+        if self.conn_info.isdead == True:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to take a turn after dying")
+            nocheat = False
+
+        if nocheat == True:
+            self.state.skippedplayers.append(self.conn_info.playerID)
+            #this is different from OMBC, here energy collection is performed when the player skips, not when the round actually ends. This is because of a problem with the server that prevents me from sending messages to a specific user unless that user sent the command to the server that started the function
+            self.state.detonate_waiters()
+            self.eliminate_players()
+            if self.state.isdead == self.state.max_players(self.handler.clients):
+                if self.state.endgame == False:
+                    self.state.endgame = True
+                    self.handler.remote_all("endgame")
+            self.conn_info.energy = self.state.calculate_energy(self.conn_info.playerID, self.conn_info.energy)
+            self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy)
+            if self.conn_info.undisable == True: #undisabling units caused by this player previously
+                logging.info("undisabling units")
+                for undisable in self.conn_info.Idisabled:
+                    for finddisabled in self.state.map.unitstore.values():
+                        if finddisabled.id == undisable:
+                            finddisabled.disabled = False
+            self.conn_info.undisable = False
+            self.conn_info.Idisabled = []
+            if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
+                self.state.skippedplayers = []
+                self.state.skippedplayers.append(0)
+                for player in self.handler.clients:
+                    if player.isdead == True:
+                        self.state.skippedplayers.append(player.playerID) #skipping dead players
+                self.state.move_crawlers()
+                self.handler.remote_all('next_round')
+                self.state.roundplayer += 1
+                if self.state.roundplayer > self.state.max_players(self.handler.clients):
+                    self.state.roundplayer = 1
+                self.state.currentplayer = self.state.roundplayer - 1 #remember currentplayer will be incremented soon
+            foundplayer = False
+            while not foundplayer:
+                self.state.currentplayer += 1
+                if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                    self.state.currentplayer = 0
+                for search in self.state.skippedplayers:
+                    logging.info("searching found %s" % search)
+                    logging.info("currentplayer = %s" % self.state.currentplayer)
+                    if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
+                        foundplayer = True
+
+            self.state.detonate_waiters()
+            self.eliminate_players()
+            if self.state.isdead == self.state.max_players(self.handler.clients):
+                if self.state.endgame == False:
+                    self.state.endgame = True
+                    self.handler.remote_all("endgame")
+            net_map = self.network_prepare(self.state.map.mapstore) 
+            net_unit_list = self.network_prepare(self.state.map.unitstore) 
+            self.handler.remote_all("map", net_map)
+            self.handler.remote_all("unit_list", net_unit_list)
+            self.handler.remote_all('next_turn', self.state.currentplayer)
+            self.state.takingturn = False
+            if self.state.endgame == True:
                 self.handler.remote_all("endgame")
-        net_map = self.network_prepare(self.state.map.mapstore) 
-        net_unit_list = self.network_prepare(self.state.map.unitstore) 
-        self.handler.remote_all("map", net_map)
-        self.handler.remote_all("unit_list", net_unit_list)
-        self.handler.remote_all('next_turn', self.state.currentplayer)
-        self.state.takingturn = False
-        if self.state.endgame == True:
-            self.handler.remote_all("endgame")
-        self.state.game.unit_dump()
+            self.state.game.unit_dump()
 
 #****************************************************************************
 #after all clients reports it has completed animation server sends updated map and process death
