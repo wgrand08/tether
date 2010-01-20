@@ -244,7 +244,8 @@ class ClientPerspective(pb.Avatar):
                 logging.info(" currentplayer = 1 (solo game)")
                 self.state.currentplayer = 1
                     
-            self.handler.remote_all("next_turn", self.state.currentplayer)
+            self.handler.remote_all('next_turn', self.state.currentplayer)
+            self.state.takingturn = False
             
 
 #****************************************************************************
@@ -307,8 +308,8 @@ class ClientPerspective(pb.Avatar):
                 if self.state.currentplayer > self.state.max_players(self.handler.clients):
                     self.state.currentplayer = 0
                 for search in self.state.skippedplayers:
-                    logging.info("searching found %s" % search)
-                    logging.info("currentplayer = %s" % self.state.currentplayer)
+                    logging.debug("searching found %s" % search)
+                    logging.debug("currentplayer = %s" % self.state.currentplayer)
                     if int(search) != self.state.currentplayer and search != 0 and self.state.currentplayer > 0:
                         foundplayer = True
 
@@ -350,7 +351,6 @@ class ClientPerspective(pb.Avatar):
                 while not foundplayer:
                     self.state.currentplayer += 1
                     if self.state.currentplayer > self.state.max_players(self.handler.clients):
-                        logging.info("max players = %s" % self.state.max_players(self.handler.clients))
                         self.state.currentplayer = 0
                     if len(self.state.skippedplayers) > 1:
                         for search in self.state.skippedplayers:
@@ -359,7 +359,7 @@ class ClientPerspective(pb.Avatar):
                             if search != 0:
                                 if int(search) != self.state.currentplayer and self.state.currentplayer > 0:
                                     logging.debug("found searching found %s" % search)
-                                    logging.info("currentplayer = %s" % self.state.currentplayer)
+                                    logging.debug("currentplayer = %s" % self.state.currentplayer)
                                     foundplayer = True
                     else:
                         logging.debug("no skips yet")
@@ -372,7 +372,7 @@ class ClientPerspective(pb.Avatar):
                 logging.info(" currentplayer = 1 (solo game)")
                 self.state.currentplayer = 1
                     
-            self.handler.remote_all("next_turn", self.state.currentplayer)
+            self.handler.remote_all('next_turn', self.state.currentplayer)
             self.state.takingturn = False
             if self.state.endgame == True:
                 self.handler.remote_all("endgame")

@@ -316,4 +316,5 @@ class NetworkClient(pb.Referenceable):
             message = "Server: It is player " + str(next_player) + "'s turn"
             self.client.mappanel.show_message(message)
             self.client.myturn = False
+        logging.info("It is player " + str(next_player) + "'s turn")
 
