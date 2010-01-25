@@ -10,4 +10,5 @@ MoonPy has some major differences from OMBC due to engine differences. This lead
 
 == bomb ==
 damage = 3
+
 radius = 2
