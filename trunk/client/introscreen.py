@@ -38,7 +38,7 @@ class IntroScreen:
         splashScreen = splashScreen.convert()
         screen.blit(splashScreen, (0,0))
         pygame.display.flip()
-        sleep(2)
+        sleep(5)
         screen = pygame.display.set_mode((1024,768))
 
 

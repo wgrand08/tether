@@ -176,8 +176,9 @@ class Game:
 #Move units todo: this code is now obsolete and should be removed
 #****************************************************************************
     def move_units(self):
-        for unit in self.map.get_unit_list():
-            self.map.move_unit(unit) 
+        placeholder = True
+        #for unit in self.map.get_unit_list():
+            #self.map.move_unit(unit) 
 
 #****************************************************************************
 #create a new unit and place it on the map
@@ -187,7 +188,7 @@ class Game:
         typeset = self.get_unit_typeset(unit_type_id)
         hp = self.get_unit_hp(unit_type_id)
         unit_type = self.get_unit_type(unit_type_id)
-        if unit_type_id != "crawler" or unit_type_id != "missile": #all units face same direction except for crawlers and missiles
+        if unit_type_id != "crawler" and unit_type_id != "missile": #all units face same direction except for crawlers and missiles
             dir = 360
         logging.debug("creating unit# %s", self.unit_counter)
         self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting, dir)
@@ -321,6 +322,9 @@ class Game:
             typeset = "ballon"
         elif type_id == "tether":
             typeset = "tether"
+        else:
+            logging.critical("unknown typeset")
+            typeset = "void"
         return typeset
 
 #****************************************************************************
@@ -402,12 +406,10 @@ class Game:
         notfound = True
         while notfound == True:
             for test in self.map.unitstore.values():
-                #print("searching for tether end with unitID " + str(test.id) + " from unitID " + str(tether.parentID))
                 if test.id == tether.parentID:
                     if test.typeset == "tether":
                         tether = test
                     else: #found outer end of tether, other end is it's parentID
-                        #print("found tether end: unitID " +str(test.id))
                         target1 = test.id
                         target2 = test.parentID
                         notfound = False

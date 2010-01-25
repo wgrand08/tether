@@ -40,14 +40,15 @@ class ServerState:
         self.game = None 
         self.currentplayer = 1
         self.skippedplayers = []
+        self.deadplayers = []
         self.skippedplayers.append(0) #this can *not* be empty or next player will never be found
+        self.deadplayers.append(0)
         self.interrupted_tether = False
         self.waitingplayers = 0
         self.totalplayers = 0
         self.runningserver = False
         self.doubletether = False
         self.takingturn = False
-        self.isdead = 0
         self.endgame = False
         self.roundplayer = 1
  
@@ -109,18 +110,15 @@ class ServerState:
             notclear = False
             for unit in self.map.unitstore.values():
                 unit.check_virus = False
+                for unblast in self.map.unitstore.values():
+                    unblast.blasted = False
                 if unit.typeset == "tether" and unit.hp > 0: #tethers heal between turns so they never die except by death of parent
                     unit.hp = 1000
                 if (unit.hp < 1 and unit.typeset != "doodad"):
-                    notclear = True 
-                    self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset, unit.playerID, unit.type.id, unit.disabled)
-                    self.game.remove_unit(unit)
-                    for unit2 in self.map.unitstore.values(): 
-                        if unit2.parentID == unit.id:
-                            unit2.hp = 0
+                    notclear = True
                     radius = self.game.get_unit_radius(unit.type.id) + 1
                     if unit.type.id == "mines" and unit.disabled == False:
-                        power = self.game.get_unit_power(unit)
+                        power = self.game.get_unit_power(unit.type.id)
                         endX = unit.x
                         endY = unit.y
                         for find_target in range(0, radius):
@@ -140,12 +138,12 @@ class ServerState:
                                 logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                                 for target in self.map.unitstore.values():
                                     logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
-                                    if target.x == endX and target.y == endY and target.typeset != "doodad":
+                                    if target.x == endX and target.y == endY and target.typeset != "doodad" and target.blasted == False:
                                         target.hp = target.hp - power #unit is caught in explosion and damaged
                                         target.blasted = True
                                 spinner = spinner + 5
                     if unit.type.id == "crawler" and unit.disabled == False:
-                        power = self.game.get_unit_power(unit)
+                        power = self.game.get_unit_power(unit.type.id)
                         endX = unit.x
                         endY = unit.y
                         for find_target in range(0, radius):
@@ -165,7 +163,7 @@ class ServerState:
                                 logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                                 for target in self.map.unitstore.values():
                                     logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
-                                    if target.x == endX and target.y == endY and target.typeset != "doodad":
+                                    if target.x == endX and target.y == endY and target.typeset != "doodad" and target.blasted == False:
                                         target.hp = target.hp - power #unit is caught in explosion and damaged
                                         target.blasted = True
                                 spinner = spinner + 5
@@ -190,11 +188,16 @@ class ServerState:
                                 logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                                 for target in self.map.unitstore.values():
                                     logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
-                                    if target.x == endX and target.y == endY and target.typeset != "doodad":
+                                    if target.x == endX and target.y == endY and target.typeset != "doodad" and target.blasted == False:
                                         logging.info("unit got caught in nuke")
                                         target.hp = target.hp - 5 #unit is caught in explosion and damaged
                                         target.blasted = True
                                 spinner = spinner + 5
+                    self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset, unit.playerID, unit.type.id, unit.disabled)
+                    self.game.remove_unit(unit)
+                    for unit2 in self.map.unitstore.values(): 
+                        if unit2.parentID == unit.id:
+                            unit2.hp = 0
         self.handle_water()
 
 #****************************************************************************
@@ -303,7 +306,6 @@ class ServerState:
         for unit in self.map.unitstore.values():
             blasted = False
             if unit.type.id == "mines":
-                power = self.game.get_unit_power(unit.type.id)
                 radius = 2
                 endX = unit.x
                 endY = unit.y
@@ -323,8 +325,7 @@ class ServerState:
                         spinner = spinner + 5
 
             elif unit.type.id == "crawler":
-                power = self.game.get_unit_power(unit)
-                radius = 1 #note this is different then the explosive radius!
+                radius = 3 #note this is different then the explosive radius!
                 endX = unit.x
                 endY = unit.y
                 for find_target in range(1, radius):
@@ -351,18 +352,34 @@ class ServerState:
         logging.debug("moving crawlers")
         for unit in self.map.unitstore.values(): #note, in OMBC crawlers move about half a power bar in length
             if unit.type.id == "crawler" and unit.disabled == False:
-                temp_rotation = unit.dir
                 start_tile = self.map.get_tile_from_unit(unit)
+                undetonated = True
                 for find_target in range(1, 15):
-                    temp_rotation = unit.dir - 90 #following is to adjust for difference between degrees and radians
-                    if temp_rotation < 1:
-                        temp_rotation = unit.dir + 270
-                    endX = find_target * math.cos(temp_rotation / 180.0 * math.pi)
-                    endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
-                    endX = round(endX, 0)
-                    endY = round(endY, 0)
-                    endX = int(endX) + start_tile.x
-                    endY = int(endY) + start_tile.y
+                    if undetonated == True:
+                        temp_rotation = unit.dir - 90 #following is to adjust for difference between degrees and radians
+                        if temp_rotation < 1:
+                            temp_rotation = unit.dir + 270
+                        endX = find_target * math.cos(temp_rotation / 180.0 * math.pi)
+                        endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
+                        endX = round(endX, 0)
+                        endY = round(endY, 0)
+                        endX = int(endX) + start_tile.x
+                        endY = int(endY) + start_tile.y
+                        for find_enemy in range(1, 3): #search for enemies while moving
+                            spinner = 0
+                            while spinner < 360:
+                                targetX = find_enemy * math.cos(spinner / 180.0 * math.pi)
+                                targetY = find_enemy * math.sin(spinner / 180.0 * math.pi)
+                                targetX = round(targetX, 0)
+                                targetY = round(targetY, 0)
+                                targetX = int(targetX) + endX
+                                targetY = int(targetY) + endY
+                                for target in self.map.unitstore.values():
+                                    #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                                    if target.x == targetX and target.y == targetY and target.playerID != unit.playerID and target.typeset != "doodad":
+                                        unit.hp = 0 #target detonates, damage is incurred while processing death
+                                        undetonated = False
+                                spinner = spinner + 5
                 unit.x = endX
                 unit.y = endY
 
@@ -592,7 +609,6 @@ class ServerState:
             tile = self.map.get_tile((endX - 1, endY + 1))
             if tile.type == self.game.get_terrain_type("rocks"): 
                 self.interrupted_tether = True
-
                 self.connections.remote_all("hit_rock")
             elif tile.type == self.game.get_terrain_type("energy") and child == "collector":
                 collecting = True
@@ -831,7 +847,7 @@ class ServerState:
         radius = self.game.get_unit_radius(unit) + 1
         for target in self.map.unitstore.values():
             target.blasted = False #clearing all targets
-        if unit != "crawler" or unit != "mines":
+        if unit != "crawler" and unit != "mines":
             endX = x
             endY = y
             for find_target in range(0, radius):

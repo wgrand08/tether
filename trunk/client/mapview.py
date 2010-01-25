@@ -234,6 +234,14 @@ class Mapview:
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
 
+        if unit.type.id == "crawler":
+            for show_health in range(1, unit.hp + 1):
+                blit_x = gui_x 
+                blit_y = gui_y
+                colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+                teamcolor = self.client.game.get_unit_color(colorID)
+                pygame.draw.line(self.client.screen, teamcolor, (blit_x + (show_health * 10), blit_y + 72), (blit_x + (show_health * 10), blit_y + 62), 5)
+
         if unit.typeset == "build":
             for show_health in range(1, unit.hp + 1):
                 blit_x = gui_x - 24 
