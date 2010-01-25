@@ -1,0 +1,13 @@
+#labels Phase-Design,Deprecated
+#Game balancing debate
+
+= Need for balance =
+
+MoonPy has some major differences from OMBC due to engine differences. This leads to some units becoming somewhat unbalanced even though the stats are the 'same' as OMBC, especially when it comes to the radius of effects. This page lists the current stats of each unit and gives people a chance to say what changes (if any) need to be done.
+
+
+= Current unit stats =
+
+== bomb ==
+damage = 3
+radius = 2
