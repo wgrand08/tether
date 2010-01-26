@@ -41,6 +41,7 @@ class ServerState:
         self.currentplayer = 1
         self.skippedplayers = []
         self.deadplayers = []
+        self.playerIDs = []
         self.skippedplayers.append(0) #this can *not* be empty or next player will never be found
         self.deadplayers.append(0)
         self.interrupted_tether = False

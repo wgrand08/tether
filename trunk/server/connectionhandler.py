@@ -62,9 +62,10 @@ class ClientPerspective(pb.Avatar):
         elif username == "server" or username == "Server": #the name 'server' is reserved for messages from the real server
             logging.warning("Server refused login due to invalid username")
             return "login_failed"
-        else:
+        else:                
             self.conn_info.username = username
             self.conn_info.playerID = self.state.max_players(self.handler.clients)
+            self.state.playerIDs.append(self.conn_info.playerID)
             join_message = "Server: %s has joined the game as player %s" % (username, str(self.conn_info.playerID))
             self.handler.remote_all('chat', join_message)
             return self.conn_info.playerID 
@@ -128,10 +129,11 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
             logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to use " + str(self.state.game.get_unit_cost(unit)) + " energy when server reports only having " + str(self.conn_info.energy + " energy!"))
             nocheat = False
-        if self.conn_info.isdead == True:
-            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
-            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to take a turn after dying")
-            nocheat = False
+        for player in self.state.deadplayers:
+            if player == self.conn_info.playerID:
+                self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+                logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to take a turn after dying")
+                nocheat = False
 
         if nocheat == True:
             if unit == "mines" or unit == "cluster": #handling 'split' shots
@@ -153,7 +155,7 @@ class ClientPerspective(pb.Avatar):
                         for finddisabled in self.state.map.unitstore.values():
                             if finddisabled.id == undisable :
                                 finddisabled.disabled = False
-                                logging.debug"undisabled a " + str(finddisabled.type.id)
+                                logging.debug("undisabled a " + str(finddisabled.type.id))
                 self.conn_info.undisable = False
                 self.conn_info.Idisabled = []
                 self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
@@ -186,7 +188,7 @@ class ClientPerspective(pb.Avatar):
                         for finddisabled in self.state.map.unitstore.values():
                             if finddisabled.id == undisable:
                                 finddisabled.disabled = False
-                                logging.debug"undisabled a " + str(finddisabled.type.id)
+                                logging.debug("undisabled a " + str(finddisabled.type.id))
                 self.conn_info.undisable = False
                 self.conn_info.Idisabled = []
                 self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
@@ -257,10 +259,12 @@ class ClientPerspective(pb.Avatar):
             nocheat = False
         else:
             self.state.takingturn = True
-        if self.conn_info.isdead == True:
-            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
-            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to take a turn after dying")
-            nocheat = False
+
+        for player in self.state.deadplayers:
+            if player == self.conn_info.playerID:
+                self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+                logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to take a turn after dying")
+                nocheat = False
 
         if nocheat == True:
             self.state.skippedplayers.append(self.conn_info.playerID)
@@ -380,28 +384,32 @@ class ClientPerspective(pb.Avatar):
 #calculate the number of players currently connected to the game
 #****************************************************************************
     def eliminate_players(self):
-        self.conn_info.isdead = True
-        unskipped = True
-        notdead = True
-        for unit in self.state.map.unitstore.values():
-            if unit.playerID == self.conn_info.playerID and unit.type.id == "hub":
-                self.conn_info.isdead = False #player is proven alive if they have at least one hub
-        if self.conn_info.isdead == True:
-            for findskipped in self.state.skippedplayers: #skipping dead player if not pre-skipped
-                if findskipped == self.conn_info.playerID:
-                    unskipped = False
-            for finddead in self.state.deadplayers:
-                if finddead == self.conn_info.playerID:
-                    notdead = False
-            if unskipped == True:
-                self.state.skippedplayers.append(self.conn_info.playerID)
-            if notdead == False: #player is now dead but wasn't dead before this moment
-                self.state.deadplayers.append(self.conn_info.playerID)
-                logging.info("player " + str(self.conn_info.playerID) + " has been eliminated")
-                if len(self.state.deadplayers) == self.state.max_players(self.handler.clients):
-                    if self.state.endgame == False:
+        for playerID in self.state.playerIDs:
+            isdead = True
+            unskipped = True
+            notdead = True
+            if self.state.endgame == False:
+                for unit in self.state.map.unitstore.values():
+                    if unit.type.id != "tether":
+                    if unit.playerID == playerID and unit.type.id == "hub":
+                        isdead = False #player is proven alive if they have at least one hub
+                if isdead == True:
+                    for findskipped in self.state.skippedplayers: #skipping dead player if not pre-skipped
+                        if findskipped == playerID:
+                            unskipped = False
+                    for finddead in self.state.deadplayers:
+                        if finddead == playerID:
+                            notdead = False
+                    if unskipped == True:
+                        self.state.skippedplayers.append(playerID)
+                    if notdead == True: #player is now dead but wasn't dead before this moment
+                        self.state.deadplayers.append(playerID)
+                        logging.info("player " + str(playerID) + " has been eliminated")
+                    if len(self.state.deadplayers) == self.state.max_players(self.handler.clients):
+                        logging.info("game is over")
                         self.state.endgame = True
                         self.handler.remote_all("endgame")
+                    logging.debug("Player " + str(playerID) + " is still dead")
 
 #****************************************************************************
 #
@@ -439,8 +447,7 @@ class ConnectionHandler:
             Idisabled = []
             reload = False
             Ireloading = []
-            isdead = False
-            conn_info = ConnInfo(client_ref, name, address, playerID, energy, Idisabled, reload, Ireloading, isdead)
+            conn_info = ConnInfo(client_ref, name, address, playerID, energy, Idisabled, reload, Ireloading)
             perspective = ClientPerspective(conn_info, self, self.state)
             self.clients[client_ref] = conn_info
             return (pb.IPerspective, perspective, perspective.logout) 
