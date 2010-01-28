@@ -11,4 +11,72 @@ MoonPy has some major differences from OMBC due to engine differences. This lead
 == bomb ==
 damage = 3
 
-radius = 2
+damage radius = 2
+
+
+== missile == 
+
+damage = 3
+
+damage radius = 2
+
+target radius = ?
+
+
+== spike ==
+
+direct damage = 3
+
+tether damage = 1
+
+damage radius = 2
+
+
+== recall ==
+
+enemy damage = 3
+
+friendly damage = 5
+
+damage radius = 2
+
+
+== mines ==
+
+damage = 3
+
+damage radius = 2
+
+detonate radius = ?
+
+
+== crawler ==
+
+damage = 4
+
+damage radius = 5
+
+detonate radius = ?
+
+
+== emp ==
+
+damage = 2
+
+damage radius = ?
+
+disabling radius = 9
+
+
+== cluster ==
+
+damage = 1
+
+damage radius = ?
+
+
+== collector ==
+
+damage = 5
+
+damage radius = 6
