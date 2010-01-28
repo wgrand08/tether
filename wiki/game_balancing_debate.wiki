@@ -3,8 +3,7 @@
 
 = Need for balance =
 
-MoonPy has some major differences from OMBC due to engine differences. This leads to some units becoming somewhat unbalanced even though the stats are the 'same' as OMBC, especially when it comes to the radius of effects. This page lists the current stats of each unit and gives people a chance to say what changes (if any) need to be done. *Note this page is still under construction*
-
+MoonPy has some major differences from OMBC due to engine differences. This leads to some units becoming somewhat unbalanced even though the stats are the 'same' as OMBC, especially when it comes to the radius of effects. This page lists the current stats of each unit and gives people a chance to say what changes (if any) need to be done.
 
 = Current unit stats =
 
@@ -20,7 +19,7 @@ damage = 3
 
 damage radius = 2
 
-target radius = ?
+target radius = 4
 
 
 == spike ==
@@ -47,7 +46,7 @@ damage = 3
 
 damage radius = 2
 
-detonate radius = ?
+detonate radius = 2
 
 
 == crawler ==
@@ -56,14 +55,14 @@ damage = 4
 
 damage radius = 5
 
-detonate radius = ?
+detonate radius = 3
 
 
 == emp ==
 
 damage = 2
 
-damage radius = ?
+damage radius = 0 #note this means EMP's do no damage at this time
 
 disabling radius = 9
 
@@ -72,7 +71,7 @@ disabling radius = 9
 
 damage = 1
 
-damage radius = ?
+damage radius = 1
 
 
 == collector ==
@@ -80,3 +79,13 @@ damage radius = ?
 damage = 5
 
 damage radius = 6
+
+
+== anti-air ==
+
+defensive radius = 6
+
+
+== shield ==
+
+defensive radius = 6
