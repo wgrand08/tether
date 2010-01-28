@@ -62,7 +62,7 @@ detonate radius = 3
 
 damage = 2
 
-damage radius = 0 #note this means EMP's do no damage at this time
+damage radius = 0   *note this means EMP's do no damage at this time*
 
 disabling radius = 9
 
