@@ -1,5 +1,5 @@
+#summary Game balancing debate
 #labels Phase-Design
-#Game balancing debate
 
 = Need for balance =
 
