@@ -51,6 +51,8 @@ detonate radius = 2
 
 == crawler ==
 
+HP = 3
+
 damage = 4
 
 damage radius = 5
@@ -64,28 +66,68 @@ damage = 2
 
 damage radius = 0   *note this means EMP's do no damage at this time*
 
-disabling radius = 9
+disabling radius = 10
 
 
 == cluster ==
 
 damage = 1
 
-damage radius = 1
+damage radius = 2
 
+
+== repair ==
+
+heals = 1
+
+radius = 2
+
+== virus ==
+
+radius = 2
 
 == collector ==
 
+HP = 5
+
 damage = 5
 
-damage radius = 6
+damage radius = 7
 
 
 == anti-air ==
+
+HP = 3
 
 defensive radius = 6
 
 
 == shield ==
 
+HP = 3
+
 defensive radius = 6
+
+
+== hub ==
+
+HP = 5
+
+range = 25
+
+
+== offense ==
+
+HP = 3
+
+range = hub * 2
+
+
+== tower ==
+
+HP = 3
+
+
+== bridge ==
+
+HP = 3
