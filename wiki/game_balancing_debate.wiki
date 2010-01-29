@@ -120,7 +120,7 @@ range = 25
 
 HP = 3
 
-range = hub * 2
+range = hub {{{*}}} 2
 
 
 == tower ==
