@@ -47,6 +47,7 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Wind: planned
   * Ability to create custom maps: planned
   * Ability to load/save games: planned
+  * All obsolete code removed: planned
 
 = Requirements for version 1.0.00 = 
 
