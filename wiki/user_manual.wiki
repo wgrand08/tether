@@ -1,4 +1,6 @@
+#summary user manual
 #labels Phase-Support
+
 = Object of Game =
 
 Destroy your enemies!
@@ -17,7 +19,7 @@ Destroy your enemies!
 
 == How to 'move' ==
 
-All units units are launched similar to many artillery games like scorched3D, except with a top down perspective. On your turn select the unit you wish to fire from. Choose the direction you wish to fire, then choose the weapon you wish to fire. When ready hold down the fire button. The power indicator will start moving up and down. Releasing the fire button will launch the unit in the direction selected with the power the power indicator ended on.
+All units are launched similar to many artillery games, like scorched3D, except with a top down perspective. On your turn select the unit you wish to fire from. Choose the direction you wish to fire, then choose the weapon you wish to fire. When ready, hold down the fire button. The power indicator will start moving up and down. Releasing the fire button will launch the unit in the direction selected with the power the power indicator ended on.
 
 == Energy, rounds, and turns ==
 
@@ -87,5 +89,5 @@ Because of fundamental differences between the MoonPy engine and the original Mo
  # Anti-air's shoot incoming shots automatically: In OMBC when an anti-air detected an incoming shot a little missile would fly out to hit it. This would give players the possibility of hitting something before the anti-air missile hit. In MoonPy anti-air's are now instantaneous just like shields.
  # Spike damage is not based on distance: In OMBC a spike would do 3 damage and depending on how far the spike had to travel down the tether would do less and less damage until it did no damage at all. In MoonPy a spike does 3 damage on a direct hit and only 1 damage if it travels down a tether regardless of how long/short it has to travel.
  # No unique player colors: In OMBC players would choose a color that would identify them to other players. In MoonPy all of "your" units are colored green while all enemies are colored red and all allies are colored blue. Although this makes it harder to identify and target a specific person, this change allows us to theoretically have an unlimited number of players rather then the 4 player cap OMBC had.
- # No balloons: Currently balloons can not be launched out. This is mostly due to the fact having a 'floating' will take a lot of work to code and since there is no FoW there isn't really any need for balloons at this time. Balloons will be implemented once FoW is done. 
+ # No balloons: Currently balloons can not be launched out. This is mostly due to the fact coding a 'floating' unit will take a lot of work and since there is no FoW there isn't really any need for balloons at this time. Balloons will be implemented later once FoW is done. 
  # 2D engine: Although OMBC used 2D graphics it was a fully 3D game that paid attention to things like 'up' and 'down' (especially noticeable with towers). MoonPy has a fully 2D engine so there is no height differences with units.
