@@ -373,7 +373,7 @@ class Game:
         elif typeset == "build":
             radius = 2
         else:
-            radius = 1
+            radius = 1 #note that determine_hit in gameserverstate adds 1 the radius
         return radius
 
 #****************************************************************************

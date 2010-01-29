@@ -125,7 +125,16 @@ class ClientPerspective(pb.Avatar):
                 self.handler.remote_all("cheat_signal", self.conn_info.playerID)
                 logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to launch from disabled unit " + str(parentID))
                 nocheat = False
-        if self.conn_info.energy < self.state.game.get_unit_cost(unit): #attempting to use more energy then the player currently has simply does nothing
+            if checkcheat.id == parentID and checkcheat.type.id != "hub":
+                if checkcheat.type.id != "offense":
+                    self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+                    logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to launch from a " + str(checkcheat.type.id))
+                    nocheat = False
+                elif unit == "repair" or self.state.game.get_unit_typeset(unit) != "weap":
+                    self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+                    logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to launch a " + str(unit) + " from an " + str(checkcheat.type.id))
+                    nocheat = False
+        if self.conn_info.energy < self.state.game.get_unit_cost(unit): 
             self.handler.remote_all("cheat_signal", self.conn_info.playerID)
             logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to use " + str(self.state.game.get_unit_cost(unit)) + " energy when server reports only having " + str(self.conn_info.energy + " energy!"))
             nocheat = False
@@ -390,7 +399,6 @@ class ClientPerspective(pb.Avatar):
             notdead = True
             if self.state.endgame == False:
                 for unit in self.state.map.unitstore.values():
-                    if unit.type.id != "tether":
                     if unit.playerID == playerID and unit.type.id == "hub":
                         isdead = False #player is proven alive if they have at least one hub
                 if isdead == True:
