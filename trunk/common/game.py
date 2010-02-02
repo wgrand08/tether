@@ -210,7 +210,7 @@ class Game:
                 unit.dir = dir
                 unit.parentID = parentID
                 self.map.change_unit(unit, unit_type)
-        logging.debug("creating unit# %s", self.unit_counter)
+        logging.debug("creating unit# %s", unit.id)
 
 
 #****************************************************************************

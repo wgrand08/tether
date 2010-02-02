@@ -339,7 +339,6 @@ class ServerState:
                         endX = int(endX) + unit.x
                         endY = int(endY) + unit.y
                         for target in self.map.unitstore.values():
-                            #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                             if target.x == endX and target.y == endY and target.playerID != unit.playerID and target.typeset != "doodad":
                                 unit.hp = 0 #target detonates, damage is incurred while processing death
                         spinner = spinner + 5
@@ -376,7 +375,6 @@ class ServerState:
                                 targetX = int(targetX) + endX
                                 targetY = int(targetY) + endY
                                 for target in self.map.unitstore.values():
-                                    #logging.info("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                                     if target.x == targetX and target.y == targetY and target.playerID != unit.playerID and target.typeset != "doodad":
                                         unit.hp = 0 #target detonates, damage is incurred while processing death
                                         undetonated = False
@@ -390,7 +388,7 @@ class ServerState:
 #****************************************************************************
     def find_trajectory(self, parentID, rotation, power, child, player):
         playerID = player.playerID
-        logging.info("player %s launched a %s" % (parentID, child))
+        logging.info("player %s launched a %s" % (player, child))
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
         endX = start_tile.x #todo: can this be safely removed?
@@ -519,38 +517,29 @@ class ServerState:
             #placing tethers if applicable
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
                 for target in self.map.unitstore.values():
-                    double_tether = False
                     tile = self.map.get_tile((endX, endY))
                     if (target.x == endX and target.y == endY): #determine if tether crosses another unit/tether
                         if (target.typeset != "doodad") and (target.parentID != parentID):
                             if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
                                 logging.info("You crossed a tether at step %r" % find_target)
-                                if find_target < 3: #don't remove when crossing on the first tether piece
-                                    self.interrupted_tether = True
-                                    return (start_tile.x, start_tile.y, endX, endY, collecting)
-                                else:
-                                    self.interrupted_tether = True
-                                    return (start_tile.x, start_tile.y, endX, endY, collecting)
-                            else:
-                                double_tether = True #doesn't place 'doubled' tethers due to rounding
-                if double_tether == False:
-                    #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
-                    testX = str(endX)
-                    testY = str(endY)
-                    if find_target > 1 and find_target < (power - 2):
-                        chain_parent = self.game.unit_counter + 2 
-                        self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
-                        logging.debug("added tether at " + testX + ", " + testY)
+                                self.interrupted_tether = True
+                                return (start_tile.x, start_tile.y, endX, endY, collecting)
+                #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
+                testX = str(endX)
+                testY = str(endY)
+                if find_target > 1 and find_target < (power - 2):
+                    chain_parent = self.game.unit_counter + 2 
+                    self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                    logging.debug("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or water
         if self.game.get_unit_typeset(child) == "build":
-            if self.game.check_tether(child) == True:            
+            if self.game.check_tether(child) == True: #previous was for tether itself, this is for the actual building as compared to the individual tethers placed above
                 for target in self.map.unitstore.values():
-                    double_tether = False
                     tile = self.map.get_tile((endX, endY))
                     if (target.x == endX and target.y == endY): #determine if tether crosses another unit/tether
                         if (target.typeset != "doodad") and (target.parentID != parentID):
-                            if target.parentID != self.game.unit_counter + 1: #prevents tether from 'crossing' itself due to rounding
+                            if target.parentID != self.game.unit_counter + 1: #prevents building from landing on it's own tether
                                 logging.info("You crossed a tether at step %r" % find_target)
                                 self.interrupted_tether = True
                                 return (start_tile.x, start_tile.y, endX, endY, collecting)
@@ -910,6 +899,7 @@ class ServerState:
                                         player.energy = player.energy + power
                                         target.hp = target.hp - power
                                         target.blasted = True
+                                        target.disabled = True
                             else:
                                 logging.info("hit target for %s" % power)
                                 target.hp = target.hp - power

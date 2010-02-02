@@ -181,7 +181,7 @@ class Map:
             unit.collecting = collecting
             unit.dir = dir
         else:
-            logging.error("Attempted to add unit but nothing was placed!")
+            logging.error("Attempted to add a " + str(landing.type.id) + " but a " + str(landing.type.id) + " was already there!")
 
 #****************************************************************************
 # removes unit completely

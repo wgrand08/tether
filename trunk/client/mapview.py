@@ -187,11 +187,9 @@ class Mapview:
         if unit.virused == True:
             status_surface = self.tileset.get_unit_surf_from_tile("virus_status", 0, 3)
             self.client.screen.blit(status_surface, (blit_x, blit_y))
-        if unit.disabled == True:
+        if unit.disabled == True or unit.reloading == True:
             status_surface = self.tileset.get_unit_surf_from_tile("disable_status", 0, 3)
             self.client.screen.blit(status_surface, ((blit_x + 48), blit_y))
-
-            #pygame.draw.line(self.client.screen, (255, 10, 10), (startX, startY), (finalX, finalY), 1)
             
 
 #****************************************************************************
