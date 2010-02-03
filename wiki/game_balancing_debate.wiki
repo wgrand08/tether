@@ -99,14 +99,14 @@ damage radius = 7
 
 HP = 3
 
-defensive radius = 6
+defensive radius = 8
 
 
 == shield ==
 
 HP = 3
 
-defensive radius = 6
+defensive radius = 8
 
 
 == hub ==
