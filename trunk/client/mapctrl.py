@@ -41,8 +41,6 @@ class Mapctrl:
                 self.client.quit()
             elif event.type == KEYDOWN and event.key == K_RETURN:
                 self.client.mappanel.send_chat()
-            elif event.type == KEYDOWN and event.key == K_f:
-                logging.info(self.client.clock.get_fps())
             elif event.type == MOUSEBUTTONDOWN:
                 self.handle_mouse_click(pygame.mouse.get_pos(), event.button)
             elif event.type == MOUSEBUTTONUP:
@@ -70,6 +68,8 @@ class Mapctrl:
                 self.client.view_delta_x = -10
             elif event.type == KEYUP and event.key == K_LEFT:
                 self.client.view_delta_x = 0
+            """elif event.type == KEYDOWN and event.key == K_f:
+                logging.debug(self.client.clock.get_fps())"""
 
             self.client.mappanel.app.event(event)
 
@@ -148,7 +148,7 @@ class Mapctrl:
                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                             self.client.selected_unit = {}
                             self.client.selected_unit.update({map_pos:unit})
-                            logging.info("Selected unit ID %r" % unit.id)
+                            logging.debug("Selected unit ID %r" % unit.id)
                             logging.debug("It's parent ID is %r" % unit.parentID)
                 else:
                     subX = x - 24
@@ -161,7 +161,7 @@ class Mapctrl:
                             if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
 
                                 self.client.selected_unit.update({map_pos:unit})
-                                logging.info("Selected unit ID %r" % unit.id)
+                                logging.debug("Selected unit ID %r" % unit.id)
                                 logging.debug("It's parent ID is %r" % unit.parentID)
                     else:
                         subX = x - 24
@@ -173,7 +173,7 @@ class Mapctrl:
                                 self.client.selected_unit = {}
                                 if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                     self.client.selected_unit.update({map_pos:unit})
-                                    logging.info("Selected unit ID %r" % unit.id)
+                                    logging.debug("Selected unit ID %r" % unit.id)
                                     logging.debug("It's parent ID is %r" % unit.parentID)
                         else:
                             subX = x
@@ -185,7 +185,7 @@ class Mapctrl:
                                     self.client.selected_unit = {}
                                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                         self.client.selected_unit.update({map_pos:unit})
-                                        logging.info("Selected unit ID %r" % unit.id)
+                                        logging.debug("Selected unit ID %r" % unit.id)
                                         logging.debug("It's parent ID is %r" % unit.parentID)
                             else:
                                 subX = x + 24
@@ -197,7 +197,7 @@ class Mapctrl:
                                         self.client.selected_unit = {}
                                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                             self.client.selected_unit.update({map_pos:unit})
-                                            logging.info("Selected unit ID %r" % unit.id)
+                                            logging.debug("Selected unit ID %r" % unit.id)
                                             logging.debug("It's parent ID is %r" % unit.parentID)
                                 else:
                                     subX = x
@@ -209,7 +209,7 @@ class Mapctrl:
                                             self.client.selected_unit = {}
                                             if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                 self.client.selected_unit.update({map_pos:unit})
-                                                logging.info("Selected unit ID %r" % unit.id)
+                                                logging.debug("Selected unit ID %r" % unit.id)
                                                 logging.debug("It's parent ID is %r" % unit.parentID)
                                     else:
                                         subX = x + 24
@@ -221,7 +221,7 @@ class Mapctrl:
                                                 self.client.selected_unit = {}
                                                 if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                     self.client.selected_unit.update({map_pos:unit})
-                                                    logging.info("Selected unit ID %r" % unit.id)
+                                                    logging.debug("Selected unit ID %r" % unit.id)
                                                     logging.debug("It's parent ID is %r" % unit.parentID)
                                         else:
                                             subX = x + 24
@@ -233,7 +233,7 @@ class Mapctrl:
                                                     self.client.selected_unit = {}
                                                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                         self.client.selected_unit.update({map_pos:unit})
-                                                        logging.info("Selected unit ID %r" % unit.id)
+                                                        logging.debug("Selected unit ID %r" % unit.id)
                                                         logging.debug("It's parent ID is %r" % unit.parentID)
                                             else:
                                                 subX = x - 24
@@ -245,7 +245,7 @@ class Mapctrl:
                                                         self.client.selected_unit = {}
                                                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                             self.client.selected_unit.update({map_pos:unit})
-                                                            logging.info("Selected unit ID %r" % unit.id)
+                                                            logging.debug("Selected unit ID %r" % unit.id)
                                                             logging.debug("It's parent ID is %r" % unit.parentID)
 
                 yy += 1

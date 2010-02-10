@@ -98,7 +98,7 @@ class ClientPerspective(pb.Avatar):
             return
         self.state.waitingplayers = 0
         if self.conn_info.reload == True: #reloading units remain disabled until the end of this turn
-            logging.info("reloading AA's")
+            logging.debug("reloading AA's")
             for loaded in self.conn_info.Ireloading:
                 for findloaded in self.state.map.unitstore.values():
                     if findloaded.id == loaded:
@@ -202,14 +202,17 @@ class ClientPerspective(pb.Avatar):
                 self.conn_info.Idisabled = []
                 self.conn_info.energy = self.conn_info.energy - self.state.game.get_unit_cost(unit)
                 self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
+                    
+                if self.state.doubletether == False:
+                    self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                else:
+                    self.state.game.tether2unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+
                 if self.state.interrupted_tether == True:
                     victim = self.state.map.get_unit_from_id(self.state.game.unit_counter)
                     victim.disabled = True
                     victim.hp = 0
-                elif self.state.doubletether == False:
-                    self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
-                else:
-                    self.state.game.tether2unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+
                 logging.info("added " + unit + " at: " + str(coordX) + ", " + str(coordY) + "; for playerID " + str(self.conn_info.playerID))
                 if self.state.game.get_unit_typeset(unit) == "weap":
                     self.state.determine_hit(unit, coord, self.conn_info)
@@ -378,7 +381,10 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_send_chat(self, data):
         message = self.conn_info.username + ": " + self.network_handle(data)
-        self.handler.remote_all('chat', message)
+        if len(message) < 75:
+            self.handler.remote_all('chat', message)
+        else:
+            self.handler.remote(self.conn_info.ref, 'chat', "Server: your message was too long to send")
 
 #****************************************************************************
 #client disconnecting from server

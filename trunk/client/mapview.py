@@ -211,7 +211,7 @@ class Mapview:
         if unit.type.id == "mines":
             tempX = blit_x + 12
             tempY = blit_y + 12
-            scale = 2 * 24
+            scale = self.client.game.get_defense_radius("mines") * 24
             colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor , (tempX, tempY), scale, 1)
@@ -219,7 +219,7 @@ class Mapview:
         if unit.type.id == "shield":
             tempX = blit_x + 12
             tempY = blit_y + 12
-            scale = 6 * 24
+            scale = self.client.game.get_defense_radius("shield") * 24
             colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
@@ -227,7 +227,7 @@ class Mapview:
         if unit.type.id == "antiair":
             tempX = blit_x + 12
             tempY = blit_y + 12
-            scale = 6 * 24
+            scale = self.client.game.get_defense_radius("antiair") * 24
             colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)

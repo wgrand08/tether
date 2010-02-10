@@ -93,13 +93,13 @@ class NetworkClient(pb.Referenceable):
 # 
 #****************************************************************************
     def success(self, message):
-        logging.info("Message received: %s" % message)
+        logging.debug("Message received: %s" % message)
 
 #****************************************************************************
 # 
 #****************************************************************************
     def failure(self, error):
-        logging.info("error received:")
+        logging.critical("error received from server:")
         reactor.stop()
 
 #****************************************************************************
@@ -109,18 +109,18 @@ class NetworkClient(pb.Referenceable):
         self.perspective = perspective
         perspective.callRemote('login', self.username, self.client.settings.version).addCallback(self.login_result)
         
-        logging.info("connected.")
+        logging.debug("connected.")
 
 #****************************************************************************
 # recieve login information from server
 #****************************************************************************
     def login_result(self, result):
         if result == "login_failed":
-            logging.info("Server denied login")
+            logging.debug("Server denied login")
         else:
             self.client.playerID = result
-            logging.info("Server accepted login")
-            logging.info("Your playerID = %r" % self.client.playerID)
+            logging.debug("Server accepted login")
+            logging.debug("Your playerID = %r" % self.client.playerID)
             self.client.enter_pregame()
             message = "Server: Welcome player %s" % self.client.playerID
             self.client.pregame.show_message(message)
@@ -129,7 +129,7 @@ class NetworkClient(pb.Referenceable):
 # player disconnects from server
 #****************************************************************************
     def disconnect(self):
-        logging.info("Disconnected from server")
+        logging.debug("Disconnected from server")
         if reactor.running:
             reactor.stop()
         
@@ -143,7 +143,7 @@ class NetworkClient(pb.Referenceable):
 
 
     def error(self, failure, op=""):
-        logging.info('Error in %s: %s' % (op, str(failure.getErrorMessage())))
+        logging.critical('Error in %s: %s' % (op, str(failure.getErrorMessage())))
         if reactor.running:
             reactor.stop()
 
@@ -214,7 +214,7 @@ class NetworkClient(pb.Referenceable):
 # recieve defense data from server
 #****************************************************************************
     def remote_triggered_defense(self):
-        logging.info("defense triggered")
+        logging.debug("defense triggered")
         self.client.moonaudio.sound("laser.ogg")
 
 #****************************************************************************
@@ -242,7 +242,6 @@ class NetworkClient(pb.Referenceable):
         self.client.energy = energy
         if self.client.energy < self.client.game.get_unit_cost(self.client.selected_weap):
             self.client.selected_weap = "bomb" #game automatically switches to bomb when energy gets low
-        logging.info("your energy = %r" % energy)
 
 #****************************************************************************
 # recieve command to restore energy and begin a new round
@@ -307,7 +306,7 @@ class NetworkClient(pb.Referenceable):
                 elif self.client.pregame:
                     self.client.pregame.show_message(message)
                 else:
-                    logging.info("unable to find panel for displaying message")
+                    logging.critical("unable to find panel for displaying message")
                 self.client.myturn = True
                 self.client.firepower = 0
                 self.client.power_direction = "up"
@@ -316,5 +315,5 @@ class NetworkClient(pb.Referenceable):
             message = "Server: It is player " + str(next_player) + "'s turn"
             self.client.mappanel.show_message(message)
             self.client.myturn = False
-        logging.info("It is player " + str(next_player) + "'s turn")
+        logging.debug("It is player " + str(next_player) + "'s turn")
 

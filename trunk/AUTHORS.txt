@@ -8,13 +8,14 @@ Jon Handy <Mightily> (Bugtesting, Sound Effects)
 David Carroll <GildedBear> (graphics - Mystic Pyramids)
 Stijn De Wachter <stijndw1337> (graphics - NiceCone)
 Nils Ingvarsson <ArchAngel> (Music)
+Mollie Clement <mlc4ctr> (Voice Acting)
 
 
 Special thanks to the OpenRTS team who's open
 sourced code and graphics gave moon.py a much
 needed jumpstart.
 
-The people who have contributed to OpenRTS is:
+The people who contributed to OpenRTS were:
 
 Project founder and developer:
 Andreas Røsdal <andrearo AT stud.ntnu.no>

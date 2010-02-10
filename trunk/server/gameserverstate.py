@@ -307,7 +307,7 @@ class ServerState:
         for unit in self.map.unitstore.values():
             blasted = False
             if unit.type.id == "mines":
-                radius = 2
+                radius = self.game.get_defense_radius(unit.type.id)
                 endX = unit.x
                 endY = unit.y
                 for find_target in range(1, radius):
@@ -326,7 +326,7 @@ class ServerState:
                         spinner = spinner + 5
 
             elif unit.type.id == "crawler":
-                radius = 3 #note this is different then the explosive radius!
+                radius = self.game.get_defense_radius(unit.type.id) #note this is different then the explosive radius!
                 endX = unit.x
                 endY = unit.y
                 for find_target in range(1, radius):
@@ -365,7 +365,7 @@ class ServerState:
                         endY = round(endY, 0)
                         endX = int(endX) + start_tile.x
                         endY = int(endY) + start_tile.y
-                        for find_enemy in range(1, 3): #search for enemies while moving
+                        for find_enemy in range(1, self.game.get_defense_radius(unit.type.id)): #search for enemies while moving
                             spinner = 0
                             while spinner < 360:
                                 targetX = find_enemy * math.cos(spinner / 180.0 * math.pi)
@@ -388,7 +388,7 @@ class ServerState:
 #****************************************************************************
     def find_trajectory(self, parentID, rotation, power, child, player):
         playerID = player.playerID
-        logging.info("player %s launched a %s" % (player, child))
+        logging.info("player " + str(playerID) + " launched a " + child)
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
         endX = start_tile.x #todo: can this be safely removed?
@@ -423,7 +423,7 @@ class ServerState:
             #determine if shot is intercepted by either an AA or shield
             for lookD in self.map.unitstore.values():
                 if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = 6
+                    radius = self.game.get_defense_radius(lookD.type.id)
                     searchX = lookD.x
                     searchY = lookD.y
                     for find_target in range(1, radius):
@@ -486,7 +486,7 @@ class ServerState:
                                     #determine if missile is intercepted by either an AA or shield while engines are on
                                     for lookD in self.map.unitstore.values():
                                         if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                                            radius = 6
+                                            radius = self.game.get_defense_radius(lookD.type.id)
                                             searchX = lookD.x
                                             searchY = lookD.y
                                             for find_target in range(1, radius):
@@ -516,6 +516,7 @@ class ServerState:
 
             #placing tethers if applicable
             if self.game.check_tether(child) == True: #if launched unit has tethers, then place tethers
+                retether = False
                 for target in self.map.unitstore.values():
                     tile = self.map.get_tile((endX, endY))
                     if (target.x == endX and target.y == endY): #determine if tether crosses another unit/tether
@@ -524,11 +525,14 @@ class ServerState:
                                 logging.info("You crossed a tether at step %r" % find_target)
                                 self.interrupted_tether = True
                                 return (start_tile.x, start_tile.y, endX, endY, collecting)
+                            else:
+                                logging.info("tether landed on itself")
+                                retether = True
                 #tether didn't land on anything, ready to place tether! The following is to prevent spaces around the launching hub
                 testX = str(endX)
                 testY = str(endY)
-                if find_target > 1 and find_target < (power - 2):
-                    chain_parent = self.game.unit_counter + 2 
+                if find_target > 1 and find_target < (power - 2) and retether == False:
+                    chain_parent = self.game.unit_counter + 2 #tethers have 'reversed' parents
                     self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                     logging.debug("added tether at " + testX + ", " + testY)
 
@@ -619,6 +623,7 @@ class ServerState:
     def split_trajectory(self, parentID, rotation, power, child, player):
         playerID = player.playerID
         unit = self.map.get_unit_from_id(parentID)
+        logging.info("player " + str(playerID) + " launched a " + child)
         start_tile = self.map.get_tile_from_unit(unit)
         endX = start_tile.x
         endY = start_tile.y
@@ -626,7 +631,6 @@ class ServerState:
         power = power + 4 #launching has minimal range
         offsetX = 0
         offsetY = 0
-
 
         arc = int(power - round((power / 2), 0)) #find location where shots split
         for find_target in range(1, arc):
@@ -653,7 +657,7 @@ class ServerState:
             #determine if shot is intercepted by either an AA or shield
             for lookD in self.map.unitstore.values():
                 if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = 6
+                    radius = self.game.get_defense_radius(lookD.type.id)
                     searchX = lookD.x
                     searchY = lookD.y
                     for find_target in range(1, radius):
@@ -704,7 +708,7 @@ class ServerState:
 
             for lookD in self.map.unitstore.values():
                 if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = 6
+                    radius = self.game.get_defense_radius(lookD.type.id)
                     searchX = lookD.x
                     searchY = lookD.y
                     for find_target in range(1, radius):
@@ -752,7 +756,7 @@ class ServerState:
 
             for lookD in self.map.unitstore.values():
                 if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = 6
+                    radius = self.game.get_defense_radius(lookD.type.id)
                     searchX = lookD.x
                     searchY = lookD.y
                     for find_target in range(1, radius):
@@ -800,7 +804,7 @@ class ServerState:
 
             for lookD in self.map.unitstore.values():
                 if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = 6
+                    radius = self.game.get_defense_radius(lookD.type.id)
                     searchX = lookD.x
                     searchY = lookD.y
                     for find_target in range(1, radius):
@@ -835,9 +839,12 @@ class ServerState:
         x, y = pos
         power = self.game.get_unit_power(unit)
         radius = self.game.get_unit_radius(unit) + 1
+        nohit = False
         for target in self.map.unitstore.values():
             target.blasted = False #clearing all targets
-        if unit != "crawler" and unit != "mines":
+            if target.id == self.game.unit_counter and target.disabled == True:
+                nohit = True
+        if unit != "crawler" and unit != "mines" and nohit == False:
             endX = x
             endY = y
             for find_target in range(0, radius):
@@ -933,10 +940,8 @@ class ServerState:
         for unit in self.map.unitstore.values():
             if unit.playerID == playerID and unit.type.id == "collector" and unit.disabled == False:
                 energy = energy + 1
-                logging.info("added unpowered collector energy")
                 if unit.collecting == True:
                     energy = energy + 2
-                    logging.info("added powered collector energy")
         if energy > 35:
             energy = 35
         return (energy)

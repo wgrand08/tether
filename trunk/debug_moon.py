@@ -58,6 +58,8 @@ def main():
 
     if os.path.exists("MoonPy.log"):
         os.remove('MoonPy.log')
+    #logLevel = logging.INFO
+    #common.log.setUpLogging(logLevel)
     LOG_FILENAME = 'MoonPy.log'
     logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
 

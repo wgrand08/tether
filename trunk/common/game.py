@@ -322,8 +322,7 @@ class Game:
             typeset = "ballon"
         elif type_id == "tether":
             typeset = "tether"
-        else:
-            logging.critical("unknown typeset")
+        elif type_id == "void" or type_id == "disable_status" or type_id == "virus_status":
             typeset = "void"
         return typeset
 
@@ -374,6 +373,22 @@ class Game:
             radius = 2
         else:
             radius = 1 #note that determine_hit in gameserverstate adds 1 the radius
+        return radius
+
+#****************************************************************************
+#get the defensive radius of a building
+#****************************************************************************
+    def get_defense_radius(self, type_id):
+        if type_id == "antiair":
+            radius = 8
+        elif type_id == "shield":
+            radius = 8
+        elif type_id == "mines":
+            radius = 2
+        elif type_id == "crawler":
+            radius = 3
+        else:
+            radius = 0
         return radius
 
 #****************************************************************************
