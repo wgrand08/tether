@@ -1,6 +1,5 @@
 The following songs:
 
-archons of light
 beyond atlantis
 scc-command
 essense of light
@@ -16,3 +15,13 @@ vanity
 mr sandman 
 
 were provide courtesy of Nils Ingvarsson <ArchAngel>
+
+
+
+Other songs used in MoonPy:
+
+
+Song               |   License URL
+----------------------------------------------------------------------------------
+water.ogg          |   http://creativecommons.org/licenses/by-nc-sa/3.0/
+
