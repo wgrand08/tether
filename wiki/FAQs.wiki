@@ -1,4 +1,6 @@
+#summary Frequently Asked Questions
 #labels Featured
+
 = FAQs of project tether =
 
   * What is project tether?
