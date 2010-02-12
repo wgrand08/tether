@@ -1,5 +1,5 @@
 #labels Phase-Implementation
-#Version requirments for MoonPy
+#Version requirements for MoonPy
 
 These are the general requirements for each major release of MoonPy. Currently we are working towards the 0.8.00 release. This information may not be completely up to date, more detailed information about bugs and feature implementation can be found on the [http://code.google.com/p/tether/issues/list issue tracker].
 
