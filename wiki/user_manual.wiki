@@ -8,10 +8,10 @@ Destroy your enemies!
 
 = Installation = 
 
- # Download and install [url=http://www.python.org/download/]python[/url]
- # Download and install [url=http://www.pygame.org/download.shtml]pygame[/url]
- # Download and install [url=http://www.pythonware.com/products/pil/]PIL[/url]
- # Download [url=http://code.google.com/p/tether/downloads/list]MoonPy[/url] and extract the folder
+ # Download and install [http://www.python.org/download/ python]
+ # Download and install [http://www.pygame.org/download.shtml pygame]
+ # Download and install [http://www.pythonware.com/products/pil/ PIL]
+ # Download [http://code.google.com/p/tether/downloads/list MoonPy] and extract the folder
  # Run moon.py
 
 
