@@ -365,14 +365,13 @@ class Mapview:
 #****************************************************************************
     def show_launch(self):
         if self.client.launch_type == "cluster" or self.client.launch_type == "mines":
-            if (self.client.launch_step < ((self.client.launch_distance + 5))):
+            if self.client.launch_step < self.client.launch_distance - 1:
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
                     temp_rotation = self.client.launch_direction + 270
-                midpoint = (self.client.launch_distance + 3.5) - round(((self.client.launch_distance + 3.5) / 2), 0)
+                midpoint = int(self.client.launch_distance - round((self.client.launch_distance / 2), 0))
                 if self.client.launch_step < midpoint:
-                    #logging.info("unsplit cluster")
                     endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
                     endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
                     endX = endX + self.client.launch_startx
@@ -388,16 +387,59 @@ class Mapview:
                     blit_y = blit_y + 24
                     blit_x = blit_x - 12
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                    #code for looping the map edges
+                    if endX < 0:
+                        endX = self.map.xsize + endX
+                    if endX > self.map.xsize - 1:
+                        endX = endX - (self.map.xsize - 1)
+                    if endY < 0:
+                        endY = self.map.ysize + endY
+                    if endY > self.map.ysize - 1:
+                        endY = endY - (self.map.ysize - 1)
+                    if self.client.intercepted == True and round(endX) == self.client.tarX and round(endY) == self.client.tarY:
+                        self.client.intercepted = False
+                        self.client.moonaudio.sound("laser.ogg")
+                        self.client.launched = False
+                        self.client.landed = True
+                        self.client.launch_step = 1
+                        self.client.hit1 = True
+                        self.client.hit2 = True
+                        self.client.hit3 = True
+                        defX, defY = self.map_to_gui((self.client.defX, self.client.defY))
+                        tarX, tarY = self.map_to_gui((self.client.tarX, self.client.tarY))
+                        defX = defX + 12
+                        defY = defY + 12
+                        pygame.draw.line(self.client.screen, (255, 255, 255), (defX, defY), (tarX, tarY), 4)
                 else:
-                    #logging.info("split a cluster")
-                    endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
-                    endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
-                    endX = endX + self.client.launch_startx
-                    endY = endY + self.client.launch_starty
-                    map_pos = endX, endY
-                    blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
-                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                    #splitting the cluster
+                    launch_step = self.client.launch_step - midpoint
+                    if self.client.hit1 == False:
+                        endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                        endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                        endX = endX + self.client.launch_splitx
+                        endY = endY + self.client.launch_splity
+                        map_pos = endX, endY
+                        blit_x, blit_y = self.map_to_gui(map_pos)
+                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                        #code for looping the map edges
+                        if endX < 0:
+                            endX = self.map.xsize + endX
+                        if endX > self.map.xsize - 1:
+                            endX = endX - (self.map.xsize - 1)
+                        if endY < 0:
+                            endY = self.map.ysize + endY
+                        if endY > self.map.ysize - 1:
+                            endY = endY - (self.map.ysize - 1)
+                        if self.client.intercepted == True and round(endX) == self.client.tarX and round(endY) == self.client.tarY:
+                            self.client.intercepted = False
+                            self.client.hit1 = True
+                            self.client.moonaudio.sound("laser.ogg")
+                            defX, defY = self.map_to_gui((self.client.defX, self.client.defY))
+                            tarX, tarY = self.map_to_gui((self.client.tarX, self.client.tarY))
+                            defX = defX + 12
+                            defY = defY + 12
+                            pygame.draw.line(self.client.screen, (255, 255, 255), (defX, defY), (tarX, tarY), 4)
 
                     default_rotation = temp_rotation
 
@@ -406,28 +448,66 @@ class Mapview:
                         temp_rotation = default_rotation - 315
 
                     launch_step = self.client.launch_step - midpoint
-                    endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
-                    endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
-                    endX = endX + self.client.launch_splitx
-                    endY = endY + self.client.launch_splity
-                    map_pos = endX, endY
-                    blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
-                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                    if self.client.hit2 == False:
+                        endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                        endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                        endX = endX + self.client.launch_splitx
+                        endY = endY + self.client.launch_splity
+                        map_pos = endX, endY
+                        blit_x, blit_y = self.map_to_gui(map_pos)
+                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                        #code for looping the map edges
+                        if endX < 0:
+                            endX = self.map.xsize + endX
+                        if endX > self.map.xsize - 1:
+                            endX = endX - (self.map.xsize - 1)
+                        if endY < 0:
+                            endY = self.map.ysize + endY
+                        if endY > self.map.ysize - 1:
+                            endY = endY - (self.map.ysize - 1)
+                        if self.client.intercepted2 == True and round(endX) == self.client.tarX2 and round(endY) == self.client.tarY2:
+                            self.client.intercepted2 = False
+                            self.client.hit2 = True
+                            self.client.moonaudio.sound("laser.ogg")
+                            defX, defY = self.map_to_gui((self.client.defX2, self.client.defY2))
+                            tarX, tarY = self.map_to_gui((self.client.tarX2, self.client.tarY2))
+                            defX = defX + 12
+                            defY = defY + 12
+                            pygame.draw.line(self.client.screen, (255, 255, 255), (defX, defY), (tarX, tarY), 4)
 
                     temp_rotation = default_rotation - 45
                     if temp_rotation < 1:
                         temp_rotation = default_rotation + 315
 
                     launch_step = self.client.launch_step - midpoint
-                    endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
-                    endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
-                    endX = endX + self.client.launch_splitx
-                    endY = endY + self.client.launch_splity
-                    map_pos = endX, endY
-                    blit_x, blit_y = self.map_to_gui(map_pos)
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
-                    self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                    if self.client.hit3 == False:
+                        endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                        endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                        endX = endX + self.client.launch_splitx
+                        endY = endY + self.client.launch_splity
+                        map_pos = endX, endY
+                        blit_x, blit_y = self.map_to_gui(map_pos)
+                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                        self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                        #code for looping the map edges
+                        if endX < 0:
+                            endX = self.map.xsize + endX
+                        if endX > self.map.xsize - 1:
+                            endX = endX - (self.map.xsize - 1)
+                        if endY < 0:
+                            endY = self.map.ysize + endY
+                        if endY > self.map.ysize - 1:
+                            endY = endY - (self.map.ysize - 1)
+                        if self.client.intercepted3 == True and round(endX) == self.client.tarX3 and round(endY) == self.client.tarY3:
+                            self.client.intercepted3 = False
+                            self.client.hit3 = True
+                            self.client.moonaudio.sound("laser.ogg")
+                            defX, defY = self.map_to_gui((self.client.defX3, self.client.defY3))
+                            tarX, tarY = self.map_to_gui((self.client.tarX3, self.client.tarY3))
+                            defX = defX + 12
+                            defY = defY + 12
+                            pygame.draw.line(self.client.screen, (255, 255, 255), (defX, defY), (tarX, tarY), 4)
 
             else: 
                 if self.client.launch_type == "mines":
@@ -438,7 +518,7 @@ class Mapview:
             return
 
         if self.client.launch_type == "missile":
-            if (self.client.launch_step < ((self.client.launch_distance + 5))):
+            if self.client.launch_step < self.client.launch_distance - 1:
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
@@ -450,7 +530,7 @@ class Mapview:
                 map_pos = endX, endY
 
                 #find possible trajectory change in midflight
-                radius = 4
+                radius = 6
                 searchX = endX
                 searchY = endY
                 if self.client.missilelock == False:
@@ -483,6 +563,26 @@ class Mapview:
                 blit_x, blit_y = self.map_to_gui(map_pos)
                 unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                #code for looping the map edges
+                if endX < 0:
+                    endX = self.map.xsize + endX
+                if endX > self.map.xsize - 1:
+                    endX = endX - (self.map.xsize - 1)
+                if endY < 0:
+                    endY = self.map.ysize + endY
+                if endY > self.map.ysize - 1:
+                    endY = endY - (self.map.ysize - 1)
+                if self.client.intercepted == True and round(endX) == self.client.tarX and round(endY) == self.client.tarY:
+                    self.client.intercepted = False
+                    self.client.moonaudio.sound("laser.ogg")
+                    self.client.launched = False
+                    self.client.landed = True
+                    self.client.launch_step = 1
+                    defX, defY = self.map_to_gui((self.client.defX, self.client.defY))
+                    tarX, tarY = self.map_to_gui((self.client.tarX, self.client.tarY))
+                    defX = defX + 12
+                    defY = defY + 12
+                    pygame.draw.line(self.client.screen, (255, 255, 255), (defX, defY), (tarX, tarY), 4)
                 return
             else: 
                 if self.client.splashed == True:
@@ -494,7 +594,7 @@ class Mapview:
             return
 
         else:
-            if (self.client.launch_step < (self.client.launch_distance + 5)):
+            if self.client.launch_step < self.client.launch_distance - 1:
                 self.client.launch_step = self.client.launch_step + .5
                 temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
                 if temp_rotation < 1:
@@ -510,6 +610,26 @@ class Mapview:
                     blit_y = blit_y - 24
                 unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
+                #code for looping the map edges
+                if endX < 0:
+                    endX = self.map.xsize + endX
+                if endX > self.map.xsize - 1:
+                    endX = endX - (self.map.xsize - 1)
+                if endY < 0:
+                    endY = self.map.ysize + endY
+                if endY > self.map.ysize - 1:
+                    endY = endY - (self.map.ysize - 1)
+                if self.client.intercepted == True and round(endX) == self.client.tarX and round(endY) == self.client.tarY:
+                    self.client.intercepted = False
+                    self.client.moonaudio.sound("laser.ogg")
+                    self.client.launched = False
+                    self.client.landed = True
+                    self.client.launch_step = 1
+                    defX, defY = self.map_to_gui((self.client.defX, self.client.defY))
+                    tarX, tarY = self.map_to_gui((self.client.tarX, self.client.tarY))
+                    defX = defX + 12
+                    defY = defY + 12
+                    pygame.draw.line(self.client.screen, (255, 255, 255), (defX, defY), (tarX, tarY), 4)
                 return
             else: 
                 if self.client.splashed == True:

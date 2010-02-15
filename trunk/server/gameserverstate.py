@@ -293,11 +293,13 @@ class ServerState:
                         (target1, target2) = self.game.find_tether_ends(unit)
                         logging.debug("Destroying %s as end of splashed tether" % target1)
                         for target in self.map.unitstore.values():
+                            print str(target.id)
                             if target.id == target1:
                                 target.hp = 0
                                 self.connections.remote_all("splash")
                                 logging.info("finished splashing")
                                 self.process_death()
+                                print"finished splashing after death"
 
 #****************************************************************************
 #detonate all crawlers/mines that are too close to something
@@ -395,7 +397,7 @@ class ServerState:
         endY = start_tile.y
         self.interrupted_tether = False
         self.doubletether = False
-        power = power + 6 #launching has minimal range, if modifying to forget to change animation distance to compensate
+        power = power + 6 #launching has minimal range, if modifying to forget to change animation distance (in networkclient.py) and split trajectory to compensate
         offsetX = 0
         offsetY = 0
         collecting = False
@@ -426,11 +428,11 @@ class ServerState:
                     radius = self.game.get_defense_radius(lookD.type.id)
                     searchX = lookD.x
                     searchY = lookD.y
-                    for find_target in range(1, radius):
+                    for find_intercept in range(1, radius):
                         spinner = 0
                         while spinner < 360:
-                            searchX = find_target * math.cos(spinner / 180.0 * math.pi)
-                            searchY = find_target * math.sin(spinner / 180.0 * math.pi)
+                            searchX = find_intercept * math.cos(spinner / 180.0 * math.pi)
+                            searchY = find_intercept * math.sin(spinner / 180.0 * math.pi)
                             searchX = round(searchX, 0)
                             searchY = round(searchY, 0)
                             searchX = int(searchX) + lookD.x
@@ -438,7 +440,7 @@ class ServerState:
                             if searchX == endX and searchY == endY:
                                 spinner = 360
                                 self.interrupted_tether = True
-                                self.connections.remote_all("triggered_defense")
+                                self.connections.remote_all("triggered_defense", lookD.x, lookD.y, endX, endY, 1)
                                 if lookD.type.id == "antiair":
                                     lookD.reloading = True
                                     player.Ireloading.append(lookD.id)
@@ -449,7 +451,7 @@ class ServerState:
 
             #handle missile lockons
             if child == "missile":
-                radius = 4
+                radius = 6
                 searchX = endX
                 searchY = endY
                 for radar in range(1, radius):
@@ -489,11 +491,11 @@ class ServerState:
                                             radius = self.game.get_defense_radius(lookD.type.id)
                                             searchX = lookD.x
                                             searchY = lookD.y
-                                            for find_target in range(1, radius):
+                                            for find_intercept in range(1, radius):
                                                 spinner = 0
                                                 while spinner < 360:
-                                                    searchX = find_target * math.cos(spinner / 180.0 * math.pi)
-                                                    searchY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                                    searchX = find_intercept * math.cos(spinner / 180.0 * math.pi)
+                                                    searchY = find_intercept * math.sin(spinner / 180.0 * math.pi)
                                                     searchX = round(searchX, 0)
                                                     searchY = round(searchY, 0)
                                                     searchX = int(searchX) + lookD.x
@@ -501,7 +503,7 @@ class ServerState:
                                                     if searchX == endX and searchY == endY:
                                                         spinner = 360
                                                         self.interrupted_tether = True
-                                                        self.connections.remote_all("Tracking missile triggered_defense")
+                                                        self.connections.remote_all("triggered_defense", lookD.x, lookD.y, endX, endY, 1)
                                                         if lookD.type.id == "antiair":
                                                             lookD.reloading = True
                                                             player.Ireloading.append(lookD.id)
@@ -536,7 +538,7 @@ class ServerState:
                     self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
                     logging.debug("added tether at " + testX + ", " + testY)
 
-        #determine if building landed on rocks or water
+        #determine if building landed on rocks or energy pool
         if self.game.get_unit_typeset(child) == "build":
             if self.game.check_tether(child) == True: #previous was for tether itself, this is for the actual building as compared to the individual tethers placed above
                 for target in self.map.unitstore.values():
@@ -628,205 +630,206 @@ class ServerState:
         endX = start_tile.x
         endY = start_tile.y
         self.interrupted_tether = False
-        power = power + 4 #launching has minimal range
+        power = power + 7 #launching has minimal range, if changing don't forget to change animation distance (in networkclient.py) and find_trajectory
         offsetX = 0
         offsetY = 0
-
-        arc = int(power - round((power / 2), 0)) #find location where shots split
-        for find_target in range(1, arc):
-            temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
-            if temp_rotation < 1:
-                temp_rotation = rotation + 270
-            endX = arc * math.cos(temp_rotation / 180.0 * math.pi)
-            endY = arc * math.sin(temp_rotation / 180.0 * math.pi)
-            endX = round(endX, 0)
-            endY = round(endY, 0)
-            splitX = int(endX) + start_tile.x
-            splitY = int(endY) + start_tile.y
-
-            #code for looping the map edges
-            if splitX < 0:
-                splitX = self.map.xsize + endX
-            if splitX > self.map.xsize - 1:
-                splitX = endX - (self.map.xsize - 1)
-            if splitY < 0:
-                splitY = self.map.ysize + endY
-            if splitY > self.map.ysize - 1:
-                splitY = endY - (self.map.ysize - 1)
-
-            #determine if shot is intercepted by either an AA or shield
-            for lookD in self.map.unitstore.values():
-                if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = self.game.get_defense_radius(lookD.type.id)
-                    searchX = lookD.x
-                    searchY = lookD.y
-                    for find_target in range(1, radius):
-                        spinner = 0
-                        while spinner < 360:
-                            searchX = find_target * math.cos(spinner / 180.0 * math.pi)
-                            searchY = find_target * math.sin(spinner / 180.0 * math.pi)
-                            searchX = round(searchX, 0)
-                            searchY = round(searchY, 0)
-                            searchX = int(searchX) + lookD.x
-                            searchY = int(searchY) + lookD.y
-                            if searchX == splitX and searchY == splitY:
-                                spinner = 360
-                                self.interrupted_tether = True
-                                self.connections.remote_all("triggered_defense")
-                                if lookD.type.id == "antiair":
-                                    lookD.reloading = True
-                                    player.Ireloading.append(lookD.id)
-                                    player.reload = True
-                                return (start_tile.x, start_tile.y, splitX, splitY, splitX, splitY, splitX, splitY, True, True, True)
-                            else:
-                                spinner = spinner + 5
-
-        end_arc = power - arc #find location where splits land
         a1hit = False
         a2hit = False
         a3hit = False
-        default_rotation = temp_rotation
-        for find_target in range(1, end_arc):
-            temp_rotation = default_rotation
-            endX = end_arc * math.cos(temp_rotation / 180.0 * math.pi)
-            endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
-            endX = round(endX, 0)
-            endY = round(endY, 0)
-            if a1hit == False:
-                coordX1 = int(endX) + splitX
-                coordY1 = int(endY) + splitY
 
-            #code for looping the map edges
-            if coordX1 < 0:
-                coordX1 = self.map.xsize + endX
-            if coordX1 > self.map.xsize - 1:
-                coordX1 = endX - (self.map.xsize - 1)
-            if coordY1 < 0:
-                coordY1 = self.map.ysize + endY
-            if coordY1 > self.map.ysize - 1:
-                coordY1 = endY - (self.map.ysize - 1)
-
-            for lookD in self.map.unitstore.values():
-                if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = self.game.get_defense_radius(lookD.type.id)
-                    searchX = lookD.x
-                    searchY = lookD.y
-                    for find_target in range(1, radius):
-                        spinner = 0
-                        while spinner < 360:
-                            searchX = find_target * math.cos(spinner / 180.0 * math.pi)
-                            searchY = find_target * math.sin(spinner / 180.0 * math.pi)
-                            searchX = round(searchX, 0)
-                            searchY = round(searchY, 0)
-                            searchX = int(searchX) + lookD.x
-                            searchY = int(searchY) + lookD.y
-                            if searchX == coordX1 and searchY == coordY1:
-                                spinner = 360
-                                self.interrupted_tether = True
-                                self.connections.remote_all("triggered_defense")
-                                a1hit = True
-                                if lookD.type.id == "antiair":
-                                    lookD.reloading = True
-                                    player.Ireloading.append(lookD.id)
-                                    player.reload = True
-                            else:
-                                spinner = spinner + 5
-
-            temp_rotation = default_rotation + 45
-            if temp_rotation > 360:
-                temp_rotation = default_rotation - 315
-
-            endX = end_arc * math.cos(temp_rotation / 180.0 * math.pi)
-            endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
-            endX = round(endX, 0)
-            endY = round(endY, 0)
-            if a2hit == False:
-                coordX2 = int(endX) + splitX
-                coordY2 = int(endY) + splitY
-
-            #code for looping the map edges
-            if coordX2 < 0:
-                coordX2 = self.map.xsize + endX
-            if coordX2 > self.map.xsize - 1:
-                coordX2 = endX - (self.map.xsize - 1)
-            if coordY2 < 0:
-                coord2 = self.map.ysize + endY
-            if coordY2 > self.map.ysize - 1:
-                coordY2 = endY - (self.map.ysize - 1)
-
-            for lookD in self.map.unitstore.values():
-                if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = self.game.get_defense_radius(lookD.type.id)
-                    searchX = lookD.x
-                    searchY = lookD.y
-                    for find_target in range(1, radius):
-                        spinner = 0
-                        while spinner < 360:
-                            searchX = find_target * math.cos(spinner / 180.0 * math.pi)
-                            searchY = find_target * math.sin(spinner / 180.0 * math.pi)
-                            searchX = round(searchX, 0)
-                            searchY = round(searchY, 0)
-                            searchX = int(searchX) + lookD.x
-                            searchY = int(searchY) + lookD.y
-                            if searchX == coordX2 and searchY == coordY2:
-                                spinner = 360
-                                self.interrupted_tether = True
-                                self.connections.remote_all("triggered_defense")
-                                a2hit = True
-                                if lookD.type.id == "antiair":
-                                    lookD.reloading = True
-                                    player.Ireloading.append(lookD.id)
-                                    player.reload = True
-                            else:
-                                spinner = spinner + 5
-
-            temp_rotation = default_rotation - 45
+        for find_target in range(1, power):
+            temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
             if temp_rotation < 1:
-                temp_rotation = default_rotation + 315
+                temp_rotation = rotation + 270
+            midpoint = int(power - round((power / 2), 0)) #find location where shots split
+            if find_target < midpoint:
+                endX = find_target * math.cos(temp_rotation / 180.0 * math.pi)
+                endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
+                endX = round(endX, 0)
+                endY = round(endY, 0)
+                splitX = int(endX) + start_tile.x
+                splitY = int(endY) + start_tile.y
 
-            endX = end_arc * math.cos(temp_rotation / 180.0 * math.pi)
-            endY = end_arc * math.sin(temp_rotation / 180.0 * math.pi)
-            endX = round(endX, 0)
-            endY = round(endY, 0)
-            if a3hit == False:
-                coordX3 = int(endX) + splitX
-                coordY3 = int(endY) + splitY
+                #code for looping the map edges
+                if splitX < 0:
+                    splitX = self.map.xsize + splitX
+                if splitX > self.map.xsize - 1:
+                    splitX = splitX - (self.map.xsize - 1)
+                if splitY < 0:
+                    splitY = self.map.ysize + splitY
+                if splitY > self.map.ysize - 1:
+                    splitY = splitY - (self.map.ysize - 1)
 
-            #code for looping the map edges
-            if coordX3 < 0:
-                coordX3 = self.map.xsize + endX
-            if coordX3 > self.map.xsize - 1:
-                coordX3 = endX - (self.map.xsize - 1)
-            if coordY3 < 0:
-                coordY3 = self.map.ysize + endY
-            if coordY3 > self.map.ysize - 1:
-                coordY3 = endY - (self.map.ysize - 1)
+                #determine if shot is intercepted by either an AA or shield
+                for lookD in self.map.unitstore.values():
+                    if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
+                        radius = self.game.get_defense_radius(lookD.type.id)
+                        searchX = lookD.x
+                        searchY = lookD.y
+                        for find_target in range(1, radius):
+                            spinner = 0
+                            while spinner < 360:
+                                searchX = find_target * math.cos(spinner / 180.0 * math.pi)
+                                searchY = find_target * math.sin(spinner / 180.0 * math.pi)
+                                searchX = round(searchX, 0)
+                                searchY = round(searchY, 0)
+                                searchX = int(searchX) + lookD.x
+                                searchY = int(searchY) + lookD.y
+                                if searchX == splitX and searchY == splitY:
+                                    spinner = 360
+                                    self.interrupted_tether = True
+                                    self.connections.remote_all("triggered_defense", lookD.x, lookD.y, splitX, splitY, 1)
+                                    if lookD.type.id == "antiair":
+                                        lookD.reloading = True
+                                        player.Ireloading.append(lookD.id)
+                                        player.reload = True
+                                    return (start_tile.x, start_tile.y, splitX, splitY, splitX, splitY, splitX, splitY, True, True, True)
+                                else:
+                                    spinner = spinner + 5
 
-            for lookD in self.map.unitstore.values():
-                if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
-                    radius = self.game.get_defense_radius(lookD.type.id)
-                    searchX = lookD.x
-                    searchY = lookD.y
-                    for find_target in range(1, radius):
-                        spinner = 0
-                        while spinner < 360:
-                            searchX = find_target * math.cos(spinner / 180.0 * math.pi)
-                            searchY = find_target * math.sin(spinner / 180.0 * math.pi)
-                            searchX = round(searchX, 0)
-                            searchY = round(searchY, 0)
-                            searchX = int(searchX) + lookD.x
-                            searchY = int(searchY) + lookD.y
-                            if searchX == coordX3 and searchY == coordY3:
-                                spinner = 360
-                                self.interrupted_tether = True
-                                self.connections.remote_all("triggered_defense")
-                                a3hit = True
-                                if lookD.type.id == "antiair":
-                                    lookD.reloading = True
-                                    player.Ireloading.append(lookD.id)
-                                    player.reload = True
-                            else:
-                                spinner = spinner + 5
+            else:
+                default_rotation = temp_rotation
+                temp_rotation = default_rotation
+                launch_step = find_target - midpoint
+                if a1hit == False:
+                    endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = round(endX, 0)
+                    endY = round(endY, 0)
+                    coordX1 = int(endX) + splitX
+                    coordY1 = int(endY) + splitY
+
+                    #code for looping the map edges
+                    if coordX1 < 0:
+                        coordX1 = self.map.xsize + coordX1
+                    if coordX1 > self.map.xsize - 1:
+                        coordX1 = coordX1 - (self.map.xsize - 1)
+                    if coordY1 < 0:
+                        coordY1 = self.map.ysize + coordY1
+                    if coordY1 > self.map.ysize - 1:
+                        coordY1 = coordY1 - (self.map.ysize - 1)
+
+                    for lookD in self.map.unitstore.values():
+                        if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
+                            radius = self.game.get_defense_radius(lookD.type.id)
+                            searchX = lookD.x
+                            searchY = lookD.y
+                            for find_intercept in range(1, radius):
+                                spinner = 0
+                                while spinner < 360:
+                                    searchX = find_intercept * math.cos(spinner / 180.0 * math.pi)
+                                    searchY = find_intercept * math.sin(spinner / 180.0 * math.pi)
+                                    searchX = round(searchX, 0)
+                                    searchY = round(searchY, 0)
+                                    searchX = int(searchX) + lookD.x
+                                    searchY = int(searchY) + lookD.y
+                                    if searchX == coordX1 and searchY == coordY1:
+                                        spinner = 360
+                                        self.interrupted_tether = True
+                                        self.connections.remote_all("triggered_defense", lookD.x, lookD.y, coordX1, coordY1, 1)
+                                        a1hit = True
+                                        if lookD.type.id == "antiair":
+                                            lookD.reloading = True
+                                            player.Ireloading.append(lookD.id)
+                                            player.reload = True
+                                    else:
+                                        spinner = spinner + 5
+
+                temp_rotation = default_rotation + 45
+                if temp_rotation > 360:
+                    temp_rotation = default_rotation - 315
+
+                if a2hit == False:
+                    endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = round(endX, 0)
+                    endY = round(endY, 0)
+                    coordX2 = int(endX) + splitX
+                    coordY2 = int(endY) + splitY
+
+                    #code for looping the map edges
+                    if coordX2 < 0:
+                        coordX2 = self.map.xsize + coordX2
+                    if coordX2 > self.map.xsize - 1:
+                        coordX2 = coordX2 - (self.map.xsize - 1)
+                    if coordY2 < 0:
+                        coord2 = self.map.ysize + coordY2
+                    if coordY2 > self.map.ysize - 1:
+                        coordY2 = coordY2 - (self.map.ysize - 1)
+
+                    for lookD in self.map.unitstore.values():
+                        if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
+                            radius = self.game.get_defense_radius(lookD.type.id)
+                            searchX = lookD.x
+                            searchY = lookD.y
+                            for find_intercept in range(1, radius):
+                                spinner = 0
+                                while spinner < 360:
+                                    searchX = find_intercept * math.cos(spinner / 180.0 * math.pi)
+                                    searchY = find_intercept * math.sin(spinner / 180.0 * math.pi)
+                                    searchX = round(searchX, 0)
+                                    searchY = round(searchY, 0)
+                                    searchX = int(searchX) + lookD.x
+                                    searchY = int(searchY) + lookD.y
+                                    if searchX == coordX2 and searchY == coordY2:
+                                        spinner = 360
+                                        self.interrupted_tether = True
+                                        self.connections.remote_all("triggered_defense", lookD.x, lookD.y, coordX2, coordY2, 2)
+                                        a2hit = True
+                                        if lookD.type.id == "antiair":
+                                            lookD.reloading = True
+                                            player.Ireloading.append(lookD.id)
+                                            player.reload = True
+                                    else:
+                                        spinner = spinner + 5
+
+                temp_rotation = default_rotation - 45
+                if temp_rotation < 1:
+                    temp_rotation = default_rotation + 315
+
+                if a3hit == False:
+                    endX = launch_step * math.cos(temp_rotation / 180.0 * math.pi)
+                    endY = launch_step * math.sin(temp_rotation / 180.0 * math.pi)
+                    endX = round(endX, 0)
+                    endY = round(endY, 0)
+                    coordX3 = int(endX) + splitX
+                    coordY3 = int(endY) + splitY
+
+                    #code for looping the map edges
+                    if coordX3 < 0:
+                        coordX3 = self.map.xsize + coordX3
+                    if coordX3 > self.map.xsize - 1:
+                        coordX3 = coordX3 - (self.map.xsize - 1)
+                    if coordY3 < 0:
+                        coordY3 = self.map.ysize + coordY3
+                    if coordY3 > self.map.ysize - 1:
+                        coordY3 = coordY3 - (self.map.ysize - 1)
+
+                    for lookD in self.map.unitstore.values():
+                        if lookD.playerID != playerID and (lookD.type.id == "shield" or lookD.type.id == "antiair") and lookD.disabled == False and lookD.virused == False and lookD.reloading == False:
+                            radius = self.game.get_defense_radius(lookD.type.id)
+                            searchX = lookD.x
+                            searchY = lookD.y
+                            for find_intercept in range(1, radius):
+                                spinner = 0
+                                while spinner < 360:
+                                    searchX = find_intercept * math.cos(spinner / 180.0 * math.pi)
+                                    searchY = find_intercept * math.sin(spinner / 180.0 * math.pi)
+                                    searchX = round(searchX, 0)
+                                    searchY = round(searchY, 0)
+                                    searchX = int(searchX) + lookD.x
+                                    searchY = int(searchY) + lookD.y
+                                    if searchX == coordX3 and searchY == coordY3:
+                                        spinner = 360
+                                        self.interrupted_tether = True
+                                        self.connections.remote_all("triggered_defense", lookD.x, lookD.y, coordX3, coordY3, 3)
+                                        a3hit = True
+                                        if lookD.type.id == "antiair":
+                                            lookD.reloading = True
+                                            player.Ireloading.append(lookD.id)
+                                            player.reload = True
+                                    else:
+                                        spinner = spinner + 5
 
         return (start_tile.x, start_tile.y, coordX1, coordY1, coordX2, coordY2, coordX3, coordY3, a1hit, a2hit, a3hit)
 

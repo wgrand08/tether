@@ -196,12 +196,15 @@ class NetworkClient(pb.Referenceable):
         self.client.launch_startx = startx
         self.client.launch_starty = starty
         self.client.launch_direction = rotation
-        self.client.launch_distance = power
+        self.client.launch_distance = power + 6
         self.client.launch_type = unit
         self.client.playerlaunched = pID
         self.client.launched = True
         self.client.moonaudio.sound("throw.ogg")
         self.client.missilelock = False
+        self.client.hit1 = False
+        self.client.hit2 = False
+        self.client.hit3 = False
         if self.client.game.check_tether(unit) == True:
                 if power < 9:
                     self.client.moonaudio.sound("shorttether.ogg")
@@ -213,9 +216,29 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # recieve defense data from server
 #****************************************************************************
-    def remote_triggered_defense(self):
+    def remote_triggered_defense(self, defX, defY, tarX, tarY, targetnumb):
         logging.debug("defense triggered")
-        self.client.moonaudio.sound("laser.ogg")
+        if targetnumb == 1:
+            self.client.defX = defX
+            self.client.defY = defY
+            self.client.tarX = tarX
+            self.client.tarY = tarY
+            self.client.intercepted = True
+            self.client.hit1 = False
+        if targetnumb == 2:
+            self.client.defX2 = defX
+            self.client.defY2 = defY
+            self.client.tarX2 = tarX
+            self.client.tarY2 = tarY
+            self.client.intercepted2 = True
+            self.client.hit2 = False
+        if targetnumb == 3:
+            self.client.defX3 = defX
+            self.client.defY3 = defY
+            self.client.tarX3 = tarX
+            self.client.tarY3 = tarY
+            self.client.intercepted3 = True
+            self.client.hit3 = False
 
 #****************************************************************************
 # recieve unit death data from server
