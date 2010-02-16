@@ -106,7 +106,8 @@ class ServerState:
     def process_death(self):
         #This function searches for units without any HP remaining, removes them from the game, then sets the HP of any dependent units connected to them to 0. This function then repeats the process until all dependent units are found and removed
         logging.debug("processing death")
-        notclear = True 
+        notclear = True
+        bridgedeath = False
         while notclear:
             notclear = False
             for unit in self.map.unitstore.values():
@@ -118,6 +119,8 @@ class ServerState:
                 if (unit.hp < 1 and unit.typeset != "doodad"):
                     notclear = True
                     radius = self.game.get_unit_radius(unit.type.id) + 1
+                    if unit.type.id == "bridge":
+                        bridgedeath = True
                     if unit.type.id == "mines" and unit.disabled == False:
                         power = self.game.get_unit_power(unit.type.id)
                         endX = unit.x
@@ -199,7 +202,8 @@ class ServerState:
                     for unit2 in self.map.unitstore.values(): 
                         if unit2.parentID == unit.id:
                             unit2.hp = 0
-        self.handle_water()
+        if bridgedeath == True:
+            self.handle_water()
 
 #****************************************************************************
 #find and move viruses
@@ -242,7 +246,7 @@ class ServerState:
                                 find_tethered.just_virused = True
                             else:
                                 find_tethered.just_virused = False
-        self.process_death()
+        self.handle_water()
 
 #****************************************************************************
 #handle bridges, units in water and destruction
@@ -263,7 +267,6 @@ class ServerState:
             if unit.type.id == "bridge":
                 if tile1.type != self.game.get_terrain_type("water") and tile2.type != self.game.get_terrain_type("water") and tile3.type != self.game.get_terrain_type("water") and tile4.type != self.game.get_terrain_type("water") and tile5.type != self.game.get_terrain_type("water") and tile6.type != self.game.get_terrain_type("water") and tile7.type != self.game.get_terrain_type("water") and tile8.type != self.game.get_terrain_type("water") and tile9.type != self.game.get_terrain_type("water"):
                     unit.hp = 0 #killing bridges that don't land on water
-                    self.process_death()
 
             elif unit.typeset == "build":
                 if tile1.type == self.game.get_terrain_type("water") or tile2.type == self.game.get_terrain_type("water") or tile3.type == self.game.get_terrain_type("water") or tile4.type == self.game.get_terrain_type("water") or tile5.type == self.game.get_terrain_type("water") or tile6.type == self.game.get_terrain_type("water") or tile7.type == self.game.get_terrain_type("water") or tile8.type == self.game.get_terrain_type("water") or tile9.type == self.game.get_terrain_type("water"):
@@ -276,7 +279,6 @@ class ServerState:
                         unit.hp = 0
                         self.connections.remote_all("splash")
                         logging.info("building went splash")
-                        self.process_death()
 
             elif unit.typeset == "tether":
                 if tile1.type == self.game.get_terrain_type("water"):
@@ -293,13 +295,11 @@ class ServerState:
                         (target1, target2) = self.game.find_tether_ends(unit)
                         logging.debug("Destroying %s as end of splashed tether" % target1)
                         for target in self.map.unitstore.values():
-                            print str(target.id)
                             if target.id == target1:
                                 target.hp = 0
                                 self.connections.remote_all("splash")
                                 logging.info("finished splashing")
-                                self.process_death()
-                                print"finished splashing after death"
+        self.process_death()
 
 #****************************************************************************
 #detonate all crawlers/mines that are too close to something

@@ -658,14 +658,21 @@ class Mapview:
         for deathname in self.client.deathname:
             map_pos = self.client.deathX[place], self.client.deathY[place]
             blitX, blitY = self.map_to_gui(map_pos)
+            blitX2 = blitX + (self.map.xsize * self.tileset.tile_width)
+            blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
+            blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
+            blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
             unit_surface = self.tileset.get_unit_surf_from_tile(deathname, 0, self.client.game.get_unit_team(self.client.playerID, self.client.deathplayerID[place]))
             if self.client.deathtypes[place] != "weap" or deathname != "recall":
                 if self.client.deathtypes[place] == "build":
                     blitX = blitX - 24
                     blitY = blitY - 24
                 self.client.screen.blit(unit_surface, (blitX, blitY))
+                self.client.screen.blit(unit_surface, (blitX2, blitY))
+                self.client.screen.blit(unit_surface, (blitX3, blitY))
+                self.client.screen.blit(unit_surface, (blitX, blitY2))
+                self.client.screen.blit(unit_surface, (blitX, blitY3))
             place = place + 1
-
         unittype = self.client.deathtypes.pop(0)
         deathX = self.client.deathX.pop(0)
         deathY = self.client.deathY.pop(0)
@@ -673,16 +680,25 @@ class Mapview:
         deathname = self.client.deathname.pop(0)
         deathdisabled = self.client.deathdisabled.pop(0)
         radius = self.client.game.get_unit_radius(deathname)
+        #there are 5 explosions displayed, 1 in the center and 4 exactly one map apart in case the explosion loops the map
         if unittype == "build":
             self.client.moonaudio.sound("biggestboom.ogg")
             map_pos = deathX, deathY
             blitX, blitY = self.map_to_gui(map_pos)
             blitX = blitX + 12
             blitY = blitY + 12
+            blitX2 = blitX + (self.map.xsize * self.tileset.tile_width)
+            blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
+            blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
+            blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
             scale = 0
             while scale < (radius * 24):
                 scale = scale + 1
                 pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX2, blitY), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX3, blitY), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY2), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY3), scale, 0)
                 pygame.display.flip()
                 pygame.time.wait(2)
         if unittype == "weap":
@@ -700,10 +716,18 @@ class Mapview:
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
                 blitY = blitY + 24
+                blitX2 = blitX + (self.map.xsize * self.tileset.tile_width)
+                blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
+                blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
+                blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
                 scale = 0
                 while scale < (radius * 24):
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (10, 75, 255), (blitX, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX2, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX3, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY2), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY3), scale, 0)
                     pygame.display.flip()
                     pygame.time.wait(2)
             elif deathname == "mines" and deathdisabled == False:
@@ -712,10 +736,18 @@ class Mapview:
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 12
                 blitY = blitY + 12
+                blitX2 = blitX + (self.map.xsize * self.tileset.tile_width)
+                blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
+                blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
+                blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
                 scale = 0
                 while scale < (radius * 24):
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX2, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX3, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY2), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY3), scale, 0)
                     pygame.display.flip()
                     pygame.time.wait(2)
             elif deathname == "crawler" and deathdisabled == False:
@@ -724,10 +756,18 @@ class Mapview:
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
                 blitY = blitY + 24
+                blitX2 = blitX + (self.map.xsize * self.tileset.tile_width)
+                blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
+                blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
+                blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
                 scale = 0
                 while scale < (radius * 24):
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX2, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX3, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY2), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY3), scale, 0)
                     pygame.display.flip()
                     pygame.time.wait(2)
             else:
@@ -736,10 +776,18 @@ class Mapview:
                 blitX, blitY = self.map_to_gui(map_pos)
                 blitX = blitX + 24
                 blitY = blitY + 24
+                blitX2 = blitX + (self.map.xsize * self.tileset.tile_width)
+                blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
+                blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
+                blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
                 scale = 0
                 while scale < (radius * 24):
                     scale = scale + 1
                     pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX2, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX3, blitY), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY2), scale, 0)
+                    pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY3), scale, 0)
                     pygame.display.flip()
                     pygame.time.wait(2)
 
@@ -762,10 +810,18 @@ class Mapview:
             blitX, blitY = self.map_to_gui(map_pos)
             blitX = blitX + 12
             blitY = blitY + 12
+            blitX2 = blitX + (self.map.xsize * self.tileset.tile_width)
+            blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
+            blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
+            blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
             scale = 0
             while scale < (radius * 24):
                 scale = scale + 1
                 pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX2, blitY), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX3, blitY), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY2), scale, 0)
+                pygame.draw.circle(self.client.screen, (255, 75, 10), (blitX, blitY3), scale, 0)
                 pygame.display.flip()
                 pygame.time.wait(2)
         if not self.client.deathtypes:

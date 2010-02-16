@@ -23,7 +23,7 @@ import platform
 import sys
 import os
 
-import common.log
+#import common.log
 
 #****************************************************************************
 # Check dependencies (Pygame).
@@ -56,11 +56,16 @@ def dependencyCheck():
 
 def main():
 
-    if os.path.exists("MoonPy.log"):
-        os.remove('MoonPy.log')
+    tetherdir = os.getenv("HOME")
+    tetherdir = os.path.join(tetherdir, ".tether")
+    if not os.path.exists(tetherdir):
+        os.mkdir(tetherdir)
+    logfile = os.path.join(tetherdir, "MoonPy.log")
+    if os.path.exists(logfile):
+        os.remove(logfile)
     #logLevel = logging.INFO
     #common.log.setUpLogging(logLevel)
-    LOG_FILENAME = 'MoonPy.log'
+    LOG_FILENAME = logfile
     logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
 
     dependencyCheck()

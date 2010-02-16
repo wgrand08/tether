@@ -37,8 +37,8 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.780
-        self.string_version = "0.7.80"
+        self.version = 0.781
+        self.string_version = "0.7.81"
         self.playername = "Commander"
         self.fullscreen = False
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
@@ -53,13 +53,18 @@ class GameSettings:
         self.music_volume = 100
         self.sound_volume = 100
         self.narrate_volume = 100
+        self.tetherdir = os.getenv("HOME")
+        self.tetherdir = os.path.join(self.tetherdir, ".tether")
+        if not os.path.exists(self.tetherdir):
+            os.mkdir(self.tetherdir)
 
 
 
     def load_settings(self):
         badsettings = True
-        if os.path.exists("settings.cfg"):
-            settingsfile=open("settings.cfg", 'r')
+        savefile = os.path.join(self.tetherdir, "settings.cfg")
+        if os.path.exists(savefile):
+            settingsfile=open(savefile, 'r')
             for line in settingsfile:
                 line=line.strip()
                 if line == "" or line[0] == "#":
@@ -105,7 +110,8 @@ class GameSettings:
 
 
     def save_settings(self):
-        self.savesettings=open("settings.cfg", 'w')
+        savefile = os.path.join(self.tetherdir, "settings.cfg")
+        self.savesettings=open(savefile, 'w')
         self.savesettings.write("version="+str(self.version)+"\n")
         self.savesettings.write("fullscreen="+str(self.fullscreen)+"\n")
         self.savesettings.write("xres="+str(self.screen_width)+"\n")
