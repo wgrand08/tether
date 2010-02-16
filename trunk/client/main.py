@@ -42,6 +42,8 @@ class Main:
         pygame.init()
 
         tetherdir = os.getenv("HOME")
+        if str(tetherdir_ == "None":
+            tetherdir = os.getenv("USERPROFILE")
         tetherdir = os.path.join(tetherdir, ".tether")
         if not os.path.exists(tetherdir):
             os.mkdir(tetherdir)
