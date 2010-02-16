@@ -37,8 +37,8 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.781
-        self.string_version = "0.7.81"
+        self.version = 0.782
+        self.string_version = "0.7.82"
         self.playername = "Commander"
         self.fullscreen = False
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
@@ -56,7 +56,9 @@ class GameSettings:
         self.tetherdir = os.getenv("HOME")
         if str(self.tetherdir) == "None":
             self.tetherdir = os.getenv("USERPROFILE")
-        self.tetherdir = os.path.join(self.tetherdir, ".tether")
+            self.tetherdir = os.path.join(self.tetherdir, "tether")
+        else:
+            self.tetherdir = os.path.join(self.tetherdir, ".tether")
         if not os.path.exists(self.tetherdir):
             os.mkdir(self.tetherdir)
 

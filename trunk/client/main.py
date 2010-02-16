@@ -44,7 +44,9 @@ class Main:
         tetherdir = os.getenv("HOME")
         if str(tetherdir) == "None":
             tetherdir = os.getenv("USERPROFILE")
-        tetherdir = os.path.join(tetherdir, ".tether")
+            tetherdir = os.path.join(tetherdir, "tether")
+        else:
+            tetherdir = os.path.join(tetherdir, ".tether")
         if not os.path.exists(tetherdir):
             os.mkdir(tetherdir)
         logfile = os.path.join(tetherdir, "MoonPy.log")
@@ -99,14 +101,12 @@ class Main:
             import pygame
             logging.info('Pygame version: ' + pygame.version.ver)
         except ImportError, err:
-            print"missing pygame depency"
             logging.error('Loading dependency "pygame" failed: ' + str(err))
             sys.exit(1)
         try :
             import PIL.Image as Image
             logging.info('Python Image Library version ' + Image.VERSION)
         except ImportError, err:
-            print"missing PIL dependency"
             logging.info('Loading dependency "PIL" failed: ' + str(err))
             sys.exit(1)
         try:
@@ -116,7 +116,6 @@ class Main:
             else:
                 logging.info('Twisted version unknown (probably old)')
         except ImportError, err:
-            print"missing twisted dependency"
             logging.error('Loading dependency "twisted" failed: ' + str(err))
             sys.exit(1)
 
