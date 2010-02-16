@@ -137,6 +137,7 @@ class NetworkScreen:
 #****************************************************************************
     def host_callback(self, obj):
         self.client.ishost = True
+        logging.info("Hosting game")
         self.client.moonaudio.sound("buttonclick.ogg")
         nick = self.client.settings.playername
         self.app.quit()

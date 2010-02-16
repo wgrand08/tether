@@ -23,7 +23,6 @@ import platform
 import sys
 import os
 
-#import common.log
 
 #****************************************************************************
 # Check dependencies (Pygame).
