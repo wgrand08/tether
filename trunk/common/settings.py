@@ -47,7 +47,7 @@ class GameSettings:
         self.debug = False
         self.defaultIP = "127.0.0.1"
         self.language = "en"
-        self.play_music = False
+        self.play_music = True
         self.play_sound = True
         self.play_narrate = True
         self.music_volume = 100

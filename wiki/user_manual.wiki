@@ -32,7 +32,7 @@ MoonPy progresses in rounds *and* turns. Each player can launch one unit on thei
 
 http://tether.googlecode.com/svn/wiki/images/units/bomb.png Bomb: Most basic weapon, does 3 damage
 
-http://tether.googlecode.com/svn/wiki/images/units/antiair.png Anti-Air: 3HP, shoots down incoming shots within it's range. Requires a turn to reload afterwards
+http://tether.googlecode.com/svn/wiki/images/units/antiair.png Anti-Air: 3HP, fires a laser that shoots down a single incoming shot within it's range. Requires a turn to reload afterwards
 
 http://tether.googlecode.com/svn/wiki/images/units/bridge.png Bridge: 3HP, allows tethers and buildings to cross water.
 
@@ -64,7 +64,7 @@ http://tether.googlecode.com/svn/wiki/images/units/collector.png Collector: 5HP,
 
 http://tether.googlecode.com/svn/wiki/images/units/offense.png Offense: 3HP, fires weapons at twice the range of a hub, but is unable to launch buildings.
 
-http://tether.googlecode.com/svn/wiki/images/units/shield.png Shield: 3HP, shoots down incoming shots within it's range. Unlike the anti-air it does not need to reload between turns.
+http://tether.googlecode.com/svn/wiki/images/units/shield.png Shield: 3HP, fires a laser that shoots down all incoming shots within it's range. Unlike the anti-air it does not need to reload.
 
 http://tether.googlecode.com/svn/wiki/images/units/virus.png Virus: Infects units, infected units are disabled and can not be used for that turn. During each turn the virus deals one damage to the infected unit and travels down the tether to infect another unit. This continues until all connected units have been infected. Although viruses can deal damage they can not destroy units.
 
