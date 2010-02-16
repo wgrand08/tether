@@ -54,6 +54,8 @@ class GameSettings:
         self.sound_volume = 100
         self.narrate_volume = 100
         self.tetherdir = os.getenv("HOME")
+        if str(tetherdir) == "None":
+            tetherdir = os.getenv("USERPROFILE")
         self.tetherdir = os.path.join(self.tetherdir, ".tether")
         if not os.path.exists(self.tetherdir):
             os.mkdir(self.tetherdir)
