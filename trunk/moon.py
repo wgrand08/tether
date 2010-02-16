@@ -18,59 +18,21 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import logging
-import platform
+
 import sys
-import os
-
-
-#****************************************************************************
-# Check dependencies (Pygame).
-#****************************************************************************
-def dependencyCheck():
-    logging.info('Platform: ' + platform.platform())
-    logging.info('Python version ' + sys.version)
-    try:
-        import pygame
-        logging.info('Pygame version: ' + pygame.version.ver)
-    except ImportError, err:
-      logging.error('Loading dependency "pygame" failed: ' + str(err))
-      sys.exit(1)
-    try :
-        import PIL.Image as Image
-        logging.info('Python Image Library version ' + Image.VERSION)
-    except ImportError, err:
-      logging.info('Loading dependency "PIL" failed: ' + str(err))
-      sys.exit(1)
-    try:
-      import twisted
-      if hasattr(twisted, '__version__'):
-        logging.info('Twisted version ' + twisted.__version__)
-      else:
-        logging.info('Twisted version unknown (probably old)')
-    except ImportError, err:
-      logging.error('Loading dependency "twisted" failed: ' + str(err))
-      sys.exit(1)
-
+import logging
 
 def main():
-
-    tetherdir = os.getenv("HOME")
-    tetherdir = os.path.join(tetherdir, ".tether")
-    if not os.path.exists(tetherdir):
-        os.mkdir(tetherdir)
-    logfile = os.path.join(tetherdir, "MoonPy.log")
-    if os.path.exists(logfile):
-        os.remove(logfile)
-    #logLevel = logging.INFO
-    #common.log.setUpLogging(logLevel)
-    LOG_FILENAME = logfile
-    logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
-
-    dependencyCheck()
+    #this is to verify compatible python version is in use
+    if sys.version_info < (2, 4):
+        print("MoonPy requires python2.5 or higher")
+        logging.error("Python version incompatibility: python < 2.5")
+        sys.exit(1)
+    if not sys.version_info < (3, 0):
+        print("MoonPy is not compatible with python3.x yet")
+        logging.error("Python version incompatibility: python >= 3.0")
+        sys.exit(1)
     import client.main
-    client = client.main.Main()
+    client = client.main.Main(False)
 
 main()
-
-

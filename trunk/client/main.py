@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import logging
 import pygame
 import gettext
+import platform
+import sys
+import os
 
 import introscreen  
 
@@ -35,9 +38,24 @@ from common.translation import *
 #****************************************************************************
 class Main:
 
-    def __init__(self):
+    def __init__(self, debug):
         pygame.init()
-      
+
+        tetherdir = os.getenv("HOME")
+        tetherdir = os.path.join(tetherdir, ".tether")
+        if not os.path.exists(tetherdir):
+            os.mkdir(tetherdir)
+        logfile = os.path.join(tetherdir, "MoonPy.log")
+        if os.path.exists(logfile):
+            os.remove(logfile)
+        if debug == True:
+            logLevel = logging.INFO
+            common.log.setUpLogging(logLevel)
+        else:
+            LOG_FILENAME = logfile
+            logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
+
+        self.dependencyCheck()
         self.client = GameClientState()    
         logging.info("MoonPy version %s" % (self.client.settings.string_version))
 
@@ -67,4 +85,37 @@ class Main:
 
         pygame.display.set_caption("Welcome to MoonPy")
         self.client.screen = screen
+
+#****************************************************************************
+# Check dependencies (Pygame).
+#****************************************************************************
+    def dependencyCheck(self):
+        #verify that all dependencies are met
+        logging.info('Platform: ' + platform.platform())
+        logging.info('Python version ' + sys.version)
+        try:
+            import pygame
+            logging.info('Pygame version: ' + pygame.version.ver)
+        except ImportError, err:
+            print"missing pygame depency"
+            logging.error('Loading dependency "pygame" failed: ' + str(err))
+            sys.exit(1)
+        try :
+            import PIL.Image as Image
+            logging.info('Python Image Library version ' + Image.VERSION)
+        except ImportError, err:
+            print"missing PIL dependency"
+            logging.info('Loading dependency "PIL" failed: ' + str(err))
+            sys.exit(1)
+        try:
+            import twisted
+            if hasattr(twisted, '__version__'):
+                logging.info('Twisted version ' + twisted.__version__)
+            else:
+                logging.info('Twisted version unknown (probably old)')
+        except ImportError, err:
+            print"missing twisted dependency"
+            logging.error('Loading dependency "twisted" failed: ' + str(err))
+            sys.exit(1)
+
 
