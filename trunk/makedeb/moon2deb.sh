@@ -38,3 +38,5 @@ cp -r ./AUTHORS.txt ./moonpy
 cp -r ./COPYING.txt ./moonpy
 cp -r ./moon.py ./moonpy
 cp -r ./README.txt ./moonpy
+tar -czvf ./moonpy_windows.tar.gz ./moonpy
+echo finished creating windows archive
