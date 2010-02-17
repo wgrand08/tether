@@ -26,5 +26,15 @@
 cd ..
 find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
-
-gzip ./moonpy.tar.gz ./client ./common ./data ./server ./translations ./twisted ./zope ./AUTHORS.txt ./COPYING.txt ./moon.py ./README.txt
+mkdir ./moonpy
+cp -r ./client ./moonpy
+cp -r ./common ./moonpy
+cp -r ./data ./moonpy
+cp -r ./server ./moonpy
+cp -r ./translations ./moonpy
+cp -r ./twisted ./moonpy
+cp -r ./zope ./moonpy
+cp -r ./AUTHORS.txt ./moonpy
+cp -r ./COPYING.txt ./moonpy
+cp -r ./moon.py ./moonpy
+cp -r ./README.txt ./moonpy
