@@ -42,12 +42,13 @@ find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 cd ..
 tar -czvf ./moonpy_all.tar.gz ./moonpy
-echo finished creating archive
+echo finished creating multi-arch archive
 cd moonpy
 rm -fr ./zope
 rm -fr ./twisted
 cd ..
 tar -czvf ./moonpy_deb.tar.gz ./moonpy
+echo finished creating deb archive
 mkdir ./sandbox
 mv ./moonpy ./sandbox
 mv ./moonpy_deb.tar.gz ./sandbox
