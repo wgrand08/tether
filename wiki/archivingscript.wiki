@@ -23,10 +23,12 @@
 #this script is used for automating the process of creating 
 #archives and debfiles for publishing and distributing MoonPy
 
-
+echo Welcome to the MoonPy packaging and distribution script,
+echo please enter version of MoonPy to package
+read version
 cd ..
 mkdir ./moonpy
-echo copying files
+echo sandboxing files
 cp -r ./client ./moonpy
 cp -r ./common ./moonpy
 cp -r ./data ./moonpy
@@ -43,19 +45,42 @@ echo cleaning system and subversion files
 find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 cd ..
-echo creating multi-arch archive
-tar -czvf ./moonpy_all.tar.gz ./moonpy
+echo creating multi-arch archive moonpy_all_$version
+tar -czvf ./moonpy_all_$version.tar.gz ./moonpy
 echo finished creating multi-arch archive
+echo starting creation of deb package
 cd moonpy
+echo optimizing code for debian
 rm -fr ./zope
 rm -fr ./twisted
 cd ..
-tar -czvf ./moonpy_deb.tar.gz ./moonpy
-echo finished creating deb archive
+tar -czvf ./moonpy_$version.tar.gz ./moonpy
+echo sandboxing source code
 mkdir ./sandbox
-mv ./moonpy ./sandbox
-mv ./moonpy_deb.tar.gz ./sandbox
-cd sandbox/moonpy
-#dh_make -e project-tether@googlegroups.com -c gpl3 -f moonpy_deb.tar.gz
-#cd ..
-#rm -fr ./moonpy_deb.tar.gz
+rm -fr ./moonpy
+mv ./moonpy_$version.tar.gz ./sandbox
+cd sandbox
+tar xzvf ./moonpy_$version.tar.gv ./moonpy_$version
+cd moonpy_$version
+echo creating dh_make files for moonpy, please choose 's'
+dh_make -e project-tether@googlegroups.com -c gpl3 -f moonpy_$version.tar.gz
+cd ..
+rm -fr ./moonpy_deb.tar.gz
+cd ..
+echo copying prebuilt package config files
+cp ./makedeb/control ./sandbox/moonpy_$version/debian
+cp ./makedeb/rules ./sandbox/moonpy_$version/debian
+cp ./makedeb/dir ./sandbox/moonpy_$version/debian
+cp ./makedeb/copyright ./sandbox/moonpy_$version/debian
+cd moonpy_$version/debian
+echo removing unnecessary package config files
+rm *.ex
+rm *.EX
+cd ..
+echo root access is required by dpkg to continue
+sudo dpkg-buildpackage
+echo debian packaging complete, cleaning up...
+cd ../..
+cp ./sandbox/moonpy_deb_$version.deb
+sudo rm -fr ./sandbox
+echo finished packaging MoonPy $version
