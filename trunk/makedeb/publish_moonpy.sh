@@ -24,8 +24,6 @@
 
 
 cd ..
-find . -name .svn -exec rm -rf {} \;
-find . -name *.pyc -exec rm -rf {} \;
 mkdir ./moonpy
 cp -r ./client ./moonpy
 cp -r ./common ./moonpy
@@ -38,5 +36,22 @@ cp -r ./AUTHORS.txt ./moonpy
 cp -r ./COPYING.txt ./moonpy
 cp -r ./moon.py ./moonpy
 cp -r ./README.txt ./moonpy
-tar -czvf ./moonpy_windows.tar.gz ./moonpy
-echo finished creating windows archive
+cd moonpy
+find . -name .svn -exec rm -rf {} \;
+find . -name *.pyc -exec rm -rf {} \;
+cd ..
+tar -czvf ./moonpy_all.tar.gz ./moonpy
+echo finished creating multi-arch archive
+cd moonpy
+rm -fr ./zope
+rm -fr ./twisted
+cd ..
+tar -czvf ./moonpy_deb.tar.gz ./moonpy
+echo finished creating deb archive
+mkdir ./sandbox
+mv ./moonpy ./sandbox
+mv ./moonpy_deb.tar.gz ./sandbox
+cd sandbox/moonpy
+dh_make -e project-tether@googlegroups.com -c GPLv3 -f moonpy_deb.tar.gz
+cd ..
+rm -fr ./moonpy_deb.tar.gz
