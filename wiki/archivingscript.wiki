@@ -28,7 +28,7 @@ echo please enter version of MoonPy to package
 read version
 cd ..
 mkdir ./moonpy
-echo sandboxing files
+echo creating multi-arch archive moonpy_all_$version
 cp -r ./client ./moonpy
 cp -r ./common ./moonpy
 cp -r ./data ./moonpy
@@ -45,7 +45,6 @@ echo cleaning system and subversion files
 find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 cd ..
-echo creating multi-arch archive moonpy_all_$version
 tar -czvf ./moonpy_all_$version.tar.gz ./moonpy
 echo finished creating multi-arch archive
 echo starting creation of deb package
