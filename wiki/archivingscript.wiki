@@ -65,7 +65,7 @@ cd moonpy_$version
 echo creating dh_make files for moonpy, please choose 's'
 dh_make -e project-tether@googlegroups.com -c gpl3 -f moonpy_$version.tar.gz
 cd ..
-rm -fr ./moonpy_deb.tar.gz
+rm -fr ./moonpy_$version.tar.gz
 cd ..
 echo copying prebuilt package config files
 cp ./makedeb/control ./sandbox/moonpy_$version/debian
@@ -79,8 +79,12 @@ rm *.EX
 cd ..
 echo root access is required by dpkg to continue
 sudo dpkg-buildpackage
-echo debian packaging complete, cleaning up...
-cd ../..
-cp ./sandbox/moonpy_deb_$version.deb
+echo debian packaging complete, converting to rpm
+cd ..
+sudo alien --to-rpm
+cd ..
+echo rpm packaging complete, cleaning up...
+cp ./sandbox/moonpy_$version*.deb ./
+cp ./sandbox/moonpy_$version*.rpm ./
 sudo rm -fr ./sandbox
 echo finished packaging MoonPy $version
