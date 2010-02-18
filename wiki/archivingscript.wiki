@@ -20,8 +20,8 @@
 #Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 
-#this script is used for automating the process of creating a 
-#debfile out of MoonPy
+#this script is used for automating the process of creating 
+#archives and debfiles for publishing and distributing MoonPy
 
 
 cd ..
