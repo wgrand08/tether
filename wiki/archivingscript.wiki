@@ -1,4 +1,5 @@
 #labels Phase-Support,Deprecated
+{{{
 #!/bin/bash
 
 
@@ -87,3 +88,4 @@ cp ./sandbox/moonpy_$version*.deb ./
 cp ./sandbox/moonpy_$version*.rpm ./
 sudo rm -fr ./sandbox
 echo finished packaging MoonPy $version
+}}}
