@@ -25,6 +25,7 @@
 
 cd ..
 mkdir ./moonpy
+echo copying files
 cp -r ./client ./moonpy
 cp -r ./common ./moonpy
 cp -r ./data ./moonpy
@@ -37,9 +38,11 @@ cp -r ./COPYING.txt ./moonpy
 cp -r ./moon.py ./moonpy
 cp -r ./README.txt ./moonpy
 cd moonpy
+echo cleaning system and subversion files
 find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 cd ..
+echo creating multi-arch archive
 tar -czvf ./moonpy_all.tar.gz ./moonpy
 echo finished creating multi-arch archive
 cd moonpy
@@ -52,6 +55,6 @@ mkdir ./sandbox
 mv ./moonpy ./sandbox
 mv ./moonpy_deb.tar.gz ./sandbox
 cd sandbox/moonpy
-dh_make -e project-tether@googlegroups.com -c GPLv3 -f moonpy_deb.tar.gz
-cd ..
-rm -fr ./moonpy_deb.tar.gz
+#dh_make -e project-tether@googlegroups.com -c gpl3 -f moonpy_deb.tar.gz
+#cd ..
+#rm -fr ./moonpy_deb.tar.gz
