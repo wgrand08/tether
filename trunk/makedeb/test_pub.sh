@@ -56,11 +56,6 @@ cd ..
 tar -czvf ./moonpy-$version.tar.gz ./moonpy-$version
 echo "sandboxing source code"
 mkdir ./sandbox
-rm -fr ./moonpy-$version
-mv ./moonpy-$version.tar.gz ./sandbox
-cd sandbox
-tar xzvf ./moonpy-$version.tar.gz
-mv ./moonpy-$version.tar.gz ./moonpy-$version/
-cd moonpy-$version
-echo "creating dh_make files for moonpy, please choose 's'"
-
+mv ./moonpy-$version ./sandbox/
+mv ./moonpy-$version.tar.gz ./sandbox/moonpy-$version
+cd sandbox/moonpy-$version
