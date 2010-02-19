@@ -63,28 +63,4 @@ tar xzvf ./moonpy-$version.tar.gz
 mv ./moonpy-$version.tar.gz ./moonpy-$version/
 cd moonpy-$version
 echo "creating dh_make files for moonpy, please choose 's'"
-dh_make -e project-tether@googlegroups.com -c gpl3 -f moonpy-$version.tar.gz
-cd ..
-rm -fr ./moonpy-$version.tar.gz
-cd ..
-echo "copying prebuilt package config files"
-cp ./makedeb/control ./sandbox/moonpy-$version/debian
-cp ./makedeb/rules ./sandbox/moonpy-$version/debian
-cp ./makedeb/dir ./sandbox/moonpy-$version/debian
-cp ./makedeb/copyright ./sandbox/moonpy-$version/debian
-cd moonpy-$version/debian
-echo "removing unnecessary package config files"
-rm *.ex
-rm *.EX
-cd ..
-echo "root access is required by dpkg to continue"
-sudo dpkg-buildpackage
-echo "debian packaging complete, converting to rpm"
-cd ..
-sudo alien --to-rpm
-cd ..
-echo "rpm packaging complete, cleaning up..."
-cp ./sandbox/moonpy-$version*.deb ./
-cp ./sandbox/moonpy-$version*.rpm ./
-sudo rm -fr ./sandbox
-echo "finished packaging MoonPy $version"
+
