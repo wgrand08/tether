@@ -1,5 +1,6 @@
 #summary test page of debian control file
 {{{
+
 #!/usr/bin/make -f
 # -*- makefile -*-
 # Sample debian/rules that uses debhelper.
@@ -10,9 +11,6 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
-
-
-
 
 
 configure: configure-stamp
@@ -45,6 +43,14 @@ install: build
 	mkdir -p $(CURDIR)/debian/moonpy
 	mkdir -p $(CURDIR)/debian/rockpaperscissors/usr/local/games/moonpy
 	cp -r client/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r common/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r data/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r server/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r translations/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp AUTHORS.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp COPYING.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp README.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp moon.py $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 
 
 # Build architecture-independent files here.
@@ -84,9 +90,5 @@ binary-arch: install
 
 binary: binary-indep binary-arch
 .PHONY: build clean binary-indep binary-arch binary install configure
-
-
-
-
 
 }}}
