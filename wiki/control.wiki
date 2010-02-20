@@ -1,4 +1,5 @@
 #summary test page of debian control file
+#labels Deprecated
 {{{
 
 #!/usr/bin/make -f
