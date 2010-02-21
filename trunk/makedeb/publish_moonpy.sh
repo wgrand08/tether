@@ -26,7 +26,7 @@ echo "Welcome to the MoonPy packaging and distribution script,"
 echo "please enter version of MoonPy to package"
 read version
 cd ..
-echo "this script requires root access to continue"
+echo "this script uses sudo to continue; please enter admin password"
 sudo rm -fr ./moonpy-$version*
 sudo rm -fr ./moonpy*.deb
 sudo rm -fr ./moonpy*.rpm
@@ -86,11 +86,11 @@ cd ..
 sudo dpkg-buildpackage
 echo "debian packaging complete, converting to rpm"
 cd ..
-sudo chown donkyhotay ./moonpy*.deb
+sudo chown $USERNAME ./moonpy*.deb
 mv ./moonpy*_amd64.deb ../moonpy-$version.deb
 cd ..
 sudo alien --to-rpm ./moonpy-$version.deb
-sudo chown donkyhotay ./moonpy*.rpm
+sudo chown $USERNAME ./moonpy*.rpm
 mv ./moonpy*.rpm ./moonpy-$version.rpm
 echo "rpm packaging complete, cleaning up..."
 sudo rm -fr ./sandbox
