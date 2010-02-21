@@ -8,5 +8,5 @@ Homepage: <insert the upstream URL, if relevant>
 
 Package: moonpy
 Architecture: any
-Depends: python (>= 2.5.4), pygame (>= 1.8.1), python-imaging (>= 1.1.6), python-twisted-bin (>= 8.2.0), python-zope.interface (>= 3.5.2)
+Depends: python (>= 2.5.4), python-pygame (>= 1.8.0), python-imaging (>= 1.1.6), python-twisted-bin (>= 8.2.0), python-zope.interface (>= 3.5.2)
 Description: An open source remake of Moonbase Commander

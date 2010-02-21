@@ -26,7 +26,12 @@ echo "Welcome to the MoonPy packaging and distribution script,"
 echo "please enter version of MoonPy to package"
 read version
 cd ..
-rm -fr ./moonpy-$version*
+echo "this script requires root access to continue"
+sudo rm -fr ./moonpy-$version*
+sudo rm -fr ./moonpy*.deb
+sudo rm -fr ./moonpy*.rpm
+sudo rm -fr ./sandbox
+echo "finished cleaning old package files"
 mkdir ./moonpy-$version
 echo creating multi-arch archive moonpy-all-$version
 cp -r ./client ./moonpy-$version
@@ -44,6 +49,7 @@ cd moonpy-$version
 echo "cleaning system and subversion files"
 find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
+find . -name *~ -exec rm -rf {} \;
 cd ..
 tar -czvf ./moonpy-all-$version.tar.gz ./moonpy-$version
 echo "finished creating multi-arch archive"
@@ -52,36 +58,40 @@ cd moonpy-$version
 echo "optimizing code for debian"
 rm -fr ./zope
 rm -fr ./twisted
+tar -czvf ./moonpy-$version.tar.gz ./*
 cd ..
-tar -czvf ./moonpy-$version.tar.gz ./moonpy-$version
+mv ./moonpy-$version/moonpy-$version.tar.gz ./
+rm -fr ./moonpy-$version
 echo "sandboxing source code"
 mkdir ./sandbox
-mv ./moonpy-$version ./sandbox/
+mkdir ./sandbox/moonpy-$version
 mv ./moonpy-$version.tar.gz ./sandbox/moonpy-$version
 cd sandbox/moonpy-$version
+tar -xzvf ./moonpy-$version.tar.gz
 echo "creating dh_make files for moonpy, please choose 's'"
 dh_make -e project-tether@googlegroups.com -c gpl3 -f moonpy-$version.tar.gz
 cd ..
-rm -fr ./moonpy-$version.tar.gz
+rm -fr ./moonpy_$version.orig.tar.gz
 cd ..
 echo "copying prebuilt package config files"
 cp ./makedeb/control ./sandbox/moonpy-$version/debian
 cp ./makedeb/rules ./sandbox/moonpy-$version/debian
-cp ./makedeb/dir ./sandbox/moonpy-$version/debian
+cp ./makedeb/dirs ./sandbox/moonpy-$version/debian
 cp ./makedeb/copyright ./sandbox/moonpy-$version/debian
-cd moonpy-$version/debian
+cd sandbox/moonpy-$version/debian
 echo "removing unnecessary package config files"
-rm *.ex
-rm *.EX
+rm -fr *.ex
+rm -fr *.EX
 cd ..
-echo "root access is required by dpkg to continue"
 sudo dpkg-buildpackage
 echo "debian packaging complete, converting to rpm"
 cd ..
-sudo alien --to-rpm
+sudo chown donkyhotay ./moonpy*.deb
+mv ./moonpy*_amd64.deb ../moonpy-$version.deb
 cd ..
+sudo alien --to-rpm ./moonpy-$version.deb
+sudo chown donkyhotay ./moonpy*.rpm
+mv ./moonpy*.rpm ./moonpy-$version.rpm
 echo "rpm packaging complete, cleaning up..."
-cp ./sandbox/moonpy-$version*.deb ./
-cp ./sandbox/moonpy-$version*.rpm ./
 sudo rm -fr ./sandbox
 echo "finished packaging MoonPy $version"

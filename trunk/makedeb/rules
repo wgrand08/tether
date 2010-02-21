@@ -40,9 +40,19 @@ install: build
 	dh_clean ­k
 	dh_installdirs
 
-	mkdir ­p $(CURDIR)/debian/moonpy
-	mkdir ­p $(CURDIR)/debian/rockpaperscissors/usr/local/games/moonpy
-	cp ­r data/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	#mkdir ­-p $(CURDIR)/debian/moonpy
+	#mkdir -­p $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r data/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r client/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r common/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r data/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r server/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp -r translations/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp AUTHORS.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp COPYING.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp README.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp moon.py $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+
 
 
 
