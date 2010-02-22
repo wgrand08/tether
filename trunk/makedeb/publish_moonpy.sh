@@ -51,16 +51,18 @@ find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 find . -name *~ -exec rm -rf {} \;
 cd ..
-zip -r ././moonpy-osX-$version.zip ./moonpy-$version
+zip -r -9 ./moonpy-$version-osX.zip ./moonpy-$version
 echo "finished creating osX archive"
 echo "starting creation of windows package"
 cp ./makedeb/MoonPy.exe ./moonpy-$version
-zip -r ././moonpy-win32-$version.zip ./moonpy-$version
+zip -r -9 ./moonpy-$version-win32.zip ./moonpy-$version
 cd moonpy-$version
 echo "optimizing code for debian"
 rm -fr ./MoonPy.exe
 rm -fr ./zope
 rm -fr ./twisted
+cp ../makedeb/moonpy.desktop ./moonpy.desktop
+cp ../makedeb/run_moonpy.sh ./run_moonpy.sh
 tar -czvf ./moonpy-$version.tar.gz ./*
 cd ..
 mv ./moonpy-$version/moonpy-$version.tar.gz ./

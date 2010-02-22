@@ -52,6 +52,8 @@ install: build
 	cp COPYING.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 	cp README.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 	cp moon.py $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp run_moonpy.sh $(CURDIR)/debian/moonpy/usr/local/games/moonpy
+	cp moonpy.desktop $(CURDIR)/debian/moonpy/usr/share/applications
 
 
 

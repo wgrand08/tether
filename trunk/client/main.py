@@ -59,7 +59,10 @@ class Main:
             LOG_FILENAME = logfile
             logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
 
-        self.dependencyCheck()
+        logging.info('Platform: ' + platform.platform())
+        logging.info('Python version ' + sys.version)
+        logging.info('Pygame version: ' + pygame.version.ver)
+
         self.client = GameClientState()    
         logging.info("MoonPy version %s" % (self.client.settings.string_version))
 
@@ -90,48 +93,3 @@ class Main:
         pygame.display.set_caption("Welcome to MoonPy")
         self.client.screen = screen
 
-#****************************************************************************
-# Check dependencies (Pygame).
-#****************************************************************************
-    def dependencyCheck(self):
-        #verify that all dependencies are met
-        logging.info('Platform: ' + platform.platform())
-        logging.info('Python version ' + sys.version)
-        try:
-            import pygame
-            logging.info('Pygame version: ' + pygame.version.ver)
-        except:
-            if os.name == "nt":
-                logging.info("Pygame not installed, attempting automatic installation")
-                subprocess.Popen([r"explorer", "http://www.python.org/ftp/python/2.6.4/python-2.6.4.msi"]).wait()
-            elif os.name == "mac":
-                logging.error"automatic osX pygame installation not yet implemented"
-                sys.exit(1)
-            else:
-                logging.error"Unknown OS, PIL will need to be installed manually"
-                sys.exit(1)
-            try:
-                import pygame
-                logging.info('Pygame version: ' + pygame.version.ver)
-            except:
-                logging.error"Automatic pygame dependency resolution failed! Exiting..."
-                sys.exit(1)
-        try:
-            import PIL.Image as Image
-            logging.info('Python Image Library version ' + Image.VERSION)
-        except:
-            if os.name == "nt":
-                logging.info("PIL not installed, attempting automatic installation")
-                subprocess.Popen([r"explorer", "http://effbot.org/downloads/PIL-1.1.7.win32-py2.6.exe"]).wait()
-            elif os.name == "mac":
-                logging.error"automatic osX PIL installation not yet implemented"
-                sys.exit(1)
-            else:
-                logging.error"Unknown OS, PIL will need to be installed manually"
-                sys.exit(1)
-            try:
-                import PIL.Image as Image
-                logging.info('Python Image Library version ' + Image.VERSION)
-            except:
-                logging.error"Automatic PIL dependency resolution failed! Exiting..."
-                sys.exit(1)
