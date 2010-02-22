@@ -69,7 +69,7 @@ mv ./moonpy-$version.tar.gz ./sandbox/moonpy-$version
 cd sandbox/moonpy-$version
 tar -xzvf ./moonpy-$version.tar.gz
 echo "creating dh_make files for moonpy, please choose 's'"
-dh_make -e project-tether@googlegroups.com -c gpl3 -f moonpy-$version.tar.gz
+dh_make -s -e project-tether@googlegroups.com -c gpl3 -f moonpy-$version.tar.gz
 cd ..
 rm -fr ./moonpy_$version.orig.tar.gz
 cd ..
@@ -94,4 +94,5 @@ sudo chown $USERNAME ./moonpy*.rpm
 mv ./moonpy*.rpm ./moonpy-$version.rpm
 echo "rpm packaging complete, cleaning up..."
 sudo rm -fr ./sandbox
+sudo rm -fr ~/rpmbuild
 echo "finished packaging MoonPy $version"
