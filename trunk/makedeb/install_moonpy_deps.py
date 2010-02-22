@@ -32,5 +32,7 @@ def main():
         print("MoonPy is not compatible with python3.x yet")
         logging.error("Python version incompatibility: python >= 3.0")
         sys.exit(1)
+    print"At the end"
+    input()
 
 main()
