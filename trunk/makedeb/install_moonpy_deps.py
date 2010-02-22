@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 
 import sys
+import os
+import subprocess
 import logging
 
 def main():
@@ -32,7 +34,22 @@ def main():
         print("MoonPy is not compatible with python3.x yet")
         logging.error("Python version incompatibility: python >= 3.0")
         sys.exit(1)
-    print"At the end"
-    input()
+    try:
+        import pygame
+        print"Pygame version " + pygame.version.ver + " already installed"
+    except:
+        if os.name == "nt":
+            print"Installing pygame"
+            subprocess.Popen([r".\windows_deps\pygame-1.9.1.win32-py2.6.msi"]).wait()
+        else:
+            print"not a windows OS"
+    try:
+        import Image
+        print"PIL version " + Image.version + " already installed"
+    except:
+        print"PIL not installed"
+
+    print"end of dependency script"
+    #input()
 
 main()
