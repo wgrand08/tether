@@ -110,6 +110,12 @@ class Main:
             else:
                 logging.error"Unknown OS, PIL will need to be installed manually"
                 sys.exit(1)
+            try:
+                import pygame
+                logging.info('Pygame version: ' + pygame.version.ver)
+            except:
+                logging.error"Automatic pygame dependency resolution failed! Exiting..."
+                sys.exit(1)
         try:
             import PIL.Image as Image
             logging.info('Python Image Library version ' + Image.VERSION)
@@ -122,4 +128,10 @@ class Main:
                 sys.exit(1)
             else:
                 logging.error"Unknown OS, PIL will need to be installed manually"
+                sys.exit(1)
+            try:
+                import PIL.Image as Image
+                logging.info('Python Image Library version ' + Image.VERSION)
+            except:
+                logging.error"Automatic PIL dependency resolution failed! Exiting..."
                 sys.exit(1)
