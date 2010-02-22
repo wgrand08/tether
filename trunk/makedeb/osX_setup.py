@@ -40,16 +40,22 @@ def main():
     except:
         if os.name == "nt":
             print"Installing pygame"
-            subprocess.Popen([r".\windows_deps\pygame-1.9.1.win32-py2.6.msi"]).wait()
+            subprocess.Popen([r"msiexec", "/i", "windows_deps\pygame-1.9.1.win32-py2.6.msi"]).wait()
+        elif os.name == "mac":
+            print"automatic osX pygame installation not yet implemented"
         else:
-            print"not a windows OS"
+            print"Unknown OS, PIL will need to be installed manually"
     try:
         import Image
         print"PIL version " + Image.version + " already installed"
     except:
-        print"PIL not installed"
-
+        if os.name == "nt":
+            print"installing PIL"
+            subprocess.Popen([r"windows_deps\PIL-1.1.7.win32-py2.6.exe"]).wait()
+        elif os.name == "mac":
+            print"automatic osX PIL installation not yet implemented"
+        else:
+            print"Unknown OS, PIL will need to be installed manually"
     print"end of dependency script"
-    #input()
 
 main()
