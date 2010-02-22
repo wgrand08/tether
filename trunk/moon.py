@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 
 import sys
+import subprocess
+import os
 import logging
 
 def main():
@@ -32,6 +34,49 @@ def main():
         print("MoonPy is not compatible with python3.x yet")
         logging.error("Python version incompatibility: python >= 3.0")
         sys.exit(1)
+    try:
+        import pygame
+    except:
+        if os.name == "nt":
+            logging.info("Pygame not installed, attempting automatic installation")
+            subprocess.Popen([r"msiexec", "-i", "http://pygame.org/ftp/pygame-1.9.1.win32-py2.6.msi"]).wait()
+        elif os.name == "mac":
+            logging.error("automatic osX pygame installation not yet implemented")
+            sys.exit(1)
+        else:
+            logging.error("Missing dependency: pygame will need to be installed manually on this system")
+            sys.exit(1)
+        try:
+            import pygame
+            logging.info('Pygame version: ' + pygame.version.ver)
+        except:
+            logging.error("Automatic pygame dependency resolution failed! Exiting...")
+            sys.exit(1)
+    try:
+        import PIL.Image as Image
+    except:
+        if os.name == "nt":
+            logging.info("PIL not installed, attempting automatic installation")
+            subprocess.Popen([r"explorer", "http://effbot.org/downloads/PIL-1.1.7.win32-py2.6.exe"]).wait()
+        elif os.name == "mac":
+            logging.error("automatic osX PIL installation not yet implemented")
+            sys.exit(1)
+        else:
+            logging.error("Missing depedency: PIL will need to be installed manually on this system")
+            sys.exit(1)
+        try:
+            import PIL.Image as Image
+            logging.info('Python Image Library version ' + Image.VERSION)
+        except:
+            logging.error("Automatic PIL dependency resolution failed! Exiting...")
+            sys.exit(1)
+    try:
+        import twisted
+        logging.debug('Twisted version ' + twisted.__version__)
+    except ImportError, err:
+      logging.error("Missing dependency: twisted will need to be installed manually")
+      sys.exit(1)
+
     import client.main
     client = client.main.Main(False)
 
