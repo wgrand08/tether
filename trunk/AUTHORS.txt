@@ -1,4 +1,4 @@
-moon.py was developed by project tether:
+MoonPy was developed by project tether:
 http://code.google.com/p/tether
 
 Primary Contributors to project tether are:
@@ -12,7 +12,7 @@ Mollie Clement <mlc4ctr> (Voice Acting)
 
 
 Special thanks to the OpenRTS team who's open
-sourced code and graphics gave moon.py a much
+sourced code and graphics gave MoonPy a much
 needed jumpstart.
 
 The people who contributed to OpenRTS were:

@@ -843,10 +843,13 @@ class ServerState:
         power = self.game.get_unit_power(unit)
         radius = self.game.get_unit_radius(unit) + 1
         nohit = False
+        didhit = False
         for target in self.map.unitstore.values():
             target.blasted = False #clearing all targets
-            if target.id == self.game.unit_counter and target.disabled == True:
-                nohit = True
+            if target.id == self.game.unit_counter:
+                unit_class = target
+                if target.disabled == True:
+                    nohit = True
         if unit != "crawler" and unit != "mines" and nohit == False:
             endX = x
             endY = y
@@ -869,6 +872,7 @@ class ServerState:
                         logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                         if target.x == endX and target.y == endY and target.typeset == "build" and target.blasted == False:
                             logging.info("detected hit")
+                            didhit = True
                             if unit == "emp":
                                 target.disabled = True
                                 target.blasted = True
@@ -878,15 +882,15 @@ class ServerState:
                             elif unit == "repair":
                                 logging.info("repaired target for 1")
                                 target.hp = target.hp + 1
+                                target.blasted = True
                                 logging.info("it's current HP = %s" % target.hp)
                                 if target.hp > self.game.get_unit_hp(target.type.id):
                                     target.hp = self.game.get_unit_hp(target.type.id) #prevent units from going over max HP
-                                    target.blasted = True
                             elif unit == "spike": #spike on a building
                                 target.hp = target.hp - power
                                 for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
-                                    if target2.id == target.playerID:
-                                        target2.hp = target.hp - 1
+                                    if target2.id == target.parentID:
+                                        target2.hp = target2.hp - 1
                             elif unit == "virus":
                                 target.virused = True
                                 target.just_virused = True
@@ -915,12 +919,16 @@ class ServerState:
                                 target.hp = target.hp - power
                                 target.blasted = True
                         elif target.x == endX and target.y == endY and target.typeset == "tether" and unit == "spike": #spikes landing on tethers zaps buildings on both ends
+                            didhit = True
                             (target1, target2) = self.game.find_tether_ends(target)
                             for tetherend in self.map.unitstore.values():
                                 if tetherend.id == target1 or tetherend.id == target2:
                                     tetherend.hp = tetherend.hp - 1
                                     logging.info("spike damaged unit %s" % tetherend.id)
                             return #spikes only affect one tether, so when one tether is hit, no further damage is calculated
+                    if didhit == False and unit != "emp":
+                        unit_class.disabled = True #weapon missed and so is disabled
+
                     spinner = spinner + 5
 
 #****************************************************************************

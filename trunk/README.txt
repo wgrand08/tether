@@ -9,10 +9,18 @@ http://www.python.org
 http://www.pygame.org
 http://www.pythonware.com/products/pil/
 
-On linux these dependencies can be installed directly from repository on most distro's. On windows and osX these must be downloaded and installed from the internet. 
+On linux these dependencies can be installed directly from repository on most distro's. On windows and osX these must be downloaded and installed from the internet. If MoonPy detects these dependencies are missing on either windows or osX it will attempt to help you download/install them. 
 
 
-RUNNING Moon.Py
+Installing MoonPY
 ---------------------
-On all OS's simply run moon.py
+If using either the windows or osX packages simpy unzip all the files
+If using either the deb or rpm packages, install them as you would any similar package
 
+
+RUNNING MoonPy
+---------------------
+from source: Run moon.py
+from windows package: run moonpy.exe
+from osX package: run moon.py
+from deb or rpm package: run launch_moonpy.sh or click on the menu entry

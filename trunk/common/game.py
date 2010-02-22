@@ -364,7 +364,7 @@ class Game:
         if type_id == "crawler":
             radius = 5
         elif type_id == "emp":
-            radius = 9
+            radius = 11
         elif type_id == "mines":
             radius = 2
         elif type_id == "collector":
@@ -372,7 +372,7 @@ class Game:
         elif typeset == "build":
             radius = 2
         else:
-            radius = 1 #note that determine_hit in gameserverstate adds 1 the radius
+            radius = 1 #note that determine_hit in gameserverstate adds 1 to this radius, otherwise near hits look like near misses
         return radius
 
 #****************************************************************************

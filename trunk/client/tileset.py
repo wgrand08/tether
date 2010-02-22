@@ -208,7 +208,7 @@ class Tileset:
             for pixel in data_orig:
                 (red, green, blue, a) = pixel
                 (new_r, new_g, new_b) = color
-                if ((red < blue + 10 and red > blue - 10) and (green < red - 50 or green < blue - 50)) or (red < blue + 30 and red > blue - 30) and (green < red - 100 or green < blue - 100):
+                if ((red < blue + 50 and red > blue - 50) and (green < red - 50 or green < blue - 50)) or (red < blue + 30 and red > blue - 30) and (green < red - 100 or green < blue - 100):
                     new_color = (red * new_r / 255, new_g * red / 255, new_b * red / 255, a)
                     data_color.append(new_color)
                 else:

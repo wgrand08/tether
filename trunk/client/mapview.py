@@ -702,15 +702,15 @@ class Mapview:
                 pygame.display.flip()
                 pygame.time.wait(2)
         if unittype == "weap":
-            if deathname == "recall":
+            if deathname == "recall" and deathdisabled == False:
                 self.client.moonaudio.sound("recall.ogg")   
-            elif deathname == "repair":
+            elif deathname == "repair" and deathdisabled == False:
                 self.client.moonaudio.sound("repair.ogg")
-            elif deathname == "virus":
+            elif deathname == "virus" and deathdisabled == False:
                 self.client.moonaudio.sound("virus.ogg")
-            elif deathname == "spike":
+            elif deathname == "spike" and deathdisabled == False:
                 self.client.moonaudio.sound("spike.ogg")
-            elif deathname == "emp":
+            elif deathname == "emp" and deathdisabled == False:
                 self.client.moonaudio.sound("emp.ogg")
                 map_pos = deathX, deathY
                 blitX, blitY = self.map_to_gui(map_pos)
