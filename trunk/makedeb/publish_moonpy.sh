@@ -33,7 +33,7 @@ sudo rm -fr ./moonpy*.rpm
 sudo rm -fr ./sandbox
 echo "finished cleaning old package files"
 mkdir ./moonpy-$version
-echo creating multi-arch archive moonpy-all-$version
+echo "creating osX package"
 cp -r ./client ./moonpy-$version
 cp -r ./common ./moonpy-$version
 cp -r ./data ./moonpy-$version
@@ -51,11 +51,14 @@ find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 find . -name *~ -exec rm -rf {} \;
 cd ..
-tar -czvf ./moonpy-all-$version.tar.gz ./moonpy-$version
-echo "finished creating multi-arch archive"
-echo "starting creation of deb package"
+zip -r ././moonpy-osX-$version.zip ./moonpy-$version
+echo "finished creating osX archive"
+echo "starting creation of windows package"
+cp ./makedeb/MoonPy.exe ./moonpy-$version
+zip -r ././moonpy-win32-$version.zip ./moonpy-$version
 cd moonpy-$version
 echo "optimizing code for debian"
+rm -fr ./MoonPy.exe
 rm -fr ./zope
 rm -fr ./twisted
 tar -czvf ./moonpy-$version.tar.gz ./*
