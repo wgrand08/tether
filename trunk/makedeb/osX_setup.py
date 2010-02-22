@@ -46,8 +46,8 @@ def main():
         else:
             print"Unknown OS, PIL will need to be installed manually"
     try:
-        import Image
-        print"PIL version " + Image.version + " already installed"
+        import PIL.Image as Image
+        print"PIL version " + Image.VERSION + " already installed"
     except:
         if os.name == "nt":
             print"installing PIL"
