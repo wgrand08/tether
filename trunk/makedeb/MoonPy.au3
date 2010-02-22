@@ -1,4 +1,4 @@
-#comments-start
+#cs
     Copyright 2009:
         Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-#comments-end
+#ce
 
 If FileExists("C:\Python26\python.exe") Then
 	
@@ -23,6 +23,7 @@ If FileExists("C:\Python26\python.exe") Then
 	
 Else
     MsgBox(4096,"MoonPy installer", "Python2.6 is not installed, starting install process")
-	ShellExecuteWait("explorer http://www.python.org/ftp/python/2.6.4/python-2.6.4.msi")
+	;RunWait("explorer http://www.python.org/ftp/python/2.6.4/python-2.6.4.msi")
+	RunWait("msiexec -i http://www.python.org/ftp/python/2.6.4/python-2.6.4.msi")
 EndIf
 ShellExecuteWait(".\moon.py")
