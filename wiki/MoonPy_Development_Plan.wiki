@@ -1,7 +1,7 @@
 #summary Version requirements for MoonPy
 #labels Phase-Implementation
 
-These are the general requirements for each major release of MoonPy. Currently we are working towards the 0.8.00 release. This information may not be completely up to date, more detailed information about bugs and feature implementation can be found on the [http://code.google.com/p/tether/issues/list issue tracker].
+These are the general requirements for each major release of MoonPy. Currently we are working towards the 0.9.00 release. This information may not be completely up to date, more detailed information about bugs and feature implementation can be found on the [http://code.google.com/p/tether/issues/list issue tracker].
 
 = Requirements for version 0.5.00=
 
@@ -37,7 +37,7 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Game generates random maps: complete
   * Power bar needs to function correctly: complete
   * All non-FOW OMBC units/weapons implemented and working correctly: complete
-  * All major bugs (those affecting our ability to play) found and fixed: in progess
+  * All major bugs (those affecting our ability to play) found and fixed: complete
 
 = Requirements for version 0.9.00 = 
   * Placeholder graphics replaced: in progress
