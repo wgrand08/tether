@@ -100,23 +100,26 @@ class Main:
         try:
             import pygame
             logging.info('Pygame version: ' + pygame.version.ver)
-        except ImportError, err:
-            logging.error('Loading dependency "pygame" failed: ' + str(err))
-            sys.exit(1)
-        try :
+        except:
+            if os.name == "nt":
+                logging.info("Pygame not installed, attempting automatic installation")
+                subprocess.Popen([r"explorer", "http://www.python.org/ftp/python/2.6.4/python-2.6.4.msi"]).wait()
+            elif os.name == "mac":
+                logging.error"automatic osX pygame installation not yet implemented"
+                sys.exit(1)
+            else:
+                logging.error"Unknown OS, PIL will need to be installed manually"
+                sys.exit(1)
+        try:
             import PIL.Image as Image
             logging.info('Python Image Library version ' + Image.VERSION)
-        except ImportError, err:
-            logging.info('Loading dependency "PIL" failed: ' + str(err))
-            sys.exit(1)
-        try:
-            import twisted
-            if hasattr(twisted, '__version__'):
-                logging.info('Twisted version ' + twisted.__version__)
+        except:
+            if os.name == "nt":
+                logging.info("PIL not installed, attempting automatic installation")
+                subprocess.Popen([r"explorer", "http://effbot.org/downloads/PIL-1.1.7.win32-py2.6.exe"]).wait()
+            elif os.name == "mac":
+                logging.error"automatic osX PIL installation not yet implemented"
+                sys.exit(1)
             else:
-                logging.info('Twisted version unknown (probably old)')
-        except ImportError, err:
-            logging.error('Loading dependency "twisted" failed: ' + str(err))
-            sys.exit(1)
-
-
+                logging.error"Unknown OS, PIL will need to be installed manually"
+                sys.exit(1)
