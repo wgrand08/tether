@@ -54,7 +54,7 @@ class Main:
             os.remove(logfile)
         if debug == True:
             logLevel = logging.INFO
-            common.log.setUpLogging(logLevel)
+            logging.basicConfig(level=logging.DEBUG)
         else:
             LOG_FILENAME = logfile
             logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
