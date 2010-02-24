@@ -51,6 +51,7 @@ These are the general requirements for each major release of MoonPy. Currently w
 
 = Requirements for version 1.0.00 = 
 
+  * Master server implemented
   * Ability to play against bots
   * Ability to create custom mods
   * Hotseat capabilities
