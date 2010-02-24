@@ -20,17 +20,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 
 import sys
-import logging
 
 def main():
     #this is to verify compatible python version is in use
     if sys.version_info < (2, 4):
         print("MoonPy requires python2.5 or higher")
-        logging.error("Python version incompatibility: python < 2.5")
         sys.exit(1)
     if not sys.version_info < (3, 0):
         print("MoonPy is not compatible with python3.x yet")
-        logging.error("Python version incompatibility: python >= 3.0")
         sys.exit(1)
     import client.main
     client = client.main.Main(True)
