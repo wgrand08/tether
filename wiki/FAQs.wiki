@@ -3,8 +3,8 @@
 
 = FAQs of project tether =
 
-  * What is project tether?
-  Project tether is an open source project focused on recreating the classic strategy game [http://en.wikipedia.org/wiki/Moonbase_Commander Moonbase commander]
+===What is project tether?===
+Project tether is an open source project focused on recreating the classic strategy game [http://en.wikipedia.org/wiki/Moonbase_Commander Moonbase commander]
 
   * What is Moonbase Commander?
   Moonbase Commander has quite often been called "the best game no one has ever heard of". Most people describe it as a unique combination of Starcraft and Scorched Earth but that doesn't say much. The best way to find out what Moonbase Commander is like is to play the game.
