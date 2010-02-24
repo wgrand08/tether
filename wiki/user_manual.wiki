@@ -44,7 +44,7 @@ http://tether.googlecode.com/svn/wiki/images/units/tower.png Tower: 3HP, expands
 
 == Level 3 ==
 
-http://tether.googlecode.com/svn/wiki/images/units/emp.png EMP: Disables units within large radius, does 2 damage if it lands directly on a unit.
+http://tether.googlecode.com/svn/wiki/images/units/emp.png EMP: Disables units within large radius.
 
 http://tether.googlecode.com/svn/wiki/images/units/missile.png Missile: Automatically flys towards the nearest enemy target it detects while being launched, does 3 damage
 
@@ -86,6 +86,7 @@ http://tether.googlecode.com/svn/wiki/images/terrain/tile_water.png Water: All u
 
 Because of fundamental differences between the MoonPy engine and the original Moonbase Commander (OMBC) engine. There are some subtle differences between the two. 
  # Anti-air's shoot incoming shots automatically: In OMBC when an anti-air detected an incoming shot a little missile would fly out to hit it. This would give players the possibility of hitting something before the anti-air missile hit. In MoonPy anti-air's are now instantaneous just like shields.
+ # EMP's do no damage: In OMBC a direct hit by an EMP would do some damage, MoonPy EMP's do no damage even on a direct hit. 
  # Spike damage is not based on distance: In OMBC a spike would do 3 damage and depending on how far the spike had to travel down the tether would do less and less damage until it did no damage at all. In MoonPy a spike does 3 damage on a direct hit and only 1 damage if it travels down a tether regardless of how long/short it has to travel.
  # No unique player colors: In OMBC players would choose a color that would identify them to other players. In MoonPy all of "your" units are colored green while all enemies are colored red and all allies are colored blue. Although this makes it harder to identify and target a specific person, this change allows us to theoretically have an unlimited number of players rather then the 4 player cap OMBC had.
  # No balloons: Currently balloons can not be launched out. This is mostly due to the fact coding a 'floating' unit will take a lot of work and since there is no FoW there isn't really any need for balloons at this time. Balloons will be implemented later once FoW is done. 
