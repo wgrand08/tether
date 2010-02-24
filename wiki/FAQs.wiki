@@ -22,7 +22,7 @@ MoonPy is the name of our most promising game we have developed for project teth
 MoonPy is currently at a stage where multiplayer free for all games are possible. All the units except for balloons are implemented, and since there is no FoW yet balloons are pretty pointless.
 
 ====How do I find someone to play against online?====
-MoonPy doesn't have a master server yet and so the only way to play is by joining directly with IP addresses. The best place to try and find someone to play against is IRC. If you go to irc.freenode.com channel #moonpy, wait long enough and someone will eventually show up
+MoonPy doesn't have a master server yet and so the only way to play is by joining directly with IP addresses. The best place to try and find someone to play against is on IRC. If you go to irc.freenode.com channel #moonpy and wait long enough, someone will eventually show up.
 
 ====I've been waiting forever for someone else to show up on IRC, how long should I wait?====
 We're still a small community so it may take some time but one of the devs will show up eventually. If you really want to find people to play with, tell your friends about MoonPy. The more people that know about project tether, the more people that will check in and the easier it will be to find someone to play against.
