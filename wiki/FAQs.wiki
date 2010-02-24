@@ -43,7 +43,7 @@ Mostly because Moonbase Commander is essentially dead, practically no one plays 
 The biggest change we want to make is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we find inconvenient. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
 
 ====I found a bug, what do I do?====
-Great, identifying them is the hardest part. First of all, check the [http://code.google.com/p/tether/issues/list issue tracker] to find out if it's already known. If it isn't please report it there and give as much detail. Also uploading your MoonPy.log file for that game will help as well.
+Great, identifying them is the hardest part. First of all, check the [http://code.google.com/p/tether/issues/list issue tracker] to find out if it's already known. If it isn't please report it there and give as much detail, Don't forget to upload your MoonPy.log file for that game when filling out the issue. You can also see if one of the devs is available on IRC as well. 
 
 ====How can I help out with the project?=====
 Cool! We can always use some help to keep this going. Currently the biggest help we need is people to help us identify bugs, so just downloading it, playing it, and reporting back to us would be *very* useful. In addition to help with the code we also could use graphics, sounds, music, documentation, etc. You can always check out the [http://code.google.com/p/tether/issues/list issue tracker], or post onto our [http://groups.google.com/group/project-tether mailing list]. Also just spreading the word about project tether is a big benefit to us as well.
