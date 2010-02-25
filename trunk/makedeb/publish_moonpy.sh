@@ -25,6 +25,15 @@
 echo "Welcome to the MoonPy packaging and distribution script,"
 echo "please enter version of MoonPy to package"
 read version
+echo "Should this version be uploaded onto googlecode after packaging?"
+echo "y/n"
+read upload
+if [ "$upload" == "y" ]; then
+    echo "Please enter googlecode username"
+    read username
+    echo "Please enter googlecode password"
+    read password
+fi
 cd ..
 echo "this script uses sudo to continue; please enter admin password"
 sudo rm -fr ./moonpy-$version*
@@ -33,7 +42,7 @@ sudo rm -fr ./moonpy*.rpm
 sudo rm -fr ./sandbox
 echo "finished cleaning old package files"
 mkdir ./moonpy-$version
-echo "creating osX package"
+echo "creating source archive"
 cp -r ./client ./moonpy-$version
 cp -r ./common ./moonpy-$version
 cp -r ./data ./moonpy-$version
@@ -51,8 +60,10 @@ find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 find . -name *~ -exec rm -rf {} \;
 cd ..
+tar -czvf ./moonpy-$version-source.tar.gz ./moonpy-$version
+echo "finished creating source archive"
+echo "starting creation of osX package"
 zip -r -9 ./moonpy-$version-osX.zip ./moonpy-$version
-echo "finished creating osX archive"
 echo "starting creation of windows package"
 cp ./makedeb/MoonPy.exe ./moonpy-$version
 zip -r -9 ./moonpy-$version-win32.zip ./moonpy-$version
@@ -101,3 +112,12 @@ echo "rpm packaging complete, cleaning up..."
 sudo rm -fr ./sandbox
 sudo rm -fr ~/rpmbuild
 echo "finished packaging MoonPy $version"
+if [ "$upload" == "y" ]; then
+    echo "Uploading packages to googlecode"
+    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive" -p tether -u $username -w $password -l Deprecated,Type-Source,OpSys-All ./MoonPy-$version-source.tar.gz
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for osX" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-osX ./MoonPy-$version-osX.zip
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for windows" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-Windows ./MoonPy-$version-win32.zip
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for rpm based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./MoonPy-$version.rpm
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for debian based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./MoonPy-$version.deb
+fi
+echo "MoonPy packaging and distribution script finished"
