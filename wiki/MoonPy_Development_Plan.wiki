@@ -40,6 +40,7 @@ These are the general requirements for each major release of MoonPy. Currently w
   * All major bugs (those affecting our ability to play) found and fixed: complete
 
 = Requirements for version 0.9.00 = 
+  * All obsolete code removed: in progress
   * Placeholder graphics replaced: in progress
   * Team play available: planned
   * Fog of War: planned
@@ -47,12 +48,11 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Wind: planned
   * Ability to create custom maps: planned
   * Ability to load/save games: planned
-  * All obsolete code removed: planned
 
 = Requirements for version 1.0.00 = 
 
-  * Master server implemented
-  * Ability to play against bots
-  * Ability to create custom mods
-  * Hotseat capabilities
-  * All minor bugs bugs found and fixed
+  * Master server implemented: planned
+  * Ability to play against bots: planned
+  * Ability to create custom mods: planned
+  * Hotseat capabilities: planned
+  * All minor bugs bugs found and fixed: planned
