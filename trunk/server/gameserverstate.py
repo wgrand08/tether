@@ -402,9 +402,7 @@ class ServerState:
         offsetY = 0
         collecting = False
         for find_target in range(1, power):
-            temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
-            if temp_rotation < 1:
-                temp_rotation = rotation + 270
+            temp_rotation = self.game.deg2rad(rotation)
             endX = find_target * math.cos(temp_rotation / 180.0 * math.pi)
             endY = find_target * math.sin(temp_rotation / 180.0 * math.pi)
             endX = round(endX, 0)
@@ -638,9 +636,7 @@ class ServerState:
         a3hit = False
 
         for find_target in range(1, power):
-            temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
-            if temp_rotation < 1:
-                temp_rotation = rotation + 270
+            temp_rotation = self.game.deg2rad(rotation)
             midpoint = int(power - round((power / 2), 0)) #find location where shots split
             if find_target < midpoint:
                 endX = find_target * math.cos(temp_rotation / 180.0 * math.pi)

@@ -500,6 +500,25 @@ class Game:
             endY = endY - (self.map.ysize - 1) 
 
 #****************************************************************************
+#convert from degrees to radians
+#****************************************************************************
+    def deg2rad(self, deg):
+        rad = deg - 90 #following is to adjust for difference between degrees and radians
+        if rad < 1:
+            rad = deg + 270
+        return(rad)
+
+#****************************************************************************
+#convert from radians to degrees
+#****************************************************************************
+    def rad2deg(self, rad):
+        deg = rad + 90
+        if deg > 359:
+            deg = rad - 270
+        return(deg)
+
+
+#****************************************************************************
 #get terrain type
 #****************************************************************************
     def get_terrain_type(self, type_id):

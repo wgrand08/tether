@@ -264,9 +264,7 @@ class Mapview:
                 endY = unit.y
                 startX = blit_x + 36
                 startY = blit_y + 36
-                temp_rotation = rotation - 90 #following is to adjust for difference between degrees and radians
-                if temp_rotation < 1:
-                    temp_rotation = rotation + 270
+                temp_rotation = self.client.game.deg2rad(rotation)
                 endX = 175 * math.cos(temp_rotation / 180.0 * math.pi)
                 endY = 175 * math.sin(temp_rotation / 180.0 * math.pi)
                 finalX = endX + startX + 1
@@ -371,9 +369,7 @@ class Mapview:
         if self.client.launch_type == "cluster" or self.client.launch_type == "mines":
             if self.client.launch_step < self.client.launch_distance - 1:
                 self.client.launch_step = self.client.launch_step + .5
-                temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
-                if temp_rotation < 1:
-                    temp_rotation = self.client.launch_direction + 270
+                temp_rotation = self.client.game.deg2rad(self.client.launch_direction)
                 midpoint = int(self.client.launch_distance - round((self.client.launch_distance / 2), 0))
                 if self.client.launch_step < midpoint:
                     endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
@@ -524,9 +520,7 @@ class Mapview:
         if self.client.launch_type == "missile":
             if self.client.launch_step < self.client.launch_distance - 1:
                 self.client.launch_step = self.client.launch_step + .5
-                temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
-                if temp_rotation < 1:
-                    temp_rotation = self.client.launch_direction + 270
+                temp_rotation = self.client.game.deg2rad(self.client.launch_direction)
                 endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
                 endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
                 endX = endX + self.client.launch_startx
@@ -556,6 +550,7 @@ class Mapview:
                                     self.client.launch_starty = endY
                                     self.client.launch_distance = find_target - 5
                                     self.client.launch_step = 1
+                                    self.client.launch_direction = self.client.game.rad2deg(spinner)
                                     self.client.launch_direction = spinner + 90
                                     if self.client.launch_direction > 359:
                                         self.client.launch_direction = self.client.launch_direction - 270
@@ -600,9 +595,7 @@ class Mapview:
         else:
             if self.client.launch_step < self.client.launch_distance - 1:
                 self.client.launch_step = self.client.launch_step + .5
-                temp_rotation = self.client.launch_direction - 90 #following is to adjust for difference between degrees and radians
-                if temp_rotation < 1:
-                    temp_rotation = self.client.launch_direction + 270
+                temp_rotation = self.client.game.deg2rad(self.client.launch_direction)
                 endX = self.client.launch_step * math.cos(temp_rotation / 180.0 * math.pi)
                 endY = self.client.launch_step * math.sin(temp_rotation / 180.0 * math.pi)
                 endX = endX + self.client.launch_startx
