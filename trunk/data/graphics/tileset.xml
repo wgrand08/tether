@@ -163,6 +163,20 @@
   </unit>
 </file>
 
+<file src="buildings/t1.png">
+  <unit name="t1" frames="1" x="1" y="1" 
+        width="24" height="24" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
+<file src="buildings/t2.png">
+  <unit name="t2" frames="1" x="1" y="1" 
+        width="24" height="24" pixelalpha="true">
+    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
+  </unit>
+</file>
+
 <file src="buildings/tether.png">
   <unit name="tether" frames="1" x="1" y="1" 
         width="24" height="24" pixelalpha="true">

@@ -63,6 +63,8 @@ class GameClientState:
         self.rotate_position = 360
         self.firepower = 0
         self.playerID = 0
+        self.tetherplace = 1
+        self.slowtether = 1
         self.energy = 0
         self.showHP = False
         self.showradius = False
@@ -126,6 +128,12 @@ class GameClientState:
         self.mapview.drawmap()
         self.mapctrl.handle_events()
         self.mappanel.draw_minimap()
+        self.slowtether += 1
+        if self.slowtether == 6:
+            self.slowtether = 1
+            self.tetherplace -= 1
+            if self.tetherplace < 1:
+                self.tetherplace = 3
         if pygame.mixer.music.get_busy() == False: #cycles through songs
             song = randint(1, 13)
             self.moonaudio.music(song)

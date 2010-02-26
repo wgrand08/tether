@@ -29,6 +29,7 @@ class Game:
         self.map = map
         self.time = 0
         self.unit_counter = 0
+        self.glow_tether = 0
         self.unit_types = {}
         self.terrain_types = {}
 
@@ -185,13 +186,16 @@ class Game:
 #****************************************************************************
     def create_unit(self, unit_type_id, pos, offset, playerID, parentID, collecting, dir):
         self.unit_counter += 1
+        self.glow_tether += 1
+        if self.glow_tether > 3:
+            self.glow_tether = 1
         typeset = self.get_unit_typeset(unit_type_id)
         hp = self.get_unit_hp(unit_type_id)
         unit_type = self.get_unit_type(unit_type_id)
         if unit_type_id != "crawler" and unit_type_id != "missile": #all units face same direction except for crawlers and missiles
             dir = 360
         logging.debug("creating unit# %s", self.unit_counter)
-        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting, dir)
+        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting, dir, self.glow_tether)
 
 #****************************************************************************
 #converts tether to unit to avoid double-tethers
@@ -320,7 +324,7 @@ class Game:
         #following do not really follow the standard rules for buildings or weapons so they have their own typeset
         elif type_id == "ballon": 
             typeset = "ballon"
-        elif type_id == "tether":
+        elif type_id == "tether" or type_id == "t1" or type_id == "t2" or type_id == "t3" or type_id == "t4":
             typeset = "tether"
         elif type_id == "void" or type_id == "disable_status" or type_id == "virus_status":
             typeset = "void"

@@ -38,6 +38,7 @@ class Unit:
         self.typeset = None
         self.hp = 0
         self.parentID = 0
+        self.glow_tether = 1
         self.disabled = False
         self.collecting = False
         self.blasted = False
