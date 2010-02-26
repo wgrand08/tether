@@ -71,7 +71,7 @@ http://tether.googlecode.com/svn/wiki/images/units/hub.png Hub: 5HP, your primar
 
 
 == Misc == 
-http://tether.googlecode.com/svn/wiki/images/terrain/tether.png Tether: Most units are connected to each other by tethers. When a hub is destoyed all tethered units that were launched by that hub are also destroyed. This means if your main hub (the one you start the game with) is destroyed you have lost the game since all units are ultimately connected to that hub.
+http://tether.googlecode.com/svn/wiki/images/terrain/tether.png Tether: Most units are connected to each other by tethers. When a hub is destoyed all tethered units that were launched by that hub are also destroyed. This means if your main hub (the one you start the game with) is destroyed you have lost the game since all units are ultimately connected to that hub. The flashing lights on the tethers always move back towards the center hub. 
 
 http://tether.googlecode.com/svn/wiki/images/terrain/tile_grass.png Grass: Regular ground, all units can be placed on it.
 
