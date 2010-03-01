@@ -173,18 +173,19 @@ class Mappanel:
 # Draws the panel background.
 #****************************************************************************
     def draw_panel(self):
-        panel_right_top = self.client.tileset.get_tile_surf("panel_right_top")
-        panel_right_center = self.client.tileset.get_tile_surf("panel_right_center")
+        #panel_right_top = self.client.tileset.get_tile_surf("panel_right_top")
+        #panel_right_center = self.client.tileset.get_tile_surf("panel_right_center")
         #panel_bottom_left = self.client.tileset.get_tile_surf("panel_bottom_left")
         #panel_bottom_top = self.client.tileset.get_tile_surf("panel_bottom_top")
-        panel_bottom_right = self.client.tileset.get_tile_surf("panel_bottom_right")
+        #panel_bottom_right = self.client.tileset.get_tile_surf("panel_bottom_right")
 
-        energy_indicator_background = self.client.tileset.get_tile_surf("energy_indicator_background")
-
-
+        #energy_indicator_background = self.client.tileset.get_tile_surf("energy_indicator_background")
         #draw the energy indicator background
-        self.client.screen.blit(energy_indicator_background, (self.client.screen_width - panel_right_top.get_width() - energy_indicator_background.get_width() + 32, 0))
+        #self.client.screen.blit(energy_indicator_background, (self.client.screen_width - panel_right_top.get_width() - energy_indicator_background.get_width() + 32, 0))
 
+
+        panel_right_top = self.client.tileset.get_tile_surf("panel_right_top")
+        self.client.screen.blit(panel_right_top, (self.client.screen_width - panel_right_top.get_width(), 0))
 
         if self.client.energy > 0:
             temp_loc = 680
@@ -195,11 +196,10 @@ class Mappanel:
                 pygame.draw.line(self.client.screen, temp_color, (705, temp_loc), (755, temp_loc), 10)
                 temp_loc = temp_loc - 15
         #Draw the right panel.
-        self.client.screen.blit(panel_right_top, (self.client.screen_width - panel_right_top.get_width(), 0))
         height = (self.client.screen_height - panel_right_top.get_height())
-        for y in range (height / panel_right_center.get_height() + 1): 
+        """for y in range (height / panel_right_center.get_height() + 1): 
             y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
-            self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))
+            self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))"""
         temp_loc = 785
 
         pygame.draw.line(self.client.screen, (255, 10, 10), (temp_loc + 105, 24), (temp_loc + 105, 96), 1)

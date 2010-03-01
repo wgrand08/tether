@@ -205,73 +205,10 @@
   </unit>
 </file>
 
-
-<file src="interface/cursors.png">
-  <cursor name="goto" frames="6" x="1" y="1" 
-        width="32" height="32" pixelalpha="true">
-    <frame anim_frame="0" slot-x="0" slot-y="0"/>
-    <frame anim_frame="1" slot-x="0" slot-y="1"/>
-    <frame anim_frame="2" slot-x="0" slot-y="2"/>
-    <frame anim_frame="3" slot-x="0" slot-y="3"/>
-    <frame anim_frame="4" slot-x="0" slot-y="4"/>
-    <frame anim_frame="5" slot-x="0" slot-y="5"/>
-  </cursor>
-  <cursor name="patrol" frames="6" x="1" y="1" 
-        width="32" height="32" pixelalpha="true">
-    <frame anim_frame="0" slot-x="1" slot-y="0"/>
-    <frame anim_frame="1" slot-x="1" slot-y="1"/>
-    <frame anim_frame="2" slot-x="1" slot-y="2"/>
-    <frame anim_frame="3" slot-x="1" slot-y="3"/>
-    <frame anim_frame="4" slot-x="1" slot-y="4"/>
-    <frame anim_frame="5" slot-x="1" slot-y="5"/>
-  </cursor>
-  <cursor name="select" frames="6" x="1" y="1" 
-        width="32" height="32" pixelalpha="true">
-    <frame anim_frame="0" slot-x="2" slot-y="0"/>
-    <frame anim_frame="1" slot-x="2" slot-y="1"/>
-    <frame anim_frame="2" slot-x="2" slot-y="2"/>
-    <frame anim_frame="3" slot-x="2" slot-y="3"/>
-    <frame anim_frame="4" slot-x="2" slot-y="4"/>
-    <frame anim_frame="5" slot-x="2" slot-y="5"/>
-  </cursor>
-  <cursor name="invalid" frames="6" x="1" y="1" 
-        width="32" height="32" pixelalpha="true">
-    <frame anim_frame="0" slot-x="3" slot-y="0"/>
-    <frame anim_frame="1" slot-x="3" slot-y="1"/>
-    <frame anim_frame="2" slot-x="3" slot-y="2"/>
-    <frame anim_frame="3" slot-x="3" slot-y="3"/>
-    <frame anim_frame="4" slot-x="3" slot-y="4"/>
-    <frame anim_frame="5" slot-x="3" slot-y="5"/>
-  </cursor>
-  <cursor name="attack" frames="6" x="1" y="1" 
-        width="32" height="32" pixelalpha="true">
-    <frame anim_frame="0" slot-x="4" slot-y="0"/>
-    <frame anim_frame="1" slot-x="4" slot-y="1"/>
-    <frame anim_frame="2" slot-x="4" slot-y="2"/>
-    <frame anim_frame="3" slot-x="4" slot-y="3"/>
-    <frame anim_frame="4" slot-x="4" slot-y="4"/>
-    <frame anim_frame="5" slot-x="4" slot-y="5"/>
-  </cursor>
-  <cursor name="wait" frames="6" x="1" y="1" 
-        width="32" height="32" pixelalpha="true">
-    <frame anim_frame="0" slot-x="5" slot-y="0"/>
-    <frame anim_frame="1" slot-x="5" slot-y="1"/>
-    <frame anim_frame="2" slot-x="5" slot-y="2"/>
-    <frame anim_frame="3" slot-x="5" slot-y="3"/>
-    <frame anim_frame="4" slot-x="5" slot-y="4"/>
-    <frame anim_frame="5" slot-x="5" slot-y="5"/>
-  </cursor>
-
-</file>
-
 <file src="interface/interface1.png">
 
   <sprite name="panel_right_top" x="0" y="0" 
-          width="280" height="162" pixelalpha="true"/>
-  <sprite name="panel_right_center" x="0" y="164" 
-          width="280" height="22" pixelalpha="true"/>
-  <sprite name="panel_right_bottom" x="0" y="187" 
-          width="280" height="111" pixelalpha="true"/>
+          width="327" height="766" pixelalpha="true"/>
 
 </file>
 <file src="interface/interface2.png">
@@ -283,27 +220,6 @@
   <sprite name="panel_bottom_right" x="21" y="0" 
           width="13" height="108" pixelalpha="true"/>
 
-</file>
-<file src="interface/interface3.png">
-
-  <sprite name="energy_indicator_background" x="0" y="0"
-          width="80" height="696" pixelalpha="true"/>
-
-</file>
-
-<file src="misc/bullet1.png">
-  <bullet name="flame" frames="1" x="1" y="1" 
-        width="32" height="32" pixelalpha="true">
-    <frame dir="0" anim_frame="0" slot-x="0" slot-y="0"/>
-    <frame dir="1" anim_frame="0" slot-x="1" slot-y="0"/>
-    <frame dir="2" anim_frame="0" slot-x="2" slot-y="0"/>
-    <frame dir="3" anim_frame="0" slot-x="3" slot-y="0"/>
-    <frame dir="4" anim_frame="0" slot-x="4" slot-y="0"/>
-    <frame dir="5" anim_frame="0" slot-x="5" slot-y="0"/>
-    <frame dir="6" anim_frame="0" slot-x="6" slot-y="0"/>
-    <frame dir="7" anim_frame="0" slot-x="7" slot-y="0"/>
-
-  </bullet>
 </file>
 
  

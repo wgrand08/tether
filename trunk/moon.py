@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import sys
 import subprocess
 import os
-#import logging
 
 def main():
     #this is to verify compatible python version is in use
@@ -51,28 +50,6 @@ def main():
             import pygame
         except:
             print("Automatic pygame dependency resolution failed! Exiting...")
-            print("press enter to quit MoonPy")
-            input()
-            sys.exit(1)
-    try:
-        import PIL.Image as Image
-    except:
-        if os.name == "nt":
-            subprocess.Popen([r"explorer", "http://effbot.org/downloads/PIL-1.1.7.win32-py2.6.exe"]).wait()
-        elif os.name == "mac":
-            print("automatic osX PIL installation not yet implemented")
-            print("press enter to quit MoonPy")
-            input()
-            sys.exit(1)
-        else:
-            print("Missing depedency: PIL will need to be installed manually on this system")
-            print("press enter to quit MoonPy")
-            input()
-            sys.exit(1)
-        try:
-            import PIL.Image as Image
-        except:
-            print("Automatic PIL dependency resolution failed! Exiting...")
             print("press enter to quit MoonPy")
             input()
             sys.exit(1)

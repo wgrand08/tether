@@ -887,6 +887,7 @@ class ServerState:
                                 for target2 in self.map.unitstore.values(): #if direct hit on building, parent unit gets zapped
                                     if target2.id == target.parentID:
                                         target2.hp = target2.hp - 1
+                                target.blasted = True
                             elif unit == "virus":
                                 target.virused = True
                                 target.just_virused = True

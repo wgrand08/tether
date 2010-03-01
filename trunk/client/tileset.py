@@ -21,13 +21,6 @@ from pygame.locals import *
 import string
 import sys, os, os.path
 import logging
-import PIL.Image as Image
-import PIL.JpegImagePlugin as JpegImagePlugin
-import PIL.PngImagePlugin as PngImagePlugin
-import PIL.BmpImagePlugin as BmpImagePlugin
-import PIL.GifImagePlugin as GifImagePlugin 
-import PIL.TgaImagePlugin as TgaImagePlugin
-
 
 
 from xml.dom import minidom, Node
@@ -66,7 +59,7 @@ class Tileset:
             image_file_name = os.path.join(tilesetPath, fileNode.getAttribute('src'))
             try:
                 #  Load image file with PIL.
-                image_full = Image.open(image_file_name)
+                image_full = pygame.image.load(image_file_name).convert_alpha()
             except IOError:
                 logging.error("Loading of graphic file failed: %s" % (image_file_name))
                 pygame.quit()
@@ -151,58 +144,15 @@ class Tileset:
                         self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, color)
 
 
-
-            # Load bullet graphic
-            for tileNode in fileNode.getElementsByTagName('bullet'):
-                name = tileNode.getAttribute('name') 
-                x = int(tileNode.getAttribute('x'))
-                y = int(tileNode.getAttribute('y'))
-                frames = int(tileNode.getAttribute('frames'))
-                width = int(tileNode.getAttribute('width'))
-                height = int(tileNode.getAttribute('height'))
-                per_pixel_alpha = ("true" == str(tileNode.getAttribute('pixelalpha')))
-                self.animstore.update({name: frames})
-
-                for frameNode in tileNode.getElementsByTagName('frame'):
-                    slotx = int(frameNode.getAttribute('slot-x'))
-                    sloty = int(frameNode.getAttribute('slot-y'))
-                    dir = frameNode.getAttribute('dir')
-                    frame = frameNode.getAttribute('anim_frame')
-                    key = name + dir + frame
-                    sub_x = x + slotx * width + slotx
-                    sub_y = y + sloty * height + sloty
-                    self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha, (255,10,10))
-
-
-          # Load mouse cursors
-            for tileNode in fileNode.getElementsByTagName('cursor'):
-                name = tileNode.getAttribute('name') 
-                x = int(tileNode.getAttribute('x'))
-                y = int(tileNode.getAttribute('y'))
-                frames = int(tileNode.getAttribute('frames'))
-                width = int(tileNode.getAttribute('width'))
-                height = int(tileNode.getAttribute('height'))
-                per_pixel_alpha = ("true" == str(tileNode.getAttribute('pixelalpha')))
-                self.animstore.update({name: frames})
-
-                for frameNode in tileNode.getElementsByTagName('frame'):
-                    slotx = int(frameNode.getAttribute('slot-x'))
-                    sloty = int(frameNode.getAttribute('slot-y'))
-                    frame = frameNode.getAttribute('anim_frame')
-                    key = name + frame
-                    sub_x = x + slotx * width + slotx
-                    sub_y = y + sloty * height + sloty
-                    self.tileset_add_image(image_full, key, sub_x, sub_y, width, height, per_pixel_alpha)
-
-
 #****************************************************************************
 #
 #****************************************************************************
     def tileset_add_image(self, image, key, x, y, width, height, alpha, color=None):
         #  Crop tile from image.
-        image = image.crop((x, y, x + width, y + height))
+        #image = image.crop((x, y, x + width, y + height))
+        
 
-        if color:
+        """if color:
             data_orig = image.getdata()
             data_color = []
             for pixel in data_orig:
@@ -224,9 +174,10 @@ class Tileset:
             colorkey = surface.get_at((0,0))
             surface.set_colorkey(colorkey, RLEACCEL)
 
-        result = surface.convert_alpha()
+        result = surface.convert_alpha()"""
 
-        self.imagestore.update({key: result})
+        #surface = image
+        self.imagestore.update({key: image})
 
 #****************************************************************************
 #
@@ -334,9 +285,10 @@ class Tileset:
 def load(image_file_name):
     try:
         # Load image file with PIL.
-        image = Image.open(image_file_name)
+        image = pygame.image.load(image_file_name).convert_alpha()
         # Convert PIL image to Pygame surface
-        return pygame.image.fromstring(image.tostring(), image.size, image.mode)
+        #return pygame.image.fromstring(image.tostring(), image.size, image.mode)
+        return(image)
 
     except IOError:
         logging.error("Loading of graphic file failed: %s" % (image_file_name))
