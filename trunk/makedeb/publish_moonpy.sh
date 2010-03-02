@@ -47,7 +47,6 @@ cp -r ./client ./moonpy-$version
 cp -r ./common ./moonpy-$version
 cp -r ./data ./moonpy-$version
 cp -r ./server ./moonpy-$version
-cp -r ./translations ./moonpy-$version
 cp -r ./twisted ./moonpy-$version
 cp -r ./zope ./moonpy-$version
 cp -r ./AUTHORS.txt ./moonpy-$version
