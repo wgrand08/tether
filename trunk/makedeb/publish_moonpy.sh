@@ -113,10 +113,10 @@ sudo rm -fr ~/rpmbuild
 echo "finished packaging MoonPy $version"
 if [ "$upload" == "y" ]; then
     echo "Uploading packages to googlecode"
-    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive" -p tether -u $username -w $password -l Deprecated,Type-Source,OpSys-All ./MoonPy-$version-source.tar.gz
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for osX" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-osX ./MoonPy-$version-osX.zip
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for windows" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-Windows ./MoonPy-$version-win32.zip
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for rpm based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./MoonPy-$version.rpm
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for debian based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./MoonPy-$version.deb
+    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive" -p tether -u $username -w $password -l Deprecated,Type-Source,OpSys-All ./moonpy-$version-source.tar.gz
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for osX" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-osX ./moonpy-$version-osX.zip
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for windows" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-Windows ./moonpy-$version-win32.zip
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for rpm based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./moonpy-$version.rpm
+    ./makedeb/googlecode_upload.py -s "MoonPy $version for debian based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./moonpy-$version.deb
 fi
 echo "MoonPy packaging and distribution script finished"
