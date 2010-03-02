@@ -172,6 +172,7 @@ class NetworkClient(pb.Referenceable):
                     map_pos = (unit.x, unit.y)
                     self.client.selected_unit = {}
                     self.client.selected_unit.update({map_pos:unit})
+        self.client.updated_map = True
 
 #****************************************************************************
 # recieve updated map information

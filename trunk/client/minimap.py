@@ -45,6 +45,8 @@ class Minimap:
 
         self.minimap_surface = pygame.Surface((self.client.map.ysize, self.client.map.xsize))
 
+        self.client.updated_map = False
+
         for y in range(self.client.map.ysize):
             for x in range(self.client.map.xsize):
                 tile = self.client.map.get_tile((x, y))
@@ -78,7 +80,7 @@ class Minimap:
     def draw(self):
         self.count += 1
         # FIXME: This updates every 60th frame. Should only update when map is updated for better efficiency
-        if (self.count % 60 == 1 ):
+        if self.client.updated_map == True:
             self.update()
         if not self.minimap_surface:
             self.update()

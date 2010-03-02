@@ -80,6 +80,7 @@ class GameClientState:
         self.splashed = False
         self.hit_rock = False
         self.collecting_energy = False
+        self.updated_map = True
         self.launched = False
         self.landed = False
         self.launch_startx = 0

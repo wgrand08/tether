@@ -236,7 +236,6 @@ class Mappanel:
 # Draws the mini map to the screen.
 #****************************************************************************
     def draw_minimap(self):
-        #self.minimap.draw()
         self.draw_panel()
         self.minimap.draw()
     
