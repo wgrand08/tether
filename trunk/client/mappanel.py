@@ -46,8 +46,8 @@ class Mappanel:
         self.minimap = Minimap(clientstate, self.minimap_rect.left , self.minimap_rect.top, 120, 107)
 
 
-        self.input_rect = pygame.Rect(1, self.client.screen_height - 14, self.client.screen_width - 250, 14)
-        self.msgview_rect = pygame.Rect(1, self.client.screen_height - 72, self.client.screen_width - 250, 50)
+        self.input_rect = pygame.Rect(1, self.client.screen_height - 14, self.client.screen_width - 272, 14)
+        self.msgview_rect = pygame.Rect(1, self.client.screen_height - 72, self.client.screen_width - 265, 50)
 
         self.chat_table = gui.Table(width=self.msgview_rect.width,height=self.msgview_rect.height)
 
@@ -70,99 +70,99 @@ class Mappanel:
         container.add(self.chat_table, self.msgview_rect.left, self.msgview_rect.top)
 
 
-        self.bomb_button = gui.Button(_(" bomb "))
+        self.bomb_button = gui.Button((" bomb "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.20)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosebomb, None)
 
-        self.hub_button = gui.Button(_(" anti-air " ))
+        self.hub_button = gui.Button((" anti-air " ))
         container.add(self.hub_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.20)
         self.hub_button.connect(gui.MOUSEBUTTONDOWN, self.chooseantiair, None)
 
-        self.bomb_button = gui.Button(_(" bridge "))
+        self.bomb_button = gui.Button((" bridge "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.25)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosebridge, None)
 
-        self.bomb_button = gui.Button(_(" tower "))
+        self.bomb_button = gui.Button((" tower "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.25)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosetower, None)
 
-        self.bomb_button = gui.Button(_(" repair "))
+        self.bomb_button = gui.Button((" repair "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.30)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooserepair, None)
 
-        self.bomb_button = gui.Button(_(" cluster "))
+        self.bomb_button = gui.Button((" cluster "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.30)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosecluster, None)
 
-        self.bomb_button = gui.Button(_(" recall "))
+        self.bomb_button = gui.Button((" recall "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.35)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooserecall, None)
 
-        self.bomb_button = gui.Button(_(" spike "))
+        self.bomb_button = gui.Button((" spike "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.35)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosespike, None)
 
-        self.bomb_button = gui.Button(_(" balloon "))
+        self.bomb_button = gui.Button((" balloon "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.40)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseballoon, None)
 
-        self.bomb_button = gui.Button(_(" EMP "))
+        self.bomb_button = gui.Button((" EMP "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.40)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseEMP, None)
 
-        self.bomb_button = gui.Button(_(" missile "))
+        self.bomb_button = gui.Button((" missile "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.45)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosemissile, None)
 
-        self.bomb_button = gui.Button(_(" mines "))
+        self.bomb_button = gui.Button((" mines "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.45)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosemines, None)
 
-        self.bomb_button = gui.Button(_(" crawler "))
+        self.bomb_button = gui.Button((" crawler "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.50)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosecrawler, None)
 
-        self.bomb_button = gui.Button(_(" collector "))
+        self.bomb_button = gui.Button((" collector "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.50)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosecollector, None)
 
-        self.bomb_button = gui.Button(_(" hub "))
+        self.bomb_button = gui.Button((" hub "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.55)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosehub, None)
 
-        self.bomb_button = gui.Button(_(" offense "))
+        self.bomb_button = gui.Button((" offense "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.55)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseoffense, None)
 
-        self.bomb_button = gui.Button(_(" shield "))
+        self.bomb_button = gui.Button((" shield "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.60)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.chooseshield, None)
 
-        self.bomb_button = gui.Button(_(" virus "))
+        self.bomb_button = gui.Button((" virus "))
         container.add(self.bomb_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.60)
         self.bomb_button.connect(gui.MOUSEBUTTONDOWN, self.choosevirus, None)
 
-        self.rotate_leftbutton = gui.Button(_("  <  "))
+        self.rotate_leftbutton = gui.Button(("  <  "))
         container.add(self.rotate_leftbutton, self.client.screen.get_width() * 0.80, self.client.screen.get_height() * 0.70)
         self.rotate_leftbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateleft, None)
 
-        self.rotate_rightbutton = gui.Button(_("  >  "))
+        self.rotate_rightbutton = gui.Button(("  >  "))
         container.add(self.rotate_rightbutton, self.client.screen.get_width() * 0.92, self.client.screen.get_height() * 0.70)
         self.rotate_rightbutton.connect(gui.MOUSEBUTTONDOWN, self.rotateright, None)
 
-        self.firebutton = gui.Button(_(" Fire "))
+        self.firebutton = gui.Button((" Fire "))
         container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.70)
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_firebutton, None)
 
-        self.firebutton = gui.Button(_(" skip "))
+        self.firebutton = gui.Button((" skip "))
         container.add(self.firebutton, self.client.screen.get_width() * 0.86, self.client.screen.get_height() * 0.65)
         self.firebutton.connect(gui.MOUSEBUTTONDOWN, self.use_skipbutton, None)
 
-        """self.uppower_button = gui.Button(_(" + "))
+        """self.uppower_button = gui.Button((" + "))
         container.add(self.uppower_button, self.client.screen.get_width() * 0.89, self.client.screen.get_height() * 0.85)
         self.uppower_button.connect(gui.MOUSEBUTTONDOWN, self.increasepower, None)
 
-        self.downpower_button = gui.Button(_(" - "))
+        self.downpower_button = gui.Button((" - "))
         container.add(self.downpower_button, self.client.screen.get_width() * 0.82, self.client.screen.get_height() * 0.85)
         self.downpower_button.connect(gui.MOUSEBUTTONDOWN, self.decreasepower, None)"""
 
@@ -173,16 +173,6 @@ class Mappanel:
 # Draws the panel background.
 #****************************************************************************
     def draw_panel(self):
-        #panel_right_top = self.client.tileset.get_tile_surf("panel_right_top")
-        #panel_right_center = self.client.tileset.get_tile_surf("panel_right_center")
-        #panel_bottom_left = self.client.tileset.get_tile_surf("panel_bottom_left")
-        #panel_bottom_top = self.client.tileset.get_tile_surf("panel_bottom_top")
-        #panel_bottom_right = self.client.tileset.get_tile_surf("panel_bottom_right")
-
-        #energy_indicator_background = self.client.tileset.get_tile_surf("energy_indicator_background")
-        #draw the energy indicator background
-        #self.client.screen.blit(energy_indicator_background, (self.client.screen_width - panel_right_top.get_width() - energy_indicator_background.get_width() + 32, 0))
-
 
         panel_right_top = self.client.tileset.get_tile_surf("panel_right_top")
         self.client.screen.blit(panel_right_top, (self.client.screen_width - panel_right_top.get_width(), 0))
@@ -197,9 +187,6 @@ class Mappanel:
                 temp_loc = temp_loc - 15
         #Draw the right panel.
         height = (self.client.screen_height - panel_right_top.get_height())
-        """for y in range (height / panel_right_center.get_height() + 1): 
-            y2 = panel_right_top.get_height() + y * panel_right_center.get_height()
-            self.client.screen.blit(panel_right_center, (self.client.screen_width - panel_right_center.get_width(), y2))"""
         temp_loc = 785
 
         pygame.draw.line(self.client.screen, (255, 10, 10), (temp_loc + 105, 24), (temp_loc + 105, 96), 1)
@@ -217,21 +204,26 @@ class Mappanel:
                 self.client.selected_weap = "bomb"
 
         #display the currently selected unit/weapon
-        if self.client.selected_weap == "cluster":
+        if self.client.selected_weap == "cluster" or self.client.selected_weap == "mines":
             unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, 1)
             blit_x = self.client.screen.get_width() * 0.86
-            blit_y = self.client.screen.get_height() * 0.80
+            blit_y = self.client.screen.get_height() * 0.84
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
             blit_x = (self.client.screen.get_width() * 0.86) + 24
-            blit_y = (self.client.screen.get_height() * 0.80)
+            blit_y = (self.client.screen.get_height() * 0.84)
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
             blit_x = (self.client.screen.get_width() * 0.86) + 12
-            blit_y = (self.client.screen.get_height() * 0.80) + 24
-            self.client.screen.blit(unit_surface, (blit_x, blit_y))            
-        else:
+            blit_y = (self.client.screen.get_height() * 0.84) + 24
+            self.client.screen.blit(unit_surface, (blit_x, blit_y))
+        elif self.client.game.get_unit_typeset(self.client.selected_weap) == "weap":
             unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, 1)
             blit_x = self.client.screen.get_width() * 0.86
-            blit_y = self.client.screen.get_height() * 0.80
+            blit_y = self.client.screen.get_height() * 0.84
+            self.client.screen.blit(unit_surface, (blit_x, blit_y))
+        else:
+            unit_surface = self.client.tileset.get_unit_surf_from_tile(self.client.selected_weap, 0, 1)
+            blit_x = self.client.screen.get_width() * 0.845
+            blit_y = self.client.screen.get_height() * 0.825
             self.client.screen.blit(unit_surface, (blit_x, blit_y))
 
         if self.client.heldbutton == "firing":
@@ -244,8 +236,9 @@ class Mappanel:
 # Draws the mini map to the screen.
 #****************************************************************************
     def draw_minimap(self):
-        self.minimap.draw()
+        #self.minimap.draw()
         self.draw_panel()
+        self.minimap.draw()
     
 #****************************************************************************
 #

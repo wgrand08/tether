@@ -211,17 +211,6 @@
           width="327" height="766" pixelalpha="true"/>
 
 </file>
-<file src="interface/interface2.png">
-
-  <sprite name="panel_bottom_left" x="0" y="0" 
-          width="9" height="108" pixelalpha="true"/>
-  <sprite name="panel_bottom_top" x="11" y="0" 
-          width="9" height="5" pixelalpha="true"/>
-  <sprite name="panel_bottom_right" x="21" y="0" 
-          width="13" height="108" pixelalpha="true"/>
-
-</file>
-
  
 </tileset>
 

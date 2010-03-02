@@ -30,8 +30,6 @@ from networkclient import *
 from gameclientstate import *
 from mainmenu import *
 
-from common.translation import *
-
 
 #****************************************************************************
 # The Main class of the client. 
@@ -66,20 +64,12 @@ class Main:
         self.client = GameClientState()    
         logging.info("MoonPy version %s" % (self.client.settings.string_version))
 
-        self.initialize_locale()
-
         self.create_main_window()
         self.client.moonaudio.intro()
         self.intro = introscreen.IntroScreen(self.client.screen)
 
         mainmenu = MainMenu(self.client)
 
-#****************************************************************************
-#
-#****************************************************************************
-    def initialize_locale(self):
-        translation = Translation()
-        translation.setLanguage(self.client.settings.language)
 
 #****************************************************************************
 #

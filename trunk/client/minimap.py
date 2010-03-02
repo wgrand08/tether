@@ -42,13 +42,8 @@ class Minimap:
 # Updates the minimap. 
 #****************************************************************************
     def update(self):
-        #self.count += 1
-        # FIXME: This updates every 60th frame. Should only update when new info.
-        # if (self.count % 60 != 1 and not force):
-        #   return
-        terrain_data = []
-        #resultimage = Image.new("RGBA", (self.width, self.height))
-        #mapimage = Image.new("RGBA", (self.client.map.xsize, self.client.map.ysize))
+
+        self.minimap_surface = pygame.Surface((self.client.map.ysize, self.client.map.xsize))
 
         for y in range(self.client.map.ysize):
             for x in range(self.client.map.xsize):
@@ -61,20 +56,7 @@ class Minimap:
                     color = (255, 0, 255)
                 else: #regular ground
                     color = (25, 175, 75)    
-                terrain_data.append(color)
-     
-        # Draw line showing where the current mapview view is.
-        x1, y1 = self.client.mapview.gui_to_map((0, 0))
-        x2, y2 = self.client.mapview.gui_to_map((768, 0))
-        x3, y3 = self.client.mapview.gui_to_map((768, 768))
-        x4, y4 = self.client.mapview.gui_to_map((0, 768))
-        points = [(x1, y1), (x2, y2), (x3, y3), (x4, y4), (x1, y1)]
-
-        #mapimage.putdata(terrain_data)
-        #drawer = ImageDraw.Draw(mapimage)
-
-        #if not (y4 < y2 or x1 > x3):
-            #drawer.line(points)
+                self.minimap_surface.set_at((x, y), color)
 
         for unit in self.client.map.get_unit_list():
             if unit.typeset != "doodad": #this takes into account hubs are 4 times the size of a standard tile
@@ -83,30 +65,24 @@ class Minimap:
                     color = (255, 255, 0)
                 else:
                     color = (255, 10, 10)
-                #drawer.point((x, y), fill=(color))
-                #drawer.point(((x + 1), y), fill=(color))
-                #drawer.point((x, (y + 1)), fill=(color))
-                #drawer.point(((x + 1), (y + 1)), fill=(color))
+                self.minimap_surface.set_at((x, y), color)
+                if unit.typeset == "build":
+                    self.minimap_surface.set_at(((x + 1), y), color)
+                    self.minimap_surface.set_at((x, (y + 1)), color)
+                    self.minimap_surface.set_at(((x + 1), (y + 1)), color)
 
-
-
-        #del drawer
-        #resultimage = mapimage.resize((self.width, self.height), Image.ANTIALIAS)
-
-        self.minimap_surface = pygame.image.fromstring(resultimage.tostring(), resultimage.size, resultimage.mode)
-  
 
 #****************************************************************************
 # Draws the entire minimap to the screen.
 #****************************************************************************
     def draw(self):
         self.count += 1
-        # FIXME: This updates every 60th frame. Should only update when new info.
-        """if (self.count % 60 == 1 ):
+        # FIXME: This updates every 60th frame. Should only update when map is updated for better efficiency
+        if (self.count % 60 == 1 ):
             self.update()
         if not self.minimap_surface:
             self.update()
-        self.client.screen.blit(self.minimap_surface, (self.x, self.y))"""
+        self.client.screen.blit(self.minimap_surface, (self.x, self.y))
 
 
 #****************************************************************************
@@ -114,8 +90,8 @@ class Minimap:
 #****************************************************************************
     def handle_mouse_click(self, pos):
         (x, y) = pos
-        map_x = (x - self.x) * self.client.map.xsize / self.width
-        map_y = (y - self.y) * self.client.map.ysize / self.height
+        map_x = x - self.x
+        map_y = y - self.y
         self.client.mapview.center_view_on_tile((map_x, map_y))
         self.update()
 

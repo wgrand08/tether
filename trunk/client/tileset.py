@@ -148,36 +148,19 @@ class Tileset:
 #
 #****************************************************************************
     def tileset_add_image(self, image, key, x, y, width, height, alpha, color=None):
-        #  Crop tile from image.
-        #image = image.crop((x, y, x + width, y + height))
         
+        tempimage = image.copy()
+        if color:
+            for pixelX in range(width):
+                for pixelY in range(height):
+                    pixel = tempimage.get_at((pixelX, pixelY)) 
+                    (red, green, blue, a) = pixel
+                    (new_r, new_g, new_b) = color
+                    if ((red < blue + 50 and red > blue - 50) and (green < red - 50 or green < blue - 50)) or (red < blue + 30 and red > blue - 30) and (green < red - 100 or green < blue - 100):
+                        new_color = (red * new_r / 255, new_g * red / 255, new_b * red / 255, a)
+                        tempimage.set_at((pixelX, pixelY), new_color)
 
-        """if color:
-            data_orig = image.getdata()
-            data_color = []
-            for pixel in data_orig:
-                (red, green, blue, a) = pixel
-                (new_r, new_g, new_b) = color
-                if ((red < blue + 50 and red > blue - 50) and (green < red - 50 or green < blue - 50)) or (red < blue + 30 and red > blue - 30) and (green < red - 100 or green < blue - 100):
-                    new_color = (red * new_r / 255, new_g * red / 255, new_b * red / 255, a)
-                    data_color.append(new_color)
-                else:
-                    data_color.append(pixel)
-            image.putdata(data_color) 
-
-        #  Create Pygame surface from PIL image. 
-        surface = pygame.image.fromstring(image.tostring(), image.size, image.mode)
-        image = None
-
-        #  If not per pixel alpha (slow), then use a colorkey.
-        if not alpha:
-            colorkey = surface.get_at((0,0))
-            surface.set_colorkey(colorkey, RLEACCEL)
-
-        result = surface.convert_alpha()"""
-
-        #surface = image
-        self.imagestore.update({key: image})
+        self.imagestore.update({key: tempimage})
 
 #****************************************************************************
 #

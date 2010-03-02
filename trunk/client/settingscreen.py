@@ -33,13 +33,13 @@ class SettingsScreen:
         table = gui.Table(width=300, height=220)
         table.add(gui.Widget(),0,0)
 
-        nickname_label = gui.Label(_("Username: "))
+        nickname_label = gui.Label(("Username: "))
         table.add(nickname_label,0,1)
-        self.nickname_input = gui.Input(_(self.client.settings.playername))
+        self.nickname_input = gui.Input((self.client.settings.playername))
         table.add(self.nickname_input,1,1)
         table.add(gui.Widget(width=1, height=5), 0, 2)
 
-        self.fullscreen_label = gui.Label(_("Fullscreen:"))
+        self.fullscreen_label = gui.Label(("Fullscreen:"))
         table.add(self.fullscreen_label, 0,2)
 
         if self.client.settings.fullscreen == True:
@@ -50,7 +50,7 @@ class SettingsScreen:
         self.fullscreen_select.add("Windowed",False)
         table.add(self.fullscreen_select, 1,2)
 
-        mute_music_label = gui.Label(_("Play Music: "))
+        mute_music_label = gui.Label(("Play Music: "))
         table.add(mute_music_label,0,3)
         if self.client.settings.play_music == True:
             self.mute_music_select = gui.Select(value=True)
@@ -61,7 +61,7 @@ class SettingsScreen:
         table.add(self.mute_music_select, 1,3)
 
 
-        mute_sound_label = gui.Label(_("Sound Effects: "))
+        mute_sound_label = gui.Label(("Sound Effects: "))
         table.add(mute_sound_label,0,4)
         if self.client.settings.play_sound == True:
             self.mute_sound_select = gui.Select(value=True)
@@ -71,7 +71,7 @@ class SettingsScreen:
         self.mute_sound_select.add("Off",False)
         table.add(self.mute_sound_select, 1,4)
 
-        mute_narrate_label = gui.Label(_("Narrator: "))
+        mute_narrate_label = gui.Label(("Narrator: "))
         table.add(mute_narrate_label,0,5)
         if self.client.settings.play_narrate == True:
             self.mute_narrate_select = gui.Select(value=True)
@@ -81,11 +81,11 @@ class SettingsScreen:
         self.mute_narrate_select.add("Off",False)
         table.add(self.mute_narrate_select, 1,5)
 
-        cancel_button = gui.Button(_("Cancel"))
+        cancel_button = gui.Button(("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_settings, None)
 
 
-        ok_button = gui.Button(_("Ok"))
+        ok_button = gui.Button(("Ok"))
         ok_button.connect(gui.CLICK, self.accept_settings, None)
 
 

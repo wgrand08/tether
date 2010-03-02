@@ -29,10 +29,8 @@ class Unit:
         self.playerID = playerID    
         self.dir = 0
         self.owner = None
-        self.path = None
         self.x = 0
         self.y = 0
-        self.offset = (0,0)
         self.speed = (0,0)
         self.rotate = 3
         self.typeset = None

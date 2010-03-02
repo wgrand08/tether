@@ -54,31 +54,31 @@ class MainMenu:
         container = gui.Container(align=-1, valign=-1)
 
         menu_table = gui.Table(width=200,height=220)
-        network_start_button = gui.Button(_("Start Multiplayer Game"))
+        network_start_button = gui.Button(("Start Multiplayer Game"))
         network_start_button.connect(gui.CLICK, self.network_start, None)
         menu_table.add(network_start_button, 0, 0)
         menu_table.add(gui.Widget(width=1, height=5), 0, 1)
 
-        network_join_button = gui.Button(_("Join Multiplayer Game"))
+        network_join_button = gui.Button(("Join Multiplayer Game"))
         network_join_button.connect(gui.CLICK, self.network_join, None)
         menu_table.add(network_join_button, 0, 2)
         menu_table.add(gui.Widget(width=1, height=5), 0, 3)
 
-        settings_button = gui.Button(_("Settings"))
+        settings_button = gui.Button(("Settings"))
         settings_button.connect(gui.CLICK, self.settings_menu, None)
         menu_table.add(settings_button, 0, 6)
         menu_table.add(gui.Widget(width=1, height=5), 0, 7)
 
-        credits_button = gui.Button(_("Credits"))
+        credits_button = gui.Button(("Credits"))
         credits_button.connect(gui.CLICK, self.credits_screen, None)
         menu_table.add(credits_button, 0, 8)
         menu_table.add(gui.Widget(width=1, height=5), 0, 9)
 
-        quit_button = gui.Button(_("Quit"))
+        quit_button = gui.Button(("Quit"))
         quit_button.connect(gui.CLICK, self.client.quit)
         menu_table.add(quit_button, 0, 10)
 
-        intro_label = gui.Label(_("Welcome to MoonPy"))
+        intro_label = gui.Label(("Welcome to MoonPy"))
 
         container.add(MenuBackground(client=self.client, width = self.client.screen.get_width(),height = self.client.screen.get_height()), 0, 0)
         container.add(menu_table, self.client.screen.get_width() / 2 - 100, self.client.screen.get_height() / 2 - 100)
@@ -133,7 +133,7 @@ class ErrorMenu:
         error_label = gui.Label(error_message)
         menu_table.add(error_label, 0, 0)
 
-        accept_button = gui.Button(_("OK"))
+        accept_button = gui.Button(("OK"))
         menu_table.add(accept_button, 0, 1)
         accept_button.connect(gui.CLICK, self.recover, None)
 

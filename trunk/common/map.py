@@ -169,7 +169,7 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-    def set_unit(self, unit, pos, offset, typeset, hp, parentID, collecting, dir, glow_tether):
+    def set_unit(self, unit, pos, typeset, hp, parentID, collecting, dir, glow_tether):
         landing = self.get_unit(pos)
         if (landing == None) or (typeset == "weap") or (landing.type.id == "bridge") or (landing.type.id == "balloon"):
             self.unitstore.update({unit.id:unit})
@@ -177,7 +177,6 @@ class Map:
             unit.typeset = typeset
             unit.hp = hp
             unit.parentID = parentID
-            unit.offset = offset
             unit.collecting = collecting
             unit.dir = dir
             unit.glow_tether = glow_tether

@@ -81,7 +81,7 @@ class ServerState:
                     tile9 = self.map.get_tile(tile9)
                     if tile1.type == self.game.get_terrain_type("grass") and tile2.type == self.game.get_terrain_type("grass") and tile3.type == self.game.get_terrain_type("grass") and tile4.type == self.game.get_terrain_type("grass") and tile5.type == self.game.get_terrain_type("grass") and tile6.type == self.game.get_terrain_type("grass") and tile7.type == self.game.get_terrain_type("grass") and tile8.type == self.game.get_terrain_type("grass") and tile9.type == self.game.get_terrain_type("grass"):
                         unplaced = False
-                self.game.create_unit('hub', (x, y), (0,0), (player + 1), 0, False, 360)
+                self.game.create_unit('hub', (x, y), (player + 1), 0, False, 360)
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -94,11 +94,6 @@ class ServerState:
     def mainloop(self):
         self.connections.remote_all('network_sync')
 
-#****************************************************************************
-#add a unit
-#****************************************************************************
-    def add_unit(self, unit_type, unit_loc, offset, playerID, parentID, collecting, dir):
-        self.game.create_unit(unit_type, unit_loc, offset, playerID, parentID, collecting, dir)
 
 #****************************************************************************
 #find and remove all units without any HP remaining
@@ -398,8 +393,6 @@ class ServerState:
         self.interrupted_tether = False
         self.doubletether = False
         power = power + 6 #launching has minimal range, if modifying to forget to change animation distance (in networkclient.py) and split trajectory to compensate
-        offsetX = 0
-        offsetY = 0
         collecting = False
         for find_target in range(1, power):
             temp_rotation = self.game.deg2rad(rotation)
@@ -533,7 +526,7 @@ class ServerState:
                 testY = str(endY)
                 if find_target > 1 and find_target < (power - 2) and retether == False:
                     chain_parent = self.game.unit_counter + 2 #tethers have 'reversed' parents
-                    self.add_unit("tether", (endX, endY), (offsetX, offsetY), playerID, chain_parent, False, 0)
+                    self.game.create_unit("tether", (endX, endY), playerID, chain_parent, False, 0)
                     logging.debug("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or energy pool
@@ -629,8 +622,6 @@ class ServerState:
         endY = start_tile.y
         self.interrupted_tether = False
         power = power + 7 #launching has minimal range, if changing don't forget to change animation distance (in networkclient.py) and find_trajectory
-        offsetX = 0
-        offsetY = 0
         a1hit = False
         a2hit = False
         a3hit = False
@@ -866,7 +857,7 @@ class ServerState:
                     logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
                     for target in self.map.unitstore.values():
                         logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
-                        if target.x == endX and target.y == endY and target.typeset == "build" and target.blasted == False:
+                        if target.x == endX and target.y == endY and (target.typeset == "build" or target.type.id == "crawler") and target.blasted == False:
                             logging.info("detected hit")
                             didhit = True
                             if unit == "emp":

@@ -49,25 +49,25 @@ class NetworkScreen:
 
         table.add(gui.Widget(),0,0)
 
-        self.message_label = gui.Label(_("Join network game"))
+        self.message_label = gui.Label(("Join network game"))
         table.add(gui.Widget(width=1, height=5), 0, 0)
 
-        nickname_label = gui.Label(_("Username:"))
+        nickname_label = gui.Label(("Username:"))
         table.add(nickname_label,0,1)
 
-        playername_label = gui.Label(_(self.client.settings.playername))
+        playername_label = gui.Label((self.client.settings.playername))
         table.add(playername_label,1,1)
         table.add(gui.Widget(width=1, height=5), 0, 2)
 
-        hostname_label = gui.Label(_("Server address:"))
+        hostname_label = gui.Label(("Server address:"))
         table.add(hostname_label,0,2)
-        self.hostname_input = gui.Input(_(self.client.settings.defaultIP))
+        self.hostname_input = gui.Input((self.client.settings.defaultIP))
         table.add(self.hostname_input,1,2)
         table.add(gui.Widget(width=1, height=5), 0, 3)
 
-        connect_button = gui.Button(_("Connect"))
+        connect_button = gui.Button(("Connect"))
         connect_button.connect(gui.CLICK, self.connect_callback, None)
-        cancel_button = gui.Button(_("Cancel"))
+        cancel_button = gui.Button(("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_callback, None)
 
         table.add(gui.Widget(), 0, 4)
@@ -93,18 +93,18 @@ class NetworkScreen:
 
         table.add(gui.Widget(),0,0)
 
-        self.message_label = gui.Label(_("Start network game"))
+        self.message_label = gui.Label(("Start network game"))
         table.add(gui.Widget(width=1, height=5), 0, 0)
 
-        nickname_label = gui.Label(_("Username:"))
+        nickname_label = gui.Label(("Username:"))
         table.add(nickname_label,0,1)
-        playername_label = gui.Label(_(self.client.settings.playername))
+        playername_label = gui.Label((self.client.settings.playername))
         table.add(playername_label,1,1)
         table.add(gui.Widget(width=1, height=5), 0, 2)
 
-        connect_button = gui.Button(_("Start Hosting"))
+        connect_button = gui.Button(("Start Hosting"))
         connect_button.connect(gui.CLICK, self.host_callback, None)
-        cancel_button = gui.Button(_("Cancel"))
+        cancel_button = gui.Button(("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_callback, None)
 
         table.add(gui.Widget(), 0, 3)
@@ -172,7 +172,7 @@ class PregameScreen:
 
         table.add(gui.Widget(),0,0)
 
-        self.message_label = gui.Label(_("Pregame setup"))
+        self.message_label = gui.Label(("Pregame setup"))
         table.add(gui.Widget(width=1, height=5), 0, 0)
 
         self.chat_table = gui.Table(width=width,height=height)
@@ -194,9 +194,9 @@ class PregameScreen:
 
         table.add(self.chat_table, 0, 1)
         if self.client.ishost == True:
-            connect_button = gui.Button(_("Start Game"))
+            connect_button = gui.Button(("Start Game"))
             connect_button.connect(gui.CLICK, self.start_callback)
-        cancel_button = gui.Button(_("Cancel"))
+        cancel_button = gui.Button(("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_callback)
 
         table.add(gui.Widget(), 0, 2)

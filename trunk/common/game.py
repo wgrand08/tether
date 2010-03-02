@@ -184,7 +184,7 @@ class Game:
 #****************************************************************************
 #create a new unit and place it on the map
 #****************************************************************************
-    def create_unit(self, unit_type_id, pos, offset, playerID, parentID, collecting, dir):
+    def create_unit(self, unit_type_id, pos, playerID, parentID, collecting, dir):
         self.unit_counter += 1
         self.glow_tether += 1
         if self.glow_tether > 3:
@@ -195,7 +195,7 @@ class Game:
         if unit_type_id != "crawler" and unit_type_id != "missile": #all units face same direction except for crawlers and missiles
             dir = 360
         logging.debug("creating unit# %s", self.unit_counter)
-        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, offset, typeset, hp, parentID, collecting, dir, self.glow_tether)
+        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID, collecting, dir, self.glow_tether)
 
 #****************************************************************************
 #converts tether to unit to avoid double-tethers

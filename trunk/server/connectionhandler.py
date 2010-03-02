@@ -156,7 +156,6 @@ class ClientPerspective(pb.Avatar):
                 coord1 = (coord1X, coord1Y)
                 coord2 = (coord2X, coord2Y)
                 coord3 = (coord3X, coord3Y)
-                offset = 0, 0
                 self.state.deathlist = []
                 if self.conn_info.undisable == True: #undisabling units caused by this player previously
                     logging.info("undisabling units")
@@ -171,13 +170,13 @@ class ClientPerspective(pb.Avatar):
                 self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
                 collecting = False
 
-                self.state.add_unit(unit, coord1, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.game.create_unit(unit, coord1, self.conn_info.playerID, parentID, collecting, rotation)
                 if disabled1 == False:
                     self.state.determine_hit(unit, coord1, self.conn_info)
-                self.state.add_unit(unit, coord2, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.game.create_unit(unit, coord2, self.conn_info.playerID, parentID, collecting, rotation)
                 if disabled2 == False:
                     self.state.determine_hit(unit, coord2, self.conn_info)
-                self.state.add_unit(unit, coord3, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.game.create_unit(unit, coord3, self.conn_info.playerID, parentID, collecting, rotation)
                 if disabled3 == False:
                     self.state.determine_hit(unit, coord3, self.conn_info)
 
@@ -189,7 +188,6 @@ class ClientPerspective(pb.Avatar):
             else: #handling normal shots
                 (startx, starty, coordX, coordY, collecting) = self.state.find_trajectory(parentID, rotation, power, unit, self.conn_info)
                 coord = (coordX, coordY)
-                offset = 0, 0
                 self.state.deathlist = []
                 if self.conn_info.undisable == True: #undisabling units caused by this player previously
                     logging.info("undisabling units")
@@ -204,9 +202,9 @@ class ClientPerspective(pb.Avatar):
                 self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
                     
                 if self.state.doubletether == False:
-                    self.state.add_unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                    self.state.game.create_unit(unit, coord, self.conn_info.playerID, parentID, collecting, rotation)
                 else:
-                    self.state.game.tether2unit(unit, coord, offset, self.conn_info.playerID, parentID, collecting, rotation)
+                    self.state.game.tether2unit(unit, coord, self.conn_info.playerID, parentID, collecting, rotation)
 
                 if self.state.interrupted_tether == True:
                     victim = self.state.map.get_unit_from_id(self.state.game.unit_counter)
