@@ -14,6 +14,11 @@ Destroy your enemies!
  # If using osX unzip all files, download and install [http://www.pygame.org/download.shtml pygame] and [http://www.pythonware.com/products/pil/ PIL], then run moon.py
 
 
+= Finding games online =
+
+Currently MoonPy does not have a master server. This means all games need to be joined directly using IP addresses. For now the best place to find others to play MoonPy is on channel #moonpy on irc.freenode.net and organize games manually from there.
+
+
 = Gameplay =
 
 == How to 'move' ==
