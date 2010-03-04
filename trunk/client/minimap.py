@@ -72,6 +72,7 @@ class Minimap:
                     self.minimap_surface.set_at(((x + 1), y), color)
                     self.minimap_surface.set_at((x, (y + 1)), color)
                     self.minimap_surface.set_at(((x + 1), (y + 1)), color)
+        self.minimap_surface = pygame.transform.scale(self.minimap_surface, (100, 100))
 
 
 #****************************************************************************
@@ -92,8 +93,10 @@ class Minimap:
 #****************************************************************************
     def handle_mouse_click(self, pos):
         (x, y) = pos
-        map_x = x - self.x
-        map_y = y - self.y
+        #map_x = x - self.x
+        #map_y = y - self.y
+        map_x = (x - self.x) * self.client.map.xsize / 100;
+        map_y = (y - self.y) * self.client.map.ysize / 100;
         self.client.mapview.center_view_on_tile((map_x, map_y))
         self.update()
 

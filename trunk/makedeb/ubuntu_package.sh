@@ -22,18 +22,9 @@
 #this script is used for automating the process of creating 
 #archives and debfiles for publishing and distributing MoonPy
 
-echo "Welcome to the MoonPy packaging and distribution script,"
+echo "Welcome to the MoonPy packaging and distribution script for ubuntu,"
 echo "please enter version of MoonPy to package"
 read version
-echo "Should this version be uploaded onto googlecode after packaging?"
-echo "y/n"
-read upload
-if [ "$upload" == "y" ]; then
-    echo "Please enter googlecode username"
-    read username
-    echo "Please enter googlecode password"
-    read password
-fi
 cd ..
 echo "this script uses sudo to continue; please enter admin password"
 sudo rm -fr ./moonpy-$version*
@@ -47,8 +38,6 @@ cp -r ./client ./moonpy-$version
 cp -r ./common ./moonpy-$version
 cp -r ./data ./moonpy-$version
 cp -r ./server ./moonpy-$version
-cp -r ./twisted ./moonpy-$version
-cp -r ./zope ./moonpy-$version
 cp -r ./AUTHORS.txt ./moonpy-$version
 cp -r ./COPYING.txt ./moonpy-$version
 cp -r ./moon.py ./moonpy-$version
@@ -58,19 +47,7 @@ echo "cleaning system and subversion files"
 find . -name .svn -exec rm -rf {} \;
 find . -name *.pyc -exec rm -rf {} \;
 find . -name *~ -exec rm -rf {} \;
-cd ..
-tar -czvf ./moonpy-$version-source.tar.gz ./moonpy-$version
-echo "finished creating source archive"
-echo "starting creation of osX package"
-zip -r -9 ./moonpy-$version-osX.zip ./moonpy-$version
-echo "starting creation of windows package"
-cp ./makedeb/MoonPy.exe ./moonpy-$version
-zip -r -9 ./moonpy-$version-win32.zip ./moonpy-$version
-cd moonpy-$version
 echo "optimizing code for debian"
-rm -fr ./MoonPy.exe
-rm -fr ./zope
-rm -fr ./twisted
 cp ../makedeb/moonpy.desktop ./moonpy.desktop
 cp ../makedeb/run_moonpy.sh ./run_moonpy.sh
 tar -czvf ./moonpy-$version.tar.gz ./*
@@ -98,26 +75,5 @@ echo "removing unnecessary package config files"
 rm -fr *.ex
 rm -fr *.EX
 cd ..
-#dpkg-buildpackage -S -sa -rfakeroot
-dpkg-buildpackage -rfakeroot
-echo "debian packaging complete, converting to rpm"
-cd ..
-sudo chown $USERNAME ./moonpy*.deb
-mv ./moonpy*_amd64.deb ../moonpy-$version.deb
-cd ..
-sudo alien --to-rpm ./moonpy-$version.deb
-sudo chown $USERNAME ./moonpy*.rpm
-mv ./moonpy*.rpm ./moonpy-$version.rpm
-echo "rpm packaging complete, cleaning up..."
-sudo rm -fr ./sandbox
-sudo rm -fr ~/rpmbuild
-echo "finished packaging MoonPy $version"
-if [ "$upload" == "y" ]; then
-    echo "Uploading packages to googlecode"
-    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive" -p tether -u $username -w $password -l Deprecated,Type-Source,OpSys-All ./moonpy-$version-source.tar.gz
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for osX" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-osX ./moonpy-$version-osX.zip
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for windows" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-Windows ./moonpy-$version-win32.zip
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for rpm based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./moonpy-$version.rpm
-    ./makedeb/googlecode_upload.py -s "MoonPy $version for debian based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./moonpy-$version.deb
-fi
+dpkg-buildpackage -S -sa -rfakeroot
 echo "MoonPy packaging and distribution script finished"

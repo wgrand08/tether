@@ -67,8 +67,8 @@ class ServerState:
             for player in range(0, self.totalplayers):
                 unplaced = True
                 while unplaced: #make certain starting hub is placed on grass
-                    x = randint(5, 85)
-                    y = randint(5, 85)
+                    x = randint(5, (self.map.xsize - 5))
+                    y = randint(5, (self.map.xsize - 5))
                     (tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9) = self.game.find_connecting_points(x, y)
                     tile1 = self.map.get_tile(tile1)
                     tile2 = self.map.get_tile(tile2)

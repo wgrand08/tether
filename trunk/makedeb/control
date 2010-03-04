@@ -1,7 +1,7 @@
 Source: moonpy
 Section: games
 Priority: optional
-Maintainer: donkyhotay <project-tether@googlegroups.com>
+Maintainer: Kevin Clement <project-tether@googlegroups.com>
 Build-Depends: debhelper (>= 7)
 Standards-Version: 3.8.1
 Homepage: http://code.google.com/p/tether
