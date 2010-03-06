@@ -42,9 +42,9 @@ class Main:
         tetherdir = os.getenv("HOME")
         if str(tetherdir) == "None":
             tetherdir = os.getenv("USERPROFILE")
-            tetherdir = os.path.join(tetherdir, "tether")
+            tetherdir = os.path.join(tetherdir, "moonpy")
         else:
-            tetherdir = os.path.join(tetherdir, ".tether")
+            tetherdir = os.path.join(tetherdir, ".moonpy")
         if not os.path.exists(tetherdir):
             os.mkdir(tetherdir)
         logfile = os.path.join(tetherdir, "MoonPy.log")

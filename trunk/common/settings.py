@@ -37,8 +37,8 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.806
-        self.string_version = "0.8.06"
+        self.version = 0.807
+        self.string_version = "0.8.07"
         self.playername = "Commander"
         self.fullscreen = False
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
@@ -48,17 +48,17 @@ class GameSettings:
         self.defaultIP = "127.0.0.1"
         self.language = "en"
         self.play_music = True
+        self.music_volume = 10
         self.play_sound = True
+        self.sound_volume = 10
         self.play_narrate = True
-        self.music_volume = 100
-        self.sound_volume = 100
-        self.narrate_volume = 100
+        self.narrate_volume = 10
         self.tetherdir = os.getenv("HOME")
         if str(self.tetherdir) == "None":
             self.tetherdir = os.getenv("USERPROFILE")
-            self.tetherdir = os.path.join(self.tetherdir, "tether")
+            self.tetherdir = os.path.join(self.tetherdir, "moonpy")
         else:
-            self.tetherdir = os.path.join(self.tetherdir, ".tether")
+            self.tetherdir = os.path.join(self.tetherdir, ".moonpy")
         if not os.path.exists(self.tetherdir):
             os.mkdir(self.tetherdir)
 
@@ -94,16 +94,22 @@ class GameSettings:
                             self.play_music = True
                         elif input_array[1].strip() == "False":
                             self.play_music = False
+                    if input_array[0].strip() == "music_volume":
+                        self.music_volume = int(input_array[1].strip())
                     if input_array[0].strip() == "play_sound":
                         if input_array[1].strip() == "True":
                             self.play_sound = True
                         elif input_array[1].strip() == "False":
                             self.play_sound = False
+                    if input_array[0].strip() == "sound_volume":
+                        self.sound_volume = int(input_array[1].strip())
                     if input_array[0].strip() == "play_narrate":
                         if input_array[1].strip() == "True":
                             self.play_narrate = True
                         elif input_array[1].strip() == "False":
                             self.play_narrate = False
+                    if input_array[0].strip() == "narrate_volume":
+                        self.narrate_volume = int(input_array[1].strip())
 
 
 
@@ -122,6 +128,8 @@ class GameSettings:
         self.savesettings.write("yres="+str(self.screen_height)+"\n")
         self.savesettings.write("name="+str(self.playername)+"\n")
         self.savesettings.write("play_music="+str(self.play_music)+"\n")
+        self.savesettings.write("music_volume="+str(self.music_volume)+"\n")
         self.savesettings.write("play_sound="+str(self.play_sound)+"\n")
+        self.savesettings.write("sound_volume="+str(self.music_volume)+"\n")
         self.savesettings.write("play_narrate="+str(self.play_narrate)+"\n")
-
+        self.savesettings.write("narrate_volume="+str(self.music_volume)+"\n")
