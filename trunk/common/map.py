@@ -30,12 +30,12 @@ from unit import *
 #****************************************************************************
 class Map:
 
-    def __init__(self, game_state):
-        self.xsize = 90
-        self.ysize = 90
+    def __init__(self, game_state, mapX, mapY):
         self.mapstore = {}
         self.unitstore = {} 
         self.game_state = game_state
+        self.xsize = mapX
+        self.ysize = mapY
 
         for x in range(self.xsize):
             for y in range(self.ysize):

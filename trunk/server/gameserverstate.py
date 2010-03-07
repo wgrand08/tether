@@ -52,6 +52,8 @@ class ServerState:
         self.takingturn = False
         self.endgame = False
         self.roundplayer = 1
+        self.mapX = 90
+        self.mapY = 90
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -59,7 +61,8 @@ class ServerState:
     def setup_new_game(self):
 
         if not self.game:
-            self.map = Map(self)
+            self.connections.remote_all("resize_map", self.mapX, self.mapY)
+            self.map = Map(self, self.mapX, self.mapY)
             self.game = Game(self.map)
 
             MapGen(self.map, self.game)

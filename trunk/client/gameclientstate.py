@@ -48,7 +48,7 @@ class GameClientState:
         self.screen_height = self.settings.screen_height
         self.screen = None
 
-        self.map = Map(self)
+        self.map = Map(self, 90, 90)
         self.mappanel = None
         self.pregame = None
         self.tileset = Tileset(self)

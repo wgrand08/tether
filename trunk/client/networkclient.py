@@ -66,8 +66,8 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # command for server to setup game
 #****************************************************************************    
-    def start_server_game(self):
-        self.perspective.callRemote('init_game')
+    def start_server_game(self, mapX, mapY):
+        self.perspective.callRemote('init_game', mapX, mapY)
 
 #****************************************************************************
 # command to actually fire something
@@ -341,3 +341,9 @@ class NetworkClient(pb.Referenceable):
             self.client.myturn = False
         logging.debug("It is player " + str(next_player) + "'s turn")
 
+#****************************************************************************
+# getting server map settings
+#****************************************************************************
+    def remote_resize_map(self, mapX, mapY):
+        self.client.map.xsize = mapX
+        self.client.map.ysize = mapY

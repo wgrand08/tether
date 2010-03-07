@@ -73,12 +73,14 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
 #command that everyone is ready and the game actually starts
 #****************************************************************************
-    def perspective_init_game(self):
+    def perspective_init_game(self, mapX, mapY):
         if self.state.max_players(self.handler.clients) == 1:
             solo_message = "Server: Not enough players to begin!"
             self.handler.remote_all('chat', solo_message)
         elif self.state.runningserver == False:
             self.state.runningserver = True
+            self.state.mapX = mapX
+            self.state.mapY = mapY
             self.state.setup_new_game()
             net_map = self.network_prepare(self.state.map.mapstore) 
             net_unit_list = self.network_prepare(self.state.map.unitstore) 
