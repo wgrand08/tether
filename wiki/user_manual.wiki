@@ -38,7 +38,7 @@ http://tether.googlecode.com/svn/wiki/images/units/bomb.png Bomb: Most basic wea
 
 http://tether.googlecode.com/svn/wiki/images/units/antiair.png Anti-Air: 3HP, fires a laser that shoots down a single incoming shot within it's range. Requires a turn to reload afterwards
 
-http://tether.googlecode.com/svn/wiki/images/units/bridge.png Bridge: 3HP, allows tethers and buildings to cross water.
+http://tether.googlecode.com/svn/wiki/images/units/bridge.png Bridge: 3HP, allows tethers and buildings to cross water. Bridges are self-destruct if they do not land on water. 
 
 http://tether.googlecode.com/svn/wiki/images/units/cluster.png Cluster Bomb: Splits into 3 mini-bombs midflight. Each mini-bomb does 1 damage
 
