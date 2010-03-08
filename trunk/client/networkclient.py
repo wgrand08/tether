@@ -64,10 +64,16 @@ class NetworkClient(pb.Referenceable):
         reactor.run()
 
 #****************************************************************************
+# update pregame setup
+#****************************************************************************
+    def update_pregame_settings(self, map_size):
+        self.perspective.callRemote('update_pregame_settings', map_size)
+
+#****************************************************************************
 # command for server to setup game
 #****************************************************************************    
-    def start_server_game(self, mapX, mapY):
-        self.perspective.callRemote('init_game', mapX, mapY)
+    def start_server_game(self):
+        self.perspective.callRemote('init_game')
 
 #****************************************************************************
 # command to actually fire something
@@ -347,3 +353,9 @@ class NetworkClient(pb.Referenceable):
     def remote_resize_map(self, mapX, mapY):
         self.client.map.xsize = mapX
         self.client.map.ysize = mapY
+
+#****************************************************************************
+# getting pre-game settings
+#****************************************************************************
+    def remote_update_pregame_settings(self, map_size):
+        self.client.pregame_mapsize = map_size

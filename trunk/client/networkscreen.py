@@ -115,9 +115,11 @@ class NetworkScreen:
         sub_table.add(cancel_button, 0,0)
         sub_table.add(connect_button, 1,0)
 
+
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0)
         container.add(table, self.client.screen.get_width() / 2 - 150, self.client.screen.get_height() / 2 - 120)
         container.add(self.message_label, self.client.screen.get_width() / 2 - 160, self.client.screen.get_height() * 0.315)
+
         self.app.run(container)
 
 
@@ -195,33 +197,34 @@ class PregameScreen:
         self.chat_table.td(MySpacer(1,1, self.box))
 
         table.add(self.chat_table, 0, 1)
-        if self.client.ishost == True:
-            connect_button = gui.Button(("Start Game"))
-            connect_button.connect(gui.CLICK, self.start_callback)
-        cancel_button = gui.Button(("Cancel"))
-        cancel_button.connect(gui.CLICK, self.cancel_callback)
 
         table.add(gui.Widget(), 0, 2)
         sub_table = gui.Table(width=140, height=35)
         table.add(sub_table, 0, 3)
+
+        cancel_button = gui.Button(("Cancel"))
+        cancel_button.connect(gui.CLICK, self.cancel_callback)
         sub_table.add(cancel_button, 0,0)
+        if self.client.ishost == True:
+            connect_button = gui.Button(("Start Game"))
+            connect_button.connect(gui.CLICK, self.start_callback)
+            sub_table.add(connect_button, 1,0)
             
 
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0)
         container.add(table, self.client.screen.get_width() / 2 - 300, self.client.screen.get_height() / 2 - 120)
         container.add(self.message_label, self.client.screen.get_width() / 2 - 160, self.client.screen.get_height() * 0.315)
 
-        if self.client.ishost == True:
-            sub_table.add(connect_button, 1,0)
-            setup_table = gui.Table(width=50, height=50)
-            map_size_label = gui.Label(("Map Size"))
-            setup_table.add(map_size_label, 0, 0)
-            self.map_size_setup = gui.Select(value="small")
-            self.map_size_setup.add("Large", "large")
-            self.map_size_setup.add("Medium", "medium")
-            self.map_size_setup.add("Small", "small")
-            setup_table.add(self.map_size_setup, 0, 1)
-            container.add(setup_table, self.client.screen.get_width() / 10, self.client.screen.get_height() / 3)
+
+        setup_table = gui.Table(width=50, height=50)
+        self.map_size_label = gui.Label(("Map Size"))
+        setup_table.add(self.map_size_label, 0, 0)
+        self.map_size_setup = gui.Select(value=self.client.pregame_mapsize)
+        self.map_size_setup.add("Large", "large")
+        self.map_size_setup.add("Medium", "medium")
+        self.map_size_setup.add("Small", "small")
+        setup_table.add(self.map_size_setup, 0, 1)
+        container.add(setup_table, self.client.screen.get_width() / 10, self.client.screen.get_height() / 3)
 
         self.message_out.write("Connected sucessfully to MoonPy server.")
 
@@ -241,7 +244,9 @@ class PregameScreen:
                 self.line.value = ""
                 self.client.netclient.send_chat(text)
                 self.line.focus()
-
+            if self.client.ishost == True:
+                self.client.netclient.update_pregame_settings(self.map_size_setup.value)
+            self.map_size_setup.value = self.client.pregame_mapsize
             self.app.repaint()
             self.app.update(self.client.screen)
             pygame.display.flip()
@@ -279,7 +284,7 @@ class PregameScreen:
         else:
             logging.critical("invalid map size detected")
             sys.exit(1)
-        self.client.netclient.start_server_game(self.mapX, self.mapY)
+        self.client.netclient.start_server_game()
 
 #****************************************************************************
 #

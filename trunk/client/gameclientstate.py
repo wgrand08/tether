@@ -118,6 +118,7 @@ class GameClientState:
         self.deathname = []
         self.deathdisabled = []
         self.selected_unit = {}
+        self.pregame_mapsize = "small"
 
 
 #****************************************************************************
