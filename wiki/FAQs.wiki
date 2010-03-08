@@ -36,7 +36,7 @@ We're still a small community so it may take some time but one of the devs will 
 There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
 
 ====What OS are you developing MoonPy for?====
-We are intentionally making MoonPy to be fully compatible with Linux, osX, and Windows. Theoretically it should work on any OS that has python installed with little extra effort however we are not planning on doing compatibility testing for any other systems. 
+We are intentionally making MoonPy to be fully compatible with Linux, osX, and Windows. Theoretically it should work on any OS that has python and pygame installed however we are not planning on doing compatibility testing for any other systems. 
 
 ====Will MoonPy be compatible with Moonbase Commander?====
 No.
