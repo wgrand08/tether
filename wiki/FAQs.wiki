@@ -16,10 +16,10 @@ You could do a web search to find a copy of the trial version online, or you cou
 While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not received any support from the parent company for over 7 years we assume that they will never be resolved. Rather then live with it we started this project to resolve these flaws ourselves.
 
 ====What is MoonPy?====
-MoonPy is the name of our most promising game we have developed for project tether so far. It is written in python (hence the name) and is currently the only program we plan on releasing.
+MoonPy is an open source remake of Moonbase Commander developed by us here at project tether. It is written in python (hence the name) and is currently the only game we plan on releasing.
 
 ====How far along is MoonPy?=====
-MoonPy is currently at a stage where multiplayer free for all games are possible. All the units except for balloons are implemented, and since there is no FoW yet balloons are pretty pointless.
+MoonPy is currently at a stage where multiplayer free for all games are possible. All the units except for balloons are implemented, and since there is no FoW yet, balloons are currently unnecessary.
 
 
 ====How do I play MoonPy single player?====
