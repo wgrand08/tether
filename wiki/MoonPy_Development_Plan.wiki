@@ -55,4 +55,5 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Ability to create custom maps: planned
   * Ability to load/save games: planned
   * Ability to create custom mods: planned
+  * Have height differences in terrain: planned
   * All minor bugs bugs found and fixed: planned
