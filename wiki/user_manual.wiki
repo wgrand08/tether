@@ -59,7 +59,7 @@ http://tether.googlecode.com/svn/wiki/images/units/recall.png Recall: Converts a
 
 http://tether.googlecode.com/svn/wiki/images/units/spike.png Spike: Spikes travel down tethers allowing them to hit more then one building and do damage when landing on a tether. Does 3 damage if it lands directly on a unit, 1 damage if it travels down a tether
 
-http://tether.googlecode.com/svn/wiki/images/units/ballong.png Balloon: 3HP, expands your view in fog of war, but floats in the air and does not require a tether. Currently disabled in MoonPy!
+http://tether.googlecode.com/svn/wiki/images/units/balloon.png Balloon: 3HP, expands your view in fog of war, but floats in the air and does not require a tether. Currently disabled in MoonPy!
 
 
 == Level 7 == 
