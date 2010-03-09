@@ -44,7 +44,7 @@ damage radius = 2
 
 damage = 3
 
-damage radius = 2
+damage radius = 3
 
 detonate radius = 2
 
@@ -55,7 +55,7 @@ HP = 3
 
 damage = 4
 
-damage radius = 5
+damage radius = 6
 
 detonate radius = 3
 
@@ -64,7 +64,7 @@ detonate radius = 3
 
 damage = 2
 
-damage radius = 0   *note this means EMP's do no damage at this time*
+damage radius = 2
 
 disabling radius = 12
 
