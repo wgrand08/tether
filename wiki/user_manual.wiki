@@ -23,7 +23,7 @@ Currently MoonPy does not have a master server. This means all games need to be 
 
 == How to 'move' ==
 
-All units are launched similar to many artillery games, like scorched3D, except with a top down perspective. On your turn select the unit you wish to fire from. Choose the direction you wish to fire, then choose the weapon you wish to fire. When ready, hold down the fire button. The power indicator will start moving up and down. Releasing the fire button will launch the unit in the direction selected with the power the power indicator ended on.
+All units are launched similar to many artillery games, like scorched3D, except with a top down perspective. On your turn select the unit you wish to fire from by clicking on it, only hubs and offenses can be selected this way. The selected unit will always have a direction indicator (a little red line) sticking out out of it. Once selected, choose the direction you wish to fire by holding down the < and > buttons, then choose the weapon you wish to fire. When ready, hold down the fire button. The power indicator will start moving up and down. Releasing the fire button will launch the unit in the direction selected with the power the power indicator ended on.
 
 == Energy, rounds, and turns ==
 
