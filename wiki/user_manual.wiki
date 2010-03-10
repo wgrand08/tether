@@ -16,7 +16,7 @@ Destroy your enemies!
 
 = Playing MoonPy online =
 
-Currently MoonPy does not have a master server. This means all games need to be joined directly using IP addresses. For now the best place to find others to play MoonPy is on channel #moonpy on irc.freenode.net and organize games manually from there.
+Currently MoonPy does not have a master server. This means all games need to be joined directly using IP addresses. For now the best place to find others to play MoonPy is on channel #moonpy on irc.freenode.net and organize games manually from there. MoonPy uses port 6112 for it's connections and the host will need to have this port open and/or forwarded in order for others to join.
 
 
 = Gameplay =
