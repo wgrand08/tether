@@ -49,7 +49,7 @@ http://tether.googlecode.com/svn/wiki/images/units/tower.png Tower: 3HP, expands
 
 == Level 3 ==
 
-http://tether.googlecode.com/svn/wiki/images/units/emp.png EMP: Disables units within large radius.
+http://tether.googlecode.com/svn/wiki/images/units/emp.png EMP: Disables all units within a large radius, also does 2 damage on a direct hit.
 
 http://tether.googlecode.com/svn/wiki/images/units/missile.png Missile: Automatically flys towards the nearest enemy target it detects while being launched, does 3 damage
 
