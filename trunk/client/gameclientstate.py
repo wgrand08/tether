@@ -63,6 +63,7 @@ class GameClientState:
         self.rotate_position = 360
         self.firepower = 0
         self.playerID = 0
+        self.teamID = 0
         self.tetherplace = 1
         self.slowtether = 1
         self.energy = 0
@@ -119,6 +120,7 @@ class GameClientState:
         self.deathdisabled = []
         self.selected_unit = {}
         self.pregame_mapsize = "small"
+        self.game_type = "classic"
 
 
 #****************************************************************************

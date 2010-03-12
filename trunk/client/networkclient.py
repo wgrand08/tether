@@ -66,8 +66,14 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # update pregame setup
 #****************************************************************************
-    def update_pregame_settings(self, map_size):
-        self.perspective.callRemote('update_pregame_settings', map_size)
+    def update_pregame_settings(self, map_size, game_type):
+        self.perspective.callRemote('update_pregame_settings', map_size, game_type)
+
+#****************************************************************************
+# update team settings
+#****************************************************************************
+    def update_server_teams(self, playerID, teamID):
+        self.perspective.callRemote('update_server_teams', playerID, teamID)
 
 #****************************************************************************
 # command for server to setup game
@@ -125,6 +131,7 @@ class NetworkClient(pb.Referenceable):
             logging.debug("Server denied login")
         else:
             self.client.playerID = result
+            self.client.teamID = result
             logging.debug("Server accepted login")
             logging.debug("Your playerID = %r" % self.client.playerID)
             self.client.enter_pregame()
@@ -357,5 +364,18 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # getting pre-game settings
 #****************************************************************************
-    def remote_update_pregame_settings(self, map_size):
+    def remote_update_pregame_settings(self, map_size, game_type):
         self.client.pregame_mapsize = map_size
+        self.client.game_type = game_type
+
+#****************************************************************************
+# server needing team update confirmation
+#****************************************************************************
+    def remote_confirm_teams(self):
+        self.perspective.callRemote('team_report', self.client.teamID)
+
+#****************************************************************************
+# server overriding client team settings
+#****************************************************************************
+    def remote_update_team(self, teamID):
+        self.client.teamID = teamID

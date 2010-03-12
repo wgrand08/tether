@@ -169,7 +169,7 @@ class Map:
 #****************************************************************************
 # Places the unit at the map position.
 #****************************************************************************
-    def set_unit(self, unit, pos, typeset, hp, parentID, collecting, dir, glow_tether):
+    def set_unit(self, unit, pos, typeset, hp, parentID, collecting, dir, glow_tether, teamID):
         landing = self.get_unit(pos)
         if (landing == None) or (typeset == "weap") or (landing.type.id == "bridge") or (landing.type.id == "balloon"):
             self.unitstore.update({unit.id:unit})
@@ -180,6 +180,7 @@ class Map:
             unit.collecting = collecting
             unit.dir = dir
             unit.glow_tether = glow_tether
+            unit.teamID = teamID
         else:
             logging.error("Attempted to add a " + str(landing.type.id) + " but a " + str(landing.type.id) + " was already there!")
 

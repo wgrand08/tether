@@ -27,6 +27,7 @@ class Unit:
         self.id = id
         self.type = type
         self.playerID = playerID    
+        self.teamID = 0
         self.dir = 0
         self.owner = None
         self.x = 0

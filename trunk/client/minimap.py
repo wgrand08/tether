@@ -64,7 +64,9 @@ class Minimap:
             if unit.typeset != "doodad": #this takes into account hubs are 4 times the size of a standard tile
                 x, y = self.client.map.get_unit_pos(unit)
                 if unit.playerID == self.client.playerID:
-                    color = (255, 255, 0)
+                    color = (10, 255, 10)
+                elif self.client.teamID == unit.teamID:
+                    color = (10, 10, 255)
                 else:
                     color = (255, 10, 10)
                 self.minimap_surface.set_at((x, y), color)

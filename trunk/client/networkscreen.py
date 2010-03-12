@@ -224,7 +224,37 @@ class PregameScreen:
         self.map_size_setup.add("Medium", "medium")
         self.map_size_setup.add("Small", "small")
         setup_table.add(self.map_size_setup, 0, 1)
+        setup_table.add(gui.Widget(), 0, 2)
+
+        self.game_type_label = gui.Label(("Game Type"))
+        setup_table.add(self.game_type_label, 0, 4)
+        self.game_type_select = gui.Select(value=self.client.game_type)
+        self.game_type_select.add("Classic", "classic")
+        setup_table.add(self.game_type_select, 0, 5)
+
         container.add(setup_table, self.client.screen.get_width() / 10, self.client.screen.get_height() / 3)
+
+        if self.client.ishost == True:
+            team_table = gui.Table(width=3, height=3)
+            self.change_player_label = gui.Label(("Player"))
+            team_table.add(self.change_player_label, 0, 0)
+            team_table.add(gui.Widget(width=25, height=1), 1, 0)
+
+            self.change_team_label = gui.Label(("Team"))
+            team_table.add(self.change_team_label, 2, 0)
+
+            self.playerID_input = gui.Input("1", size=3)
+            team_table.add(self.playerID_input,0,1)
+            team_table.add(gui.Widget(width=25, height=1), 1, 1)
+
+            self.teamID_input = gui.Input("1", size=3)
+            team_table.add(self.teamID_input, 2, 1)
+
+            team_button = gui.Button(("Change team"))
+            team_button.connect(gui.CLICK, self.modify_teams)
+            container.add(team_button, (self.client.screen.get_width() / 3), (self.client.screen.get_height() / 6) + 50)
+
+            container.add(team_table, self.client.screen.get_width() / 3, self.client.screen.get_height() / 6)
 
         self.message_out.write("Connected sucessfully to MoonPy server.")
 
@@ -245,7 +275,9 @@ class PregameScreen:
                 self.client.netclient.send_chat(text)
                 self.line.focus()
             if self.client.ishost == True:
-                self.client.netclient.update_pregame_settings(self.map_size_setup.value)
+                self.client.netclient.update_pregame_settings(self.map_size_setup.value, self.game_type_select.value)
+
+            self.game_type_select.value = self.client.game_type
             self.map_size_setup.value = self.client.pregame_mapsize
             self.app.repaint()
             self.app.update(self.client.screen)
@@ -285,6 +317,14 @@ class PregameScreen:
             logging.critical("invalid map size detected")
             sys.exit(1)
         self.client.netclient.start_server_game()
+
+#****************************************************************************
+#
+#****************************************************************************
+    def modify_teams(self):
+        playerID = int(self.playerID_input.value)
+        teamID = int(self.teamID_input.value)
+        self.client.netclient.update_server_teams(playerID, teamID)
 
 #****************************************************************************
 #

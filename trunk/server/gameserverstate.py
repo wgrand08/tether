@@ -42,7 +42,9 @@ class ServerState:
         self.skippedplayers = []
         self.deadplayers = []
         self.playerIDs = []
-        self.skippedplayers.append(0) #this can *not* be empty or next player will never be found
+        self.teams = []
+        self.teams.append(0) #these can *not* be empty or next player/teams will never be found
+        self.skippedplayers.append(0) 
         self.deadplayers.append(0)
         self.interrupted_tether = False
         self.waitingplayers = 0
@@ -54,6 +56,7 @@ class ServerState:
         self.roundplayer = 1
         self.mapX = 90
         self.mapY = 90
+        self.game_type = "classic"
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -84,7 +87,7 @@ class ServerState:
                     tile9 = self.map.get_tile(tile9)
                     if tile1.type == self.game.get_terrain_type("grass") and tile2.type == self.game.get_terrain_type("grass") and tile3.type == self.game.get_terrain_type("grass") and tile4.type == self.game.get_terrain_type("grass") and tile5.type == self.game.get_terrain_type("grass") and tile6.type == self.game.get_terrain_type("grass") and tile7.type == self.game.get_terrain_type("grass") and tile8.type == self.game.get_terrain_type("grass") and tile9.type == self.game.get_terrain_type("grass"):
                         unplaced = False
-                self.game.create_unit('hub', (x, y), (player + 1), 0, False, 360)
+                self.game.create_unit('hub', (x, y), (player + 1), 0, False, 360, self.teams[(player + 1)])
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -143,6 +146,9 @@ class ServerState:
                                     if target.x == endX and target.y == endY and target.typeset != "doodad" and target.blasted == False:
                                         target.hp = target.hp - power #unit is caught in explosion and damaged
                                         target.blasted = True
+                                    if target.x == unit.x and target.y == unit.y and target.typeset != "doodad" and target.blasted == False:
+                                        target.hp = target.hp - power #unit is caught in explosion and damaged
+                                        target.blasted = True
                                 spinner = spinner + 5
                     if unit.type.id == "crawler" and unit.disabled == False:
                         power = self.game.get_unit_power(unit.type.id)
@@ -166,6 +172,9 @@ class ServerState:
                                 for target in self.map.unitstore.values():
                                     logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
                                     if target.x == endX and target.y == endY and target.typeset != "doodad" and target.blasted == False:
+                                        target.hp = target.hp - power #unit is caught in explosion and damaged
+                                        target.blasted = True
+                                    if target.x == unit.x and target.y == unit.y and target.typeset != "doodad" and target.blasted == False:
                                         target.hp = target.hp - power #unit is caught in explosion and damaged
                                         target.blasted = True
                                 spinner = spinner + 5
@@ -193,6 +202,9 @@ class ServerState:
                                     if target.x == endX and target.y == endY and target.typeset != "doodad" and target.blasted == False:
                                         logging.info("unit got caught in nuke")
                                         target.hp = target.hp - 5 #unit is caught in explosion and damaged
+                                        target.blasted = True
+                                    if target.x == unit.x and target.y == unit.y and target.typeset != "doodad" and target.blasted == False:
+                                        target.hp = target.hp - power #unit is caught in explosion and damaged
                                         target.blasted = True
                                 spinner = spinner + 5
                     self.connections.remote_all('kill_unit', unit.x, unit.y, unit.typeset, unit.playerID, unit.type.id, unit.disabled)
@@ -529,7 +541,7 @@ class ServerState:
                 testY = str(endY)
                 if find_target > 1 and find_target < (power - 2) and retether == False:
                     chain_parent = self.game.unit_counter + 2 #tethers have 'reversed' parents
-                    self.game.create_unit("tether", (endX, endY), playerID, chain_parent, False, 0)
+                    self.game.create_unit("tether", (endX, endY), playerID, chain_parent, False, 0, self.teams[playerID])
                     logging.debug("added tether at " + testX + ", " + testY)
 
         #determine if building landed on rocks or energy pool
@@ -834,12 +846,50 @@ class ServerState:
         radius = self.game.get_unit_radius(unit) + 1
         nohit = False
         didhit = False
+
         for target in self.map.unitstore.values():
             target.blasted = False #clearing all targets
             if target.id == self.game.unit_counter:
                 unit_class = target
                 if target.disabled == True:
                     nohit = True
+
+        if unit == "emp" and nohit == False: #processes damage of direct hit EMP's
+            d_radius = self.game.get_unit_radius("bomb") + 1
+            endX = x
+            endY = y
+            for find_target in range(0, radius):
+                spinner = 0
+                while spinner < 360:
+                    if find_target == 0:
+                        endX = x
+                        endY = y
+                        spinner = 355
+                    else:
+                        endX = find_target * math.cos(spinner / 180.0 * math.pi)
+                        endY = find_target * math.sin(spinner / 180.0 * math.pi)
+                        endX = round(endX, 0)
+                        endY = round(endY, 0)
+                        endX = int(endX) + x
+                        endY = int(endY) + y
+                    logging.debug("Radius, Spinner = %s, %s" % (find_target, spinner))
+                    for target in self.map.unitstore.values():
+                        logging.debug("comparing possible targets: %s, %s - %s, %s" % (endX, endY, target.x, target.y))
+                        if target.x == endX and target.y == endY and (target.typeset == "build" or target.type.id == "crawler") and target.blasted == False:
+                            logging.info("hit target for %s" % power)
+                            target.hp = target.hp - power
+                            target.blasted = True                            
+
+        for target in self.map.unitstore.values():
+            target.blasted = False #clearing all targets
+
+        if unit == "crawler" or unit == "mines":
+            endX = x
+            endY = y
+            for target in self.map.unitstore.values():
+                if target.x == endX and target.y == endY and (target.typeset == "build" or target.typeset == "tether" or target.typeset == "weap"):
+                    unit_class.hp = 0 #if crawler or mine lands on something it auto detonates to avoid glitch
+
         if unit != "crawler" and unit != "mines" and nohit == False:
             endX = x
             endY = y

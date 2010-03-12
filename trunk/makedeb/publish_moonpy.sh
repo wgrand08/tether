@@ -73,18 +73,17 @@ rm -fr ./zope
 rm -fr ./twisted
 cp ../makedeb/moonpy.desktop ./moonpy.desktop
 cp ../makedeb/run_moonpy.sh ./run_moonpy.sh
-tar -czvf ./moonpy-$version.tar.gz ./*
+tar -czvf ./moonpy-$version-package-source.tar.gz ./*
 cd ..
-mv ./moonpy-$version/moonpy-$version.tar.gz ./
+mv ./moonpy-$version/moonpy-$version-package-source.tar.gz ./
 rm -fr ./moonpy-$version
 echo "sandboxing source code"
 mkdir ./sandbox
 mkdir ./sandbox/moonpy-$version
-mv ./moonpy-$version.tar.gz ./sandbox/moonpy-$version
+cp ./moonpy-$version-package-source.tar.gz ./sandbox/moonpy-$version/moonpy-$version.tar.gz
 cd sandbox/moonpy-$version
 tar -xzvf ./moonpy-$version.tar.gz
-echo "creating dh_make files for moonpy, please choose 's'"
-dh_make -s -e project-tether@googlegroups.com -c gpl3 -f moonpy-$version.tar.gz
+echo "creating dh_make files for moonpy" | dh_make -s -e project-tether@googlegroups.com -c gpl3 -f moonpy-$version.tar.gz
 cd ..
 rm -fr ./moonpy_$version.orig.tar.gz
 cd ..
@@ -114,7 +113,8 @@ sudo rm -fr ~/rpmbuild
 echo "finished packaging MoonPy $version"
 if [ "$upload" == "y" ]; then
     echo "Uploading packages to googlecode"
-    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive" -p tether -u $username -w $password -l Deprecated,Type-Source,OpSys-All ./moonpy-$version-source.tar.gz
+    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive for packaging" -p tether -u $username -w $password -l Type-Source,OpSys-All ./moonpy-$version-source.tar.gz
+    ./makedeb/googlecode_upload.py -s "MoonPy $version source for all OS's" -p tether -u $username -w $password -l Type-Source,OpSys-All ./moonpy-$version-source.tar.gz
     ./makedeb/googlecode_upload.py -s "MoonPy $version for osX" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-osX ./moonpy-$version-osX.zip
     ./makedeb/googlecode_upload.py -s "MoonPy $version for windows" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-Windows ./moonpy-$version-win32.zip
     ./makedeb/googlecode_upload.py -s "MoonPy $version for rpm based linux" -p tether -u $username -w $password -l Featured,Type-Package,OpSys-Linux ./moonpy-$version.rpm

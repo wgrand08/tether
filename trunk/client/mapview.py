@@ -132,7 +132,7 @@ class Mapview:
         gui_x, gui_y = self.map_to_gui(map_pos)
 
         #unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, unit.playerID)
-        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID))
 
         blit_x = gui_x
         blit_y = gui_y
@@ -157,7 +157,7 @@ class Mapview:
         else:
             tetherglow = "t2"
 
-        unit_surface = self.tileset.get_unit_surf_from_tile(tetherglow, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+        unit_surface = self.tileset.get_unit_surf_from_tile(tetherglow, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID))
 
         blit_x = gui_x
         blit_y = gui_y
@@ -179,7 +179,7 @@ class Mapview:
         gui_x, gui_y = self.map_to_gui(map_pos)
 
         #unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, unit.playerID)
-        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+        unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID))
 
         blit_x = gui_x
         blit_y = gui_y
@@ -216,7 +216,7 @@ class Mapview:
             tempX = blit_x + 12
             tempY = blit_y + 12
             scale = self.client.game.get_defense_radius("mines") * 24
-            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor , (tempX, tempY), scale, 1)
 
@@ -224,7 +224,7 @@ class Mapview:
             tempX = blit_x + 12
             tempY = blit_y + 12
             scale = self.client.game.get_defense_radius("shield") * 24
-            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
 
@@ -232,7 +232,7 @@ class Mapview:
             tempX = blit_x + 12
             tempY = blit_y + 12
             scale = self.client.game.get_defense_radius("antiair") * 24
-            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+            colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID)
             teamcolor = self.client.game.get_unit_color(colorID)
             pygame.draw.circle(self.client.screen, teamcolor, (tempX, tempY), scale, 1)
 
@@ -240,7 +240,7 @@ class Mapview:
             for show_health in range(1, unit.hp + 1):
                 blit_x = gui_x 
                 blit_y = gui_y
-                colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+                colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID)
                 teamcolor = self.client.game.get_unit_color(colorID)
                 pygame.draw.line(self.client.screen, teamcolor, (blit_x + (show_health * 10), blit_y + 72), (blit_x + (show_health * 10), blit_y + 62), 5)
 
@@ -248,7 +248,7 @@ class Mapview:
             for show_health in range(1, unit.hp + 1):
                 blit_x = gui_x - 24 
                 blit_y = gui_y - 24
-                colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+                colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID)
                 teamcolor = self.client.game.get_unit_color(colorID)
                 pygame.draw.line(self.client.screen, teamcolor, (blit_x + (show_health * 10), blit_y + 72), (blit_x + (show_health * 10), blit_y + 62), 5)
             
@@ -256,7 +256,7 @@ class Mapview:
         #find and show rotation indicator on selected unit
         for selected in self.client.selected_unit.values():
             if unit.id == selected.id:
-                unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID))
+                unit_surface = self.tileset.get_unit_surf_from_tile(unit.type.id, 0, self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID))
                 blit_x = gui_x - 24 
                 blit_y = gui_y - 24
                 rotation = self.client.rotate_position
@@ -273,7 +273,7 @@ class Mapview:
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 if unit.typeset == "build":
                     for show_health in range(1, unit.hp + 1):
-                        colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID)
+                        colorID = self.client.game.get_unit_team(self.client.playerID, unit.playerID, self.client.teamID)
                         teamcolor = self.client.game.get_unit_color(colorID)
                         pygame.draw.line(self.client.screen, teamcolor, (blit_x + (show_health * 10), blit_y + 72), (blit_x + (show_health * 10), blit_y + 62), 5)
                 if unit.virused == True:
@@ -379,7 +379,7 @@ class Mapview:
                     self.client.launch_splitx = endX
                     self.client.launch_splity = endY
                     map_pos = endX, endY
-                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                    unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched, self.client.teamID))
                     blit_x, blit_y = self.map_to_gui(map_pos)
                     self.client.screen.blit(unit_surface, (blit_x, blit_y))
                     blit_x = blit_x + 24
@@ -420,7 +420,7 @@ class Mapview:
                         endY = endY + self.client.launch_splity
                         map_pos = endX, endY
                         blit_x, blit_y = self.map_to_gui(map_pos)
-                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched, self.client.teamID))
                         self.client.screen.blit(unit_surface, (blit_x, blit_y))
                         #code for looping the map edges
                         if endX < 0:
@@ -455,7 +455,7 @@ class Mapview:
                         endY = endY + self.client.launch_splity
                         map_pos = endX, endY
                         blit_x, blit_y = self.map_to_gui(map_pos)
-                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched, self.client.teamID))
                         self.client.screen.blit(unit_surface, (blit_x, blit_y))
                         #code for looping the map edges
                         if endX < 0:
@@ -488,7 +488,7 @@ class Mapview:
                         endY = endY + self.client.launch_splity
                         map_pos = endX, endY
                         blit_x, blit_y = self.map_to_gui(map_pos)
-                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                        unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched, self.client.teamID))
                         self.client.screen.blit(unit_surface, (blit_x, blit_y))
                         #code for looping the map edges
                         if endX < 0:
@@ -560,7 +560,7 @@ class Mapview:
                                 spinner = spinner + 5
 
                 blit_x, blit_y = self.map_to_gui(map_pos)
-                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched, self.client.teamID))
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 #code for looping the map edges
                 if endX < 0:
@@ -605,7 +605,7 @@ class Mapview:
                 if self.client.game.get_unit_typeset(self.client.launch_type) == "build":
                     blit_x = blit_x - 24
                     blit_y = blit_y - 24
-                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched))
+                unit_surface = self.tileset.get_unit_surf_from_tile(self.client.launch_type, 0, self.client.game.get_unit_team(self.client.playerID, self.client.playerlaunched, self.client.teamID))
                 self.client.screen.blit(unit_surface, (blit_x, blit_y))
                 #code for looping the map edges
                 if endX < 0:
@@ -659,7 +659,7 @@ class Mapview:
             blitX3 = blitX - (self.map.xsize * self.tileset.tile_width)
             blitY2 = blitY + (self.map.ysize * self.tileset.tile_height)
             blitY3 = blitY - (self.map.ysize * self.tileset.tile_height)
-            unit_surface = self.tileset.get_unit_surf_from_tile(deathname, 0, self.client.game.get_unit_team(self.client.playerID, self.client.deathplayerID[place]))
+            unit_surface = self.tileset.get_unit_surf_from_tile(deathname, 0, self.client.game.get_unit_team(self.client.playerID, self.client.deathplayerID[place], self.client.teamID))
             if self.client.deathtypes[place] != "weap" or deathname != "recall":
                 if self.client.deathtypes[place] == "build":
                     blitX = blitX - 24

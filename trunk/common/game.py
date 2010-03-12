@@ -171,20 +171,11 @@ class Game:
 #****************************************************************************
     def game_next_phase(self): 
         self.time = (self.time + 1) % 1024
-        self.move_units()
-
-#****************************************************************************
-#Move units todo: this code is now obsolete and should be removed
-#****************************************************************************
-    def move_units(self):
-        placeholder = True
-        #for unit in self.map.get_unit_list():
-            #self.map.move_unit(unit) 
 
 #****************************************************************************
 #create a new unit and place it on the map
 #****************************************************************************
-    def create_unit(self, unit_type_id, pos, playerID, parentID, collecting, dir):
+    def create_unit(self, unit_type_id, pos, playerID, parentID, collecting, dir, teamID):
         self.unit_counter += 1
         self.glow_tether += 1
         if self.glow_tether > 3:
@@ -195,7 +186,7 @@ class Game:
         if unit_type_id != "crawler" and unit_type_id != "missile": #all units face same direction except for crawlers and missiles
             dir = 360
         logging.debug("creating unit# %s", self.unit_counter)
-        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID, collecting, dir, self.glow_tether)
+        self.map.set_unit(Unit(self.unit_counter, unit_type, playerID), pos, typeset, hp, parentID, collecting, dir, self.glow_tether, teamID)
 
 #****************************************************************************
 #converts tether to unit to avoid double-tethers
@@ -215,7 +206,6 @@ class Game:
                 unit.parentID = parentID
                 self.map.change_unit(unit, unit_type)
         logging.debug("creating unit# %s", unit.id)
-
 
 #****************************************************************************
 #turns a unit into a crater
@@ -298,13 +288,14 @@ class Game:
 #****************************************************************************
 #Get units team number
 #****************************************************************************
-    def get_unit_team(self, clientID, playerID): #team 1 is the players own units, team 2 is allied units, team 3 is enemies
-        if clientID == playerID:
-            team = 1
-        #todo: add allied abilities which will be team 2
-        else:
-            team = 3
-        return team
+    def get_unit_team(self, clientID, playerID, teamID): #value 1 is the players own units, value 2 is allied units, value 3 is enemies
+        for test in self.map.unitstore.values():
+            if test.playerID == playerID:
+                if clientID == playerID:
+                    return 1
+                elif teamID == test.teamID:
+                    return 2
+        return 3
 
 #****************************************************************************
 #identify unit type
@@ -366,13 +357,13 @@ class Game:
     def get_unit_radius(self, type_id):
         typeset = self.get_unit_typeset(type_id)
         if type_id == "crawler":
-            radius = 5
+            radius = 5 #note that determine_hit in gameserverstate adds 1 to this radius, otherwise near hits look like near misses
         elif type_id == "emp":
-            radius = 11
+            radius = 11 #note that determine_hit in gameserverstate adds 1 to this radius, otherwise near hits look like near misses
         elif type_id == "mines":
-            radius = 2
+            radius = 2 #note that determine_hit in gameserverstate adds 1 to this radius, otherwise near hits look like near misses
         elif type_id == "collector":
-            radius = 6
+            radius = 6 #note that determine_hit in gameserverstate adds 1 to this radius, otherwise near hits look like near misses
         elif typeset == "build":
             radius = 2
         else:

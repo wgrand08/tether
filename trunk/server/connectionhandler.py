@@ -65,24 +65,68 @@ class ClientPerspective(pb.Avatar):
         else:                
             self.conn_info.username = username
             self.conn_info.playerID = self.state.max_players(self.handler.clients)
+            self.conn_info.teamID = self.conn_info.playerID
             self.state.playerIDs.append(self.conn_info.playerID)
-            join_message = "Server: %s has joined the game as player %s" % (username, str(self.conn_info.playerID))
-            self.handler.remote_all('chat', join_message)
-            return self.conn_info.playerID 
+            self.state.teams.append(self.conn_info.playerID)
+            server_message = "Server: %s has joined the game as player %s on team %s" % (username, str(self.conn_info.playerID), str(self.conn_info.teamID))
+            self.handler.remote_all('chat', server_message)
+            return self.conn_info.playerID
 
 #****************************************************************************
 #command to update pre-game settings
 #****************************************************************************
-    def perspective_update_pregame_settings(self, map_size):
-        self.handler.remote_all("update_pregame_settings", map_size)
+    def perspective_update_pregame_settings(self, map_size, game_type):
+        if self.conn_info.playerID == 1: #player1 is the host and should be the only one allowed to change host settings               
+            self.handler.remote_all("update_pregame_settings", map_size, game_type)
+        else:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID)
+            logging.critical("PlayerID " + str(self.conn_info.playerID) + " attempted to modify pregame settings")
 
+#****************************************************************************
+#command to update teams on server
+#****************************************************************************
+    def perspective_update_server_teams(self, playerID, teamID):
+        playerID = int(playerID)
+        teamID = int(teamID)
+        if playerID > 0 and teamID > 0:
+            for checkplayer in self.state.playerIDs:
+                if checkplayer == playerID:
+                    self.state.teams[playerID] = teamID
+                    logging.info("Player " + str(playerID) + " was moved to team " + str(teamID))
+                    server_message = "Server: Host has moved player %s to team %s" % (str(playerID), str(teamID))
+                    self.handler.remote_all('chat', server_message)
+                    self.handler.remote_all("confirm_teams")
+            server_message = "Server: Unable to move player %s, player not found" % (str(playerID))
+        else:
+            server_message = "Server: Invalid input for team change"
+            self.handler.remote(self.conn_info.ref, 'chat', server_message)
+
+#****************************************************************************
+#client requesting individual teamID confirmation
+#****************************************************************************
+    def perspective_team_report(self, teamID):
+        if self.state.teams[self.conn_info.playerID] != teamID:
+            self.conn_info.teamID = self.state.teams[self.conn_info.playerID]
+            self.handler.remote(self.conn_info.ref, "update_team", self.conn_info.teamID)
 #****************************************************************************
 #command that everyone is ready and the game actually starts
 #****************************************************************************
     def perspective_init_game(self):
+        count_teams = 0
+        firstcount = True
+        enoughteams = False
         if self.state.max_players(self.handler.clients) == 1:
-            solo_message = "Server: Not enough players to begin!"
-            self.handler.remote_all('chat', solo_message)
+            server_message = "Server: Not enough players to begin!"
+            self.handler.remote_all('chat', server_message)
+        for count_teams in self.state.teams:
+            if firstcount == True:
+                firstcount = False
+                team1 = count_teams
+            elif count_teams != team1:
+                enoughteams = True
+        if enoughteams == False:
+            server_message = "Server: All players are on the same team!"
+            self.handler.remote_all('chat', server_message)
         elif self.state.runningserver == False:
             self.state.runningserver = True
             self.state.setup_new_game()
@@ -176,13 +220,13 @@ class ClientPerspective(pb.Avatar):
                 self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
                 collecting = False
 
-                self.state.game.create_unit(unit, coord1, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.game.create_unit(unit, coord1, self.conn_info.playerID, parentID, collecting, rotation, self.state.teams[self.conn_info.playerID])
                 if disabled1 == False:
                     self.state.determine_hit(unit, coord1, self.conn_info)
-                self.state.game.create_unit(unit, coord2, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.game.create_unit(unit, coord2, self.conn_info.playerID, parentID, collecting, rotation, self.state.teams[self.conn_info.playerID])
                 if disabled2 == False:
                     self.state.determine_hit(unit, coord2, self.conn_info)
-                self.state.game.create_unit(unit, coord3, self.conn_info.playerID, parentID, collecting, rotation)
+                self.state.game.create_unit(unit, coord3, self.conn_info.playerID, parentID, collecting, rotation, self.state.teams[self.conn_info.playerID])
                 if disabled3 == False:
                     self.state.determine_hit(unit, coord3, self.conn_info)
 
@@ -208,9 +252,9 @@ class ClientPerspective(pb.Avatar):
                 self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy)
                     
                 if self.state.doubletether == False:
-                    self.state.game.create_unit(unit, coord, self.conn_info.playerID, parentID, collecting, rotation)
+                    self.state.game.create_unit(unit, coord, self.conn_info.playerID, parentID, collecting, rotation, self.state.teams[self.conn_info.playerID])
                 else:
-                    self.state.game.tether2unit(unit, coord, self.conn_info.playerID, parentID, collecting, rotation)
+                    self.state.game.tether2unit(unit, coord, self.conn_info.playerID, parentID, collecting, rotation, self.state.teams[self.conn_info.playerID])
 
                 if self.state.interrupted_tether == True:
                     victim = self.state.map.get_unit_from_id(self.state.game.unit_counter)
@@ -398,6 +442,43 @@ class ClientPerspective(pb.Avatar):
         del self.handler.clients[self.conn_info.ref]
         message = "Server: Player %s has left the game" % str(self.conn_info.playerID)
         self.handler.remote_all('chat', message)
+        if self.state.endgame == False:
+            for unit in self.state.map.unitstore.values():
+                if unit.playerID == self.conn_info.playerID:
+                    unit.hp = 0
+            self.state.detonate_waiters()
+            self.eliminate_players()
+            net_map = self.network_prepare(self.state.map.mapstore) 
+            net_unit_list = self.network_prepare(self.state.map.unitstore) 
+            self.handler.remote_all("map", net_map)
+            self.handler.remote_all("unit_list", net_unit_list)
+        if self.state.endgame == False: #this is intentional as endgame state may have changed
+            if self.state.currentplayer == self.conn_info.playerID:
+                foundplayer = False
+                while not foundplayer:
+                    self.state.currentplayer += 1
+                    if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                        self.state.currentplayer = 0
+                    if len(self.state.skippedplayers) > 1:
+                        for search in self.state.skippedplayers:
+                            logging.debug("searching found skipped player# %s" % search)
+                            logging.debug("currentplayer = %s" % self.state.currentplayer)
+                            if search != 0:
+                                if int(search) != self.state.currentplayer and self.state.currentplayer > 0:
+                                    logging.debug("found searching found %s" % search)
+                                    logging.debug("currentplayer = %s" % self.state.currentplayer)
+                                    foundplayer = True
+                    else:
+                        logging.debug("no skips yet")
+                        if self.state.currentplayer == 0:
+                            self.state.currentplayer = 1
+                        foundplayer = True
+                        logging.info("currentplayer = %s" % self.state.currentplayer)
+                        
+                self.handler.remote_all('next_turn', self.state.currentplayer)
+                self.state.takingturn = False
+        else:
+            self.handler.remote_all("endgame")
 
 #****************************************************************************
 #calculate the number of players currently connected to the game
@@ -427,6 +508,17 @@ class ClientPerspective(pb.Avatar):
                         logging.info("game is over")
                         self.state.endgame = True
                         self.handler.remote_all("endgame")
+                    teamwin = True
+                    self.state.teams[playerID] = 0 #removing dead player from team list
+                    for checkteam in self.state.teams:
+                        if checkteam > 0:
+                            for doublecheckteam in self.state.teams:
+                                if doublecheckteam > 0 and doublecheckteam != checkteam:
+                                    teamwin = False #at least 2 different teams still have players so game continues
+                    if teamwin == True:
+                        logging.info("game is over")
+                        self.state.endgame = True
+                        self.handler.remote_all("endgame")                            
                     logging.debug("Player " + str(playerID) + " is still dead")
 
 #****************************************************************************
