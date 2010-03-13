@@ -88,7 +88,7 @@ class ClientPerspective(pb.Avatar):
     def perspective_update_server_teams(self, playerID, teamID):
         playerID = int(playerID)
         teamID = int(teamID)
-        if playerID > 0 and teamID > 0:
+        if playerID > 0 and teamID > 0 and self.state.max_players(self.handler.clients) > 1:
             for checkplayer in self.state.playerIDs:
                 if checkplayer == playerID:
                     self.state.teams[playerID] = teamID
@@ -429,10 +429,12 @@ class ClientPerspective(pb.Avatar):
 #****************************************************************************
     def perspective_send_chat(self, data):
         message = self.conn_info.username + ": " + self.network_handle(data)
-        if len(message) < 75:
+        if self.state.runningserver == False:
+            self.handler.remote_all('chat', message)
+        elif len(message) < 82:
             self.handler.remote_all('chat', message)
         else:
-            self.handler.remote(self.conn_info.ref, 'chat', "Server: your message was too long to send")
+            self.handler.remote(self.conn_info.ref, 'chat', "Server: your message was too long to display, message not sent")
 
 #****************************************************************************
 #client disconnecting from server
@@ -440,8 +442,12 @@ class ClientPerspective(pb.Avatar):
     def logout(self):
         logging.info("logged out")
         del self.handler.clients[self.conn_info.ref]
-        message = "Server: Player %s has left the game" % str(self.conn_info.playerID)
-        self.handler.remote_all('chat', message)
+        server_message = "Server: Player %s has left the game" % str(self.conn_info.playerID)
+        self.handler.remote_all('chat', server_message)
+        if self.conn_info.playerID == 1:
+            server_message = "Server: Host has left the game"
+            self.state.endgame = True
+            self.handler.remote_all("endgame")
         if self.state.endgame == False:
             for unit in self.state.map.unitstore.values():
                 if unit.playerID == self.conn_info.playerID:
@@ -504,10 +510,7 @@ class ClientPerspective(pb.Avatar):
                     if notdead == True: #player is now dead but wasn't dead before this moment
                         self.state.deadplayers.append(playerID)
                         logging.info("player " + str(playerID) + " has been eliminated")
-                    if len(self.state.deadplayers) == self.state.max_players(self.handler.clients):
-                        logging.info("game is over")
-                        self.state.endgame = True
-                        self.handler.remote_all("endgame")
+                        self.state.teams[playerID] = 0 #removing dead player from team list
                     teamwin = True
                     self.state.teams[playerID] = 0 #removing dead player from team list
                     for checkteam in self.state.teams:
