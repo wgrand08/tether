@@ -42,8 +42,8 @@ These are the general requirements for each major release of MoonPy. Currently w
 = Requirements for version 0.9.00 = 
   * All obsolete code removed: complete
   * Placeholder graphics replaced: complete
-  * Team play available: in progress
-  * Hotseat capabilities: planned
+  * Team play available: complete
+  * Hotseat capabilities: in progress
   * Master server implemented: planned
   * Ability to play against bots: planned
   * Fog of War: planned
