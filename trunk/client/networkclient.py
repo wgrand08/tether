@@ -267,12 +267,6 @@ class NetworkClient(pb.Referenceable):
         self.client.deathdisabled.append(disabled)
 
 #****************************************************************************
-# recieve assigned playerID from server
-#****************************************************************************
-    def remote_get_playerID(self, playerID):
-        self.client.playerID = playerID
-
-#****************************************************************************
 # get energy from server
 #****************************************************************************
     def remote_update_energy(self, energy):
@@ -304,7 +298,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def remote_splash(self):
         self.client.moonaudio.sound("watersplash.ogg")
-        #self.client.splashed = True
+        self.client.splashed = True
 
 #****************************************************************************
 # server detects a building landing on a rock

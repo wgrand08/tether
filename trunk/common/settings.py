@@ -37,15 +37,15 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.811
-        self.string_version = "0.8.11"
+        self.version = 0.812
+        self.string_version = "0.8.12"
         self.playername = "Commander"
         self.fullscreen = False
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
         self.appRunning = True
         self.screenRunning = True
         self.debug = False
-        self.defaultIP = "127.0.0.1"
+        self.lastIP = "127.0.0.1"
         self.language = "en"
         self.play_music = True
         self.music_volume = 10
@@ -89,6 +89,8 @@ class GameSettings:
                         self.screen_height = int(input_array[1].strip())
                     if input_array[0].strip() == "name":
                         self.playername = input_array[1].strip()
+                    if input_array[0].strip() == "lastIP":
+                        self.lastIP = input_array[1].strip()
                     if input_array[0].strip() == "play_music":
                         if input_array[1].strip() == "True":
                             self.play_music = True
@@ -127,6 +129,7 @@ class GameSettings:
         self.savesettings.write("xres="+str(self.screen_width)+"\n")
         self.savesettings.write("yres="+str(self.screen_height)+"\n")
         self.savesettings.write("name="+str(self.playername)+"\n")
+        self.savesettings.write("lastIP="+str(self.lastIP)+"\n")
         self.savesettings.write("play_music="+str(self.play_music)+"\n")
         self.savesettings.write("music_volume="+str(self.music_volume)+"\n")
         self.savesettings.write("play_sound="+str(self.play_sound)+"\n")

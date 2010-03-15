@@ -67,7 +67,6 @@ class GameClientState:
         self.tetherplace = 1
         self.slowtether = 1
         self.energy = 0
-        self.showHP = False
         self.showradius = False
         self.conf_startX = 0
         self.conf_startY = 0

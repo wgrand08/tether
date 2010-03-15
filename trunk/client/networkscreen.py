@@ -63,7 +63,8 @@ class NetworkScreen:
 
         hostname_label = gui.Label(("Server address:"))
         table.add(hostname_label,0,2)
-        self.hostname_input = gui.Input((self.client.settings.defaultIP))
+        print"lastIP = " + self.client.settings.lastIP
+        self.hostname_input = gui.Input((self.client.settings.lastIP))
         table.add(self.hostname_input,1,2)
         table.add(gui.Widget(width=1, height=5), 0, 3)
 
@@ -131,7 +132,8 @@ class NetworkScreen:
         self.client.moonaudio.sound("buttonclick.ogg")
         server = self.hostname_input.value
         nick = self.client.settings.playername
-        self.client.settings.hostIP = server
+        self.client.settings.lastIP = server
+        self.client.settings.save_settings()
         self.app.quit()
         self.client.connect_network_game(server, nick)
 
