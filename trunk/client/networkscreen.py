@@ -63,7 +63,6 @@ class NetworkScreen:
 
         hostname_label = gui.Label(("Server address:"))
         table.add(hostname_label,0,2)
-        print"lastIP = " + self.client.settings.lastIP
         self.hostname_input = gui.Input((self.client.settings.lastIP))
         table.add(self.hostname_input,1,2)
         table.add(gui.Widget(width=1, height=5), 0, 3)
