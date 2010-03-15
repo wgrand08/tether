@@ -43,8 +43,7 @@ These are the general requirements for each major release of MoonPy. Currently w
   * All obsolete code removed: complete
   * Placeholder graphics replaced: complete
   * Team play available: complete
-  * Hotseat capabilities: in progress
-  * Master server implemented: planned
+  * Master server implemented: in progress
   * Ability to play against bots: planned
   * Fog of War: planned
   * Balloons: planned
@@ -57,4 +56,5 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Ability to create custom mods: planned
   * Have height differences in terrain: planned
   * Bots are smart enough to be a challenge: planned
+  * Hotseat capabilities: planned
   * All minor bugs bugs found and fixed: planned
