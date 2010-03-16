@@ -25,12 +25,18 @@ class ConnInfo:
     def __init__(self, client_ref, name, address, playerID, energy, Idisabled, reload, Ireloading):
         self.ref = client_ref
         self.name = name
-        self.username = None
+        self.username = []
+        self.username.append(0)
         self.address = address
-        self.playerID = 0
-        self.teamID = 0
-        self.energy = 11
-        self.undisable = False
-        self.Idisabled = []
-        self.reload = False
-        self.Ireloading = []
+        self.playerID = []
+        self.playerID.append(0)
+        self.teamID = []
+        self.teamID.append(0)
+        self.energy = []
+        self.energy.append(0)
+        self.undisable = []
+        self.undisable.append(False)
+        self.Idisabled = [[0],[0]]
+        self.reload = []
+        self.reload.append(False)
+        self.Ireloading = [[0],[0]]

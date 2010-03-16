@@ -177,12 +177,12 @@ class Mappanel:
         panel_right_top = self.client.tileset.get_tile_surf("panel_right_top")
         self.client.screen.blit(panel_right_top, (self.client.screen_width - panel_right_top.get_width(), 0))
 
-        if self.client.energy > 0:
+        if self.client.energy[self.client.clientID] > 0:
             temp_loc = 680
-            red = 255 - (self.client.energy * 7)
-            green = self.client.energy * 7
+            red = 255 - (self.client.energy[self.client.clientID] * 7)
+            green = self.client.energy[self.client.clientID] * 7
             temp_color = (red, green, 10)
-            for show_energy in range(1, self.client.energy + 1):
+            for show_energy in range(1, self.client.energy[self.client.clientID] + 1):
                 pygame.draw.line(self.client.screen, temp_color, (705, temp_loc), (755, temp_loc), 10)
                 temp_loc = temp_loc - 15
         #Draw the right panel.
@@ -289,49 +289,49 @@ class Mappanel:
             self.client.moonaudio.narrate("not_turn.ogg")
 
     def choosebomb(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("bomb"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("bomb"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "bomb"
 
     def chooseantiair(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("antiair"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("antiair"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "antiair"
 
     def choosebridge(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("bridge"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("bridge"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "bridge"
 
     def choosetower(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("tower"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("tower"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "tower"
 
     def chooserepair(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("repair"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("repair"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "repair"
 
     def choosecluster(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("cluster"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("cluster"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "cluster"
 
     def chooserecall(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("recall"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("recall"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "recall"
 
     def choosespike(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("spike"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("spike"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "spike"
@@ -340,55 +340,55 @@ class Mappanel:
         self.client.moonaudio.narrate("disabled.ogg")
 
     def chooseEMP(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("emp"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("emp"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "emp"
 
     def choosemissile(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("missile"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("missile"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "missile"
 
     def choosemines(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("mines"):
+        if [self.client.clientID] < self.client.game.get_unit_cost("mines"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "mines"
 
     def choosecrawler(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("crawler"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("crawler"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "crawler"
 
     def choosecollector(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("collector"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("collector"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "collector"
 
     def choosehub(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("hub"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("hub"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "hub"
 
     def chooseoffense(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("offense"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("offense"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "offense"
 
     def chooseshield(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("shield"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("shield"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "shield"
 
     def choosevirus(self, obj):
-        if self.client.energy < self.client.game.get_unit_cost("virus"):
+        if self.client.energy[self.client.clientID] < self.client.game.get_unit_cost("virus"):
             self.client.moonaudio.narrate("no_energy.ogg")
         else:
             self.client.selected_weap = "virus"

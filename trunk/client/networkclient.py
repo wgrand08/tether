@@ -64,6 +64,12 @@ class NetworkClient(pb.Referenceable):
         reactor.run()
 
 #****************************************************************************
+# add hotseat or bot player
+#****************************************************************************
+    def add_xplayer(self):
+        self.client.moonaudio.narrate("disabled.ogg")
+
+#****************************************************************************
 # update pregame setup
 #****************************************************************************
     def update_pregame_settings(self, map_size, game_type):
@@ -86,7 +92,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def launch_unit(self, parentID, unit, rotation, power):
         self.client.myturn == False
-        self.perspective.callRemote('launch_unit', parentID, unit, rotation, power)
+        self.perspective.callRemote('launch_unit', parentID, unit, rotation, power, self.client.clientID)
 
 #****************************************************************************
 # report completion of animation by client
@@ -99,7 +105,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 #After being run once this should be run every time this clients turn comes around until server reports that the entire round is over."""
     def skip_round(self):
-        self.perspective.callRemote('skip_round')
+        self.perspective.callRemote('skip_round', self.client.clientID)
 
 #****************************************************************************
 # 
@@ -130,12 +136,14 @@ class NetworkClient(pb.Referenceable):
         if result == "login_failed":
             logging.debug("Server denied login")
         else:
-            self.client.playerID = result
-            self.client.teamID = result
+            self.client.playerID.append(result)
+            self.client.teamID.append(result)
+            self.client.energy.append(11)
+            self.client.rotate_position.append(360)
             logging.debug("Server accepted login")
-            logging.debug("Your playerID = %r" % self.client.playerID)
+            logging.debug("Your playerID = %r" % result)
             self.client.enter_pregame()
-            message = "Server: Welcome player %s" % self.client.playerID
+            message = "Server: Welcome player %s" % result
             self.client.pregame.show_message(message)
 
 #****************************************************************************
@@ -270,8 +278,9 @@ class NetworkClient(pb.Referenceable):
 # get energy from server
 #****************************************************************************
     def remote_update_energy(self, energy):
-        self.client.energy = energy
-        if self.client.energy < self.client.game.get_unit_cost(self.client.selected_weap):
+        print"placeholder in networkclient.py line 281"
+        self.client.energy[1] = energy
+        if self.client.energy[1] < self.client.game.get_unit_cost(self.client.selected_weap):
             self.client.selected_weap = "bomb" #game automatically switches to bomb when energy gets low
 
 #****************************************************************************
@@ -327,8 +336,15 @@ class NetworkClient(pb.Referenceable):
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):
-        if next_player == self.client.playerID:
-            if self.client.energy < 1:
+
+        checkID = self.client.get_clientID(next_player)
+        if checkID == False:
+            message = "Server: It is player " + str(next_player) + "'s turn"
+            self.client.mappanel.show_message(message)
+            self.client.myturn = False
+        else:
+            self.client.clientID = checkID
+            if self.client.energy[self.client.clientID] < 1:
                 self.skip_round()
             else:
                 message = "Server: It's your turn commander"
@@ -342,10 +358,6 @@ class NetworkClient(pb.Referenceable):
                 self.client.firepower = 0
                 self.client.power_direction = "up"
                 self.client.moonaudio.narrate("your_turn.ogg")
-        else:
-            message = "Server: It is player " + str(next_player) + "'s turn"
-            self.client.mappanel.show_message(message)
-            self.client.myturn = False
         logging.debug("It is player " + str(next_player) + "'s turn")
 
 #****************************************************************************

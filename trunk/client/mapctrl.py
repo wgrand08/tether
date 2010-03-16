@@ -101,7 +101,7 @@ class Mapctrl:
                     firepower = self.client.firepower * 2
                 else:
                     firepower = self.client.firepower
-                self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position, firepower)
+                self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position[self.client.clientID], firepower)
                 
         self.client.heldbutton = "void"
 
@@ -144,7 +144,7 @@ class Mapctrl:
                 map_pos = self.client.mapview.gui_to_map((subX, subY))
                 unit = self.client.map.get_selectable_unit(map_pos)
                 if unit: 
-                    if (unit.type.id == "hub" or unit.type.id == "offense") and unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                    if (unit.type.id == "hub" or unit.type.id == "offense") and unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                             self.client.selected_unit = {}
                             self.client.selected_unit.update({map_pos:unit})
@@ -156,7 +156,7 @@ class Mapctrl:
                     map_pos = self.client.mapview.gui_to_map((subX, subY))
                     unit = self.client.map.get_selectable_unit(map_pos)
                     if unit: 
-                        if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                        if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                             self.client.selected_unit = {}
                             if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
 
@@ -169,7 +169,7 @@ class Mapctrl:
                         map_pos = self.client.mapview.gui_to_map((subX, subY))
                         unit = self.client.map.get_selectable_unit(map_pos)
                         if unit: 
-                            if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                            if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                                 self.client.selected_unit = {}
                                 if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                     self.client.selected_unit.update({map_pos:unit})
@@ -181,7 +181,7 @@ class Mapctrl:
                             map_pos = self.client.mapview.gui_to_map((subX, subY))
                             unit = self.client.map.get_selectable_unit(map_pos)
                             if unit: 
-                                if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                                     self.client.selected_unit = {}
                                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                         self.client.selected_unit.update({map_pos:unit})
@@ -193,7 +193,7 @@ class Mapctrl:
                                 map_pos = self.client.mapview.gui_to_map((subX, subY))
                                 unit = self.client.map.get_selectable_unit(map_pos)
                                 if unit: 
-                                    if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                    if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                                         self.client.selected_unit = {}
                                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                             self.client.selected_unit.update({map_pos:unit})
@@ -205,7 +205,7 @@ class Mapctrl:
                                     map_pos = self.client.mapview.gui_to_map((subX, subY))
                                     unit = self.client.map.get_selectable_unit(map_pos)
                                     if unit: 
-                                        if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                        if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                                             self.client.selected_unit = {}
                                             if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                 self.client.selected_unit.update({map_pos:unit})
@@ -217,7 +217,7 @@ class Mapctrl:
                                         map_pos = self.client.mapview.gui_to_map((subX, subY))
                                         unit = self.client.map.get_selectable_unit(map_pos)
                                         if unit: 
-                                            if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                            if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                                                 self.client.selected_unit = {}
                                                 if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                     self.client.selected_unit.update({map_pos:unit})
@@ -229,7 +229,7 @@ class Mapctrl:
                                             map_pos = self.client.mapview.gui_to_map((subX, subY))
                                             unit = self.client.map.get_selectable_unit(map_pos)
                                             if unit: 
-                                                if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                                if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                                                     self.client.selected_unit = {}
                                                     if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                         self.client.selected_unit.update({map_pos:unit})
@@ -241,7 +241,7 @@ class Mapctrl:
                                                 map_pos = self.client.mapview.gui_to_map((subX, subY))
                                                 unit = self.client.map.get_selectable_unit(map_pos)
                                                 if unit: 
-                                                    if unit.playerID == self.client.playerID: #only allow players to select their own buildings
+                                                    if unit.playerID == self.client.playerID[self.client.clientID]: #only allow players to select their own buildings
                                                         self.client.selected_unit = {}
                                                         if len(self.client.selected_unit.values()) == 0: #this is to prevent user from selecting multiple units
                                                             self.client.selected_unit.update({map_pos:unit})

@@ -59,15 +59,22 @@ class GameClientState:
         self.loop = task.LoopingCall(self.mainloop)
         self.ishost = False
         self.myturn = False 
+        self.clientID = 1
         self.selected_weap = "hub"
-        self.rotate_position = 360
+        #self.selected_weap.append("hub")
+        self.rotate_position = []
+        self.rotate_position.append(0)
         self.firepower = 0
-        self.playerID = 0
-        self.teamID = 0
+        self.playerID = []
+        self.playerID.append(0)
+        self.teamID = []
+        self.teamID.append(0)
+        self.energy = []
+        self.energy.append(0)
+        self.AItype = []
+        self.AItype.append(0)
         self.tetherplace = 1
         self.slowtether = 1
-        self.energy = 0
-        self.showradius = False
         self.conf_startX = 0
         self.conf_startY = 0
         self.conf_endX = 0
@@ -146,7 +153,7 @@ class GameClientState:
             self.netclient.land_unit()
         if self.selected_unit == {}:
             for unit in self.map.unitstore.values():
-                if unit.playerID == self.playerID and (unit.type.id == "hub" or unit.type.id == "offense"):
+                if unit.playerID == self.playerID[self.clientID] and (unit.type.id == "hub" or unit.type.id == "offense"):
                     map_pos = (unit.x, unit.y)
                     self.selected_unit = {}
                     self.selected_unit.update({map_pos:unit})
@@ -222,4 +229,14 @@ class GameClientState:
         import networkscreen
         self.pregame = networkscreen.PregameScreen(self) 
 
-
+#****************************************************************************
+#
+#****************************************************************************
+    def get_clientID(self, playerID):
+        clientID = 0
+        for checkID in self.playerID:
+            if checkID == playerID:
+                return clientID
+            else:
+                clientID += 1
+        return False

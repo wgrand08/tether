@@ -398,8 +398,8 @@ class ServerState:
 #****************************************************************************
 #Determine where a shot lands
 #****************************************************************************
-    def find_trajectory(self, parentID, rotation, power, child, player):
-        playerID = player.playerID
+    def find_trajectory(self, parentID, rotation, power, child, player, clientID):
+        playerID = player.playerID[clientID]
         logging.info("player " + str(playerID) + " launched a " + child)
         unit = self.map.get_unit_from_id(parentID)
         start_tile = self.map.get_tile_from_unit(unit)
@@ -449,8 +449,8 @@ class ServerState:
                                 self.connections.remote_all("triggered_defense", lookD.x, lookD.y, endX, endY, 1)
                                 if lookD.type.id == "antiair":
                                     lookD.reloading = True
-                                    player.Ireloading.append(lookD.id)
-                                    player.reload = True
+                                    player.Ireloading[clientID].append(lookD.id)
+                                    player.reload[clientID] = True
                                 return (start_tile.x, start_tile.y, endX, endY, collecting)
                             else:
                                 spinner = spinner + 5
@@ -512,8 +512,8 @@ class ServerState:
                                                         self.connections.remote_all("triggered_defense", lookD.x, lookD.y, endX, endY, 1)
                                                         if lookD.type.id == "antiair":
                                                             lookD.reloading = True
-                                                            player.Ireloading.append(lookD.id)
-                                                            player.reload = True
+                                                            player.Ireloading[clientID].append(lookD.id)
+                                                            player.reload[clientID] = True
                                                         return (start_tile.x, start_tile.y, endX, endY, collecting)
                                                     else:
                                                         spinner = spinner + 5
@@ -628,8 +628,8 @@ class ServerState:
 #****************************************************************************
 #Determine where a split shot lands
 #****************************************************************************
-    def split_trajectory(self, parentID, rotation, power, child, player):
-        playerID = player.playerID
+    def split_trajectory(self, parentID, rotation, power, child, player, clientID):
+        playerID = player.playerID[clientID]
         unit = self.map.get_unit_from_id(parentID)
         logging.info("player " + str(playerID) + " launched a " + child)
         start_tile = self.map.get_tile_from_unit(unit)
@@ -683,8 +683,8 @@ class ServerState:
                                     self.connections.remote_all("triggered_defense", lookD.x, lookD.y, splitX, splitY, 1)
                                     if lookD.type.id == "antiair":
                                         lookD.reloading = True
-                                        player.Ireloading.append(lookD.id)
-                                        player.reload = True
+                                        player.Ireloading[clientID].append(lookD.id)
+                                        player.reload[clientID] = True
                                     return (start_tile.x, start_tile.y, splitX, splitY, splitX, splitY, splitX, splitY, True, True, True)
                                 else:
                                     spinner = spinner + 5
@@ -732,8 +732,8 @@ class ServerState:
                                         a1hit = True
                                         if lookD.type.id == "antiair":
                                             lookD.reloading = True
-                                            player.Ireloading.append(lookD.id)
-                                            player.reload = True
+                                            player.Ireloading[clientID].append(lookD.id)
+                                            player.reload[clientID] = True
                                     else:
                                         spinner = spinner + 5
 
@@ -780,8 +780,8 @@ class ServerState:
                                         a2hit = True
                                         if lookD.type.id == "antiair":
                                             lookD.reloading = True
-                                            player.Ireloading.append(lookD.id)
-                                            player.reload = True
+                                            player.Ireloading[clientID].append(lookD.id)
+                                            player.reload[clientID] = True
                                     else:
                                         spinner = spinner + 5
 
@@ -828,8 +828,8 @@ class ServerState:
                                         a3hit = True
                                         if lookD.type.id == "antiair":
                                             lookD.reloading = True
-                                            player.Ireloading.append(lookD.id)
-                                            player.reload = True
+                                            player.Ireloading[clientID].append(lookD.id)
+                                            player.reload[clientID] = True
                                     else:
                                         spinner = spinner + 5
 
@@ -840,7 +840,7 @@ class ServerState:
 #****************************************************************************
 #Find out if a unit is hit or not
 #****************************************************************************
-    def determine_hit(self, unit, pos, player):
+    def determine_hit(self, unit, pos, player, clientID):
         x, y = pos
         power = self.game.get_unit_power(unit)
         radius = self.game.get_unit_radius(unit) + 1
@@ -858,7 +858,7 @@ class ServerState:
             d_radius = self.game.get_unit_radius("bomb") + 1
             endX = x
             endY = y
-            for find_target in range(0, radius):
+            for find_target in range(0, d_radius):
                 spinner = 0
                 while spinner < 360:
                     if find_target == 0:
@@ -878,7 +878,8 @@ class ServerState:
                         if target.x == endX and target.y == endY and (target.typeset == "build" or target.type.id == "crawler") and target.blasted == False:
                             logging.info("hit target for %s" % power)
                             target.hp = target.hp - power
-                            target.blasted = True                            
+                            target.blasted = True
+                    spinner = spinner + 5
 
         for target in self.map.unitstore.values():
             target.blasted = False #clearing all targets
@@ -916,8 +917,8 @@ class ServerState:
                             if unit == "emp":
                                 target.disabled = True
                                 target.blasted = True
-                                player.Idisabled.append(target.id)
-                                player.undisable = True
+                                player.Idisabled[clientID].append(target.id)
+                                player.undisable[clientID] = True
                                 logging.info("you disabled a %r" % target.type.id)
                             elif unit == "repair":
                                 logging.info("repaired target for 1")
@@ -940,18 +941,18 @@ class ServerState:
                                 target.blasted = True
                             elif unit == "recall":
                                 if target.playerID == player.playerID: #if own target, insta-death
-                                    player.energy = player.energy + target.hp
+                                    player.energy[clientID] = player.energy[clientID] + target.hp
                                     target.hp = 0
                                     target.blasted = True
                                     target.disabled = True
                                 else:
                                     if target.hp < 3: #if not own target
-                                        player.energy = player.energy + target.hp
+                                        player.energy[clientID] = player.energy[clientID] + target.hp
                                         target.hp = 0
                                         target.blasted = True
                                         target.disabled = True
                                     else:
-                                        player.energy = player.energy + power
+                                        player.energy[clientID] = player.energy[clientID] + power
                                         target.hp = target.hp - power
                                         target.blasted = True
                                         target.disabled = True
@@ -996,7 +997,8 @@ class ServerState:
                     energy = energy + 2
         if energy > 35:
             energy = 35
-        return (energy)
+        return energy
+
 
 #****************************************************************************
 #

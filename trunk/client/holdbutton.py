@@ -23,14 +23,14 @@ class HoldButton:
         self.client = client
         self.just_released = False
 
-    def rotateright(self):        self.client.rotate_position = self.client.rotate_position + 2
-        if (self.client.rotate_position > 360):
-            self.client.rotate_position = 1
+    def rotateright(self):        self.client.rotate_position[self.client.clientID] = self.client.rotate_position[self.client.clientID] + 2
+        if (self.client.rotate_position[self.client.clientID] > 360):
+            self.client.rotate_position[self.client.clientID] = 1
 
     def rotateleft(self):
-        self.client.rotate_position = self.client.rotate_position - 2
-        if (self.client.rotate_position < 1):
-            self.client.rotate_position = 360
+        self.client.rotate_position[self.client.clientID] = self.client.rotate_position[self.client.clientID] - 2
+        if (self.client.rotate_position[self.client.clientID] < 1):
+            self.client.rotate_position[self.client.clientID] = 360
 
     def increasepower(self):
         self.client.firepower = self.client.firepower + 1

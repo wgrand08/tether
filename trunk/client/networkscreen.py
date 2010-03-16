@@ -30,7 +30,7 @@ import mainmenu
 from mappanel import *
 
 #****************************************************************************
-#
+# network hosting and joining screens
 #****************************************************************************
 class NetworkScreen:
     def __init__(self, client):
@@ -125,7 +125,7 @@ class NetworkScreen:
 
  
 #****************************************************************************
-#
+# connecting to server
 #****************************************************************************
     def connect_callback(self, obj):
         self.client.moonaudio.sound("buttonclick.ogg")
@@ -138,7 +138,7 @@ class NetworkScreen:
 
  
 #****************************************************************************
-#
+# starting and connecting to server
 #****************************************************************************
     def host_callback(self, obj):
         self.client.ishost = True
@@ -149,7 +149,7 @@ class NetworkScreen:
         self.client.host_network_game("localhost", nick)
    
 #****************************************************************************
-#
+# canceling game
 #****************************************************************************
     def cancel_callback(self, obj):
         self.client.moonaudio.sound("buttonclick.ogg")
@@ -165,7 +165,7 @@ class PregameScreen:
         self.show()
 
 #****************************************************************************
-#  
+#  pregame setup after joining server
 #****************************************************************************
     def show(self):
         width = 600
@@ -235,6 +235,18 @@ class PregameScreen:
 
         container.add(setup_table, self.client.screen.get_width() / 10, self.client.screen.get_height() / 3)
 
+
+        addplayer_table = gui.Table(width = 5, height = 5)
+        self.addplayer_select = gui.Select(value=0)
+        self.addplayer_select.add("Hotseat", 0)
+        self.addplayer_select.add("Dumb-bot", 1)
+        addplayer_table.add(self.addplayer_select, 0, 0)
+        addplayer_button = gui.Button(("Add player"))
+        addplayer_button.connect(gui.CLICK, self.add_player)
+        addplayer_table.add(addplayer_button, 0, 1)
+        container.add(addplayer_table, self.client.screen.get_width() / 1.75, self.client.screen.get_height() / 6)
+        
+
         if self.client.ishost == True:
             team_table = gui.Table(width=3, height=3)
             self.change_player_label = gui.Label(("Player"))
@@ -265,7 +277,7 @@ class PregameScreen:
 
 
 #****************************************************************************
-#  
+#  internal loop while waiting for game to start
 #****************************************************************************
     def pregame_loop(self):
         for event in pygame.event.get():
@@ -285,13 +297,13 @@ class PregameScreen:
             pygame.display.flip()
 
 #****************************************************************************
-#
+# display chat message
 #****************************************************************************
     def show_message(self, message):
         self.message_out.write(message)
 
 #****************************************************************************
-#
+# leaving game after joining
 #****************************************************************************
     def cancel_callback(self):
         self.client.moonaudio.sound("buttonclick.ogg")
@@ -300,7 +312,7 @@ class PregameScreen:
         mainmenu.MainMenu(self.client)
 
 #****************************************************************************
-#
+# launching game after it is set up
 #****************************************************************************
     def start_callback(self):
         self.client.moonaudio.sound("buttonclick.ogg")
@@ -320,7 +332,7 @@ class PregameScreen:
         self.client.netclient.start_server_game()
 
 #****************************************************************************
-#
+# modifying teams
 #****************************************************************************
     def modify_teams(self):
         playerID = int(self.playerID_input.value)
@@ -328,7 +340,17 @@ class PregameScreen:
         self.client.netclient.update_server_teams(playerID, teamID)
 
 #****************************************************************************
-#
+# add hotseat and bot players
+#****************************************************************************
+    def add_player(self):
+        if self.addplayer_select.value == 0:
+            self.client.netclient.add_xplayer()
+        else:
+            self.client.moonaudio.narrate("disabled.ogg")
+            
+
+#****************************************************************************
+# starting game for the client
 #****************************************************************************
     def start_game(self):
         self.client.moonaudio.end_music()
