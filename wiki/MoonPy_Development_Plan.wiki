@@ -5,7 +5,7 @@ These are the general requirements for each major release of MoonPy. Currently w
 
 = Requirements for version 0.5.00=
 
-  * At least two players can play together: complete
+  * At least 2 players can play together: complete
   * Ability to draw map and display hubs: complete
   * Players are able to choose a direction and power level: complete
   * Hubs show direction indicator: complete
