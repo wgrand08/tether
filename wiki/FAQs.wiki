@@ -18,6 +18,9 @@ While Moonbase Commander is a great game, there are some flaws and glitches that
 ====What is MoonPy?====
 MoonPy is an open source remake of Moonbase Commander developed by us here at project tether. It is written in python (hence the name) and is currently the only game we plan on releasing.
 
+====MoonPy is a stupid name, why did you pick it?====
+Back in the early days of this project we couldn't decide on a name for the game itself. At the time we decided we wouldn't worry about it and would come up with one later. We titled the python script to launch our game moon, short for moonbase commander. Because it's written in python it's listed as moon.py in the filesystem. We started calling it "moon dot pie" just to call it something, and eventually it got abbreviated to it's current name MoonPy (pronounced like "moon pie"). 
+
 ====How far along is MoonPy?=====
 MoonPy is currently still beta but completely playable. All the units except for balloons are implemented, and since there is no FoW yet, balloons are currently unnecessary.
 
