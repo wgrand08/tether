@@ -66,8 +66,13 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # add hotseat or bot player
 #****************************************************************************
-    def add_xplayer(self):
-        self.client.moonaudio.narrate("disabled.ogg")
+    def add_xplayer(self, AIlevel):
+        if AIlevel == 0:
+            self.client.AItype.append(AIlevel)
+            username = "Hotseat"
+            self.perspective.callRemote('add_xplayer', username)
+        else:
+            self.client.moonaudio.narrate("disabled.ogg")
 
 #****************************************************************************
 # update pregame setup
@@ -140,11 +145,22 @@ class NetworkClient(pb.Referenceable):
             self.client.teamID.append(result)
             self.client.energy.append(11)
             self.client.rotate_position.append(360)
+            self.client.AItype.append(0)
             logging.debug("Server accepted login")
             logging.debug("Your playerID = %r" % result)
             self.client.enter_pregame()
             message = "Server: Welcome player %s" % result
             self.client.pregame.show_message(message)
+
+#****************************************************************************
+# recieve xplayer login information from server
+#****************************************************************************
+    def remote_confirm_xplayer(self, result):
+        self.client.playerID.append(result)
+        self.client.teamID.append(result)
+        self.client.energy.append(11)
+        self.client.rotate_position.append(360)
+        logging.debug("Added XplayerID = %r" % result)
 
 #****************************************************************************
 # player disconnects from server
@@ -277,11 +293,18 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
 # get energy from server
 #****************************************************************************
-    def remote_update_energy(self, energy):
-        print"placeholder in networkclient.py line 281"
-        self.client.energy[1] = energy
-        if self.client.energy[1] < self.client.game.get_unit_cost(self.client.selected_weap):
-            self.client.selected_weap = "bomb" #game automatically switches to bomb when energy gets low
+    def remote_update_energy(self, energy, playerID):
+        if playerID == 0: #playerID 0 is used here to tell client this is for all players
+            count = 0
+            for q in self.client.energy:
+                if count > 0:
+                    self.client.energy[count] = energy
+                count += 1
+        else:
+            clientID = self.client.get_clientID(playerID)
+            self.client.energy[clientID] = energy
+            if self.client.energy[clientID] < self.client.game.get_unit_cost(self.client.selected_weap):
+                self.client.selected_weap = "bomb" #game automatically switches to bomb when energy gets low
 
 #****************************************************************************
 # recieve command to restore energy and begin a new round
@@ -336,7 +359,6 @@ class NetworkClient(pb.Referenceable):
 # recieve command identifying which players turn it is
 #****************************************************************************
     def remote_next_turn(self, next_player):
-
         checkID = self.client.get_clientID(next_player)
         if checkID == False:
             message = "Server: It is player " + str(next_player) + "'s turn"

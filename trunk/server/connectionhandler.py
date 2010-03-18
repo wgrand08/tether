@@ -64,7 +64,8 @@ class ClientPerspective(pb.Avatar):
             return "login_failed"
         else:                
             self.conn_info.username.append(username)
-            newplayerID = self.state.max_players(self.handler.clients)
+            newplayerID = self.state.max_players()
+            newplayerID += 1
             self.conn_info.playerID.append(newplayerID)
             self.conn_info.teamID.append(newplayerID)
             self.state.playerIDs.append(newplayerID)
@@ -72,11 +73,31 @@ class ClientPerspective(pb.Avatar):
             self.conn_info.reload.append(False)
             self.conn_info.undisable.append(False)
             self.conn_info.energy.append(11)
-            self.conn_info.Idisabled[0].append(newplayerID)
-            self.conn_info.Ireloading[0].append(newplayerID)
+            self.conn_info.Idisabled.append([0])
+            self.conn_info.Ireloading.append([0])
             server_message = "Server: %s has joined the game as player %s on team %s" % (username, str(newplayerID), str(newplayerID))
             self.handler.remote_all('chat', server_message)
             return newplayerID
+
+#****************************************************************************
+#client adds hotseat or bot player
+#****************************************************************************
+    def perspective_add_xplayer(self, username):
+        self.conn_info.username.append(username)
+        newplayerID = self.state.max_players()
+        newplayerID += 1
+        self.conn_info.playerID.append(newplayerID)
+        self.conn_info.teamID.append(newplayerID)
+        self.state.playerIDs.append(newplayerID)
+        self.state.teams.append(newplayerID)
+        self.conn_info.reload.append(False)
+        self.conn_info.undisable.append(False)
+        self.conn_info.energy.append(11)
+        self.conn_info.Idisabled.append([0])
+        self.conn_info.Ireloading.append([0])
+        server_message = "Server: %s has joined the game as player %s on team %s" % (username, str(newplayerID), str(newplayerID))
+        self.handler.remote_all('chat', server_message)
+        self.handler.remote(self.conn_info.ref, "confirm_xplayer", newplayerID)
 
 #****************************************************************************
 #command to update pre-game settings
@@ -94,7 +115,7 @@ class ClientPerspective(pb.Avatar):
     def perspective_update_server_teams(self, playerID, teamID):
         playerID = int(playerID)
         teamID = int(teamID)
-        if playerID > 0 and teamID > 0 and self.state.max_players(self.handler.clients) > 1:
+        if playerID > 0 and teamID > 0 and self.state.max_players() > 1:
             for checkplayer in self.state.playerIDs:
                 if checkplayer == playerID:
                     self.state.teams[playerID] = teamID
@@ -121,7 +142,7 @@ class ClientPerspective(pb.Avatar):
         count_teams = 0
         counting = 0
         enoughteams = False
-        if self.state.max_players(self.handler.clients) == 1:
+        if self.state.max_players() == 1:
             server_message = "Server: Not enough players to begin!"
             self.handler.remote_all('chat', server_message)
         for count_teams in self.state.teams:
@@ -143,7 +164,7 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote_all('map', net_map)
             self.handler.remote_all('unit_list', net_unit_list)
             self.handler.remote_all('start_client_game')
-            self.handler.remote_all('update_energy', 11) #all players start with 11 energy
+            self.handler.remote_all('update_energy', 11, 0) #all players start with 11 energy, player 0 is specified to indicate this to server
             self.state.currentplayer = 1 #player1 goes first 
             self.handler.remote_all('next_turn', self.state.currentplayer)
             self.state.takingturn = False
@@ -154,7 +175,7 @@ class ClientPerspective(pb.Avatar):
     def perspective_launch_unit(self, parentID, unit, rotation, power, clientID):
         if self.state.endgame == True: #when game is over no actions are permitted
             return
-        self.state.waitingplayers = 0
+        self.state.waitingclients = 0
         if self.conn_info.reload[clientID] == True: #reloading units remain disabled until the end of this turn
             logging.debug("reloading AA's")
             for loaded in self.conn_info.Ireloading[clientID]:
@@ -225,7 +246,7 @@ class ClientPerspective(pb.Avatar):
                 self.conn_info.undisable[clientID] = False
                 self.conn_info.Idisabled[clientID] = []
                 self.conn_info.energy[clientID] = self.conn_info.energy[clientID] - self.state.game.get_unit_cost(unit)
-                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy[clientID])
+                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy[clientID], self.conn_info.playerID[clientID])
                 collecting = False
 
                 self.state.game.create_unit(unit, coord1, self.conn_info.playerID[clientID], parentID, collecting, rotation, self.state.teams[self.conn_info.playerID[clientID]])
@@ -257,7 +278,7 @@ class ClientPerspective(pb.Avatar):
                 self.conn_info.undisable[clientID] = False
                 self.conn_info.Idisabled[clientID] = []
                 self.conn_info.energy[clientID] = self.conn_info.energy[clientID] - self.state.game.get_unit_cost(unit)
-                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy[clientID])
+                self.handler.remote(self.conn_info.ref, "update_energy", self.conn_info.energy[clientID], self.conn_info.playerID[clientID])
                     
                 if self.state.doubletether == False:
                     self.state.game.create_unit(unit, coord, self.conn_info.playerID[clientID], parentID, collecting, rotation, self.state.teams[self.conn_info.playerID[clientID]])
@@ -286,8 +307,8 @@ class ClientPerspective(pb.Avatar):
             foundplayer = False
             while not foundplayer:
                 self.state.currentplayer += 1
-                if self.state.currentplayer > self.state.max_players(self.handler.clients):
-                    logging.info("max players = %s" % self.state.max_players(self.handler.clients))
+                if self.state.currentplayer > self.state.max_players():
+                    logging.info("max players = %s" % self.state.max_players())
                     self.state.currentplayer = 0
                 if len(self.state.skippedplayers) > 1:
                     for search in self.state.skippedplayers:
@@ -340,7 +361,7 @@ class ClientPerspective(pb.Avatar):
             self.state.detonate_waiters()
             self.eliminate_players()
             self.conn_info.energy[clientID] = self.state.calculate_energy(self.conn_info.playerID[clientID], self.conn_info.energy[clientID])
-            self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy[clientID])
+            self.handler.remote(self.conn_info.ref, 'update_energy', self.conn_info.energy[clientID], self.conn_info.playerID[clientID])
             if self.conn_info.undisable[clientID] == True: #undisabling units caused by this player previously
                 logging.info("undisabling units")
                 for undisable in self.conn_info.Idisabled[clientID]:
@@ -349,20 +370,20 @@ class ClientPerspective(pb.Avatar):
                             finddisabled.disabled = False
             self.conn_info.undisable[clientID] = False
             self.conn_info.Idisabled[clientID] = []
-            if len(self.state.skippedplayers) > self.state.max_players(self.handler.clients): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
+            if len(self.state.skippedplayers) > self.state.max_players(): #don't forget, player0 is always skipped to avoid having a blank list so there is always 1 more skipped players then actually exist
                 self.state.skippedplayers = []
                 for player in self.state.deadplayers:
                     self.state.skippedplayers.append(player) #skipping dead players
                 self.state.move_crawlers()
                 self.handler.remote_all('next_round')
                 self.state.roundplayer += 1
-                if self.state.roundplayer > self.state.max_players(self.handler.clients):
+                if self.state.roundplayer > self.state.max_players():
                     self.state.roundplayer = 1
                 self.state.currentplayer = self.state.roundplayer - 1 #remember currentplayer will be incremented soon
             foundplayer = False
             while not foundplayer:
                 self.state.currentplayer += 1
-                if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                if self.state.currentplayer > self.state.max_players():
                     self.state.currentplayer = 0
                 if len(self.state.skippedplayers) > 1:
                     for search in self.state.skippedplayers:
@@ -397,9 +418,9 @@ class ClientPerspective(pb.Avatar):
 #after all clients reports it has completed animation server sends updated map and process death
 #****************************************************************************
     def perspective_unit_landed(self):
-        self.state.waitingplayers += 1
-        if self.state.waitingplayers == self.state.max_players(self.handler.clients):
-            self.state.waitingplayers = 0
+        self.state.waitingclients += 1
+        if self.state.waitingclients == self.state.max_clients(self.handler.clients):
+            self.state.waitingclients = 0
             self.state.detonate_waiters()
             self.eliminate_players()
             net_map = self.network_prepare(self.state.map.mapstore) 
@@ -409,7 +430,7 @@ class ClientPerspective(pb.Avatar):
             foundplayer = False
             while not foundplayer:
                 self.state.currentplayer += 1
-                if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                if self.state.currentplayer > self.state.max_players():
                     self.state.currentplayer = 0
                 if len(self.state.skippedplayers) > 1:
                     for search in self.state.skippedplayers:
@@ -474,7 +495,7 @@ class ClientPerspective(pb.Avatar):
                         foundplayer = False
                         while not foundplayer:
                             self.state.currentplayer += 1
-                            if self.state.currentplayer > self.state.max_players(self.handler.clients):
+                            if self.state.currentplayer > self.state.max_players():
                                 self.state.currentplayer = 0
                             if len(self.state.skippedplayers) > 1:
                                 for search in self.state.skippedplayers:

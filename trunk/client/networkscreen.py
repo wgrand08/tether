@@ -239,7 +239,7 @@ class PregameScreen:
         addplayer_table = gui.Table(width = 5, height = 5)
         self.addplayer_select = gui.Select(value=0)
         self.addplayer_select.add("Hotseat", 0)
-        self.addplayer_select.add("Dumb-bot", 1)
+        #self.addplayer_select.add("Dumb-bot", 1)
         addplayer_table.add(self.addplayer_select, 0, 0)
         addplayer_button = gui.Button(("Add player"))
         addplayer_button.connect(gui.CLICK, self.add_player)
@@ -335,6 +335,7 @@ class PregameScreen:
 # modifying teams
 #****************************************************************************
     def modify_teams(self):
+        self.client.moonaudio.sound("buttonclick.ogg")
         playerID = int(self.playerID_input.value)
         teamID = int(self.teamID_input.value)
         self.client.netclient.update_server_teams(playerID, teamID)
@@ -343,11 +344,8 @@ class PregameScreen:
 # add hotseat and bot players
 #****************************************************************************
     def add_player(self):
-        if self.addplayer_select.value == 0:
-            self.client.netclient.add_xplayer()
-        else:
-            self.client.moonaudio.narrate("disabled.ogg")
-            
+        self.client.moonaudio.sound("buttonclick.ogg")
+        self.client.netclient.add_xplayer(self.addplayer_select.value)
 
 #****************************************************************************
 # starting game for the client

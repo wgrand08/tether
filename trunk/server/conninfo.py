@@ -36,7 +36,7 @@ class ConnInfo:
         self.energy.append(0)
         self.undisable = []
         self.undisable.append(False)
-        self.Idisabled = [[0],[0]]
+        self.Idisabled = [0]
         self.reload = []
         self.reload.append(False)
-        self.Ireloading = [[0],[0]]
+        self.Ireloading = [0]

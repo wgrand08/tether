@@ -47,8 +47,7 @@ class ServerState:
         self.skippedplayers.append(0) 
         self.deadplayers.append(0)
         self.interrupted_tether = False
-        self.waitingplayers = 0
-        self.totalplayers = 0
+        self.waitingclients = 0
         self.runningserver = False
         self.doubletether = False
         self.takingturn = False
@@ -70,7 +69,7 @@ class ServerState:
 
             MapGen(self.map, self.game)
 
-            for player in range(0, self.totalplayers):
+            for player in range(1, (self.max_players() + 1)):
                 unplaced = True
                 while unplaced: #make certain starting hub is placed on grass
                     x = randint(5, (self.map.xsize - 5))
@@ -87,7 +86,7 @@ class ServerState:
                     tile9 = self.map.get_tile(tile9)
                     if tile1.type == self.game.get_terrain_type("grass") and tile2.type == self.game.get_terrain_type("grass") and tile3.type == self.game.get_terrain_type("grass") and tile4.type == self.game.get_terrain_type("grass") and tile5.type == self.game.get_terrain_type("grass") and tile6.type == self.game.get_terrain_type("grass") and tile7.type == self.game.get_terrain_type("grass") and tile8.type == self.game.get_terrain_type("grass") and tile9.type == self.game.get_terrain_type("grass"):
                         unplaced = False
-                self.game.create_unit('hub', (x, y), (player + 1), 0, False, 360, self.teams[(player + 1)])
+                self.game.create_unit('hub', (x, y), (player), 0, False, 360, self.teams[(player)])
 
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
@@ -976,14 +975,19 @@ class ServerState:
 #****************************************************************************
 #calculate the number of players currently connected to the game
 #****************************************************************************
-    def max_players(self, clients):
+    def max_players(self):
+        totalplayers = len(self.playerIDs)
+        return totalplayers
+
+#****************************************************************************
+#calculate the number of clients currently connected to the game
+#****************************************************************************
+    def max_clients(self, clients):
         q = 0
         placeholder = 0
         for q in clients:
             placeholder = placeholder + 1
-        self.totalplayers = placeholder
         return placeholder
-
 
 #****************************************************************************
 #Calculate the amount of energy per player
