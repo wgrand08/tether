@@ -71,6 +71,10 @@ class NetworkClient(pb.Referenceable):
             self.client.AItype.append(AIlevel)
             username = "Hotseat"
             self.perspective.callRemote('add_xplayer', username)
+        elif AIlevel == 1:
+            self.client.AItype.append(AIlevel)
+            username = "Dumb-bot"
+            self.perspective.callRemote('add_xplayer', username)
         else:
             self.client.moonaudio.narrate("disabled.ogg")
 
@@ -388,13 +392,19 @@ class NetworkClient(pb.Referenceable):
                 self.client.moonaudio.narrate("your_turn.ogg")
                 self.client.selected_unit = {}
                 for unit in self.client.map.unitstore.values():
-                    if unit.playerID == self.client.playerID[self.client.clientID] and unit.playerID == self.client.launching_unit[self.client.clientID]:
+                    if unit.playerID == self.client.playerID[self.client.clientID] and unit.id == self.client.launching_unit[self.client.clientID]:
                         map_pos = (unit.x, unit.y)
                         self.client.selected_unit = {}
                         self.client.selected_unit.update({map_pos:unit})
             else: #bots
-                logging.critical("Bot players not yet implemented, skipping round")
-                self.skip_round()
+                message = "Server: It is player " + str(next_player) + "'s turn"
+                self.client.mappanel.show_message(message)
+                self.client.myturn = False
+                (parentID, unit, rotation, power, skip) = self.client.AI.runbot(self.client.AItype[self.client.clientID])
+                if skip == True:
+                    self.skip_round()
+                else:
+                    self.perspective.callRemote('launch_unit', parentID, unit, rotation, power, self.client.clientID)
         logging.debug("It is player " + str(next_player) + "'s turn")
 
 #****************************************************************************

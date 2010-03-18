@@ -239,7 +239,7 @@ class PregameScreen:
         addplayer_table = gui.Table(width = 5, height = 5)
         self.addplayer_select = gui.Select(value=0)
         self.addplayer_select.add("Hotseat", 0)
-        #self.addplayer_select.add("Dumb-bot", 1)
+        self.addplayer_select.add("Dumb-bot", 1)
         addplayer_table.add(self.addplayer_select, 0, 0)
         addplayer_button = gui.Button(("Add player"))
         addplayer_button.connect(gui.CLICK, self.add_player)
