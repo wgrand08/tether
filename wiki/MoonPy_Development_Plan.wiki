@@ -56,5 +56,5 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Ability to load/save games: planned
   * Ability to create custom mods: planned
   * Have height differences in terrain: planned
-  * Bots are smart enough to be a challenge: planned
+  * Have at least 1 bot smart enough to be a challenge: planned
   * All minor bugs bugs found and fixed: planned
