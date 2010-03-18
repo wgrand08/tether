@@ -22,10 +22,10 @@ MoonPy is an open source remake of Moonbase Commander developed by us here at pr
 MoonPy is currently still beta but completely playable. All the units except for balloons are implemented, and since there is no FoW yet, balloons are currently unnecessary.
 
 ====How do I play MoonPy single player?====
-MoonPy has no single player option at this time, only multiplayer. The ability to play against bots is planned but not yet implemented. We have no intention on creating a campaign for MoonPy. 
+MoonPy has been designed from the beginning for multiplayer against other people. We have no plans on ever creating a campaign for it (though if someone wants to they're more then welcome). A very basic AI called "Dumb-bot" has been implemented as of version 0.8.16 which you can fight against in multiplayer. It isn't much of a challenge but it does provide a target to practice on if you don't have anyone else to play against.
 
 ====How do I find someone to play against online?====
-MoonPy doesn't have a master server yet and so the only way to play is by joining directly with IP addresses. The best place to try and find someone to play against is on IRC. If you go to irc.freenode.com channel #moonpy and wait long enough, someone will eventually show up.
+MoonPy doesn't have a master server yet (though one is currently being worked on) and so the only way to play is by joining directly with IP addresses. The best place to try and find someone to play against is on IRC. If you go to irc.freenode.com channel #moonpy and wait long enough, someone will eventually show up.
 
 ====I've been waiting forever for someone else to show up on IRC, how long should I wait?====
 We're still a small community so it may take some time but one of the devs will show up eventually. If you really want to find people to play with, tell your friends about MoonPy. The more people that know about it, the more people that will check in and the easier it will be to find someone to play against.
