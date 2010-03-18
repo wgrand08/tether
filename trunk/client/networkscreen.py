@@ -44,6 +44,21 @@ class NetworkScreen:
 #****************************************************************************
     def join(self):
 
+        self.client.selected_weap = []
+        self.client.selected_weap.append("hub")
+        self.client.launching_unit = []
+        self.client.launching_unit.append(0)
+        self.client.rotate_position = []
+        self.client.rotate_position.append(0)
+        self.client.playerID = []
+        self.client.playerID.append(0)
+        self.client.teamID = []
+        self.client.teamID.append(0)
+        self.client.energy = []
+        self.client.energy.append(0)
+        self.client.AItype = []
+        self.client.AItype.append(0)
+
         self.app = gui.Desktop()
         self.app.connect(gui.QUIT, self.app.quit, None)
         container = gui.Container(align=-1, valign=-1)
@@ -87,6 +102,21 @@ class NetworkScreen:
 # screen for setting up game and starting server, automatically joins server after launch
 #****************************************************************************
     def start(self):
+
+        self.client.selected_weap = []
+        self.client.selected_weap.append("hub")
+        self.client.launching_unit = []
+        self.client.launching_unit.append(0)
+        self.client.rotate_position = []
+        self.client.rotate_position.append(0)
+        self.client.playerID = []
+        self.client.playerID.append(0)
+        self.client.teamID = []
+        self.client.teamID.append(0)
+        self.client.energy = []
+        self.client.energy.append(0)
+        self.client.AItype = []
+        self.client.AItype.append(0)
 
         self.app = gui.Desktop()
         self.app.connect(gui.QUIT, self.app.quit, None)
@@ -168,6 +198,7 @@ class PregameScreen:
 #  pregame setup after joining server
 #****************************************************************************
     def show(self):
+
         width = 600
         height = 300
         self.app = gui.Desktop()
@@ -280,6 +311,7 @@ class PregameScreen:
 #  internal loop while waiting for game to start
 #****************************************************************************
     def pregame_loop(self):
+        print self.client.playerID
         for event in pygame.event.get():
             self.app.event(event)
             if event.type == KEYDOWN and event.key == K_RETURN:

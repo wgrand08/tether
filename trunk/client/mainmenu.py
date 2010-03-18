@@ -164,4 +164,12 @@ class MenuBackground(gui.Widget):
     def paint(self,s):
         s.blit(self.surface,(0,0))
 
+#****************************************************************************
+#
+#****************************************************************************
+class CreditScreen():
+    def __init__(self):
+        placeholder = True
 
+    def credits(self):
+        placeholder = True
