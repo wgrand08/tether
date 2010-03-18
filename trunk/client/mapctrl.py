@@ -101,7 +101,7 @@ class Mapctrl:
                     firepower = self.client.firepower * 2
                 else:
                     firepower = self.client.firepower
-                self.client.netclient.launch_unit(unit.id, self.client.selected_weap, self.client.rotate_position[self.client.clientID], firepower)
+                self.client.netclient.launch_unit(unit.id, self.client.selected_weap[self.client.clientID], self.client.rotate_position[self.client.clientID], firepower)
                 
         self.client.heldbutton = "void"
 
@@ -259,6 +259,3 @@ class Mapctrl:
 #****************************************************************************
     def mouse_motion(self, pos):
         (x, y) = pos
-
-
-

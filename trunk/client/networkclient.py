@@ -97,6 +97,7 @@ class NetworkClient(pb.Referenceable):
 #****************************************************************************
     def launch_unit(self, parentID, unit, rotation, power):
         self.client.myturn == False
+        self.client.launching_unit[self.client.clientID] = parentID
         self.perspective.callRemote('launch_unit', parentID, unit, rotation, power, self.client.clientID)
 
 #****************************************************************************
@@ -146,6 +147,8 @@ class NetworkClient(pb.Referenceable):
             self.client.energy.append(11)
             self.client.rotate_position.append(360)
             self.client.AItype.append(0)
+            self.client.selected_weap.append("hub")
+            self.client.launching_unit.append(0)
             logging.debug("Server accepted login")
             logging.debug("Your playerID = %r" % result)
             self.client.enter_pregame()
@@ -160,6 +163,9 @@ class NetworkClient(pb.Referenceable):
         self.client.teamID.append(result)
         self.client.energy.append(11)
         self.client.rotate_position.append(360)
+        self.client.AItype.append(0)
+        self.client.selected_weap.append("hub")
+        self.client.launching_unit.append(0)
         logging.debug("Added XplayerID = %r" % result)
 
 #****************************************************************************
@@ -366,9 +372,9 @@ class NetworkClient(pb.Referenceable):
             self.client.myturn = False
         else:
             self.client.clientID = checkID
-            if self.client.energy[self.client.clientID] < 1:
+            if self.client.energy[self.client.clientID] < 1: #all players skip if no energy
                 self.skip_round()
-            else:
+            elif self.client.AItype[self.client.clientID] == 0: #human players
                 message = "Server: It's your turn commander"
                 if self.client.mappanel:
                     self.client.mappanel.show_message(message)
@@ -380,6 +386,15 @@ class NetworkClient(pb.Referenceable):
                 self.client.firepower = 0
                 self.client.power_direction = "up"
                 self.client.moonaudio.narrate("your_turn.ogg")
+                self.client.selected_unit = {}
+                for unit in self.client.map.unitstore.values():
+                    if unit.playerID == self.client.playerID[self.client.clientID] and unit.playerID == self.client.launching_unit[self.client.clientID]:
+                        map_pos = (unit.x, unit.y)
+                        self.client.selected_unit = {}
+                        self.client.selected_unit.update({map_pos:unit})
+            else: #bots
+                logging.critical("Bot players not yet implemented, skipping round")
+                self.skip_round()
         logging.debug("It is player " + str(next_player) + "'s turn")
 
 #****************************************************************************

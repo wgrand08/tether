@@ -60,8 +60,10 @@ class GameClientState:
         self.ishost = False
         self.myturn = False 
         self.clientID = 1
-        self.selected_weap = "hub"
-        #self.selected_weap.append("hub")
+        self.selected_weap = []
+        self.selected_weap.append("hub")
+        self.launching_unit = []
+        self.launching_unit.append(0)
         self.rotate_position = []
         self.rotate_position.append(0)
         self.firepower = 0

@@ -61,16 +61,16 @@ class Minimap:
                 self.minimap_surface.set_at((x, y), color)
 
         for unit in self.client.map.get_unit_list():
-            if unit.typeset != "doodad": #this takes into account hubs are 4 times the size of a standard tile
+            if unit.typeset != "doodad":
                 x, y = self.client.map.get_unit_pos(unit)
-                if unit.playerID == self.client.playerID:
+                if unit.playerID == self.client.playerID[self.client.clientID]:
                     color = (10, 255, 10)
-                elif self.client.teamID == unit.teamID:
+                elif unit.teamID == self.client.teamID[self.client.clientID]:
                     color = (10, 10, 255)
                 else:
                     color = (255, 10, 10)
                 self.minimap_surface.set_at((x, y), color)
-                if unit.typeset == "build":
+                if unit.typeset == "build": #this takes into account most units are 4 times the size of a standard tile
                     self.minimap_surface.set_at(((x + 1), y), color)
                     self.minimap_surface.set_at((x, (y + 1)), color)
                     self.minimap_surface.set_at(((x + 1), (y + 1)), color)
