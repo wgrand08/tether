@@ -43,10 +43,13 @@ We are intentionally making MoonPy to be fully compatible with Linux, osX, and W
 No.
 
 ====Really? Why not?====
-Mostly because Moonbase Commander is essentially dead, practically no one plays it anymore and it's almost impossible to find a *legitimate* copy of the game. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also want to make some changes that will make MoonPy incompatible with the original even if we did manage to reverse engineer the original.
+Mostly because Moonbase Commander is essentially dead, practically no one plays it anymore and it's almost impossible to find a *legitimate* copy of the game. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also made some changes that make MoonPy incompatible with the original even if we did manage to reverse engineer everything.
 
-====What changes are you planning?====
-The biggest change we want to make is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we find inconvenient. We would also like to add smarter AI, hotseat capabilities, and the ability to implement mods. 
+====What changes were made?====
+The biggest change we made is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we found inconvenient. MoonPy has no limit to the number of players that can join a single game. We have also added in hotseat capabilties, the ability to implement mods, and the ability for users to script their own bots. 
+
+====Changing Moonbase Commander is heresy! Why did you change things?====
+Most of the changes we have listed are things that we felt were flaws in Moonbase Commander. The 4 player limit for example was always a major problem for most of us. Same goes true for most of the other changes listed. 
 
 ====I found a bug, what do I do?====
 Great, identifying them is the hardest part. First of all, check the [http://code.google.com/p/tether/issues/list issue tracker] to find out if it's already known. If it isn't please report it there and give as much detail as you can, don't forget to upload your moonpy.log file for that game when filling out the issue. You can also see if one of the developers are available on IRC as well.
