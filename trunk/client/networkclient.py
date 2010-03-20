@@ -23,6 +23,8 @@ from twisted.spread import pb
 from twisted.cred.credentials import UsernamePassword
 import cPickle
 import zlib
+import time
+import subprocess
 
 #****************************************************************************
 #
@@ -57,11 +59,12 @@ class NetworkClient(pb.Referenceable):
         self.server = server
         self.serverPort = serverPort
         self.username = username
-        factory = pb.PBClientFactory()
-        reactor.connectTCP(server, 6112, factory)
-        df = factory.login(UsernamePassword("guest", "guest"), self)
-        df.addCallback(self.connected)
-        reactor.run()
+        self.factory = pb.PBClientFactory()
+        self.client_connection = reactor.connectTCP(server, 6112, self.factory)
+        self.df = self.factory.login(UsernamePassword("guest", "guest"), self)
+        self.df.addCallback(self.connected)
+        if reactor.running == False:
+            reactor.run()
 
 #****************************************************************************
 # add hotseat or bot player
@@ -140,6 +143,12 @@ class NetworkClient(pb.Referenceable):
         logging.debug("connected.")
 
 #****************************************************************************
+# host attempting to report server shutdown
+#****************************************************************************
+    def hostquit(self):
+        self.perspective.callRemote('hostquit')
+
+#****************************************************************************
 # recieve login information from server
 #****************************************************************************
     def login_result(self, result):
@@ -170,15 +179,26 @@ class NetworkClient(pb.Referenceable):
         self.client.AItype.append(0)
         self.client.selected_weap.append("hub")
         self.client.launching_unit.append(0)
-        logging.debug("Added XplayerID = %r" % result)
+        logging.debug("Added XplayerID = %r" % result)      
+
+
 
 #****************************************************************************
-# player disconnects from server
+# recieve command that server is going down
 #****************************************************************************
-    def disconnect(self):
-        logging.debug("Disconnected from server")
-        if reactor.running:
-            reactor.stop()
+    def remote_server_shutdown(self):
+        logging.info("Server reported shutdown")
+        message = "Server: Host is leaving the game"
+        if self.client.mappanel:
+            self.client.mappanel.show_message(message)
+        if self.client.pregame:
+            self.client.pregame.show_message(message)
+        time.sleep(2)
+        if self.client.debug == True:
+            subprocess.Popen(["./moon.py", "--no-intro", "--debug"])
+        else:
+            subprocess.Popen(["./moon.py", "--no-intro"])
+        self.client.quit()
         
 
 #****************************************************************************

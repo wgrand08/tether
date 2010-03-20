@@ -142,9 +142,6 @@ class ClientPerspective(pb.Avatar):
         count_teams = 0
         counting = 0
         enoughteams = False
-        if self.state.max_players() == 1:
-            server_message = "Server: Not enough players to begin!"
-            self.handler.remote_all('chat', server_message)
         for count_teams in self.state.teams:
             if counting == 1:
                 team1 = count_teams
@@ -466,11 +463,12 @@ class ClientPerspective(pb.Avatar):
             self.handler.remote(self.conn_info.ref, 'chat', "Server: your message was too long to display, message not sent")
 
 #****************************************************************************
-#client disconnecting from server
+#client disconnecting from server completely
 #****************************************************************************
     def logout(self):
         logging.info("logged out")
         clientID = 0
+        print"server ran logout function"
         del self.handler.clients[self.conn_info.ref]
         for clients in self.conn_info.playerID:
             if self.conn_info.playerID[clientID] > 0:
@@ -480,7 +478,7 @@ class ClientPerspective(pb.Avatar):
                     server_message = "Server: Host has left the game"
                     self.state.endgame = True
                     self.handler.remote_all("endgame")
-                if self.state.endgame == False:
+                if self.state.endgame == False and self.state.runningserver == True:
                     for unit in self.state.map.unitstore.values():
                         if unit.playerID == self.conn_info.playerID[clientID]:
                             unit.hp = 0
@@ -518,6 +516,17 @@ class ClientPerspective(pb.Avatar):
                 else:
                     self.handler.remote_all("endgame")
             clientID += 1
+
+#****************************************************************************
+#host shutting down
+#****************************************************************************
+    def perspective_hostquit(self):
+        if self.conn_info.playerID[1] == 1: #player1 is the host and should be the only one allowed to change host settings               
+            self.handler.remote_all("server_shutdown")
+        else:
+            self.handler.remote_all("cheat_signal", self.conn_info.playerID[1])
+            logging.critical("PlayerID " + str(self.conn_info.playerID[1]) + " attempted to force server shutdown")
+
 
 #****************************************************************************
 #calculate the number of players currently connected to the game

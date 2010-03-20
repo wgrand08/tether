@@ -23,6 +23,7 @@ import gettext
 import platform
 import sys
 import os
+import time
 
 import introscreen  
 
@@ -36,7 +37,7 @@ from mainmenu import *
 #****************************************************************************
 class Main:
 
-    def __init__(self, debug):
+    def __init__(self, debug, skipintro):
         pygame.init()
 
         tetherdir = os.getenv("HOME")
@@ -61,12 +62,18 @@ class Main:
         logging.info('Python version ' + sys.version)
         logging.info('Pygame version: ' + pygame.version.ver)
 
-        self.client = GameClientState()    
+        self.client = GameClientState()
+        self.client.debug = debug
         logging.info("MoonPy version %s" % (self.client.settings.string_version))
 
-        self.create_main_window()
-        self.client.moonaudio.intro()
-        self.intro = introscreen.IntroScreen(self.client.screen)
+        if skipintro == True:
+            time.sleep(1)
+            self.create_main_window()
+            self.client.moonaudio.intro()
+        else:
+            self.create_main_window()
+            self.client.moonaudio.intro()
+            self.intro = introscreen.IntroScreen(self.client.screen)
 
         mainmenu = MainMenu(self.client)
 

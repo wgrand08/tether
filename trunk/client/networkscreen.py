@@ -23,6 +23,8 @@ from pygame.locals import *
 import gui
 import logging 
 import gettext
+import subprocess
+import time
 
 from twisted.internet import task
 
@@ -311,7 +313,6 @@ class PregameScreen:
 #  internal loop while waiting for game to start
 #****************************************************************************
     def pregame_loop(self):
-        print self.client.playerID
         for event in pygame.event.get():
             self.app.event(event)
             if event.type == KEYDOWN and event.key == K_RETURN:
@@ -339,9 +340,14 @@ class PregameScreen:
 #****************************************************************************
     def cancel_callback(self):
         self.client.moonaudio.sound("buttonclick.ogg")
-        self.client.netclient.disconnect()
-        self.app.quit()
-        mainmenu.MainMenu(self.client)
+        if self.client.ishost == True:
+            self.client.netclient.hostquit()
+        else:
+            if self.client.debug == True:
+                subprocess.Popen(["./moon.py", "--no-intro", "--debug"])
+            else:
+                subprocess.Popen(["./moon.py", "--no-intro"])
+            self.client.quit()
 
 #****************************************************************************
 # launching game after it is set up

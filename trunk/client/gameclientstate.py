@@ -41,6 +41,7 @@ class GameClientState:
     def __init__(self):
 
 
+        self.debug = False
         self.settings = GameSettings()
         self.holdbutton = HoldButton(self)
         self.moonaudio = MoonAudio(self)
@@ -79,6 +80,7 @@ class GameClientState:
         self.AItype.append(0)
         self.tetherplace = 1
         self.slowtether = 1
+        self.netclient_running = False
         self.conf_startX = 0
         self.conf_startY = 0
         self.conf_endX = 0
@@ -188,7 +190,6 @@ class GameClientState:
 #
 #****************************************************************************
     def connect_network_game(self, address, username):
-
         self.username = username
         self.netclient = NetworkClient(self) 
         logging.info("attempting to connect to: %s" % address)

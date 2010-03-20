@@ -40,9 +40,9 @@ class MainMenu:
         self.client = client
 
         if (self.client.settings.fullscreen):
-          screen_mode = pygame.FULLSCREEN
+            screen_mode = pygame.FULLSCREEN
         else:
-          screen_mode = 0
+            screen_mode = 0
         screen_width = self.client.settings.screen_width 
         screen_height = self.client.settings.screen_height 
         screen = pygame.display.set_mode((screen_width, screen_height), screen_mode)
@@ -85,6 +85,7 @@ class MainMenu:
         container.add(intro_label, self.client.screen.get_width() / 2 - 65, self.client.screen.get_height() * 0.315)
 
         self.app.run(container)
+
 
 #****************************************************************************
 #  Start a network game.
