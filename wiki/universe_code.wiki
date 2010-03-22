@@ -266,8 +266,7 @@ example code:
 	    break
 
   def addline(self, line, screen):
-    # First part sanitizes input for the screen - break input buffer into lines (\n), then into
-    # screen lines based on width
+
     line = line.rstrip()
     actuallines = line.split("\n")
     for entry in actuallines:
@@ -279,4 +278,51 @@ example code:
       screenlines = self.linewrap.wrap(entry)
       for item in screenlines:
         self.lines.append(item)
+
+
+  def parsecmd(self, input):
+    """
+    This function parses user supplied input and reformats into IRC commands
+    """
+    # If first char is a /, then this is a command.
+    output = input
+    if input[0] == "/" :
+      parsedcmd = self.usercmd.match(input)
+      output = parsedcmd.group(1).upper() # group(0) is the raw match, not the group
+      # Insert a bunch of if..elif..else statements
+      if (output == "MSG") :
+        # private message to a user.  format: /msg user text
+        # break off the first word of group(3) to get userid
+        splitcmd = self.usermsg.match(parsedcmd.group(3))
+        output = "PRIVMSG " + splitcmd.group(1) + " :" + splitcmd.group(3) # Note - no error checking for existence of groups
+      elif (output == "JOIN") :
+        # Only supports one channel, no keys, at this time
+        if parsedcmd.group(3) is not None:
+          output = output + " " + parsedcmd.group(3) # Note - group(2) contains that space
+   	  # Store channel for later use
+  	  self.channel = parsedcmd.group(3)
+        else :
+          # Raise a USER=ID10T error
+  	  pass
+      elif (output == "QUIT") :
+        # map add'l params i.e. reason for quitting
+        if parsedcmd.group(3) is not None:
+          output = output + " :" + parsedcmd.group(3)
+      elif (output == "PART") :
+        # add'l param = channel to leave
+        if parsedcmd.group(3) is not None:
+          output = output + " " + parsedcmd.group(3)
+      elif (output == "NICK") :
+        output = "NICK " + parsedcmd.group(3)
+    elif input[0] == "#" :
+      splitcmd = self.usermsg.match(input)
+      output = "PRIVMSG " + splitcmd.group(1) + " :" + splitcmd.group(3)
+      self.channel = splitcmd.group(1) # Update the CHANNEL variable - allows for easier multiple messages
+    else :
+      # This is a msg for a channel.  
+      # look for null input!
+      output = "PRIVMSG " + self.channel + " :" + output # Retrieves channel from above
+    return output.rstrip()
+
+
 }}}
