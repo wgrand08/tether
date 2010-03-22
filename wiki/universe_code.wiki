@@ -138,6 +138,8 @@ class Universe:
                 getinput = False
 
             if getinput == True:
+                line = self.readbuffer
+                line=line.rstrip() #remove trailing 'rn'
                 temp=string.split(self.readbuffer, "\n")
                 for line in temp:
                     if line.find('End of /MOTD command.')!=-1: #This is Crap(I wasn't sure about it but it works)
@@ -148,8 +150,6 @@ class Universe:
                         line=line.split()
                         if(line[0]=='PING'): #If server pings then pong
                             self.irc.sendall('PONG '+line[1]+'n')
-                    line=line.rstrip() #remove trailing 'rn'
-                    line=line.split()
                     print line #server message is output
                     self.message_out.write(line)
 
@@ -162,7 +162,8 @@ class Universe:
                 if event.type == KEYDOWN and event.key == K_RETURN:
                     text = self.line.value
                     self.line.value = ""
-                    self.irc.sendall(text + "\n")
+                    self.message_out.write(text)
+                    self.irc.sendall("PRIVMSG " + self.CHANNELINIT + " :" + text + "\n")
                     self.line.focus()
             self.app.repaint()
             self.app.update(self.client.screen)
