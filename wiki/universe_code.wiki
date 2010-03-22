@@ -1,6 +1,11 @@
 #summary Code of universe.py
 #labels Phase-QA,Deprecated
 
+Check out: http://www.pygame.org/project-Albow-338-853.html
+for a possible pygame only GUI alternative for MoonPy. 
+
+
+
 Original universe.py code:
 
 {{{
