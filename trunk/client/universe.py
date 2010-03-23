@@ -25,7 +25,9 @@ import gui
 import logging
 import gettext
 import mainmenu
+import urllib
 from pygame.locals import *
+from random import randint
 
 
 class Universe:
@@ -34,28 +36,26 @@ class Universe:
         self.irc=socket.socket() #Create the socket
         self.HOST='irc.freenode.org' #The server we want to connect to
         self.PORT=6667 #The connection port which is usually 6667
-        self.NICK=self.client.settings.playername #Users nick
+        self.NICK=self.client.settings.playername #Users nick on IRC
         self.IDENT='moonpy'
         self.REALNAME='moonpy'
         self.CHANNELINIT='#moonpy' #The default channel for the bot
-        self.readbuffer='' #Here we store all the messages from server 
+        self.readbuffer='' 
         self.run_IRC = True
+        self.myIP = "Unidentified IP"
 
 #****************************************************************************
 # IRC chat screen for finding a game
 #****************************************************************************
 
     def connectIRC(self):
-        self.HOST='irc.freenode.org' #The server we want to connect to
-        self.PORT=6667 #The connection port which is usually 6667
-        self.NICK=self.client.settings.playername + "-MoonPy" #The bot's nickname
-        self.IDENT='MoonPy-client'
-        self.REALNAME='MoonPy-player'
-        self.OWNER="Tether"
-        self.CHANNELINIT='#moonpy' #The default channel for the bot
-        self.readbuffer='' #Here we store all the messages from server 
-        #http://www.osix.net/modules/article/?id=780
-
+        self.session = str(randint(100, 999)) #this is to help prevent multiple identical nicks
+        self.NICK = self.client.settings.playername + "-MoonPy" + self.session 
+        self.IDENT='MoonPy-client' + self.session
+        self.REALNAME='MoonPy-player' + self.session
+        pingit = urllib.urlopen('http://whatismyip.org') #get public IP address from the internet
+        self.myIP = pingit.read()
+        pingit.close()
 
         self.irc=socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Create the socket
         self.irc.connect((self.HOST, self.PORT)) #Connect to server
@@ -111,7 +111,7 @@ class Universe:
         container.add(table, self.client.screen.get_width() / 20, self.client.screen.get_height() / 19)
         #container.add(self.message_label, self.client.screen.get_width() / 2 - 160, self.client.screen.get_height() * 0.315)
 
-        self.message_out.write("Connected to IRC.")
+        self.message_out.write("System: Connecting to " + self.HOST)
 
         self.app.init(container)
         self.IRC_loop()
@@ -122,9 +122,8 @@ class Universe:
 #****************************************************************************
     def IRC_loop(self):
 
-        print"Starting loop"
         self.run_IRC = True
-        self.irc.settimeout(0.5)
+        self.irc.settimeout(1)
         while self.run_IRC:
             getinput = True
             try:
@@ -137,39 +136,38 @@ class Universe:
                 line=line.rstrip() #remove trailing 'rn'
                 temp=string.split(self.readbuffer, "\n")
                 for line in temp:
-                    if line.find('End of /MOTD command.')!=-1: #This is Crap(I wasn't sure about it but it works)
+                    if line.find('End of /MOTD command.')!=-1: 
                         self.irc.sendall('JOIN ' + self.CHANNELINIT + '\n') #Join a channel
-                    if line.find('PRIVMSG')!=-1: #Call a parsing function
-                        self.parsemsg(line)
-                        line=line.rstrip() #remove trailing 'rn'
-                        line=line.split()
+                        self.message_out.write("System: Joined channel " + self.CHANNELINIT)
+                    if line.find('PRIVMSG')!=-1 and line.find(self.CHANNELINIT) != -1: 
+                        #self.parsemsg(line)
+                        line = line.rstrip() #strip message to display only username and message
+                        user = line.split('!')
+                        user = user[0]
+                        user = user[1:]
+                        message = line.split(':')
+                        message = message[2]
+                        output = user + ": " + message
+                        self.message_out.write(output)
                         if(line[0]=='PING'): #If server pings then pong
-                            self.irc.sendall('PONG '+line[1]+'n')
-                    print line #server message is output
-                    self.message_out.write(line)
+                            self.irc.sendall('PONG '+line[1]+'\n')
 
-            #print line #server message is output
-            #self.message_out.write(line)
             for event in pygame.event.get():
                 self.app.event(event)
-                if event.type == KEYDOWN and event.key == K_ESCAPE:
-                    self.run_IRC = False
                 if event.type == KEYDOWN and event.key == K_RETURN:
                     text = self.line.value
                     self.line.value = ""
-                    self.message_out.write(text)
+                    self.message_out.write(self.NICK + ": " + text)
                     self.irc.sendall("PRIVMSG " + self.CHANNELINIT + " :" + text + "\n")
                     self.line.focus()
             self.app.repaint()
             self.app.update(self.client.screen)
             pygame.display.flip()
 
-        print"Finished loop"
-
 #****************************************************************************
 #parse the incoming IRC message
 #****************************************************************************
-    def parsemsg(self, msg):
+    def parsemsg(self, msg): #this is disabled for the time being
         complete=msg[1:].split(':',1) #Parse the message into useful data
         info=complete[0].split(' ')
         msgpart=complete[1]
@@ -191,7 +189,6 @@ class Universe:
         if msgpart[0]=='-' and sender[0]== self.OWNER : #Treat msgs with - as explicit command to send to server
             cmd=msgpart[1:]
             s.send(cmd+'n')
-            print 'cmd='+cmd 
 
 #****************************************************************************
 # display chat message
