@@ -25,6 +25,8 @@ import gettext
 from random import *
 
 from networkscreen import *
+from universe import *
+
 import tileset
 
 from settingscreen import *
@@ -63,6 +65,11 @@ class MainMenu:
         network_join_button.connect(gui.CLICK, self.network_join, None)
         menu_table.add(network_join_button, 0, 2)
         menu_table.add(gui.Widget(width=1, height=5), 0, 3)
+
+        network_online_button = gui.Button(("Find Online Game"))
+        network_online_button.connect(gui.CLICK, self.network_online, None)
+        menu_table.add(network_online_button, 0, 4)
+        menu_table.add(gui.Widget(width=1, height=5), 0, 5)
 
         settings_button = gui.Button(("Settings"))
         settings_button.connect(gui.CLICK, self.settings_menu, None)
@@ -104,6 +111,15 @@ class MainMenu:
         self.app.quit()
         ns = NetworkScreen(self.client)
         ns.join()
+
+#****************************************************************************
+#  Find an online game.
+#****************************************************************************
+    def network_online(self, obj):
+        self.client.moonaudio.sound("buttonclick.ogg")
+        self.app.quit()
+        un = Universe(self.client)
+        un.connectIRC()
  
 #****************************************************************************
 #   Access the settings menu

@@ -227,7 +227,6 @@ class NetworkClient(pb.Referenceable):
         self.client.game_next_phase()
 
 
-
 #****************************************************************************
 # recieve updated unit information
 #****************************************************************************
