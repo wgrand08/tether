@@ -28,7 +28,7 @@ MoonPy is currently still beta but completely playable. All the units except for
 MoonPy has been designed from the beginning for multiplayer against other people. We have no plans on ever creating a campaign for it (though if someone wants to they're more then welcome). A very basic AI called "Dumb-bot" has been implemented as of version 0.8.16 which you can fight against in multiplayer. It isn't much of a challenge but it does provide a target to practice on if you don't have anyone else to play against.
 
 ====How do I find someone to play against online?====
-MoonPy doesn't have a master server yet (though one is currently being worked on) and so the only way to play is by joining directly with IP addresses. The best place to try and find someone to play against is on IRC. If you go to irc.freenode.com channel #moonpy and wait long enough, someone will eventually show up.
+The best way is to use IRC. The devs often hang out at irc.freenode.net channel #moonpy so you can often find someone there. There is an IRC client built right into the most recent versions of MoonPy so simply selecting 'find online game' from the main menu will connect you directly there.
 
 ====I've been waiting forever for someone else to show up on IRC, how long should I wait?====
 We're still a small community so it may take some time but one of the devs will show up eventually. If you really want to find people to play with, tell your friends about MoonPy. The more people that know about it, the more people that will check in and the easier it will be to find someone to play against.
@@ -46,7 +46,7 @@ No.
 Mostly because Moonbase Commander is essentially dead, practically no one plays it anymore and it's almost impossible to find a *legitimate* copy of the game. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also made some changes that make MoonPy incompatible with the original even if we did manage to reverse engineer everything.
 
 ====What changes were made?====
-The biggest change we made is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we found inconvenient. MoonPy has no limit to the number of players that can join a single game. We have also added in hotseat capabilties, the ability to implement mods, and the ability for users to script their own bots. 
+The biggest change we made is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we found inconvenient. MoonPy has no limit to the number of players that can join a single game. We have also added in hotseat capabilties, the ability to implement mods, the ability for users to script their own bots, and systems to make finding other players online easier.
 
 ====Changing Moonbase Commander is heresy! Why did you change things?====
 Most of the changes we have listed are things that we felt were flaws in Moonbase Commander. The 4 player limit for example was always a major problem for most of us. Same goes true for most of the other changes listed. 
