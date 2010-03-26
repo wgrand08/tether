@@ -16,7 +16,7 @@ Destroy your enemies!
 
 = Playing MoonPy online =
 
-Currently MoonPy does not have a master server. This means all games need to be joined directly using IP addresses. For now the best place to find others to play MoonPy is on channel #moonpy on irc.freenode.net and organize games manually from there. MoonPy uses port 6112 for it's connections and the host will need to have this port open and/or forwarded in order for others to join.
+MoonPy has an option on the main menu 'find online game'. Selecting this will automatically connect you to irc.freenode.net channel #moonpy. From here you can find other players more easily. Be aware this isn't a true master server system, when someone chooses to host an automated message will announce this in the chat session along with that players public IP address. Other players can then join that game using the IP address. Be aware that players not in the channel at the time you start hosting won't get the message and so will be unable to join. MoonPy uses port 6112 for it's connections and the host will need to have this port open and/or forwarded in order for others to join.
 
 
 = Gameplay =
@@ -93,7 +93,6 @@ http://tether.googlecode.com/svn/wiki/images/terrain/tile_water.png Water: All u
 
 Because of fundamental differences between the MoonPy engine and the original Moonbase Commander (OMBC) engine. There are currently some differences between the two. The ones we are planning on fixing have been marked. The others we do not plan on changing but if someone wants to take the code and change it for us they are more then welcome to. Please check the [http://code.google.com/p/tether/issues/list issue tracker] for more information.
  # Anti-air's shoot incoming shots automatically: In OMBC when an anti-air detected an incoming shot a little missile would fly out to hit it. This would give players the possibility of hitting something before the anti-air missile hit. In MoonPy anti-air's are now instantaneous just like shields, though they still require one turn to reload.
- # EMP's do no damage: In OMBC a direct hit by an EMP would do some damage, MoonPy EMP's do no damage even on a direct hit. (note: This has been fixed as of version 0.8.10)
  # Spike damage is not based on distance: In OMBC a spike would do 3 damage and depending on how far the spike had to travel down the tether would do less and less damage until it did no damage at all. In MoonPy a spike does 3 damage on a direct hit and only 1 damage if it travels down a tether regardless of how long/short it has to travel. A hit on a tether deals only 1 damage to both ends of the tether.
  # No unique player colors: In OMBC, players would choose a color that would identify them to other players. In MoonPy all of "your" units are colored green while all enemies are colored red and all allies are colored blue. Although this makes it harder to identify and target a specific person, this change allows us to theoretically have an unlimited number of players rather then the 4 player cap OMBC had.
  # No balloons: Currently balloons can not be launched out. This is mostly due to the fact coding a 'floating' unit will take a lot of work and since there is no FoW there isn't really any need for balloons at this time. Balloons will be implemented later once FoW is done. 
