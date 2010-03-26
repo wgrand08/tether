@@ -42,7 +42,7 @@ class Universe:
         self.CHANNELINIT='#moonpy' #The default channel for the bot
         self.readbuffer='' 
         self.run_IRC = True
-        self.myIP = "Unidentified IP"
+        self.myIP = "unidentified"
 
 #****************************************************************************
 # IRC chat screen for finding a game
@@ -50,12 +50,16 @@ class Universe:
 
     def connectIRC(self):
         self.session = str(randint(100, 999)) #this is to help prevent multiple identical nicks
-        self.NICK = self.client.settings.playername + "-MoonPy" + self.session 
+        self.NICK = self.client.settings.playername + "-MP"+ self.session
         self.IDENT='MoonPy-client' + self.session
         self.REALNAME='MoonPy-player' + self.session
-        pingit = urllib.urlopen('http://whatismyip.org') #get public IP address from the internet
-        self.myIP = pingit.read()
-        pingit.close()
+        try:
+            pingit = urllib.urlopen('http://whatismyip.org') #get public IP address from the internet
+            self.myIP = pingit.read()
+            pingit.close()
+        except: #error automatically getting IP address
+            self.myIP = "unidentified"
+            logging.error("Unable to automatically detect IP address")
 
         self.irc=socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Create the socket
         self.irc.connect((self.HOST, self.PORT)) #Connect to server
@@ -64,7 +68,7 @@ class Universe:
 
 
         width = 850
-        height = 650
+        height = 600
         self.app = gui.Desktop()
         self.app.connect(gui.QUIT, self.app.quit, None)
         container = gui.Container(align=-1, valign=-1)
@@ -72,7 +76,6 @@ class Universe:
 
         table.add(gui.Widget(),0,0)
 
-        #self.message_label = gui.Label(("Pregame setup"))
         table.add(gui.Widget(width=1, height=5), 0, 0)
 
         self.chat_table = gui.Table(width=width,height=height)
@@ -98,18 +101,31 @@ class Universe:
         sub_table = gui.Table(width=140, height=35)
         table.add(sub_table, 0, 3)
 
+
+        host_table = gui.Table(width = 5, height = 5)
+        host_button = gui.Button(("Host game"))
+        host_button.connect(gui.CLICK, self.host_callback)
+        host_table.add(host_button, 0, 0)
+        container.add(host_table, self.client.screen.get_width() / 5, self.client.screen.get_height() / 17)
+
+
+        join_table = gui.Table(width = 5, height = 5)
+        self.hostname_input = gui.Input((self.client.settings.lastIP))
+        join_table.add(self.hostname_input, 0, 0)
+
+        join_button = gui.Button(("Join game"))
+        join_button.connect(gui.CLICK, self.join_callback)
+        join_table.add(join_button, 0,1)
+
         cancel_button = gui.Button(("Cancel"))
         cancel_button.connect(gui.CLICK, self.cancel_callback)
         sub_table.add(cancel_button, 0,0)
-        if self.client.ishost == True:
-            connect_button = gui.Button(("Start Game"))
-            connect_button.connect(gui.CLICK, self.start_callback)
-            sub_table.add(connect_button, 1,0)
             
 
         container.add(mainmenu.MenuBackground(client=self.client, width = self.client.screen.get_width(), height = self.client.screen.get_height()), 0, 0)
-        container.add(table, self.client.screen.get_width() / 20, self.client.screen.get_height() / 19)
-        #container.add(self.message_label, self.client.screen.get_width() / 2 - 160, self.client.screen.get_height() * 0.315)
+        container.add(table, self.client.screen.get_width() / 20, self.client.screen.get_height() / 8)
+        container.add(host_table, self.client.screen.get_width() / 5, self.client.screen.get_height() / 17)
+        container.add(join_table, self.client.screen.get_width() / 1.75, self.client.screen.get_height() / 17)
 
         self.message_out.write("System: Connecting to " + self.HOST)
 
@@ -123,32 +139,36 @@ class Universe:
     def IRC_loop(self):
 
         self.run_IRC = True
-        self.irc.settimeout(1)
+        self.irc.settimeout(1) #disables IRC for 1 second to prevent getting locked out while waiting for input from server
         while self.run_IRC:
             getinput = True
             try:
-                self.readbuffer = self.irc.recv(500)
+                self.readbuffer = self.irc.recv(500) #get input from server
             except:
                 getinput = False
 
             if getinput == True:
                 line = self.readbuffer
-                line=line.rstrip() #remove trailing 'rn'
+                line=line.rstrip() #remove trailing '\n'
                 temp=string.split(self.readbuffer, "\n")
                 for line in temp:
                     if line.find('End of /MOTD command.')!=-1: 
                         self.irc.sendall('JOIN ' + self.CHANNELINIT + '\n') #Join a channel
                         self.message_out.write("System: Joined channel " + self.CHANNELINIT)
+                        if self.myIP != "unidentified": #confirming public IP address with user
+                            self.message_out.write("System: Your public IP address is " + self.myIP)
+                        else: #reporting public IP address error
+                            self.message_out.write("System: Warning, your public IP address could not be identified automatically")
                     if line.find('PRIVMSG')!=-1 and line.find(self.CHANNELINIT) != -1: 
                         #self.parsemsg(line)
-                        line = line.rstrip() #strip message to display only username and message
+                        line = line.rstrip() #modify input to display only username and message
                         user = line.split('!')
                         user = user[0]
                         user = user[1:]
                         message = line.split(':')
                         message = message[2]
                         output = user + ": " + message
-                        self.message_out.write(output)
+                        self.message_out.write(output) #output message to screen
                         if(line[0]=='PING'): #If server pings then pong
                             self.irc.sendall('PONG '+line[1]+'\n')
 
@@ -202,10 +222,46 @@ class Universe:
 #****************************************************************************
     def cancel_callback(self):
         self.run_IRC = False
+        self.irc.sendall("QUIT :quitting\n")
         self.irc.close()
         self.client.moonaudio.sound("buttonclick.ogg")
         self.app.quit()
         mainmenu.MainMenu(self.client)
+
+#****************************************************************************
+# connecting to server
+#****************************************************************************
+    def join_callback(self):
+        self.client.moonaudio.sound("buttonclick.ogg")
+        self.run_IRC = False
+        self.irc.sendall("PRIVMSG " + self.CHANNELINIT + " :Joining game at " + self.hostname_input.value + "\n")
+        self.irc.sendall("QUIT :quitting\n")
+        self.irc.close()
+        server = self.hostname_input.value
+        nick = self.client.settings.playername
+        self.client.settings.lastIP = server
+        self.client.settings.save_settings()
+        self.app.quit()
+        self.client.connect_network_game(server, nick)
+
+ 
+#****************************************************************************
+# starting and connecting to server
+#****************************************************************************
+    def host_callback(self):
+        self.client.moonaudio.sound("buttonclick.ogg")
+        self.run_IRC = False
+        if self.myIP == "unidentified":
+            self.irc.sendall("PRIVMSG " + self.CHANNELINIT + " :Hosting game at " + self.myIP + " address\n")
+        else:
+            self.irc.sendall("PRIVMSG " + self.CHANNELINIT + " :Hosting game at " + self.myIP + "\n")
+        self.irc.sendall("QUIT :quitting\n")
+        self.irc.close()
+        self.client.ishost = True
+        logging.info("Hosting game")
+        nick = self.client.settings.playername
+        self.app.quit()
+        self.client.host_network_game("localhost", nick)
 
 
 #****************************************************************************

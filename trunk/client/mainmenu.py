@@ -76,14 +76,14 @@ class MainMenu:
         menu_table.add(settings_button, 0, 6)
         menu_table.add(gui.Widget(width=1, height=5), 0, 7)
 
-        credits_button = gui.Button(("Credits"))
+        """credits_button = gui.Button(("Credits"))
         credits_button.connect(gui.CLICK, self.credits_screen, None)
         menu_table.add(credits_button, 0, 8)
-        menu_table.add(gui.Widget(width=1, height=5), 0, 9)
+        menu_table.add(gui.Widget(width=1, height=5), 0, 9)"""
 
         quit_button = gui.Button(("Quit"))
         quit_button.connect(gui.CLICK, self.client.quit)
-        menu_table.add(quit_button, 0, 10)
+        menu_table.add(quit_button, 0, 8)
 
         intro_label = gui.Label(("Welcome to MoonPy"))
 
