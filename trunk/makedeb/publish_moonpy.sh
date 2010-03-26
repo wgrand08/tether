@@ -113,7 +113,7 @@ sudo rm -fr ~/rpmbuild
 echo "finished packaging MoonPy $version"
 if [ "$upload" == "y" ]; then
     echo "Uploading packages to googlecode"
-    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive for packaging" -p tether -u $username -w $password -l Type-Source,OpSys-All ./moonpy-$version-source.tar.gz
+    ./makedeb/googlecode_upload.py -s "MoonPy $version source archive for packaging" -p tether -u $username -w $password -l Type-Source,OpSys-All ./moonpy-$version-package-source.tar.gz
     ./makedeb/googlecode_upload.py -s "MoonPy $version source for all OS's" -p tether -u $username -w $password -l Type-Source,OpSys-All ./moonpy-$version-source.tar.gz
     ./makedeb/googlecode_upload.py -s "MoonPy $version for osX" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-osX ./moonpy-$version-osX.zip
     ./makedeb/googlecode_upload.py -s "MoonPy $version for windows" -p tether -u $username -w $password -l Featured,Type-Archive,OpSys-Windows ./moonpy-$version-win32.zip

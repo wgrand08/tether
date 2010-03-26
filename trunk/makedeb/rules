@@ -30,7 +30,6 @@ install: build
 	cp -r data/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 	cp -r client/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 	cp -r common/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
-	cp -r data/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 	cp -r server/ $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 	cp AUTHORS.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
 	cp COPYING.txt $(CURDIR)/debian/moonpy/usr/local/games/moonpy
