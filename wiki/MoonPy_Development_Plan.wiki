@@ -45,7 +45,7 @@ These are the general requirements for each major release of MoonPy. Currently w
   * Team play available: complete
   * Hotseat capabilities: complete
   * Ability to play against bots: complete
-  * Master server implemented: in progress
+  * Master server implemented: complete
   * Fog of War: planned
   * Balloons: planned
 
