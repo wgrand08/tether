@@ -31,7 +31,7 @@ MoonPy has been designed from the beginning for multiplayer against other people
 The best way is to use IRC. The devs often hang out at irc.freenode.net channel #moonpy so you can usually find someone there. There is an IRC client built right into the most recent versions of MoonPy so simply selecting 'find online game' from the main menu will connect you directly there.
 
 ====I've been waiting forever for someone else to show up on IRC, how long should I wait?====
-We're still a small community so it may take some time but one of the devs will show up eventually. Also, wait for more then 5 seconds and at least ask if anyone is there. Quite often we have seen someone show up, say nothing, and then quit before we had a chance to notice someone wast there. If you really want to find people to play with, tell your friends about MoonPy. The more people that know about it, the more people that will check in and the easier it will be to find someone to play against.
+We're still a small community so it may take some time but one of the devs will show up eventually. Also, wait for more then 5 seconds and at least ask if anyone is there. Quite often we have seen someone show up, say nothing, and then quit before we had a chance to notice someone was even there. If you really want to find people to play with, tell your friends about MoonPy. The more people that know about it, the more people that will check in and the easier it will be to find someone to play against.
 
 ====Why are you using python, why not a real programming language like C++?====
 There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
