@@ -5,6 +5,7 @@ This is a list of all the different names suggested for MoonPy2 along with the n
 
 
  * Tether Wars
+ * Callisto wars +1
  * Scorched Moon +1
  * Scorched Luna
  * (R)TSE: (renewed) Tether space exploration
