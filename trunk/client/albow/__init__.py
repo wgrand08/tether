@@ -1,1 +1,0 @@
-"""ALBOW - A Little Bit of Widgetry for PyGameby Gregory Ewinggreg.ewing@canterbury.ac.nz"""version = (1, 0, 0)from widget import Widgetfrom root import RootWidget
