@@ -55,3 +55,4 @@ class Main:
         self.client = GameClient()
         self.client.debug = debug
         logging.info("Scorched Moon version: " + self.client.settings.stringversion)
+        print "loaded main and then quit!"
