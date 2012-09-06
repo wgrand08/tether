@@ -56,7 +56,7 @@ class Main:
 
         self.client = GameClient()
         self.client.debug = debug
-        logging.info("Scorched Moon version: " + self.client.settings.stringversion)
+        logging.info("Scorched Moon version: " + self.client.stringversion)
 
         if skipintro == True:
             time.sleep(1)
@@ -71,10 +71,7 @@ class Main:
 #
 #****************************************************************************
     def create_main_window(self):
-        screen_width = self.client.settings.screen_width 
-        screen_height = self.client.settings.screen_height 
-        screen_mode = 0
-        screen = pygame.display.set_mode((500, 500), screen_mode)
+        screen = pygame.display.set_mode((500, 500), 0)
 
         pygame.display.set_caption("Welcome to Scorched Moon")
         self.client.screen = screen

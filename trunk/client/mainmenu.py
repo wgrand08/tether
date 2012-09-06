@@ -17,6 +17,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import pygame
+import settingscreen
 from pgu import gui
 
 
@@ -29,17 +30,29 @@ class MainMenu:
 
 
         self.client = client
-        screen = pygame.display.set_mode((640,480),0)
-        app = gui.Desktop()
-        app.connect(gui.QUIT,app.quit,None)
+        screen = pygame.display.set_mode((self.client.screen_width,self.client.screen_height),0)
+        self.app = gui.Desktop()
         menutable = gui.Table(width=200,height=120)
-
-
-
+        settingsbutton = gui.Button("Settings")
+        settingsbutton.connect(gui.CLICK, self.Settings)
         quitbutton = gui.Button("Quit")
-        quitbutton.connect(gui.CLICK,app.quit,None)
-        menutable.add(quitbutton,0,0)
+        quitbutton.connect(gui.CLICK, self.Quitter)
+        menutable.td(settingsbutton, 0,0)
+        menutable.td(quitbutton,0,1)
 
-
-        app.run(menutable)
+        self.app.run(menutable)
         print"after app"
+
+#****************************************************************************
+# Closes the application
+#****************************************************************************
+    def Settings(self):
+        #audio placeholder
+        settingscreen.SettingsScreen(self.client).settings_menu()
+
+#****************************************************************************
+# Closes the application
+#****************************************************************************
+    def Quitter(self):
+        print "Quitting"
+        quit()

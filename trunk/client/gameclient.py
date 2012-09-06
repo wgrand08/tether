@@ -17,16 +17,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 
-from clientsettings import *
-
 #****************************************************************************
 #This class is the main class for the client part of Scorched Moon. All major client variables and some common functions are stored here
 #****************************************************************************
 class GameClient:
     def __init__(self):
 
+        self.version = 0.002
+        self.stringversion = "0.0.02"
         self.debug = False
-        self.settings = ClientSettings()
+        self.screen_width = 1024 
+        self.screen_height = 768
         self.screen = None
-
-

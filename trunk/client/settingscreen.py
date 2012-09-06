@@ -16,12 +16,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-#****************************************************************************
-#  This class reads client settings from various files and applies them
-#****************************************************************************
-class ClientSettings:
-    def __init__(self):
-        self.version = 0.002
-        self.stringversion = "0.0.02"
-        self.screen_width = 1024 
-        self.screen_height = 768
+import pygame
+from pgu import gui
+
+class SettingsScreen:
+    def __init__(self, client):
+        self.client = client
+
+    def settings_menu(self):
+        print "Reached Settings"
