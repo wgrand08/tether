@@ -67,7 +67,7 @@ def main():
         check += 1
 
     import client.main
-    client = client.main.Main(debug)
+    client.main.Main(debug)
 
 def usage():
     print"usage: [--debug] [--help] [--no-intro]"

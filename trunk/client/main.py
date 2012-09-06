@@ -1,4 +1,4 @@
-"""Copyright 2010:
+"""Copyright 2012:
     Kevin Clement
 
 This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,7 @@ import sys
 import os
 import time
 from gameclient import *
+from mainmenu import *
 
 #****************************************************************************
 # The Main class of the client. 
@@ -55,4 +56,5 @@ class Main:
         self.client = GameClient()
         self.client.debug = debug
         logging.info("Scorched Moon version: " + self.client.settings.stringversion)
-        print "loaded main and then quit!"
+        print "loaded main"
+        MainMenu(self.client)
