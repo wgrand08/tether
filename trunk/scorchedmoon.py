@@ -55,19 +55,22 @@ def main():
             sys.exit(1)
 
     debug = False
+    skipintro = False
     check = 0
     for argument in sys.argv:
         if argument == "--debug" or argument == "-d":
             debug = True
         elif argument == "--help" or argument == "-h":
             usage()
+        elif argument == "--no-intro":
+            skipintro = True
         elif check > 0:
             print"Unknown argument: " + argument
             usage()
         check += 1
 
     import client.main
-    client.main.Main(debug)
+    client.main.Main(debug, skipintro)
 
 def usage():
     print"usage: [--debug] [--help] [--no-intro]"

@@ -22,6 +22,7 @@ import platform
 import sys
 import os
 import time
+import introscreen
 from gameclient import *
 from mainmenu import *
 
@@ -29,7 +30,7 @@ from mainmenu import *
 # The Main class of the client. 
 #****************************************************************************
 class Main:
-    def __init__(self, debug):
+    def __init__(self, debug, skipintro):
         pygame.init()
         savedir = os.getenv("HOME")
         if str(savedir) == "None":
@@ -56,5 +57,24 @@ class Main:
         self.client = GameClient()
         self.client.debug = debug
         logging.info("Scorched Moon version: " + self.client.settings.stringversion)
-        print "loaded main"
+
+        if skipintro == True:
+            time.sleep(1)
+        else:
+            self.create_main_window()
+            self.intro = introscreen.IntroScreen(self.client.screen)
+
         MainMenu(self.client)
+
+
+#****************************************************************************
+#
+#****************************************************************************
+    def create_main_window(self):
+        screen_width = self.client.settings.screen_width 
+        screen_height = self.client.settings.screen_height 
+        screen_mode = 0
+        screen = pygame.display.set_mode((500, 500), screen_mode)
+
+        pygame.display.set_caption("Welcome to Scorched Moon")
+        self.client.screen = screen
