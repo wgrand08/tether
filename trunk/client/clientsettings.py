@@ -1,4 +1,4 @@
-"""Copyright 2010:
+"""Copyright 2012:
     Kevin Clement
 
 This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #****************************************************************************
 class ClientSettings:
     def __init__(self):
-        self.version = 0.001
-        self.stringversion = "0.0.01"
+        self.version = 0.002
+        self.stringversion = "0.0.02"
         self.screen_width = 1024 
         self.screen_height = 768

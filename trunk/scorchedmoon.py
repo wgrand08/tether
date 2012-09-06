@@ -1,6 +1,6 @@
 #!/usr/bin/python
  
-"""Copyright 2010:
+"""Copyright 2012:
     Kevin Clement
 
 This program is free software; you can redistribute it and/or modify
