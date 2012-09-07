@@ -18,37 +18,40 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import pygame
 import settingscreen
-from pgu import gui
+import pgu
 
 
 #****************************************************************************
-# The MainMenu class shows buttons with choices for what game-mode
-# which will be used.
+# The MainMenu class which controls the main menu system
 #****************************************************************************
+
 class MainMenu:
     def __init__(self, client):
 
-
-        self.client = client
-        screen = pygame.display.set_mode((self.client.screen_width,self.client.screen_height),0)
+        print "start menu"
+        gui = pgu.gui
         self.app = gui.Desktop()
-        menutable = gui.Table(width=200,height=120)
-        settingsbutton = gui.Button("Settings")
-        settingsbutton.connect(gui.CLICK, self.Settings)
-        quitbutton = gui.Button("Quit")
-        quitbutton.connect(gui.CLICK, self.Quitter)
-        menutable.td(settingsbutton, 0,0)
-        menutable.td(quitbutton,0,1)
+        self.menucontainer = gui.Container(width=1024,height=768)
 
-        self.app.run(menutable)
-        print"after app"
+        self.settingsbutton = gui.Button("Settings")
+        self.settingsbutton.connect(gui.CLICK, self.Settings)
+        self.menucontainer.add(self.settingsbutton,250,200)
+
+        self.quitbutton = gui.Button("Quit")
+        self.quitbutton.connect(gui.CLICK, self.Quitter)
+        self.menucontainer.add(self.quitbutton,250,250)
+
+        self.app.run(self.menucontainer)
+
+        print "end menu"
 
 #****************************************************************************
 # Closes the application
 #****************************************************************************
     def Settings(self):
-        #audio placeholder
-        settingscreen.SettingsScreen(self.client).settings_menu()
+        self.menucontainer.remove(self.settingsbutton)
+        #settingscreen.SettingsScreen(self.client).settings_menu()
+        print "Settings"
 
 #****************************************************************************
 # Closes the application

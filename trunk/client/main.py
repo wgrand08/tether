@@ -23,6 +23,7 @@ import sys
 import os
 import time
 import introscreen
+from pgu import gui
 from gameclient import *
 from mainmenu import *
 
@@ -63,6 +64,9 @@ class Main:
         else:
             self.create_main_window()
             self.intro = introscreen.IntroScreen(self.client.screen)
+
+        screen = pygame.display.set_mode((self.client.screen_width,self.client.screen_height),0)
+        self.client.app = gui.Desktop()
 
         MainMenu(self.client)
 
