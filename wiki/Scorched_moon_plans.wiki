@@ -14,7 +14,7 @@ I want to change some of the libraries we've been using
 MoonPy used the openRTS gui, this was functional but poorly documented and not even complete. In order to have newer features such as slider bars we need a new GUI. I am testing different GUI's and think that the GUI from [http://code.google.com/p/pgu/ PGU] will meet our needs.
 
 == networking library ==
-MoonPy used twisted for it's networking code. Twisted is a very powerful system and has many useful features but it has some serious limitations especially when it comes to clients logging in. Working with different network libraries I suggest we use [http://www.geometrian.com/programming/projects/index.php mastermind] instead. It's much smaller, more easily portable, and looks like it will handle out needs.
+MoonPy used twisted for it's networking code. Twisted is a very powerful system and has many useful features but it has some serious limitations especially when it comes to clients logging in. Working with different network libraries I suggest we use [http://www.geometrian.com/programming/projects/index.php mastermind] or [http://code.google.com/p/miniboa/ miniboa] instead. They are much smaller, more easily portable, and looks like it will handle out needs.
 
 === variable hosts ===
 With the new network code we need to plan from the beginning to allow joined players the option to take over hosting if the original leaves the game.
