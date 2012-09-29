@@ -16,6 +16,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
+from moonaudio import *
+from settings import *
 
 #****************************************************************************
 #This class is the main class for the client part of Scorched Moon. All major client variables and some common functions are stored here
@@ -29,3 +31,5 @@ class GameClient:
         self.screen_width = 1024 
         self.screen_height = 768
         self.screen = None
+        self.moonaudio = MoonAudio(self)
+        self.settings = ClientSettings()

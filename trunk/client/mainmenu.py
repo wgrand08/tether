@@ -30,6 +30,7 @@ class MainMenu:
 
         print "start menu"
         gui = pgu.gui
+        self.client = client
         self.app = gui.Desktop()
         self.menucontainer = gui.Container(width=1024,height=768)
 
@@ -50,6 +51,7 @@ class MainMenu:
 # Closes the application
 #****************************************************************************
     def Settings(self):
+        self.client.moonaudio.sound("buttonclick.ogg")
         self.menucontainer.remove(self.settingsbutton)
         #settingscreen.SettingsScreen(self.client).settings_menu()
         print "Settings"
