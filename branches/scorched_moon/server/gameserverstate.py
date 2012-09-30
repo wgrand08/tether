@@ -1,4 +1,4 @@
-"""Copyright 2009:
+"""Copyright 2012:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
 This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 from random import *
-
+from miniboa import TelnetServer
 from common.map import * 
 from common.game import * 
 from common.mapgen import *
@@ -86,13 +86,6 @@ class ServerState:
             #Initialize main loop callback.
             self.loop = task.LoopingCall(self.mainloop)
             self.loop.start(1.0)
-
-
-#****************************************************************************
-# This method is called every second.
-#****************************************************************************
-    def mainloop(self):
-        self.connections.remote_all('network_sync')
 
 
 #****************************************************************************
@@ -998,23 +991,33 @@ class ServerState:
             energy = 35
         return energy
 
+#****************************************************************************
+#handle new incoming connections
+#****************************************************************************
+
+    def on_connect(client):
+        """
+        Sample on_connect function.
+        Handles new connections.
+        """
+        print "++ Opened connection to %s" % client.addrport()
+        broadcast('%s joins the conversation.\n' % client.addrport() )
+        CLIENT_LIST.append(client)
+        client.send("Welcome to the Chat Server, %s.\n" % client.addrport() )
 
 #****************************************************************************
-#
+#handle disconnects
 #****************************************************************************
-    def setup_network(self):
-        self.connections = ConnectionHandler(self)
-        portal = Portal(self.connections)
-        checker = InMemoryUsernamePasswordDatabaseDontUse()
-        checker.addUser("guest", "guest")
-        portal.registerChecker(checker)
-        reactor.listenTCP(6112, pb.PBServerFactory(portal))
 
 
-#****************************************************************************
-#
-#****************************************************************************
-    def run_network(self):
+    def on_disconnect(client):
+        """
+        Sample on_disconnect function.
+        Handles lost connections.
+        """
+        print "-- Lost connection to %s" % client.addrport()
+        CLIENT_LIST.remove(client)
+        broadcast('%s leaves the conversation.\n' % client.addrport() )
 
-        reactor.run()
-
+    def process_game():
+        print "processing game"

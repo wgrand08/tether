@@ -1,5 +1,5 @@
-"""Copyright 2009:
-    Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
+"""Copyright 2012:
+    Kevin Clement
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,30 +18,29 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 import time
-import pygame
 
 from gameserverstate import *
 
-#****************************************************************************
-#
-#****************************************************************************
-class ServerMain:
-    def __init__(self):
-        self.serverstate = ServerState()
+class Main:
 
+    def __init__(self, debug, skipintro):
 
-#****************************************************************************
-#
-#****************************************************************************
-    def start_from_client(self):
-        self.serverstate.setup_network()
+        self.server = ServerState
 
-#****************************************************************************
-#
-#****************************************************************************
-    def start_from_server(self):
-        self.serverstate.setup_network()
-        self.serverstate.run_network()
+        telnet_server = TelnetServer(
+            port=6112,
+            address='',
+            on_connect=self.server.on_connect,
+            on_disconnect=self.server.on_disconnect,
+            timeout = .05
+            )
 
- 
+        print(">> Listening for connections on port %d.  CTRL-C to break."
+            % telnet_server.port)
 
+        ## Server Loop
+        while SERVER_RUN:
+            telnet_server.poll()
+            #self.server.process_game()
+
+        print(">> Server shutdown.")

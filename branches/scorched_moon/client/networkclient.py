@@ -20,6 +20,7 @@ import pygame
 import logging
 import time
 import subprocess
+from miniboa import TelnetServer
 
 #****************************************************************************
 #

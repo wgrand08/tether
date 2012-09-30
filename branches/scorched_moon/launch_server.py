@@ -1,7 +1,7 @@
 #!/usr/bin/python
- 
+
 """Copyright 2012:
-    Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
+    Kevin Clement
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
-
 
 import sys
 import subprocess
@@ -58,9 +57,7 @@ def main():
     debug = False
     check = 0
     for argument in sys.argv:
-        if argument == "--no-intro":
-            skip = True
-        elif argument == "--debug" or argument == "-d":
+        if argument == "--debug" or argument == "-d":
             debug = True
         elif argument == "--help" or argument == "-h":
             usage()
@@ -73,7 +70,7 @@ def main():
     client = client.main.Main(debug, skip)
 
 def usage():
-    print"usage: [--debug] [--help] [--no-intro]"
+    print"usage: [--debug] [--help]"
     sys.exit(0)
 
 main()
