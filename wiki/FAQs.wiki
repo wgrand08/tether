@@ -15,9 +15,6 @@ You could do a web search to find a copy of the trial version online, or you cou
 ====Moonbase Commander absolutely rocks! Why recreate something thats so perfect?====
 While Moonbase Commander is a great game, there are some flaws and glitches that have never been fixed. Because the game has not received any support from the parent company for over 10 years we assume that they will never be resolved. Rather then live with it we started this project to resolve these flaws ourselves.
 
-====Project Tether hasn't updated in over a year! Is this another dead project?====
-We're not completely dead but because the lead developer and project administrator has been busy with real life stuff, development has slowed to a crawl. It actually is still being worked on but there just hasn't been anything worth posting in all this time. This is why we consider the project in hibernate status for the time being. If someone has the time and is willing to take over coding duties we'd appreciate it but otherwise we ask that you be patient. Once Scorched Moon is even partially playable we'll post the news. We do monitor the chats and mailing lists if you want to chat and of course you can play download and play MoonPy.
-
 ====What is MoonPy?====
 MoonPy is our first open source remake of Moonbase Commander developed by us here at project tether. 
 
@@ -25,13 +22,8 @@ MoonPy is our first open source remake of Moonbase Commander developed by us her
 Back in the early days of this project we couldn't decide on a name for the game itself. At the time we decided we wouldn't worry about it and would come up with one later. We titled the python script to launch our game "moon", short for moonbase commander. Because it's written in python it's listed as moon.py in the filesystem. We started calling it "moon dot pie" just to call it something, and eventually it got abbreviated to it's current name MoonPy (pronounced like "moon pie"). 
 
 ====How far along is MoonPy?=====
-MoonPy is currently still beta but completely playable. All the units except for balloons are implemented, and since there is no FoW yet, balloons are currently unnecessary. Currently all development on MoonPy has been halted in favor of Scorched Moon.
+MoonPy is currently still beta but completely playable. All the units except for balloons are implemented, and since there is no FoW yet, balloons are currently unnecessary.
 
-====What is Scorched Moon?====
-Scorched Moon is essentially our sequel to MoonPy. MoonPy has some serious design flaws in it, mostly relating to the GUI library used, however since these problems are related to the original design and would require so much work to change it was decided it would simply be easier to redesign and rewrite MoonPy from the ground up. With such a major change planned we decided we'd actually give it a proper name since MoonPy isn't what any of us wanted for a name but is what we got stuck with.
-
-====I can't find a download for Scorched Moon, where is it?====
-Scorched Moon is still in development and currently unplayable. There is some code on SVN but most of it is currently offline. Once it's at an even partially playable status we'll offer downloads on the download page for people to help us test.
 
 ====How do I play MoonPy single player?====
 MoonPy has been designed from the beginning for multiplayer against other people. We have no plans on ever creating a campaign for it (though if someone wants to they're more then welcome). A very basic AI called "Dumb-bot" has been implemented as of version 0.8.16 which you can fight against in multiplayer. It isn't much of a challenge but it does provide a target to practice on if you don't have anyone else to play against.
@@ -52,10 +44,10 @@ We are intentionally making all software developed by project tether to be fully
 No.
 
 ====Really? Why not?====
-Mostly because Moonbase Commander is essentially dead, practically no one plays it anymore and it's almost impossible to find a *legitimate* copy of the game. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also made some changes that make MoonPy and Scorched Moon incompatible with the original even if we did manage to reverse engineer everything.
+Mostly because Moonbase Commander is essentially dead, practically no one plays it anymore and it's almost impossible to find a *legitimate* copy of the game. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also made some changes that make MoonPy incompatible with the original even if we did manage to reverse engineer everything.
 
 ====What changes were made?====
-The biggest change we made is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we found inconvenient. MoonPy has no limit to the number of players that can join a single game. We have also added in hotseat capabilties, the ability to implement mods, the ability for users to script their own bots, and systems to make finding other players online easier. We are planning to make similar gameplay changes to Scorched Moon.
+The biggest change we made is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we found inconvenient. MoonPy has no limit to the number of players that can join a single game. We have also added in hotseat capabilties, the ability to implement mods, the ability for users to script their own bots, and systems to make finding other players online easier. 
 
 ====Changing Moonbase Commander is heresy! Why did you change things?====
 Most of the changes we have listed are things that we felt were flaws in Moonbase Commander. The 4 player limit for example was always a major problem for most of us. Same goes true for most of the other changes listed. 
@@ -63,14 +55,14 @@ Most of the changes we have listed are things that we felt were flaws in Moonbas
 ====Why aren't you making the game 3D?====
 Mostly because the lead developers don't feel it's worth the extra effort just to have eye candy.
 
-====I think MoonPy/Scorched Moon should do X, why don't you do it?====
+====I think MoonPy should do X, why don't you do it?====
 We take suggestions but remember we're all unpaid volunteers doing this out love for Moonbase Commander. If you *really* want something implemented everything we have is open source so feel free to implement it yourself. 
 
 ====I found a bug, what do I do?====
-Great, identifying them is the hardest part. Remember though that we've stopped development on MoonPy so we will ignore bug reports for it. If you have found a problem with Scorched Moon please check the [http://code.google.com/p/tether/issues/list issue tracker] to find out if it's already known. If it isn't please report it there. You can also see if one of the developers are available on IRC as well.
+Great, identifying them is the hardest part. If you have found a problem with MoonPy please check the [http://code.google.com/p/tether/issues/list issue tracker] to find out if it's already known. If it isn't please report it there. You can also see if one of the developers are available on IRC as well.
 
 ====How can I help out with the project?=====
 We can always use some help to keep this going. Currently the biggest help we need is people to help us identify bugs, so just downloading it, playing it, and reporting back to us would be *very* useful. In addition to help with the code we also could use graphics, sounds, music, documentation, etc. You can always check out the [http://code.google.com/p/tether/issues/list issue tracker], or post onto our [http://groups.google.com/group/project-tether mailing list]. Also just spreading the word about project tether is a big benefit to us as well.
 
 ====I've been looking through the MoonPy source code archives and keep seeing mention of openRTS, is project tether a part of openRTS?====
-openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of project tether. The MoonPy engine is a heavily modified version of the openRTS engine and as such elements of openRTS occasionally show up, especially in older versions of MoonPy. Currently very little of the original openRTS engine remains unchanged within MoonPy, we do however have the original unedited openRTS source files deprecated on our [http://code.google.com/p/tether/downloads/list downloads page] for reference and historical purposes. Scorched Moon shares no code with openRTS since it is being developed from the ground up though large parts of it are similar to MoonPy. 
+openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of project tether. The MoonPy engine is a heavily modified version of the openRTS engine and as such elements of openRTS occasionally show up, especially in older versions of MoonPy. Currently very little of the original openRTS engine remains unchanged within MoonPy, we do however have the original unedited openRTS source files deprecated on our [http://code.google.com/p/tether/downloads/list downloads page] for reference and historical purposes.
