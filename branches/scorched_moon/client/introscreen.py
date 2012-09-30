@@ -1,4 +1,4 @@
-"""Copyright 2009:
+"""Copyright 2012:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
 This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@ import tileset
 from time import sleep
 
 #****************************************************************************
-#  The Introscreen shows a splash image. FIXME: Video, sound etc...
+#  The Introscreen shows a splash image.
 #****************************************************************************
 
 class IntroScreen:

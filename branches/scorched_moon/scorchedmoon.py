@@ -1,6 +1,6 @@
 #!/usr/bin/python
  
-"""Copyright 2009:
+"""Copyright 2012:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
 This program is free software; you can redistribute it and/or modify
@@ -26,10 +26,10 @@ import os
 def main():
     #this is to verify compatible python version is in use
     if sys.version_info < (2, 4):
-        print("MoonPy requires python2.5 or higher")
+        print("Scorched Moon requires python2.5 or higher")
         sys.exit(1)
     if not sys.version_info < (3, 0):
-        print("MoonPy is not compatible with python3.x yet")
+        print("Scorched Moon is not compatible with python3.x yet")
         sys.exit(1)
     try:
         import pygame
@@ -38,26 +38,26 @@ def main():
             subprocess.Popen([r"msiexec", "-i", "http://pygame.org/ftp/pygame-1.9.1.win32-py2.6.msi"]).wait()
         elif os.name == "mac":
             print("automatic osX pygame installation not yet implemented")
-            print("press enter to quit MoonPy")
+            print("press enter to quit Scorched Moon")
             input()
             sys.exit(1)
         else:
             print("Missing dependency: pygame will need to be installed manually on this system")
-            print("press enter to quit MoonPy")
+            print("press enter to quit Scorched Moon")
             input()
             sys.exit(1)
         try:
             import pygame
         except:
             print("Automatic pygame dependency resolution failed! Exiting...")
-            print("press enter to quit MoonPy")
+            print("press enter to quit Scorched Moon")
             input()
             sys.exit(1)
     try:
         import twisted
     except ImportError, err:
         print("Missing dependency: twisted will need to be installed manually")
-        print("press enter to quit MoonPy")
+        print("press enter to quit Scorched moon")
         input()
         sys.exit(1)
 

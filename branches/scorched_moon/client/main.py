@@ -1,4 +1,4 @@
-"""Copyright 2009:
+"""Copyright 2012:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
 This program is free software; you can redistribute it and/or modify
@@ -43,12 +43,12 @@ class Main:
         tetherdir = os.getenv("HOME")
         if str(tetherdir) == "None":
             tetherdir = os.getenv("USERPROFILE")
-            tetherdir = os.path.join(tetherdir, "moonpy")
+            tetherdir = os.path.join(tetherdir, "scorchedmoon")
         else:
-            tetherdir = os.path.join(tetherdir, ".moonpy")
+            tetherdir = os.path.join(tetherdir, ".scorchedmoon")
         if not os.path.exists(tetherdir):
             os.mkdir(tetherdir)
-        logfile = os.path.join(tetherdir, "MoonPy.log")
+        logfile = os.path.join(tetherdir, "scorchedmoon.log")
         if os.path.exists(logfile):
             os.remove(logfile)
         if debug == True:
@@ -64,7 +64,7 @@ class Main:
 
         self.client = GameClientState()
         self.client.debug = debug
-        logging.info("MoonPy version %s" % (self.client.settings.string_version))
+        logging.info("Scorched Moon version %s" % (self.client.settings.string_version))
 
         if skipintro == True:
             time.sleep(1)
@@ -87,6 +87,6 @@ class Main:
         screen_mode = 0
         screen = pygame.display.set_mode((500, 500), screen_mode)
 
-        pygame.display.set_caption("Welcome to MoonPy")
+        pygame.display.set_caption("Welcome to Scorched Moon")
         self.client.screen = screen
 
