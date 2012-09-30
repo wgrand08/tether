@@ -1,0 +1,13 @@
+Source: moonpy
+Section: games
+Priority: optional
+Maintainer: Donkyhotay <project-tether@googlegroups.com>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.1
+Homepage: http://code.google.com/p/tether
+
+Package: moonpy
+Architecture: any
+Depends: python (>= 2.5.4), python-pygame (>= 1.8.0), python-twisted-bin (>= 8.2.0), python-zope.interface (>= 3.5.2)
+Description: An open source remake of Moonbase Commander
+ A multiplayer turn-based game. On their turn the player can spend energy points by attacking their opponents and/or adding more buildings to their base. Turns continue until all players either pass or run out of energy. The round then ends, players regain energy, and continue taking turns. All buildings are ground-based and are attached by a tether to the building that created them. All units need to be "launched" similar to many artillery games though in a top-down perspective.

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=MoonPy
+GenericName=MoonPy
+Comment=Open source remake of Moonbase Commander
+Icon=/usr/local/games/moonpy/data/graphics/buildings/hub.png
+Exec=/usr/local/games/moonpy/run_moonpy.sh
+Terminal=false
+Categories=Game;StrategyGame;
