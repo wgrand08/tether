@@ -18,11 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 from random import *
-from twisted.internet import task, reactor
-from twisted.cred.portal import Portal
-from twisted.cred.checkers import InMemoryUsernamePasswordDatabaseDontUse
-from twisted.spread import pb
-from twisted.cred.portal import IRealm
 
 from common.map import * 
 from common.game import * 

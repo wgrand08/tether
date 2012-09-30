@@ -1,4 +1,4 @@
-"""Copyright 2009:
+"""Copyright 2012:
     Isaac Carroll, Kevin Clement, Jon Handy, David Carroll, Daniel Carroll
 
 This program is free software; you can redistribute it and/or modify
@@ -37,8 +37,8 @@ class GameSettings:
         self.screen_height = 768
         self.language = "en" 
 
-        self.version = 0.821
-        self.string_version = "0.8.21"
+        self.version = 0.001
+        self.string_version = "0.0.01"
         self.playername = "Commander"
         self.fullscreen = False
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
