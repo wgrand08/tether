@@ -22,22 +22,22 @@ import time
 from gameserverstate import *
 
 
-def on_connect(client):
-    print "++ Opened connection to %s" % client.addrport()
-    client.send("Welcome to the Scorched Moon Server, %s.\n" % client.addrport() )
-
-def on_disconnect(client):
-    print "-- Lost connection to %s" % client.addrport()
-
 class Main:
+
+    def on_connect(self, client):
+        print "Client attempted to connect from %s" % client.addrport()
+        client.send("Welcome to the Scorched Moon Server, %s.\n" % client.addrport() )
+
+    def on_disconnect(self, client):
+        print "Client disconnected from %s" % client.addrport()
 
     def __init__(self, debug, skipintro):
 
         self.server = ServerState()
 
         telnet_server = TelnetServer(port=6112, timeout=.05)
-        telnet_server.on_connect=on_connect
-        telnet_server.on_disconnect=on_disconnect
+        telnet_server.on_connect=self.on_connect
+        telnet_server.on_disconnect=self.on_disconnect
 
         print(">> Listening for connections on port %d.  CTRL-C to break."
             % telnet_server.port)
