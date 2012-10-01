@@ -23,7 +23,6 @@ from common.map import *
 from common.game import * 
 from common.mapgen import *
 from common.settings import *
-from connectionhandler import *
 
 
 #****************************************************************************
@@ -38,6 +37,7 @@ class ServerState:
         self.deadplayers = []
         self.playerIDs = []
         self.teams = []
+        self.clients = []
         self.teams.append(0) #these can *not* be empty or next player/teams will never be found
         self.skippedplayers.append(0) 
         self.deadplayers.append(0)
@@ -51,6 +51,7 @@ class ServerState:
         self.mapX = 90
         self.mapY = 90
         self.game_type = "classic"
+        self.testnumb = 0
  
 #****************************************************************************
 #Starts a new game, loads the map, adds starting hubs
@@ -989,35 +990,8 @@ class ServerState:
                     energy = energy + 2
         if energy > 35:
             energy = 35
-        return energy
+        return energy    
 
-#****************************************************************************
-#handle new incoming connections
-#****************************************************************************
-
-    def on_connect(client):
-        """
-        Sample on_connect function.
-        Handles new connections.
-        """
-        print "++ Opened connection to %s" % client.addrport()
-        broadcast('%s joins the conversation.\n' % client.addrport() )
-        CLIENT_LIST.append(client)
-        client.send("Welcome to the Chat Server, %s.\n" % client.addrport() )
-
-#****************************************************************************
-#handle disconnects
-#****************************************************************************
-
-
-    def on_disconnect(client):
-        """
-        Sample on_disconnect function.
-        Handles lost connections.
-        """
-        print "-- Lost connection to %s" % client.addrport()
-        CLIENT_LIST.remove(client)
-        broadcast('%s leaves the conversation.\n' % client.addrport() )
-
-    def process_game():
-        print "processing game"
+    def process_game(self):
+        self.testnumb = self.testnumb + 1
+        #print self.testnumb
