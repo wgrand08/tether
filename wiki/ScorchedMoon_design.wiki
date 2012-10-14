@@ -1,4 +1,6 @@
+#summary Design plans for Scorched Moon
 #labels Phase-Design
+
 = Reason for Scorched Moon =
 
 MoonPy was created somewhat haphazardly by modifying openRTS into an ATS game similar to OMBC. Scorched Moon is going to be built from the ground up to make a game that is designed with the exact capabilities that we need.
