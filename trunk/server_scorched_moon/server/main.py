@@ -43,7 +43,7 @@ class Main:
                     if cmd == "exit":
                         client.active = False
                     else:
-                        client.send("Unknown Command")
+                        client.send("Unknown Command\n")
 
         def client_connects(client):
             print "%s connected to server" % client.address
@@ -52,7 +52,7 @@ class Main:
 
         def client_disconnects(client):
             print "%s disconnected from server" % client.address
-            client.send("Disconnecting you from server")
+            client.send("Disconnecting you from server\n")
             self.clientlist.remove(client)
 
 
