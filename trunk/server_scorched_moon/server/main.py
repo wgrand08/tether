@@ -43,7 +43,9 @@ class Main:
                     elif cmd == "shutdown":
                         self.shutdown_command = True
                     elif cmd == "broadcast":
-                        msg = "Test broadcast message"
+                        msg = "Test: broadcast message"
+                        print "Broadcast %s" % msg
+                        msg = msg + "\n"
                         broadcast(msg)
                     else:
                         client.send("Unknown Command\n")
