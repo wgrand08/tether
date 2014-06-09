@@ -1,0 +1,22 @@
+#summary Scorched Moon server commands
+#labels Phase-Implementation
+
+= Scorched Moon server commands =
+
+As the Scorched Moon server progresses testing will have to be done manually without the benefit of a client. This page lists all of the server commands and what they do. Usage is the command, followed by any following variables %s string, %i integer. 
+
+
+= Command List =
+
+Currently implemented commands
+  * exit - Disconnects user from server
+  * shutdown - Cleanly shuts down server
+
+Partially implemented commands
+  * broadcast %s - Broadcasts to all users, currently isn't able to strip out the message as part of the command so only broadcasts a preset message.
+
+
+Currently planned commands
+  * chat %s - sends %s as chat to select users
+  * version - sends user current server version
+  * username %s - sets %s as players username
