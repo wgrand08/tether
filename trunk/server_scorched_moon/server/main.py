@@ -36,11 +36,15 @@ class Main:
         def process_clients():
             for client in self.clientlist:
                 if client.active and client.cmd_ready:
-                    cmd = client.get_command()
+                    total_cmd = client.get_command()
+                    cmd = total_cmd
                     if cmd == "exit":
                         client.active = False
                     elif cmd == "shutdown":
                         self.shutdown_command = True
+                    elif cmd == "broadcast":
+                        msg = "Test broadcast message"
+                        broadcast(msg)
                     else:
                         client.send("Unknown Command\n")
 
