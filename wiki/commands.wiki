@@ -3,7 +3,7 @@
 
 = Scorched Moon server commands =
 
-As the Scorched Moon server progresses testing will have to be done manually without the benefit of a client. This page lists all of the server commands and what they do. Usage is the command, followed by any following variables %s string, %i integer. 
+As the Scorched Moon server progresses testing will have to be done manually without the benefit of a client. This page lists all of the server commands and what they do. Usage is the command, followed by any following variables %s represents a string, %i represents an integer. E
 
 
 = Command List =
