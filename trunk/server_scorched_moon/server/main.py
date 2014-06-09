@@ -16,9 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-import sys
-import select
-import os
 import logging
 from miniboa import TelnetServer
 
@@ -29,12 +26,12 @@ class Main:
     def __init__(self, debug):
 
         self.debug = debug
-        self.shutdown_command = False
         self.version = 0.001
         self.gameIDs = []
         self.playerIDs = []
         self.clientlist = []
         self.runserver = True
+        self.shutdown_command = False
 
         def process_clients():
             for client in self.clientlist:
@@ -42,6 +39,8 @@ class Main:
                     cmd = client.get_command()
                     if cmd == "exit":
                         client.active = False
+                    elif cmd == "shutdown":
+                        self.shutdown_command = True
                     else:
                         client.send("Unknown Command\n")
 
@@ -54,6 +53,10 @@ class Main:
             print "%s disconnected from server" % client.address
             client.send("Disconnecting you from server\n")
             self.clientlist.remove(client)
+
+        def broadcast(msg):
+            for client in self.clientlist:
+                client.send(msg)
 
 
         self.server = TelnetServer(port=6112, on_connect=client_connects, on_disconnect=client_disconnects)
@@ -68,5 +71,9 @@ class Main:
         while self.runserver:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
+            if self.shutdown_command == True:
+                broadcast("Server is being intentionally shutdown, Disconnecting\n")
+                self.server.poll()
+                self.runserver = False
 
-        print "Server Shutdown"
+        print "Scorched Moon server has been successfully shutdown"
