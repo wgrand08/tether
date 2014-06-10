@@ -32,6 +32,7 @@ class Main:
         self.clientlist = []
         self.runserver = True
         self.shutdown_command = False
+        self.serverport = 6112
 
         def process_clients():
             for client in self.clientlist:
@@ -65,7 +66,7 @@ class Main:
                 client.send(msg)
 
 
-        self.server = TelnetServer(port=6112, on_connect=client_connects, on_disconnect=client_disconnects)
+        self.server = TelnetServer(port=self.serverport, on_connect=client_connects, on_disconnect=client_disconnects)
 
         if debug == True:
             print "Server is running in debug mode"
