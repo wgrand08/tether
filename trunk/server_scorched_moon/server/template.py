@@ -20,5 +20,5 @@ import logging
 
 #this file handles is nothing more then a basic template
 
-test = True
+nodata = True
 
