@@ -16,7 +16,7 @@ Tethers can not overlap each other. In OMBC if a player attempts to launch a tet
 http://tether.googlecode.com/svn/wiki/images/rotation_example1.png
 http://tether.googlecode.com/svn/wiki/images/rotation_example2.png
 
-Only 11 tethers can be placed but it isn't even. While I may have made a mistake in placing I did perform this test a couple of times and recieved this result each time. I believe that when moving the pointer OMBC checks to see if you are within 30 degrees of another tether and prevents you from firing if you are (thereby giving each individual tether a 15 degree leeway on each side). I suspect the last tether is impossible to place because while there is technically a 12th 30 degree slice capable of fitting another tether the 'warning system' see's a 1 degree overlap that really doesn't exist. On a side note I think this is something else we can fix to make the system more even. 
+Only 11 tethers can be placed but it isn't even. While I may have made a mistake in placing I did perform this test a couple of times and received this result each time. I believe that when moving the pointer OMBC checks to see if you are within 30 degrees of another tether and prevents you from firing if you are (thereby giving each individual tether a 15 degree leeway on each side). I suspect the last tether is impossible to place because while there is technically a 12th 30 degree slice capable of fitting another tether the 'warning system' see's a 1 degree overlap that really doesn't exist. On a side note I think this is something else we can fix to make the system more even. 
 
 
 = Unit HP =
