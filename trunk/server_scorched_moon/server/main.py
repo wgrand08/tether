@@ -18,11 +18,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 from miniboa import TelnetServer
+import moonnet
 
 #the main server class that handles everything
 
 class Main:
-
     def __init__(self, debug):
 
         self.debug = debug
@@ -33,6 +33,7 @@ class Main:
         self.runserver = True
         self.shutdown_command = False
         self.serverport = 6112
+        netcommand = moonnet.NetCommands(self.clientlist)
 
         def process_clients():
             for client in self.clientlist:
@@ -48,7 +49,7 @@ class Main:
                     elif cmd == "shutdown":
                         self.shutdown_command = True
                     elif cmd == "broadcast":
-                        broadcast(cmd_var)
+                        netcommand.broadcast(cmd_var)
                     else:
                         client.send("Unknown Command\n")
 
@@ -61,12 +62,6 @@ class Main:
             print "%s disconnected from server" % client.address
             client.send("Disconnecting you from server\n")
             self.clientlist.remove(client)
-
-        def broadcast(cmd_var):
-            msg = "Broadcast: " + cmd_var + "\n"
-            for client in self.clientlist:
-                client.send(msg)
-
 
         self.server = TelnetServer(port=self.serverport, on_connect=client_connects, on_disconnect=client_disconnects)
 
@@ -81,7 +76,7 @@ class Main:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
             if self.shutdown_command == True:
-                broadcast("Server is being intentionally shutdown, Disconnecting\n")
+                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting\n")
                 self.server.poll()
                 self.runserver = False
 
