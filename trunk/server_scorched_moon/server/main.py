@@ -37,17 +37,18 @@ class Main:
         def process_clients():
             for client in self.clientlist:
                 if client.active and client.cmd_ready:
-                    total_cmd = client.get_command()
-                    cmd = total_cmd
+                    total_cmd = client.get_command()   
+                    if total_cmd.find(" ") != -1:
+                        cmd, cmd_var = total_cmd.split(" ", 1)
+                    else:
+                        cmd = total_cmd
+                        cmd_var = ""
                     if cmd == "exit":
                         client.active = False
                     elif cmd == "shutdown":
                         self.shutdown_command = True
                     elif cmd == "broadcast":
-                        msg = "Test: broadcast message"
-                        print "Broadcast %s" % msg
-                        msg = msg + "\n"
-                        broadcast(msg)
+                        broadcast(cmd_var)
                     else:
                         client.send("Unknown Command\n")
 
@@ -61,7 +62,8 @@ class Main:
             client.send("Disconnecting you from server\n")
             self.clientlist.remove(client)
 
-        def broadcast(msg):
+        def broadcast(cmd_var):
+            msg = "Broadcast: " + cmd_var + "\n"
             for client in self.clientlist:
                 client.send(msg)
 

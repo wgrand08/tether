@@ -562,7 +562,7 @@ class TelnetClient(object):
         Handle incoming Telnet commmands that are three bytes long.
         """
         cmd = self.telnet_got_cmd
-        logger.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
+        #logger.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
 
         ## Incoming DO's and DONT's refer to the status of this end
         if cmd == DO:
