@@ -1,4 +1,4 @@
-#summary user manual
+#summary MoonPy User Manual
 #labels Phase-Support
 
 = Object of Game =
