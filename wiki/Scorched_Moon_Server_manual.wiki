@@ -1,22 +1,32 @@
-#summary Scorched Moon server commands
+#summary Scorched Moon Server Manual
 #labels Phase-Implementation
 
+= Dependencies =
+Scorched Moon requires python, we are planning to specifically work with python 3 however it will currently work with python 2 without problems.
+
+= Launching Scorched Moon server = 
+Scorched Moon server is designed to run as a standalone application independent of any clients. Simply running scorched_moon_server.py will start the server directly. Once started the server is non-interactive and can only be controlled by logging in remotely.
+
+= Scorched Moon server arguments =
+Scorched Moon accepts the following arguments on launch
+
+==Argument List==
+  * --debug or -d - enables debug mode, although argument can be entered debug mode has not been implemented yet.
+  * --help or -h - Shows a list of arguments
+
 = Scorched Moon server commands =
+As the Scorched Moon server progresses testing will have to be done manually without the benefit of a client. The following is a list of all of the server commands and what they do. Usage is the command, followed by any following variables %s represents a string, %i represents an integer.
 
-As the Scorched Moon server progresses testing will have to be done manually without the benefit of a client. This page lists all of the server commands and what they do. Usage is the command, followed by any following variables %s represents a string, %i represents an integer. E
 
+== Command List ==
+These are the currently implemented server commands Scorched Moon accepts. All commands can be submitted directly through a telnet connection.
 
-= Command List =
-
-Currently implemented commands
+===Currently implemented commands===
   * exit - Disconnects user from server
   * shutdown - Cleanly shuts down server
+  * broadcast %s - Sends a broadcast message to all clients
 
-Partially implemented commands
-  * broadcast %s - Broadcasts to all users, currently isn't able to strip out the message as part of the command so only broadcasts a preset message.
-
-
-Currently planned commands
+===Currently planned commands===
   * chat %s - sends %s as chat to select users
   * version - sends user current server version
   * username %s - sets %s as players username
