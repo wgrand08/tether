@@ -36,11 +36,12 @@ These are the currently implemented server commands Scorched Moon accepts. All c
 These are the currently implemented responses the server can send to a client.
 
 === Currently implemented responses ===
-   * broadcast %s - a chat message being sent to all clients
-   * unknown %s - server received a command it didn't recognize
-   * version %s - current server version number
+  * broadcast %s - a chat message being sent to all clients
+  * unknown %s - server received a command it didn't recognize
+  * version %s - current server version number
+  * disconnecting - server is disconnecting client
 
 === Currently planned responses ===
-   * chat %s - a standard chat message
-   * tchat %s - a chat specifically from a teammember in game
-   * error %s - generic error message specified in string
+  * chat %s - a standard chat message
+  * tchat %s - a chat specifically from a teammember in game
+  * error %s - generic error message specified in string
