@@ -25,6 +25,6 @@ class NetCommands():
        self.client = client
 
     def broadcast(self, msg):
-        msg = "Broadcast: " + msg + "\n"
+        msg = "Broadcast " + msg + "\n"
         for client in self.client:
             client.send(msg)

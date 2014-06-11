@@ -61,24 +61,17 @@ class Main:
                     elif cmd == "broadcast":
                         netcommand.broadcast(cmd_var)
                     else:
-                        client.send("Unknown Command\n")
+                        client.send("unknown %s \n" % total_cmd)
                         client.debug("Unknown command = %s" % total_cmd)
 
         def client_connects(client):
             self.clientlist.append(client) 
-            self.player.append(player.Player(client))
-            print "Total players = %i" % len(self.player)
-            counter = 0
-            for search in self.player:
-                if search.client == client:
-                    print "found client at %i" % counter
-                counter = counter + 1
             logging.info("%s connected to server" % client.address)
-            client.send("Welcome to Scorched Moon version %s\n" % self.version)
+            client.send("version %s\n" % self.version)
 
         def client_disconnects(client):
             logging.info("%s disconnected to server" % client.address)
-            client.send("Disconnecting you from server\n")
+            client.send("Disconnecting\n")
             self.clientlist.remove(client)
 
         self.server = TelnetServer(port=self.serverport, on_connect=client_connects, on_disconnect=client_disconnects)
