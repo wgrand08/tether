@@ -21,10 +21,10 @@ import logging
 #this class handles network commands for the server
 
 class NetCommands():
-    def __init__(self, clientlist):
-       self.clientlist = clientlist
+    def __init__(self, client):
+       self.client = client
 
     def broadcast(self, msg):
         msg = "Broadcast: " + msg + "\n"
-        for client in self.clientlist:
+        for client in self.client:
             client.send(msg)

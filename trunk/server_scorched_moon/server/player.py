@@ -21,7 +21,14 @@ import logging
 #this class handles information for each player
 
 class Player():
-    def __init__(self, clientlist):
-        self.clientlist = clientlist
-        test = False
-        test2 = True
+    def __init__(self, client):
+        self.username = "Name"
+        self.address = "127.0.0.1"
+        self.client = client
+        self.energy = 0
+        
+    def get_arrayID(self, client): #identifies where in the list a specific client is
+        for check in self.client:
+            if check == client:
+                return check
+        logging.warning("Server was unable to find a client in get_arrayID player.py")

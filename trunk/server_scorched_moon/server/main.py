@@ -16,9 +16,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
+import sys
 import logging
 from miniboa import TelnetServer
 import moonnet
+import player
 
 #the main server class that handles everything
 
@@ -27,13 +29,20 @@ class Main:
 
         self.debug = debug
         self.version = 0.001
-        self.gameIDs = []
-        self.playerIDs = []
-        self.clientlist = []
         self.runserver = True
         self.shutdown_command = False
         self.serverport = 6112
+        self.player = [] # a list of player classes
+        self.game = [] # a list of game classes
+        self.clientlist = [] # a list of all connected clients
         netcommand = moonnet.NetCommands(self.clientlist)
+
+        if debug == True:
+            print "Launching Scorched Moon server ver. %s in debug mode" % self.version
+            logging.basicConfig(filename="errors.log",level=logging.DEBUG)
+        else:
+            print "Launching Scorched Moon server ver. %s normally" % self.version
+            logging.basicConfig(filename="errors.log",level=logging.ERROR)
 
         def process_clients():
             for client in self.clientlist:
@@ -47,29 +56,32 @@ class Main:
                     if cmd == "exit":
                         client.active = False
                     elif cmd == "shutdown":
+                        logging.info("Shutdown command recieved by " % client.address)
                         self.shutdown_command = True
                     elif cmd == "broadcast":
                         netcommand.broadcast(cmd_var)
                     else:
                         client.send("Unknown Command\n")
+                        client.debug("Unknown command = %s" % total_cmd)
 
         def client_connects(client):
-            print "%s connected to server" % client.address
-            self.clientlist.append(client)
+            self.clientlist.append(client) 
+            self.player.append(player.Player(client))
+            print "Total players = %i" % len(self.player)
+            counter = 0
+            for search in self.player:
+                if search.client == client:
+                    print "found client at %i" % counter
+                counter = counter + 1
+            logging.info("%s connected to server" % client.address)
             client.send("Welcome to Scorched Moon version %s\n" % self.version)
 
         def client_disconnects(client):
-            print "%s disconnected from server" % client.address
+            logging.info("%s disconnected to server" % client.address)
             client.send("Disconnecting you from server\n")
             self.clientlist.remove(client)
 
         self.server = TelnetServer(port=self.serverport, on_connect=client_connects, on_disconnect=client_disconnects)
-
-        if debug == True:
-            print "Server is running in debug mode"
-        else:
-            print "Server is not running in debug mode"
-
 
         ## Server Loop
         while self.runserver:
