@@ -20,6 +20,6 @@ import logging
 
 #this class handles information for each player
 
-class Player:
-    def __init__(self):
-        test = True
+class Player():
+    def __init__(self, clientlist):
+        self.clientlist = clientlist
