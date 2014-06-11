@@ -24,3 +24,4 @@ class Player():
     def __init__(self, clientlist):
         self.clientlist = clientlist
         test = False
+        test2 = True
