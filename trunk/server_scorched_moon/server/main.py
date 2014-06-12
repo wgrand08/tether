@@ -52,6 +52,9 @@ class Main: #the main server class
                         cmd = total_cmd
                         cmd_var = ""
                     if cmd == "exit":
+                        logging.info("%s disconnected intentionally" % client.address)
+                        client.send("disconnecting\n")
+                        self.server.poll()
                         client.active = False
                     elif cmd == "shutdown":
                         logging.info("Shutdown command recieved by %s" % client.address)
@@ -71,8 +74,7 @@ class Main: #the main server class
             netcommand.version(client)
 
         def client_disconnects(client):
-            logging.info("%s disconnected from server" % client.address)
-            client.send("disconnecting\n")
+            logging.info("%s dropped" % client.address)
             self.clientlist.remove(client)
 
         def get_arrayID(self, username):
@@ -85,7 +87,7 @@ class Main: #the main server class
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
             if self.settings.shutdown_command == True:
-                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users\n")
+                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users")
                 self.server.poll()
                 for client in self.clientlist:
                     client.send("disconnecting\n")

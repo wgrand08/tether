@@ -25,10 +25,10 @@ These are the currently implemented server commands Scorched Moon accepts. All c
   * exit - Disconnects user from server
   * shutdown - Cleanly shuts down server
   * broadcast %s - Sends a broadcast message to all clients, players do not need to be logged in to receive a broadcast
+  * version - sends user current server version
 
 === Currently planned commands ===
   * chat %s - sends %s as chat to select users
-  * version - sends user current server version
   * login %s - logs player in with specified username
 
 
