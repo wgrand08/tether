@@ -374,7 +374,7 @@ class TelnetClient(object):
         if len(self.send_buffer):
             try:
                 #convert to ansi before sending
-                sent = self.sock.send(bytes(self.send_buffer))
+                sent = self.sock.send(bytes(self.send_buffer, "cp1252"))
             except socket.error as err:
                 logging.error("SEND error '{}:{}' from {}".format(err[0], err[1], self.addrport()))
                 self.active = False
@@ -390,7 +390,7 @@ class TelnetClient(object):
         """
         try:
             #Encode recieved bytes in ansi
-            data = str(self.sock.recv(2048))
+            data = str(self.sock.recv(2048), "cp1252")
         except socket.error as err:
             logging.error("RECIEVE socket error '{}:{}' from {}".format(err[0], err[1], self.addrport()))
             raise ConnectionLost()
@@ -562,7 +562,7 @@ class TelnetClient(object):
         Handle incoming Telnet commmands that are three bytes long.
         """
         cmd = self.telnet_got_cmd
-        #logger.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
+        logging.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
 
         ## Incoming DO's and DONT's refer to the status of this end
         if cmd == DO:
@@ -698,37 +698,37 @@ class TelnetClient(object):
 
     def _check_local_option(self, option):
         """Test the status of local negotiated Telnet options."""
-        if not self.telnet_opt_dict.has_key(option):
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         return self.telnet_opt_dict[option].local_option
 
     def _note_local_option(self, option, state):
         """Record the status of local negotiated Telnet options."""
-        if not self.telnet_opt_dict.has_key(option):
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         self.telnet_opt_dict[option].local_option = state
 
     def _check_remote_option(self, option):
         """Test the status of remote negotiated Telnet options."""
-        if not self.telnet_opt_dict.has_key(option):
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         return self.telnet_opt_dict[option].remote_option
 
     def _note_remote_option(self, option, state):
         """Record the status of local negotiated Telnet options."""
-        if not self.telnet_opt_dict.has_key(option):
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         self.telnet_opt_dict[option].remote_option = state
 
     def _check_reply_pending(self, option):
         """Test the status of requested Telnet options."""
-        if not self.telnet_opt_dict.has_key(option):
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         return self.telnet_opt_dict[option].reply_pending
 
     def _note_reply_pending(self, option, state):
         """Record the status of requested Telnet options."""
-        if not self.telnet_opt_dict.has_key(option):
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         self.telnet_opt_dict[option].reply_pending = state
 

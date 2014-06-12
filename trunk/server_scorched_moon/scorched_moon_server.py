@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """Copyright 2014:
     Kevin Clement
@@ -31,7 +31,7 @@ def main():
         elif argument == "--help" or argument == "-h":
             usage()
         elif check > 0:
-            print"Unknown argument: " + argument
+            print("Unknown argument: %s" % argument)
             usage()
         check += 1
 
@@ -39,7 +39,7 @@ def main():
     server = server.main.Main(debug)
 
 def usage():
-    print"usage: [--debug] [--help]"
+    print("usage: [--debug] [--help]")
     sys.exit(0)
 
 main()

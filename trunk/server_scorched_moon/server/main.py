@@ -18,10 +18,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import sys
 import logging
-from miniboa import TelnetServer
-import moonnet
-import player
-import settings
+from server.miniboa import TelnetServer
+from . import moonnet
+from . import player
+from . import settings
 
 #the main server class that handles everything
 
@@ -33,16 +33,16 @@ class Main: #the main server class
         self.player = [] # a list of player classes
         self.game = [] # a list of game classes
         self.clientlist = [] # a list of all connected clients
-        netcommand = moonnet.NetCommands(self.clientlist)
+        netcommand = moonnet.NetCommands(self.clientlist, self.settings)
 
         if self.settings.debug == True:
-            print "Launching Scorched Moon server ver. %s in debug mode" % self.settings.version
+            print("Launching Scorched Moon server ver. %s in debug mode" % self.settings.version)
             logging.basicConfig(filename="errors.log",level=logging.DEBUG)
         else:
-            print "Launching Scorched Moon server ver. %s normally" % self.settings.version
+            print("Launching Scorched Moon server ver. %s normally" % self.settings.version)
             logging.basicConfig(filename="errors.log",level=logging.ERROR)
 
-        def process_clients():
+        def process_clients(): #handles commands client has sent to server
             for client in self.clientlist:
                 if client.active and client.cmd_ready:
                     total_cmd = client.get_command()   
@@ -51,29 +51,29 @@ class Main: #the main server class
                     else:
                         cmd = total_cmd
                         cmd_var = ""
-                    if cmd == "exit":
+                    if cmd == "exit": #command to disconnect client
                         logging.info("%s disconnected intentionally" % client.address)
                         client.send("disconnecting\n")
                         self.server.poll()
                         client.active = False
-                    elif cmd == "shutdown":
+                    elif cmd == "shutdown": #command to shutdown entire server
                         logging.info("Shutdown command recieved by %s" % client.address)
                         self.settings.shutdown_command = True
-                    elif cmd == "broadcast":
+                    elif cmd == "broadcast": #command to send message to all clients
                         netcommand.broadcast(cmd_var)
-                    elif cmd == "version":
+                    elif cmd == "version": # command to provide the server version
                         netcommand.version(client)
                     else:
                         client.send("unknown %s \n" % total_cmd)
                         logging.debug("Unknown command = %s" % total_cmd)
 
-        def client_connects(client):
+        def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
             client.send("hello\n")
             logging.info("%s connected to server" % client.address)
             netcommand.version(client)
 
-        def client_disconnects(client):
+        def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("%s dropped" % client.address)
             self.clientlist.remove(client)
 
@@ -95,4 +95,4 @@ class Main: #the main server class
                     client.active = False
                 self.settings.runserver = False
 
-        print "Scorched Moon server has been successfully shutdown"
+        print("Scorched Moon server has been successfully shutdown")

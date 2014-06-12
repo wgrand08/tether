@@ -21,8 +21,9 @@ import logging
 #this class handles network commands for the server
 
 class NetCommands():
-    def __init__(self, client):
-       self.client = client
+    def __init__(self, client, settings):
+        self.client = client
+        self.settings = settings
 
     def broadcast(self, msg):
         msg = "Broadcast " + msg + "\n"
@@ -30,5 +31,4 @@ class NetCommands():
             client.send(msg)
 
     def version(self, client):
-        version = "0.00.2" #need code to get version from global settings
-        client.send("version %s\n" % version)
+        client.send("version %s\n" % self.settings.version)
