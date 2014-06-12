@@ -29,6 +29,9 @@ These are the currently implemented server commands Scorched Moon accepts. All c
 
 === Currently planned commands ===
   * chat %s - sends %s as chat to select users
+  * tchat %s - sends %s as chat to all users in team (only in active game)
+  * pchat %s1 %s2 - sends %s2 to user %s1 (private message or whisper)
+
   * login %s - logs player in with specified username
 
 
@@ -42,6 +45,7 @@ These are the currently implemented responses the server can send to a client.
   * disconnecting - server is disconnecting client
 
 === Currently planned responses ===
-  * chat %s - a standard chat message
-  * tchat %s - a chat specifically from a teammember in game
+  * chat %s1 %s2 - a standard chat message from %s1 with contents %s2 
+  * tchat %s1 %s2 - a chat specifically from teammember %s2 with contents %s2
+  * pchat %s1 %s2 - a private message from user %s1 with contents %s2
   * error %s - generic error message specified in string
