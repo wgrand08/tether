@@ -28,3 +28,7 @@ class NetCommands():
         msg = "Broadcast " + msg + "\n"
         for client in self.client:
             client.send(msg)
+
+    def version(self, client):
+        version = "0.00.2" #need code to get version from global settings
+        client.send("version %s\n" % version)

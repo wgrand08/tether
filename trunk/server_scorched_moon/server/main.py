@@ -21,27 +21,25 @@ import logging
 from miniboa import TelnetServer
 import moonnet
 import player
+import settings
 
 #the main server class that handles everything
 
-class Main:
+class Main: #the main server class
     def __init__(self, debug):
 
-        self.debug = debug
-        self.version = 0.001
-        self.runserver = True
-        self.shutdown_command = False
-        self.serverport = 6112
+        self.settings = settings.Settings()
+        self.settings.debug = debug
         self.player = [] # a list of player classes
         self.game = [] # a list of game classes
         self.clientlist = [] # a list of all connected clients
         netcommand = moonnet.NetCommands(self.clientlist)
 
-        if debug == True:
-            print "Launching Scorched Moon server ver. %s in debug mode" % self.version
+        if self.settings.debug == True:
+            print "Launching Scorched Moon server ver. %s in debug mode" % self.settings.version
             logging.basicConfig(filename="errors.log",level=logging.DEBUG)
         else:
-            print "Launching Scorched Moon server ver. %s normally" % self.version
+            print "Launching Scorched Moon server ver. %s normally" % self.settings.version
             logging.basicConfig(filename="errors.log",level=logging.ERROR)
 
         def process_clients():
@@ -56,33 +54,43 @@ class Main:
                     if cmd == "exit":
                         client.active = False
                     elif cmd == "shutdown":
-                        logging.info("Shutdown command recieved by " % client.address)
-                        self.shutdown_command = True
+                        logging.info("Shutdown command recieved by %s" % client.address)
+                        self.settings.shutdown_command = True
                     elif cmd == "broadcast":
                         netcommand.broadcast(cmd_var)
+                    elif cmd == "version":
+                        netcommand.version(client)
                     else:
                         client.send("unknown %s \n" % total_cmd)
-                        client.debug("Unknown command = %s" % total_cmd)
+                        logging.debug("Unknown command = %s" % total_cmd)
 
         def client_connects(client):
             self.clientlist.append(client) 
+            client.send("hello\n")
             logging.info("%s connected to server" % client.address)
-            client.send("version %s\n" % self.version)
+            netcommand.version(client)
 
         def client_disconnects(client):
-            logging.info("%s disconnected to server" % client.address)
-            client.send("Disconnecting\n")
+            logging.info("%s disconnected from server" % client.address)
+            client.send("disconnecting\n")
             self.clientlist.remove(client)
 
-        self.server = TelnetServer(port=self.serverport, on_connect=client_connects, on_disconnect=client_disconnects)
+        def get_arrayID(self, username):
+            test = True #need code to search self.player list for specific username and return the arrayID
+
+        self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects)
 
         ## Server Loop
-        while self.runserver:
+        while self.settings.runserver:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
-            if self.shutdown_command == True:
-                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting\n")
+            if self.settings.shutdown_command == True:
+                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users\n")
                 self.server.poll()
-                self.runserver = False
+                for client in self.clientlist:
+                    client.send("disconnecting\n")
+                    self.server.poll()
+                    client.active = False
+                self.settings.runserver = False
 
         print "Scorched Moon server has been successfully shutdown"

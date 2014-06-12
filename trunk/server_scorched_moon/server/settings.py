@@ -18,10 +18,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 
-#this class handles information for each player
-
-class Player():
-    def __init__(self, client, username):
-        self.username = "Name"
-        self.client = client
-        self.energy = 0
+class Settings():
+    def __init__(self):
+        self.version = "0.00.2"
+        self.debug = False
+        self.runserver = True
+        self.shutdown_command = False
+        self.serverport = 6112
