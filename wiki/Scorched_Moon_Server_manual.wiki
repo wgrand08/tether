@@ -43,7 +43,7 @@ These are the currently implemented server commands Scorched Moon accepts. All c
   * chat %s - sends %s as chat to select users
   * tchat %s - sends %s as chat to all users in team (only in active game)
   * pchat %s1 %s2 - sends %s2 to user %s1 (private message or whisper)
-  * login %s - logs player in with specified username
+  * login %s - logs player in with specified username, multiple players can log in from the same client connection to allow for hotseat play
   * fire %s1 %s2 %i1 %i2 - fires from building %s1 object %s2 at degree %i1 at power %i2
 
 
@@ -60,7 +60,7 @@ These are the currently implemented responses the server can send to a client.
 === Currently planned responses ===
   * chat %s1 %s2 - a standard chat message from %s1 with contents %s2 
   * tchat %s1 %s2 - a chat specifically from teammember %s2 with contents %s2
-  * pchat %s1 %s2 - a private message from user %s1 with contents %s2
+  * pchat %s1 %s2 %s3 - a private message from user %s1 to user %s2 (to account for hotseat play) with contents %s3
   * error %s - generic error message specified in string
   * map - sending updated map, there are currently no plans on included variables since this will obviouly have to be long and complicated
   * sound %s - server letting client know what sounds were heard, sound will work this way specifically for explosions and other things that happen in FoW or SoW
