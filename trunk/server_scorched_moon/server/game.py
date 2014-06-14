@@ -22,6 +22,7 @@ import logging
 
 class Game:
     def __init__(self):
+        logger = logging.getLogger(__name__)
         self.currentplayer = 1
         self.endgame = False
         

@@ -22,13 +22,16 @@ import logging
 
 class NetCommands():
     def __init__(self, client, settings):
+        logging.debug("")
         self.client = client
         self.settings = settings
 
     def broadcast(self, msg):
+        logging.debug("")
         msg = "Broadcast " + msg + "\n"
         for client in self.client:
             client.send(msg)
 
     def version(self, client):
+        logging.debug("")
         client.send("version %s\n" % self.settings.version)

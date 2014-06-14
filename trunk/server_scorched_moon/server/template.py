@@ -20,5 +20,6 @@ import logging
 
 #this file handles is nothing more then a basic template
 
-nodata = True
-
+class ClassName:
+    def __init__():
+        logger = logging.getLogger(__name__) #for module specific logging

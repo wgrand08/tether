@@ -24,22 +24,63 @@ import os
 
 def main():
     debug = False
+    loglevel = 4
+    logready = False
     check = 0
     for argument in sys.argv:
         if argument == "--debug" or argument == "-d":
             debug = True
         elif argument == "--help" or argument == "-h":
             usage()
+        elif argument == "--log" or argument == "-l":
+            logready = True
+        elif argument == "1":
+            if logready == True: #don't combine if statements to make it easier to add further 
+                logready = False
+                loglevel = 1
+            else:
+                print("Unknown argument: %s" % argument)
+                usage()
+        elif argument == "2":
+            if logready == True: #don't combine if statements to make it easier to add further 
+                logready = False
+                loglevel = 2
+            else:
+                print("Unknown argument: %s" % argument)
+                usage()
+        elif argument == "3":
+            if logready == True: #don't combine if statements to make it easier to add further 
+                logready = False
+                loglevel = 3
+            else:
+                print("Unknown argument: %s" % argument)
+                usage()
+        elif argument == "4":
+            if logready == True: #don't combine if statements to make it easier to add further 
+                logready = False
+                loglevel = 4
+            else:
+                print("Unknown argument: %s" % argument)
+                usage()
         elif check > 0:
             print("Unknown argument: %s" % argument)
             usage()
         check += 1
 
     import server.main
-    server = server.main.Main(debug)
+    server = server.main.Main(debug, loglevel)
 
 def usage():
-    print("usage: [--debug] [--help]")
+    print(" ")
+    print("scorched_moon_server [options]")
+    print(" ")
+    print("Options are:")
+    print(" ")
+    print("-d               --debug             Run server in debug mode, this also forces log to level 1")
+    print(" ")
+    print("-l <number>      --log <number>      Set log level from 1 - 4")
+    print(" ")
+    print("-h               --help              Display this help screen")
     sys.exit(0)
 
 main()

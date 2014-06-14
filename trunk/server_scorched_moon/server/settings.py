@@ -20,7 +20,8 @@ import logging
 
 class Settings():
     def __init__(self):
-        self.version = "0.00.3"
+        logging.debug("")
+        self.version = "0.00.0"
         self.debug = False
         self.runserver = True
         self.shutdown_command = False

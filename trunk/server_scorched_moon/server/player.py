@@ -22,6 +22,7 @@ import logging
 
 class Player():
     def __init__(self, client, username):
+        logger = logging.getLogger(__name__)
         self.username = "Name"
         self.client = client
         self.energy = 0
