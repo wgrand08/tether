@@ -30,6 +30,7 @@ class Tools:
         for players in playerlist:
             if players.username == username:
                 logging.debug("arrayID found %s" % counter)
+                return counter
             else:
                 counter += 1
         logging.warning("arrayID unable to find username ", username)

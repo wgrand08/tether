@@ -22,14 +22,14 @@ from server.miniboa import TelnetServer
 from . import moonnet
 from . import player
 from . import settings
-from . import tools
+from . import moontools
 
 #the main server class that handles everything
 
 class Main: #the main server class
     def __init__(self, debug, loglevel):
 
-        version = "0.00.5" # server version number
+        version = "0.00.6" # server version number
 
         if debug: # debug overrides logging settings
             loglevel = 1
@@ -71,6 +71,7 @@ class Main: #the main server class
         self.game = [] # a list of game classes
         self.clientlist = [] # a list of all connected clients
         netcommand = moonnet.NetCommands(self.clientlist, self.settings)
+        tools = moontools.Tools()
 
 
         def process_clients(): #handles commands client has sent to server
@@ -95,12 +96,19 @@ class Main: #the main server class
                     elif cmd == "version": # command to provide the server version
                         netcommand.version(client)
                     elif cmd == "login": # command to log in client and recognize them as an actual player
-                        self.player.append(player(client, cmd_var))
-                        logging.info("%s logged in from %s" % cmd_var, client.address)
-                        test = tools.arrayID(self.player, cmd_var)
-                        logging.debug("identified arrayID %s " % test)
-                        logging.debug("identified username = %s" % self.player[test])
-                        client.send("welcome %s" % self.player[test].username)
+                        badlogin = False
+                        for check in self.player:
+                            if check.username == cmd_var:
+                                logging.warning("Duplicate username attempted")
+                                client.send("error username already taken")
+                                badlogin = True
+                        if badlogin == False:
+                            self.player.append(player.Player(client, cmd_var))
+                            logging.info("%s logged in from %s" % (cmd_var, client.address))
+                            ID = tools.arrayID(self.player, cmd_var)
+                            logging.debug("identified arrayID %s " % ID)
+                            logging.debug("identified username = %s" % self.player[ID].username)
+                            client.send("welcome %s \n" % self.player[ID].username)
                     else:
                         client.send("unknown %s \n" % total_cmd)
                         logging.warning("Unknown command = %s" % total_cmd)

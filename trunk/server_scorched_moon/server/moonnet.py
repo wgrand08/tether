@@ -34,4 +34,4 @@ class NetCommands():
 
     def version(self, client):
         logging.debug("")
-        client.send("version\n" % self.settings.version)
+        client.send("version %s \n" % self.settings.version)

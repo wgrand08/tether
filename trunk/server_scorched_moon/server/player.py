@@ -22,7 +22,7 @@ import logging
 
 class Player():
     def __init__(self, client, username):
-        logging.debut("")
+        logging.debug("")
         self.username = username
         self.client = client
         self.energy = 0
