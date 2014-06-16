@@ -83,12 +83,12 @@ class Main: #the main server class
                         cmd = total_cmd
                         cmd_var = ""
                     if cmd == "exit": #command to disconnect client
-                        logging.info(client.address, " disconnected intentionally")
+                        logging.info("%s disconnected intentionally" % client.address)
                         client.send("goodbye\n")
                         self.server.poll()
                         client.active = False
                     elif cmd == "shutdown": #command to shutdown entire server
-                        logging.warning("Shutdown command recieved by ", client.address)
+                        logging.warning("Shutdown command recieved by %s" % client.address)
                         self.settings.shutdown_command = True
                     elif cmd == "broadcast": #command to send message to all clients
                         netcommand.broadcast(cmd_var)
@@ -96,14 +96,14 @@ class Main: #the main server class
                         netcommand.version(client)
                     elif cmd == "login": # command to log in client and recognize them as an actual player
                         self.player.append(player(client, cmd_var))
-                        logging.info(cmd_var, " logged in from ", client.address)
+                        logging.info("%s logged in from %s" % cmd_var, client.address)
                         test = tools.arrayID(self.player, cmd_var)
                         logging.debug("identified arrayID %s " % test)
                         logging.debug("identified username = %s" % self.player[test])
                         client.send("welcome %s" % self.player[test].username)
                     else:
                         client.send("unknown %s \n" % total_cmd)
-                        logging.warning("Unknown command = ", total_cmd)
+                        logging.warning("Unknown command = %s" % total_cmd)
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
@@ -112,7 +112,7 @@ class Main: #the main server class
             netcommand.version(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
-            logging.info(client.address, " dropped")
+            logging.info("%s dropped" % client.address)
             self.clientlist.remove(client)
 
         def get_arrayID(self, username):

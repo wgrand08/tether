@@ -24,12 +24,12 @@ class Tools:
     def __init__(self):
         logging.debug("")
 
-    def arrayID(self, playerlist, username):
+    def arrayID(self, playerlist, username): #this function is to find a players location in the player list and return it
         logging.debug("")
         counter = 0
         for players in playerlist:
             if players.username == username:
-                logging.debug("arrayID found ", counter)
+                logging.debug("arrayID found %s" % counter)
             else:
                 counter += 1
         logging.warning("arrayID unable to find username ", username)

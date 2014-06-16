@@ -22,4 +22,4 @@ import logging
 
 class ClassName:
     def __init__():
-        nocode = True
+        logging.debug("")
