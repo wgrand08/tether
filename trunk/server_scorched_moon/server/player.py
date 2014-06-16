@@ -18,11 +18,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 
-#this class handles information for each player
+# this class handles information for each player
 
 class Player():
     def __init__(self, client, username):
-        logger = logging.getLogger(__name__)
-        self.username = "Name"
+        logging.debut("")
+        self.username = username
         self.client = client
         self.energy = 0
+        

@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 
-#this class handles network commands for the server
+# this class handles network commands for the server
 
 class NetCommands():
     def __init__(self, client, settings):
@@ -28,10 +28,10 @@ class NetCommands():
 
     def broadcast(self, msg):
         logging.debug("")
-        msg = "Broadcast " + msg + "\n"
+        msg = "broadcast " + msg + "\n"
         for client in self.client:
             client.send(msg)
 
     def version(self, client):
         logging.debug("")
-        client.send("version %s\n" % self.settings.version)
+        client.send("version\n" % self.settings.version)

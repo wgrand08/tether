@@ -22,13 +22,14 @@ from server.miniboa import TelnetServer
 from . import moonnet
 from . import player
 from . import settings
+from . import tools
 
 #the main server class that handles everything
 
 class Main: #the main server class
     def __init__(self, debug, loglevel):
 
-        version = "0.00.4" # server version number
+        version = "0.00.5" # server version number
 
         if debug: # debug overrides logging settings
             loglevel = 1
@@ -38,17 +39,17 @@ class Main: #the main server class
         logging.critical("----------------------------------------------------------------------------------------------------------------------------")
         logging.critical("----------------------------------------------------------------------------------------------------------------------------")
         for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
+            logging.root.removeHandler(handler) # clears out handler used for breaking up sessions to prepare for actual logging
         
         # start logging    
         if loglevel == 1:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s:%(lineno)s -- %(message)s')
         if loglevel == 2:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.INFO,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.INFO,format='%(levelname)s - %(asctime)s -- %(message)s')
         if loglevel == 3:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.WARNING,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.WARNING,format='%(levelname)s - %(asctime)s -- %(message)s')
         if loglevel == 4:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s')
         
         # confirming startup status and logging
         if debug:
@@ -82,20 +83,27 @@ class Main: #the main server class
                         cmd = total_cmd
                         cmd_var = ""
                     if cmd == "exit": #command to disconnect client
-                        logging.info("%s disconnected intentionally" % client.address)
-                        client.send("disconnecting\n")
+                        logging.info(client.address, " disconnected intentionally")
+                        client.send("goodbye\n")
                         self.server.poll()
                         client.active = False
                     elif cmd == "shutdown": #command to shutdown entire server
-                        logging.info("Shutdown command recieved by %s" % client.address)
+                        logging.warning("Shutdown command recieved by ", client.address)
                         self.settings.shutdown_command = True
                     elif cmd == "broadcast": #command to send message to all clients
                         netcommand.broadcast(cmd_var)
                     elif cmd == "version": # command to provide the server version
                         netcommand.version(client)
+                    elif cmd == "login": # command to log in client and recognize them as an actual player
+                        self.player.append(player(client, cmd_var))
+                        logging.info(cmd_var, " logged in from ", client.address)
+                        test = tools.arrayID(self.player, cmd_var)
+                        logging.debug("identified arrayID %s " % test)
+                        logging.debug("identified username = %s" % self.player[test])
+                        client.send("welcome %s" % self.player[test].username)
                     else:
                         client.send("unknown %s \n" % total_cmd)
-                        #logging.debug("Unknown command = %s" % total_cmd)
+                        logging.warning("Unknown command = ", total_cmd)
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
@@ -104,7 +112,7 @@ class Main: #the main server class
             netcommand.version(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
-            logging.info("%s dropped" % client.address)
+            logging.info(client.address, " dropped")
             self.clientlist.remove(client)
 
         def get_arrayID(self, username):
@@ -121,7 +129,7 @@ class Main: #the main server class
                 netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users")
                 self.server.poll()
                 for client in self.clientlist: # disconnecting clients before shutdown
-                    logging.debug("Disconnected %s" % client.address)
+                    logging.debug("goodbye %s" % client.address)
                     client.send("disconnecting\n")
                     self.server.poll()
                     client.active = False

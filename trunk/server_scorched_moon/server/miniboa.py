@@ -16,8 +16,13 @@
 # Changes made by pR0Ps.CM[at]gmail[dot]com on 18/07/2012
 # -Updated for use with Python 3.x
 # -Repackaged into a single file to simplify distribution
-#
 # Report any bugs in this implementation to me (email above)
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+# changes made by Kevin Clement on 06/11/2014
+# -corrected logging error
+# -corrected dict error
 #------------------------------------------------------------------------------
 
 import logging

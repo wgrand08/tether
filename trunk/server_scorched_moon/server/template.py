@@ -22,4 +22,4 @@ import logging
 
 class ClassName:
     def __init__():
-        logger = logging.getLogger(__name__) #for module specific logging
+        nocode = True

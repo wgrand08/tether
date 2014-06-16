@@ -18,12 +18,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 
-#this class handles each individual game
+# this file is for useful tools and calculations 
 
-class Game:
+class Tools:
     def __init__(self):
-        logger = logging.getLogger(__name__)
-        logging.debug("")_
-        self.currentplayer = 1
-        self.endgame = False
-        
+        logging.debug("")
+
+    def arrayID(self, playerlist, username):
+        logging.debug("")
+        counter = 0
+        for players in playerlist:
+            if players.username == username:
+                logging.debug("arrayID found ", counter)
+            else:
+                counter += 1
+        logging.warning("arrayID unable to find username ", username)
