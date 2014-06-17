@@ -25,5 +25,6 @@ class Player():
         logging.debug("")
         self.username = username
         self.client = client
+        self.loggedin = True
         self.energy = 0
         
