@@ -39,6 +39,7 @@ These are the currently implemented server commands Scorched Moon accepts. All c
   * broadcast %s - Sends a broadcast message to all clients
   * version - sends user current server version
   * login %s - logs player in with specified username, multiple players can log in from the same client connection to allow for hotseat play
+  * logout %s - logs player out, this does not disconnect clients from the server
 
 === Currently planned commands ===
   * chat %s - sends %s as chat to select users
