@@ -49,7 +49,7 @@ class NetCommands():
             ID = tools.arrayID(checkname)
             logging.debug("identified arrayID %s " % ID)
             logging.debug("identified username = %s" % self.player[ID].username)
-            client.send("welcome %s \n" % self.player[ID].username)
+            client.send("welcome %s" % self.player[ID].username)
 
     def logout(self, name):
         logging.debug("")
@@ -62,13 +62,14 @@ class NetCommands():
 
     def broadcast(self, msg):
         logging.debug("")
-        msg = "broadcast " + msg + "\n"
+        msg = "broadcast " + msg
         for client in self.client:
             client.send(msg)
 
     def version(self, client):
         logging.debug("")
-        client.send("version %s \n" % self.settings.version)
+        client.send("version %s" % self.settings.version)
+        client.send("this is the test")
 
     def chat(self, unformatted):
         logging.debug("unformatted chat request recieved: %s" % unformatted)

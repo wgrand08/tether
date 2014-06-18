@@ -29,7 +29,7 @@ from . import moontools
 class Main: #the main server class
     def __init__(self, debug, loglevel):
 
-        version = "0.00.7" # server version number
+        version = "0.01.0" # server version number
 
         if debug: # debug overrides logging settings
             loglevel = 1
@@ -85,7 +85,7 @@ class Main: #the main server class
                         cmd_var = ""
                     if cmd == "exit": #command to disconnect client
                         logging.info("%s disconnected intentionally" % client.address)
-                        client.send("goodbye\n")
+                        client.send("goodbye")
                         self.server.poll()
                         client.active = False
                     elif cmd == "shutdown": #command to shutdown entire server
@@ -104,7 +104,7 @@ class Main: #the main server class
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
-            client.send("hello\n")
+            client.send("hello")
             logging.info("%s connected to server" % client.address)
             netcommand.version(client)
 
@@ -127,7 +127,7 @@ class Main: #the main server class
                 self.server.poll()
                 for client in self.clientlist: # disconnecting clients before shutdown
                     logging.debug("goodbye %s" % client.address)
-                    client.send("disconnecting\n")
+                    client.send("disconnecting")
                     self.server.poll()
                     client.active = False
                 self.settings.runserver = False
