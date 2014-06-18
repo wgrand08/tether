@@ -96,31 +96,11 @@ class Main: #the main server class
                     elif cmd == "version": # command to provide the server version
                         netcommand.version(client)
                     elif cmd == "login": # command to log in username and recognize them as an actual player
-                        badlogin = False
-                        if cmd_var.find(" ") != 1: # usernames can not have spaces in them
-                            badlogin = True
-                        for check in self.player: # make certain username has not already been taken
-                            if check.username == cmd_var:
-                                logging.warning("Duplicate username attempted")
-                                client.send("error username already taken")
-                                badlogin = True
-                        if badlogin == False: # valid login so adding them as a player
-                            self.player.append(player.Player(client, cmd_var))
-                            logging.info("%s logged in from %s" % (cmd_var, client.address))
-                            ID = tools.arrayID(cmd_var)
-                            logging.debug("identified arrayID %s " % ID)
-                            logging.debug("identified username = %s" % self.player[ID].username)
-                            client.send("welcome %s \n" % self.player[ID].username)
+                        netcommand.login(cmd_var)
                     elif cmd == "logout": # command to logout username
-                        ID = tools.arrayID(cmd_var)
-                        if client == self.player[ID].client: # confirm valid logout command
-                            logging.info("%s logged out" % cmd_var)
-                            del self.player[ID]
-                        else:
-                            logging.warning("%s attempted to log out %s" % (client.address, cmd_var))
-                    else:
-                        client.send("unknown %s \n" % total_cmd)
-                        logging.warning("Unknown command = %s" % total_cmd)
+                        netcommand.logout(cmd_var)
+                    elif cmd == "chat": # standard chat message
+                        netcommand.chat(cmd_var)
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 

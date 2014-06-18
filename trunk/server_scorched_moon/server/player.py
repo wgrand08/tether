@@ -25,6 +25,6 @@ class Player():
         logging.debug("")
         self.username = username
         self.client = client
-        self.loggedin = True
         self.energy = 0
-        
+        self.channel = "looking_for_game"
+        self.team = 0 # team 0 is specifically reserved for players not on a team         
