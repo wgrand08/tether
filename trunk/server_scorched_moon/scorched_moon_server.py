@@ -68,7 +68,9 @@ def main():
         check += 1
 
     import server.main
-    server = server.main.Main(debug, loglevel)
+    makesettings = False
+    settingspath = ""
+    server = server.main.Main(debug, loglevel, makesettings, settingspath)
 
 def usage():
     print(" ")

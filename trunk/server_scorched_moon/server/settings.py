@@ -17,6 +17,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
+import os, sys
+import string
 
 # this file handles all settings
 
@@ -28,3 +30,79 @@ class Settings():
         self.runserver = True
         self.shutdown_command = False
         self.serverport = 6112
+        self.webport = 6111
+        self.useweb = False
+        self.loglevel = 5
+
+
+        self.tetherdir = os.getenv("HOME")
+        """if str(self.tetherdir) == "None":
+            self.tetherdir = os.getenv("USERPROFILE")
+            self.tetherdir = os.path.join(self.tetherdir, "moonpy")
+        else:
+            self.tetherdir = os.path.join(self.tetherdir, ".moonpy")
+        if not os.path.exists(self.tetherdir):
+            os.mkdir(self.tetherdir)"""
+
+    def load_settings(self):
+        logging.debug("")
+        #savefile = os.path.join(path, "settings.cfg")
+        savefile = os.path.join("settings.cfg")
+        logging.info("loading settings from %s" % savefile)
+        if os.path.exists(savefile):
+            settingsfile=open(savefile, 'r')
+            for line in settingsfile:
+                line=line.strip()
+                if line == "" or line[0] == "#":
+                    continue
+                input_array = line.split("=", 1)
+                if input_array[0].strip() == "version":
+                    if float(input_array[1].strip()) != self.version: #checking file version to avoid incompatibilities
+                        logging.critical("Invalid settings file detected! aborting startup")
+                        logging.critical("Please correct settings file or create new file with -C option"
+                        print("Invalid settings file detected! Aborting startup")
+                        print("Please correct settings file or create new file with -C option"
+                        sys.exit("Invalid settings") #system ends immediately if it detects file with possibly incompatible settings
+                elif input_array[0].strip() == "debug":
+                    if input_array[1].strip() == "True":
+                        self.debug = True
+                elif input_array[0].strip() == "serverport":
+                    self.serverport = int(input_array[1].strip())
+                elif input_array[0].strip() == "webport":
+                    self.serverport = int(input_array[1].strip())
+                elif input_array[0].strip() == "useweb":
+                    if input_array[1].strip() == "True":
+                        self.useweb = True
+
+
+
+    def create_settings(self):
+        logging.debug("")
+        savefile = os.path.join(self.tetherdir, "settings.cfg")
+        self.savesettings=open(savefile, 'w')
+        self.savesettings.write("version="+str(self.version)+"\n")
+        self.savesettings.write("debug="+str(self.debug)+"\n")
+        self.savesettings.write("serverport="+str(self.serverport)+"\n")
+        self.savesettings.write("webport="+str(self.webport)+"\n")
+        self.savesettings.write("useweb="+str(self.useweb)+"\n")
+
+    def check_settings(self):
+        logging.debug("")
+        test = True
+
+    def abort_load_settings():
+        logging.debug("")
+        logging.critical("Invalid settings file detected! aborting startup")
+        logging.critical("Please correct settings file or create new file with -C option"
+        print("Invalid settings file detected! Aborting startup")
+        print("Please correct settings file or create new file with -C option"
+        sys.exit("Invalid settings")
+
+
+    def abort_settings():
+        logging.debug("")
+        logging.critical("Invalid settings file detected! aborting startup")
+        logging.critical("Please correct settings file or create new file with -C option"
+        print("Invalid settings file detected! Aborting startup")
+        print("Please correct settings file or create new file with -C option"
+        sys.exit("Invalid settings")

@@ -27,51 +27,72 @@ from . import moontools
 #the main server class that handles everything
 
 class Main: #the main server class
-    def __init__(self, debug, loglevel):
+    def __init__(self, debug, loglevel, makesettings, settingpath):
 
         version = "0.01.0" # server version number
-
-        if debug: # debug overrides logging settings
-            loglevel = 1
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
         logging.critical("----------------------------------------------------------------------------------------------------------------------------")
         logging.critical("----------------------------------------------------------------------------------------------------------------------------")
+
         for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler) # clears out handler used for breaking up sessions to prepare for actual logging
+            logging.root.removeHandler(handler) # clears out handler to prepare for next logging session
+
+        logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s') #default logging configuration until we can load custom settings
+
+        logging.critical("Starting Scorched Moon Server")
+
+        self.settings = settings.Settings() #initalizaing settings
+        self.settings.version = version
+        self.settings.load_settings() #loading custom settings from file
+
+        if debug == True: # debug argument overrides everything
+            self.settings.debug = True
+
+        if self.settings.debug == True: #debug overrides loglevels
+            loglevel = 1
+
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler) # clears out handler again so we can use custom logging settings
         
-        # start logging    
         if loglevel == 1:
             logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s:%(lineno)s -- %(message)s')
-        if loglevel == 2:
+        elif loglevel == 2:
             logging.basicConfig(filename='logs/scorched_moon.log',level=logging.INFO,format='%(levelname)s - %(asctime)s -- %(message)s')
-        if loglevel == 3:
+        elif loglevel == 3:
             logging.basicConfig(filename='logs/scorched_moon.log',level=logging.WARNING,format='%(levelname)s - %(asctime)s -- %(message)s')
-        if loglevel == 4:
+        elif loglevel == 4:
             logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s')
-        
+        elif loglevel == 5:
+            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.CRITICAL,format='%(levelname)s - %(asctime)s -- %(message)s')
+        else: #invalid loglevel
+        print("Invalid loglevel %s" % loglevel)
+        print("Unable to start logging")
+
         # confirming startup status and logging
         if debug:
-            print("Scorched Moon server ver. %s starting in debug mode" % version)
+            print("Scorched Moon server ver. %s successfully started in debug mode" % version)
             print("Logging level forced to 1")
-            logging.critical("Scorched Moon server ver. %s starting in debug mode" % version)
+            logging.critical("Scorched Moon server ver. %s successfully started in debug mode" % version)
             logging.critical("Log level forced to %s" % loglevel)
         else:
-            print("Scorched Moon server ver. %s started normally" % version)
+            print("Scorched Moon server ver. %s successfully started" % version)
             print("Logging level set to %s" % loglevel)
-            logging.critical("Scorched Moon server ver. %s started normally" % version)
+            logging.critical("Scorched Moon server ver. %s successfully started" % version)
             logging.critical("Log level is set to %s" % loglevel)
 
+        self.settings.check_settings() # confirm settings are not likely to break server
+
         # setting globals
-        self.settings = settings.Settings()
-        self.settings.version = version
-        self.settings.debug = debug
         self.player = [] # a list of player classes
         self.game = [] # a list of game classes
         self.clientlist = [] # a list of all connected clients
         netcommand = moonnet.NetCommands(self.clientlist, self.settings)
         tools = moontools.Tools(self.player)
+
+        if self.settings.useweb == True:
+            test = True #need code to activate websockify
 
 
         def process_clients(): #handles commands client has sent to server
@@ -134,4 +155,5 @@ class Main: #the main server class
 
         logging.critical("Scorched Moon server successfully shutdown")
         logging.shutdown()
-        print("Scorched Moon server has been successfully shutdown") # final shutdown confirmation
+        print("Scorched Moon server has been successfully shutdown") 
+        sys.exit(0) # final shutdown confirmation
