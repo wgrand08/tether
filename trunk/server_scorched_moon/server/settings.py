@@ -61,7 +61,7 @@ class Settings():
                     logging.debug("Loaded serverport = %s" % self.serverport)
                     print("serverport = %s" % self.serverport)
                 elif input_array[0].strip() == "webport":
-                    self.serverport = int(input_array[1].strip())
+                    self.webport = int(input_array[1].strip())
                     logging.debug("Loaded webport = %s" % self.webport)
                 elif input_array[0].strip() == "useweb":
                     if input_array[1].strip() == "True":
