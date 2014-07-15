@@ -22,11 +22,14 @@ import sys
 import subprocess
 import os
 
+# checks compatibility and handles arguments before passing them to the true main class
+
 def main():
     debug = False
-    loglevel = 4
+    loglevel = 0
     logready = False
     check = 0
+    makesettings = False
     for argument in sys.argv:
         if argument == "--debug" or argument == "-d":
             debug = True
@@ -62,13 +65,14 @@ def main():
             else:
                 print("Unknown argument: %s" % argument)
                 usage()
+        elif argument == "--create" or argument == "-c":
+            makesettings = True
         elif check > 0:
             print("Unknown argument: %s" % argument)
             usage()
         check += 1
 
     import server.main
-    makesettings = False
     settingspath = ""
     server = server.main.Main(debug, loglevel, makesettings, settingspath)
 
@@ -83,6 +87,8 @@ def usage():
     print("-l <number>      --log <number>      Set log level from 1 - 4")
     print(" ")
     print("-h               --help              Display this help screen")
+    print(" ")
+    print("-c               --create            Create fresh settings file")
     sys.exit(0)
 
 main()

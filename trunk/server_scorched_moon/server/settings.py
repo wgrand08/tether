@@ -59,9 +59,9 @@ class Settings():
                 if input_array[0].strip() == "version":
                     if float(input_array[1].strip()) != self.version: #checking file version to avoid incompatibilities
                         logging.critical("Invalid settings file detected! aborting startup")
-                        logging.critical("Please correct settings file or create new file with -C option"
+                        logging.critical("Please correct settings file or create new file with -C option")
                         print("Invalid settings file detected! Aborting startup")
-                        print("Please correct settings file or create new file with -C option"
+                        print("Please correct settings file or create new file with -C option")
                         sys.exit("Invalid settings") #system ends immediately if it detects file with possibly incompatible settings
                 elif input_array[0].strip() == "debug":
                     if input_array[1].strip() == "True":
@@ -76,15 +76,18 @@ class Settings():
 
 
 
-    def create_settings(self):
-        logging.debug("")
-        savefile = os.path.join(self.tetherdir, "settings.cfg")
-        self.savesettings=open(savefile, 'w')
-        self.savesettings.write("version="+str(self.version)+"\n")
+    def create_settings(self, version):
+        logging.critical("Creating default settings file")
+        #savefile = os.path.join(self.tetherdir, "settings.cfg")
+        logging.critical("saving defaults to settings.cfg")
+        self.savesettings=open("settings.cfg", mode="w", encoding="utf-8")
+        self.savesettings.write("version="+str(version)+"\n")
         self.savesettings.write("debug="+str(self.debug)+"\n")
         self.savesettings.write("serverport="+str(self.serverport)+"\n")
         self.savesettings.write("webport="+str(self.webport)+"\n")
         self.savesettings.write("useweb="+str(self.useweb)+"\n")
+        self.savesettings.close()
+        logging.critical("Default settings successfully saved")
 
     def check_settings(self):
         logging.debug("")
@@ -93,16 +96,16 @@ class Settings():
     def abort_load_settings():
         logging.debug("")
         logging.critical("Invalid settings file detected! aborting startup")
-        logging.critical("Please correct settings file or create new file with -C option"
+        logging.critical("Please correct settings file or create new file with -C option")
         print("Invalid settings file detected! Aborting startup")
-        print("Please correct settings file or create new file with -C option"
+        print("Please correct settings file or create new file with -C option")
         sys.exit("Invalid settings")
 
 
     def abort_settings():
         logging.debug("")
         logging.critical("Invalid settings file detected! aborting startup")
-        logging.critical("Please correct settings file or create new file with -C option"
+        logging.critical("Please correct settings file or create new file with -C option")
         print("Invalid settings file detected! Aborting startup")
-        print("Please correct settings file or create new file with -C option"
+        print("Please correct settings file or create new file with -C option")
         sys.exit("Invalid settings")

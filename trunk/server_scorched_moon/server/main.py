@@ -41,13 +41,25 @@ class Main: #the main server class
 
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s') #default logging configuration until we can load custom settings
 
+        if makesettings == True:
+            settings.Settings.create_settings(settings.Settings(), version)
+            logging.critical("Scorched Moon Server shutting down to allow settings file to be edited")
+            print("Default settings file created, please edit settings and launch Scorched Moon again")
+            print("Scorched Moon server has been successfully shutdown")
+            sys.exit()
+
         logging.critical("Starting Scorched Moon Server")
 
         self.settings = settings.Settings() #initalizaing settings
         self.settings.version = version
         self.settings.load_settings() #loading custom settings from file
 
-        if debug == True: # debug argument overrides everything
+        if loglevel != 0: #arguments override settings file for logging
+            self.settings.loglevel = loglevel
+        else: # loglevel 0 means no argument used so we go with settings file
+            loglevel = self.settings.loglevel
+
+        if debug == True: # arguments override settings file for debug
             self.settings.debug = True
 
         if self.settings.debug == True: #debug overrides loglevels
@@ -67,8 +79,11 @@ class Main: #the main server class
         elif loglevel == 5:
             logging.basicConfig(filename='logs/scorched_moon.log',level=logging.CRITICAL,format='%(levelname)s - %(asctime)s -- %(message)s')
         else: #invalid loglevel
-        print("Invalid loglevel %s" % loglevel)
-        print("Unable to start logging")
+            print("Invalid loglevel %s" % loglevel)
+            print("Unable to start logging")
+            print("Invalid settings detected! Aborting startup")
+            print("Please correct settings file or create new file with -C option")
+            sys.exit()
 
         # confirming startup status and logging
         if debug:
