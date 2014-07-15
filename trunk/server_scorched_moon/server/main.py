@@ -29,7 +29,7 @@ from . import moontools
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = "0.01.0" # server version number
+        version = "0.02.0" # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -42,13 +42,15 @@ class Main: #the main server class
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s') #default logging configuration until we can load custom settings
 
         if makesettings == True:
+            logging.critical("Scorched Moon server creating default settings.conf file")
             settings.Settings.create_settings(settings.Settings(), version)
-            logging.critical("Scorched Moon Server shutting down to allow settings file to be edited")
-            print("Default settings file created, please edit settings and launch Scorched Moon again")
+            logging.critical("Scorched Moon Server shutting down to allow settings.conf file to be edited")
+            print("Default settings.conf file created, please edit settings and launch Scorched Moon again")
             print("Scorched Moon server has been successfully shutdown")
             sys.exit()
 
         logging.critical("Starting Scorched Moon Server")
+        print("Starting Scorched Moon server")
 
         self.settings = settings.Settings() #initalizaing settings
         self.settings.version = version
@@ -86,7 +88,7 @@ class Main: #the main server class
             sys.exit()
 
         # confirming startup status and logging
-        if debug:
+        if self.settings.debug:
             print("Scorched Moon server ver. %s successfully started in debug mode" % version)
             print("Logging level forced to 1")
             logging.critical("Scorched Moon server ver. %s successfully started in debug mode" % version)
