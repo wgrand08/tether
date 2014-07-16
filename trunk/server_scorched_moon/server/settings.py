@@ -26,7 +26,7 @@ class Settings():
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.023 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written too
+        self.settingsversion = 0.024 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written too
         self.debug = False
         self.runserver = True
         self.shutdown_command = False
@@ -56,6 +56,8 @@ class Settings():
                 elif input_array[0].strip() == "debug":
                     if input_array[1].strip() == "True":
                         self.debug = True
+                elif input_array[0].strip() == "loglevel":
+                    self.loglevel = int(input_array[1].strip())
                 elif input_array[0].strip() == "serverport":
                     self.serverport = int(input_array[1].strip())
                 elif input_array[0].strip() == "webport":
@@ -76,15 +78,18 @@ class Settings():
         settingsfile=open("settings.conf", mode="w", encoding="utf-8")
         settingsfile.write("version="+str(version)+"\n")
         settingsfile.write("debug="+str(self.debug)+"\n")
+        settingsfile.write("loglevel="+str(self.loglevel)+"\n")
         settingsfile.write("serverport="+str(self.serverport)+"\n")
         settingsfile.write("webport="+str(self.webport)+"\n")
         settingsfile.write("useweb="+str(self.useweb)+"\n")
         settingsfile.close()
         logging.critical("Default settings successfully saved")
 
+
     def check_settings(self):
         logging.debug("")
         test = True
+
 
     def abort_load_settings():
         logging.debug("")
