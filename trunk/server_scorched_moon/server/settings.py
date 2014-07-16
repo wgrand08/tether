@@ -25,12 +25,13 @@ import string
 class Settings():
     def __init__(self):
         logging.debug("")
-        self.version = "0.00.0"
+        self.version = 0.00
+        self.settingsversion = 0.023 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written too
         self.debug = False
         self.runserver = True
         self.shutdown_command = False
         self.serverport = 6112
-        self.webport = 6111
+        self.webport = 6113
         self.useweb = False
         self.loglevel = 4
 
@@ -46,11 +47,11 @@ class Settings():
                     continue
                 input_array = line.split("=", 1)
                 if input_array[0].strip() == "version":
-                    if input_array[1].strip() != self.version: #checking file version to avoid incompatibilities
-                        logging.critical("Invalid settings file detected! aborting startup")
-                        logging.critical("Please correct settings file or create new file with -C option")
-                        print("Invalid settings file detected! Aborting startup")
-                        print("Please correct settings file or create new file with -c option")
+                    if float(input_array[1].strip()) < self.settingsversion: #checking file version to avoid incompatibilities
+                        logging.critical("Obsolete settings file detected! aborting startup")
+                        logging.critical("Please create new file with -c option")
+                        print("Obsolete settings file detected! Aborting startup")
+                        print("Please create new file with -c option")
                         sys.exit("Invalid settings") #system ends immediately if it detects file with possibly incompatible settings
                 elif input_array[0].strip() == "debug":
                     if input_array[1].strip() == "True":
