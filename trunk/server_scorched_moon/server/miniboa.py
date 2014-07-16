@@ -773,7 +773,7 @@ def _on_disconnect(client):
     """
     Placeholder lost connection handler.
     """
-    logging.info ("-- Lost connection to %s".format(client.addrport()))
+    logging.info ("-- Lost connection to {}".format(client.addrport()))
         
 class TelnetServer(object):
     """

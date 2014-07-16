@@ -29,7 +29,7 @@ from . import moontools
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = "0.02.1" # server version number
+        version = "0.02.2" # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -81,7 +81,7 @@ class Main: #the main server class
         elif loglevel == 5:
             logging.basicConfig(filename='logs/scorched_moon.log',level=logging.CRITICAL,format='%(levelname)s - %(asctime)s -- %(message)s')
         else: #invalid loglevel
-            print("Invalid loglevel %s" % loglevel)
+            print("Invalid loglevel {}" .format(loglevel))
             print("Unable to start logging")
             print("Invalid settings detected! Aborting startup")
             print("Please correct settings file or create new file with -C option")
@@ -89,15 +89,15 @@ class Main: #the main server class
 
         # confirming startup status and logging
         if self.settings.debug:
-            print("Scorched Moon server ver. %s successfully started in debug mode" % version)
+            print("Scorched Moon server ver. {} successfully started in debug mode" .format(version))
             print("Logging level forced to 1")
-            logging.critical("Scorched Moon server ver. %s successfully started in debug mode" % version)
-            logging.critical("Log level forced to %s" % loglevel)
+            logging.critical("Scorched Moon server ver. {} successfully started in debug mode" .format(version))
+            logging.critical("Log level forced to {}" .format(loglevel))
         else:
-            print("Scorched Moon server ver. %s successfully started" % version)
-            print("Logging level set to %s" % loglevel)
-            logging.critical("Scorched Moon server ver. %s successfully started" % version)
-            logging.critical("Log level is set to %s" % loglevel)
+            print("Scorched Moon server ver. {} successfully started" .format(version))
+            print("Logging level set to {}" .format(loglevel))
+            logging.critical("Scorched Moon server ver. {} successfully started" .format(version))
+            logging.critical("Log level is set to {}" .format(loglevel))
 
         self.settings.check_settings() # confirm settings are not likely to break server
 
@@ -122,12 +122,12 @@ class Main: #the main server class
                         cmd = total_cmd
                         cmd_var = ""
                     if cmd == "exit": #command to disconnect client
-                        logging.info("%s disconnected intentionally" % client.address)
+                        logging.info("{} disconnected intentionally" .format(client.address))
                         client.send("goodbye")
                         self.server.poll()
                         client.active = False
                     elif cmd == "shutdown": #command to shutdown entire server
-                        logging.warning("Shutdown command recieved by %s" % client.address)
+                        logging.info("Shutdown command recieved by {}" .format(client.address))
                         self.settings.shutdown_command = True
                     elif cmd == "broadcast": #command to send message to all clients
                         netcommand.broadcast(cmd_var)
@@ -143,18 +143,18 @@ class Main: #the main server class
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
             client.send("hello")
-            logging.info("%s connected to server" % client.address)
+            logging.info("{} connected to server" .format(client.address))
             netcommand.version(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
-            logging.info("%s dropped" % client.address)
+            logging.info("{} dropped" .format(client.address))
             self.clientlist.remove(client)
 
         def get_arrayID(self, username):
             test = True #need code to search self.player list for specific username and return the arrayID
 
         self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects) #starts server
-        logging.debug("Telnet Server starting on port %s" % self.settings.serverport)
+        logging.debug("Telnet Server starting on port {}" .format(self.settings.serverport))
 
         ## Server Loop
         while self.settings.runserver:
@@ -164,7 +164,7 @@ class Main: #the main server class
                 netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users")
                 self.server.poll()
                 for client in self.clientlist: # disconnecting clients before shutdown
-                    logging.debug("goodbye %s" % client.address)
+                    logging.debug("goodbye {}" .format(client.address))
                     client.send("disconnecting")
                     self.server.poll()
                     client.active = False

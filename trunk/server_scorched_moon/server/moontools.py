@@ -30,7 +30,7 @@ class Tools:
         counter = 0
         for players in self.player:
             if players.username == username:
-                logging.debug("arrayID found %s" % counter)
+                logging.debug("arrayID found {}" .format(counter))
                 return counter
             else:
                 counter += 1

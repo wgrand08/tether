@@ -55,18 +55,13 @@ class Settings():
                 elif input_array[0].strip() == "debug":
                     if input_array[1].strip() == "True":
                         self.debug = True
-                        logging.debug("Loaded debug = %s" % self.debug)
                 elif input_array[0].strip() == "serverport":
                     self.serverport = int(input_array[1].strip())
-                    logging.debug("Loaded serverport = %s" % self.serverport)
-                    print("serverport = %s" % self.serverport)
                 elif input_array[0].strip() == "webport":
                     self.webport = int(input_array[1].strip())
-                    logging.debug("Loaded webport = %s" % self.webport)
                 elif input_array[0].strip() == "useweb":
                     if input_array[1].strip() == "True":
                         self.useweb = True
-                        logging.debug("Loaded useweb = %s" % self.useweb)
             settingsfile.close()
         else:
             logging.warning("settings.conf file not found, recommend running Scorched Moon with -c option")
