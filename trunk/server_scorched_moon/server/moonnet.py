@@ -61,9 +61,9 @@ class NetCommands():
         logging.info("logout command from {}" .format(client.address))
         for remover in self.player:
             if remover.client.address == client.address:
-                ID = tools.arrayID(self.player, remover.client.address)
-                logging.debug("Removing username {} with ID {}" .format(self.player.name, ID))
-                self.player.remove(ID)
+                ID = tools.arrayID(self.player, remover.username)
+                logging.debug("Removing username {} with ID {}" .format(remover.username, ID))
+                del self.player[ID]
 
     def broadcast(self, msg):
         logging.debug("")
