@@ -22,14 +22,13 @@ from server.miniboa import TelnetServer
 from . import moonnet
 from . import player
 from . import settings
-from . import moontools
 
 #the main server class that handles everything
 
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.024 # server version number
+        version = 0.025 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -105,8 +104,7 @@ class Main: #the main server class
         self.player = [] # a list of player classes
         self.game = [] # a list of game classes
         self.clientlist = [] # a list of all connected clients
-        netcommand = moonnet.NetCommands(self.clientlist, self.settings)
-        tools = moontools.Tools(self.player)
+        netcommand = moonnet.NetCommands(self.clientlist, self.settings, self.player)
 
         if self.settings.useweb == True:
             test = True #need code to activate websockify
@@ -115,7 +113,8 @@ class Main: #the main server class
         def process_clients(): #handles commands client has sent to server
             for client in self.clientlist:
                 if client.active and client.cmd_ready:
-                    total_cmd = client.get_command()   
+                    total_cmd = client.get_command()
+                    logging.debug("processing raw command: {}" .format(total_cmd))
                     if total_cmd.find(" ") != -1: # seperating any variables from the actual command
                         cmd, cmd_var = total_cmd.split(" ", 1)
                     else:
@@ -134,11 +133,13 @@ class Main: #the main server class
                     elif cmd == "version": # command to provide the server version
                         netcommand.version(client)
                     elif cmd == "login": # command to log in username and recognize them as an actual player
-                        netcommand.login(cmd_var)
+                        netcommand.login(client, cmd_var)
                     elif cmd == "logout": # command to logout username
-                        netcommand.logout(cmd_var)
+                        netcommand.logout(client)
+                    elif cmd == "whoall": # command to list all connected users
+                        netcommand.whoall(client)
                     elif cmd == "chat": # standard chat message
-                        netcommand.chat(cmd_var)
+                        netcommand.chat(client, cmd_var)
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
@@ -149,9 +150,6 @@ class Main: #the main server class
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))
             self.clientlist.remove(client)
-
-        def get_arrayID(self, username):
-            test = True #need code to search self.player list for specific username and return the arrayID
 
         self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects) #starts server
         logging.debug("Telnet Server starting on port {}" .format(self.settings.serverport))

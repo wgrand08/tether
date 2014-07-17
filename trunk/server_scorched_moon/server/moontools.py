@@ -21,17 +21,17 @@ import logging
 # this file is for useful tools and calculations 
 
 class Tools:
-    def __init__(self, player):
+    def __init__(self):
         logging.debug("")
-        self.player = player
 
-    def arrayID(self, username): #this function is to find a players location in the player list and return it
+    def arrayID(players, username): #this function is to find a players location in the player list and return it
         logging.debug("")
         counter = 0
-        for players in self.player:
-            if players.username == username:
+        logging.debug("searching arrayID for username: {}" .format(username))
+        for checkplayer in players:
+            if checkplayer.username == username:
                 logging.debug("arrayID found {}" .format(counter))
                 return counter
             else:
                 counter += 1
-        logging.warning("arrayID unable to find username ", username)
+        logging.info("arrayID unable to find username ", username)

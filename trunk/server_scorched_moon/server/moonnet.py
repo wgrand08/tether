@@ -17,27 +17,32 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
+from .import moontools
+from . import player
+from .moontools import Tools as tools
 
 # this class handles network commands for the server
 
 class NetCommands():
-    def __init__(self, client, settings):
+    def __init__(self, selfclient, settings, selfplayer):
         logging.debug("")
-        self.client = client
+        self.client = selfclient
         self.settings = settings
+        self.player = selfplayer
 
-    def login(self, checkname):
+    def login(self, client, checkname):
         logging.debug("")
         badlogin = False
-        if checkname.find(" ") != 1: # usernames can not have spaces in them
+        logging.debug("login name = {}" .format(checkname))
+        if " " in checkname: # usernames can not have spaces in them
             badlogin = True
-            error.warning("user attempted to login with a space")
-        if checkname.find("all"): # user can not be named "all" as this conflicts with chat
+            logging.warning("user attempted to login with a space")
+        if "channel" in checkname: # user can not be named "all" as this conflicts with chat
             badlogin = True
-            error.warning("user attempted to login as room")
-        if checkname.find("team"): # user can not be named "team" as this conflicts with chat
+            logging.warning("user attempted to login as channel")
+        if "team" in checkname: # user can not be named "team" as this conflicts with chat
             badlogin = True
-            error.warning("user attempted to login as team")
+            logging.warning("user attempted to login as team")
         for check in self.player: # make certain username has not already been taken
             if check.username == checkname:
                 logging.warning("Duplicate username attempted")
@@ -46,22 +51,23 @@ class NetCommands():
         if badlogin == False: # valid login so adding them as a player
             self.player.append(player.Player(client, checkname))
             logging.info("{} logged in from {}" .format(checkname, client.address))
-            ID = tools.arrayID(checkname)
+            ID = tools.arrayID(self.player, checkname)
             logging.debug("identified arrayID {}" .format(ID))
             logging.debug("identified username = {}" .format(self.player[ID].username))
             client.send("welcome {}" .format(self.player[ID].username))
 
-    def logout(self, name):
+    def logout(self, client):
         logging.debug("")
-        ID = tools.arrayID(name)
-        if client == self.player[ID].client: # confirm valid logout command
-            logging.info("{} logged out" .format(name))
-            del self.player[ID]
-        else:
-            logging.warning("{} attempted to log out {}" .format(client.address, name))
+        logging.info("logout command from {}" .format(client.address))
+        for remover in self.player:
+            if remover.client.address == client.address:
+                ID = tools.arrayID(self.player, remover.client.address)
+                logging.debug("Removing username {} with ID {}" .format(self.player.name, ID))
+                self.player.remove(ID)
 
     def broadcast(self, msg):
         logging.debug("")
+        logging.info("Broadcast: {}" .format(msg))
         msg = "broadcast " + msg
         for client in self.client:
             client.send(msg)
@@ -70,7 +76,14 @@ class NetCommands():
         logging.debug("")
         client.send("version {}" .format(self.settings.version))
 
-    def chat(self, unformatted):
+    def whoall(self, client):
+        logging.debug("")
+        for checkname in self.player:
+            ID = tools.arrayID(self.player, checkname.username)
+            client.send("whoall {} {} {}" .format(ID, checkname.username, checkname.client.address))
+            logging.debug("whoall {} {} {}" .format(ID, checkname.username, checkname.client.address))
+
+    def chat(self, client, unformatted):
         logging.debug("unformatted chat request recieved: {}" .format(unformatted))
         try:
             sender, message = unformatted.split(" ", 1) # seperating sender from message
@@ -78,40 +91,46 @@ class NetCommands():
         except:
             logging.warning("Improperly formatted chat command recieved: {}" .format(unformatted))
         else:
-            ID = tools.arrayID(sender)
+            ID = tools.arrayID(self.player, sender)
             if client.address == self.player[ID].client.address: # confirm that client sending message matches a user logged in from that particular client
                 logging.debug("chat request not spoofed")
-                if recipient == "room": # sending message to everyone in the same room
+                logging.debug("searching for recipient: {}" .format(recipient))
+                if recipient == "channel": # sending message to everyone in the same channel
                     checklist = 0
+                    logging.debug("sending chat to channel: {}" .format(self.player[ID].channel))
                     for players in self.player:
-                        if self.player[ID].room == self.player[checklist].room and ID != checklist: #make certain you don't bounce to yourself
-                            logging.info("chat {} {} {}" .format(recipient, self.player[ID].username, message))
+                        if self.player[ID].channel == self.player[checklist].channel and ID != checklist: #make certain you don't bounce to yourself
+                            logging.debug("chat {} {} {}" .format(recipient, self.player[ID].username, message))
                             client.send("chat {} {} {}" .format(recipient, self.player[ID].username, message))
                             checklist += 1
           
-                if recipient == "team": # sending message to teammates only
+                elif recipient == "team": # sending message to teammates only
+                    logging.debug("sending chat to team: {}" .format(self.player[ID].team))
                     if self.player[ID].team != 0: # make certain player trying to team chat is actually on a team
                         checklist = 0
                         for players in self.player:
                             if self.player[ID].team == self.player[checklist].team and ID != checklist: # prevent message from bouncing back to sender
-                                logging.info("chat {} {} {}" .format(recipient, self.player[ID].username, message))
+                                logging.debug("chat {} {} {}" .format(recipient, self.player[ID].username, message))
                                 client.send("chat {} {} {}" .format(recipient, self.player[ID].username, message))
                                 checklist += 1
                     else: # silly user tried sending a team message when not on a team
                         client.send("error team chat when not on team")
                         logging.warning("{} sent team chat message when not on team" .format(sender))
 
-                if recipient == self.player[ID].username: # silly user tried sending a message to himself
+                elif recipient == self.player[ID].username: # silly user tried sending a message to himself
                     logging.warning("{} tried sending a message to himself" .format(recipient))
                     client.send("error unable to send messages to yourself")
                 else:
                     unfound = True
-                    for check in self.player: # message isn't to a room or team so must be to a specific user
-                        if recipient == self.player[check].username:
-                            logging.info("chat {} {} {}" .format(recipient, self.player[ID].username, message))
+                    counter = 0
+                    for check in self.player: # message isn't to a channel or team so must be to a specific user
+                        if recipient == self.player[counter].username:
+                            logging.debug("chat {} {} {}" .format(recipient, self.player[ID].username, message))
                             client.send("chat {} {} {}" .format(recipient, self.player[ID].username, message))
                             unfound = False
-                    if unfound == False: # no valid user found to send message to
+                        else:
+                            counter += 1
+                    if unfound == True: # no valid user found to send message to
                         logging.warning("{} tried sending message to unknown user {}" .format(self.player[ID].username, recipient))
                         client.send("error unable to send message to {}" .format(recipient))
 
