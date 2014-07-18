@@ -28,4 +28,5 @@ class Player():
         self.energy = 0
         self.channel = "looking_for_game"
         self.team = 0 # team 0 is specifically reserved for players not on a team
-        self.dropped = False # used for players who drop without logging out         
+        self.dropped = False #whether players client has dropped or not
+        self.boottime = 0 #how much time in minutes before dropped player is booted

@@ -26,7 +26,7 @@ class Settings():
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.024 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.settingsversion = 0.029 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
         self.debug = True
         self.runserver = True
         self.shutdown_command = False
@@ -34,6 +34,7 @@ class Settings():
         self.webport = 6113
         self.useweb = False
         self.loglevel = 4
+        self.boottime = -1 #time in seconds to allow a user to reconnect before they get booted completely, -1 means player is never automatically booted
 
 
     def load_settings(self):
@@ -65,6 +66,8 @@ class Settings():
                 elif input_array[0].strip() == "useweb":
                     if input_array[1].strip() == "True":
                         self.useweb = True
+                elif input_array[0].strip() == "droptime":
+                    self.boottime = int(input_array[1].strip())
             settingsfile.close()
         else:
             logging.warning("settings.conf file not found, recommend running Scorched Moon with -c option")
@@ -82,6 +85,7 @@ class Settings():
         settingsfile.write("serverport="+str(self.serverport)+"\n")
         settingsfile.write("webport="+str(self.webport)+"\n")
         settingsfile.write("useweb="+str(self.useweb)+"\n")
+        settingsfile.write("droptime="+str(self.boottime)+"\n")
         settingsfile.close()
         logging.critical("Default settings successfully saved")
 

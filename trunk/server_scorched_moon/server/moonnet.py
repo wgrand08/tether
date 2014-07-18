@@ -17,9 +17,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
-from .import moontools
-from . import player
 from .moontools import Tools as tools
+from . import player
+
 
 # this class handles network commands for the server
 
@@ -45,9 +45,17 @@ class NetCommands():
             logging.warning("user attempted to login as team")
         for check in self.player: # make certain username has not already been taken
             if check.username == checkname:
-                logging.warning("Duplicate username attempted")
-                client.send("error username already taken")
-                badlogin = True
+                if check.dropped == True and check.client.address == client.address: #reconnect from same address
+                    check.dropped = False
+                    check.boottime = -1
+                    check.client = client                    
+                    badlogin = True #not really bad, but not a true login either
+                    logging.debug("{} reconnected" .format(checkname))
+                    client.send("welcome {}" .format(checkname))
+                else:
+                    logging.warning("{} tried logging in as {} which is already taken" .format(client.address, checkname))
+                    client.send("error username {} already taken" .format(checkname))
+                    badlogin = True
         if badlogin == False: # valid login so adding them as a player
             self.player.append(player.Player(client, checkname))
             logging.info("{} logged in from {}" .format(checkname, client.address))

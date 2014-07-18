@@ -18,17 +18,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import sys
 import logging
+import time
 from server.miniboa import TelnetServer
+from .moontools import Tools as tools
 from . import moonnet
 from . import player
 from . import settings
+
 
 #the main server class that handles everything
 
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.028 # server version number
+        version = 0.030 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -156,7 +159,12 @@ class Main: #the main server class
             for checkplayer in self.player:
                 if checkplayer.client == client:
                     checkplayer.dropped = True
-                    logging.debug("Marking {} as dropped" .format(checkplayer.username))
+                    if self.settings.boottime > -1: #checking to see if player gets booted or not 
+                        checkplayer.boottime = time.time() + self.settings.boottime
+                        logging.debug("Marking {} as dropped, booting at: {}" .format(checkplayer.username, checkplayer.boottime))
+                    else:
+                        logging.debug("System set to never boot dropped player")
+
 
         self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects) #starts server
         logging.debug("Telnet Server starting on port {}" .format(self.settings.serverport))
@@ -165,6 +173,11 @@ class Main: #the main server class
         while self.settings.runserver:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
+            for player in self.player:
+                if player.dropped == True and player.boottime < time.time(): #check if dropped players need to be booted
+                    ID = tools.arrayID(self.player, player.username)
+                    logging.info("Booting username {} due to disconnect timeout" .format(player.username))
+                    del self.player[ID]
             if self.settings.shutdown_command == True:
                 netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users")
                 self.server.poll()
