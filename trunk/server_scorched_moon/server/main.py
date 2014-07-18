@@ -28,7 +28,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.027 # server version number
+        version = 0.028 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -153,6 +153,10 @@ class Main: #the main server class
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))
             self.clientlist.remove(client)
+            for checkplayer in self.player:
+                if checkplayer.client == client:
+                    checkplayer.dropped = True
+                    logging.debug("Marking {} as dropped" .format(checkplayer.username))
 
         self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects) #starts server
         logging.debug("Telnet Server starting on port {}" .format(self.settings.serverport))

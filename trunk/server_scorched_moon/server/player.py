@@ -27,4 +27,5 @@ class Player():
         self.client = client
         self.energy = 0
         self.channel = "looking_for_game"
-        self.team = 0 # team 0 is specifically reserved for players not on a team         
+        self.team = 0 # team 0 is specifically reserved for players not on a team
+        self.dropped = False # used for players who drop without logging out         
