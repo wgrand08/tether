@@ -100,8 +100,8 @@ class NetCommands():
                     logging.debug("sending chat to channel: {}" .format(self.player[ID].channel))
                     for players in self.player:
                         if self.player[ID].channel == self.player[checklist].channel and ID != checklist: #make certain you don't bounce to yourself
-                            logging.debug("chat {} {} {}" .format(recipient, self.player[ID].username, message))
-                            client.send("chat {} {} {}" .format(recipient, self.player[ID].username, message))
+                            logging.debug("chat {} {} {}" .format(self.player[ID].username, recipient, message))
+                            players.client.send("chat {} {} {}" .format(self.player[ID].username, recipient, message))
                             checklist += 1
           
                 elif recipient == "team": # sending message to teammates only
@@ -110,8 +110,8 @@ class NetCommands():
                         checklist = 0
                         for players in self.player:
                             if self.player[ID].team == self.player[checklist].team and ID != checklist: # prevent message from bouncing back to sender
-                                logging.debug("chat {} {} {}" .format(recipient, self.player[ID].username, message))
-                                client.send("chat {} {} {}" .format(recipient, self.player[ID].username, message))
+                                logging.debug("chat {} {} {}" .format(self.player[ID].username, recipient, message))
+                                players.client.send("chat {} {} {}" .format(self.player[ID].username, recipient, message))
                                 checklist += 1
                     else: # silly user tried sending a team message when not on a team
                         client.send("error team chat when not on team")
@@ -125,8 +125,8 @@ class NetCommands():
                     counter = 0
                     for check in self.player: # message isn't to a channel or team so must be to a specific user
                         if recipient == self.player[counter].username:
-                            logging.debug("chat {} {} {}" .format(recipient, self.player[ID].username, message))
-                            client.send("chat {} {} {}" .format(recipient, self.player[ID].username, message))
+                            logging.debug("chat {} {} {}" .format(self.player[ID].username, recipient, message))
+                            check.client.send("chat {} {} {}" .format(self.player[ID].username, recipient, message))
                             unfound = False
                         else:
                             counter += 1

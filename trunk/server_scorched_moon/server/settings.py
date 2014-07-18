@@ -26,7 +26,7 @@ class Settings():
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.024 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written too
+        self.settingsversion = 0.024 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
         self.debug = True
         self.runserver = True
         self.shutdown_command = False
