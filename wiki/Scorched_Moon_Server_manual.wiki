@@ -50,7 +50,7 @@ These are the currently implemented server commands Scorched Moon accepts. All c
   * whoall - request list of all connected users and clients
   * login %s - Logs player in with specified username, multiple players can log in from the same client connection to allow for hotseat play
   * logout %s - Logs player out, this does not disconnect client from the server
-  * chat %s1 %s2 %s3 - Chat message to %s1 from username %s2 with message %s3, %s1 can be either "room" which is a general chat to everyone in the current chatroom or "team" which is a message to everyone that is on the same team (not fully implemented), or a specific username of another player which is a private message or whisper
+  * chat %s1 %s2 %s3 - Chat message from %s1 to %s2 with message %s3, %s2 can be either "channel" which is a general chat to everyone in the current channel or "team" which is a message to everyone that is on the same team (not fully implemented), or a specific username of another player which is a private message or whisper
 
 === Currently planned commands ===
   *fire %s1 %s2 %i1 %i2 - fires from building %s1 object %s2 at degree %i1 at power %i2 
@@ -67,7 +67,7 @@ These are the currently implemented responses the server can send to a client.
   * goodbye - server is disconnecting client
   * hello - server confiming new connection to client
   * error %s = generic error message specified in string
-  * chat %s1 %s2 %s3 - chat message to %s1 from username %s2 with message %s3, %s1 can be either "room" which is a general chat to everyone in the current chatroom or "team" which is a message to everyone that is on the same team (not fully implemented), or a specific username of another player which is a private message or whisper
+  * chat %s1 %s2 %s3 - chat message from %s1 to %s2 with message %s3, %s2 can be either "channel" which is a general chat to everyone in the current chatroom or "team" which is a message to everyone that is on the same team (not fully implemented), or a specific username of another player which is a private message or whisper
 
 === Currently planned responses ===
   * map - sending updated map, there are currently no plans on included variables since this will obviouly have to be long and complicated
