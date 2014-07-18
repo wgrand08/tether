@@ -66,7 +66,7 @@ class Settings():
                 elif input_array[0].strip() == "useweb":
                     if input_array[1].strip() == "True":
                         self.useweb = True
-                elif input_array[0].strip() == "droptime":
+                elif input_array[0].strip() == "boottime":
                     self.boottime = int(input_array[1].strip())
             settingsfile.close()
         else:
