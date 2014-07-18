@@ -16,4 +16,4 @@ Server will handle all game logic in Scorched Moon, this includes map data. The 
 
 == Client Design ==
 
-Although focus will be on the server since it will be handling all of the actual processing of the game we will need our own client for people to connect with. The initial client will be kept simple and be little more then an interface for connecting to a server, displaying the map, and controls for taking a turn. 
+Although focus will be on the server since it will be handling all of the actual processing of the game we will need our own client for people to connect with. The initial client will be kept simple and be little more then an interface for connecting to a server, displaying the map, and controls for taking a turn. Current plans are to have a website that will use websockets to connect through websockify which will in turn connect back to the Scorched Moon server.
