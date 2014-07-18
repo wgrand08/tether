@@ -31,7 +31,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.030 # server version number
+        version = 0.031 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -173,11 +173,12 @@ class Main: #the main server class
         while self.settings.runserver:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
-            for player in self.player:
-                if player.dropped == True and player.boottime < time.time(): #check if dropped players need to be booted
-                    ID = tools.arrayID(self.player, player.username)
-                    logging.info("Booting username {} due to disconnect timeout" .format(player.username))
-                    del self.player[ID]
+            if self.settings.boottime > -1: #never boot if boottime is < 0
+                for player in self.player:
+                    if player.dropped == True and player.boottime < time.time(): #check if dropped players need to be booted
+                        ID = tools.arrayID(self.player, player.username)
+                        logging.info("Booting username {} due to disconnect timeout" .format(player.username))
+                        del self.player[ID]
             if self.settings.shutdown_command == True:
                 netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users")
                 self.server.poll()
