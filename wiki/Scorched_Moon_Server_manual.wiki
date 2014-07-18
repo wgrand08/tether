@@ -33,6 +33,7 @@ Located in the main Scorched Moon folder. This file allows customization of the 
   * serverport - Port number the server should listen for standard connections
   * webport - Port number the server should listen for web connections must be different then Serverport
   * useweb - True turns on websockify for websocket functionality (currently not implemented), False keeps websockify off
+  * boottime - How long in seconds server should wait for a dropped client to reconnect and login again before completely booting the player, setting to -1 will never boot players automatically
 
 
 = Scorched Moon server commands =
