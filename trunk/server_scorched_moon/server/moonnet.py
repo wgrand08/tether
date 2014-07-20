@@ -107,7 +107,7 @@ class NetCommands():
                     checklist = 0
                     logging.debug("sending chat to channel: {}" .format(self.player[ID].channel))
                     for players in self.player:
-                        if self.player[ID].channel == self.player[checklist].channel and ID != checklist: #make certain you don't bounce to yourself
+                        if self.player[ID].channel == self.player[checklist].channel:
                             logging.debug("chat {} {} {}" .format(self.player[ID].username, recipient, message))
                             players.client.send("chat {} {} {}" .format(self.player[ID].username, recipient, message))
                             checklist += 1
