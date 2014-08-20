@@ -54,7 +54,7 @@ These are the currently implemented server commands Scorched Moon accepts. All c
   * chat %s1 %s2 %s3 - Chat message from %s1 to %s2 with message %s3, %s2 can be either "channel" which is a general chat to everyone in the current channel or "team" which is a message to everyone that is on the same team (not fully implemented), or a specific username of another player which is a private message or whisper
 
 === Currently planned commands ===
-  *fire %s1 %s2 %i1 %i2 - fires from building %s1 object %s2 at degree %i1 at power %i2 
+  * fire %s1 %s2 %i1 %i2 - fires from building %s1 object %s2 at degree %i1 at power %i2 
 
 
 == Response List ==
