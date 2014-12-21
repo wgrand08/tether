@@ -147,12 +147,15 @@ class Main: #the main server class
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client)
+            client.request_terminal_type()
             client.request_naws()
+            self.server.poll()
             tcurses.clr(client)
-            tcurses.pos(client, 0, 0)
-            client.send("hello")
             logging.info("{} connected to server" .format(client.address))
-            netcommand.version(client)
+            self.server.poll()
+            logging.debug("initial terminal type: {}" .format(client.terminal_type))
+            logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows))
+            #need to log type and screensize again after login
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))

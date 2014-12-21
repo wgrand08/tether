@@ -29,12 +29,12 @@ class Tcurses:
 
     def clr(client): #clears the screen
         logging.debug("")
+        client.send("\033[0m")
         client.send("\033[2J\033[;H")
 
     def pos(client, x, y):
         logging.debug("")
         client.send("\033[{};{}H".format(y, x))
-
 
 
 
