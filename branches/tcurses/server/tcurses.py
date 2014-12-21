@@ -29,11 +29,7 @@ class Tcurses:
 
     def clr(client): #clears the screen
         logging.debug("")
-        for x in range(0, client.columns):
-            for y in range(0, client.rows):
-                client.send("\033[{};{}H ".format(y, x))
-        client.send("columns = {}\n".format(client.columns))
-        client.send("rows = {}\n".format(client.rows))
+        client.send("\033[2J\033[;H")
 
     def pos(client, x, y):
         logging.debug("")
