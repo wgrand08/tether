@@ -147,7 +147,9 @@ class Main: #the main server class
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client)
+            client.request_naws()
             tcurses.clr(client)
+            tcurses.pos(client, 0, 0)
             client.send("hello")
             logging.info("{} connected to server" .format(client.address))
             netcommand.version(client)
