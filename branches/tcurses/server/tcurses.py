@@ -18,13 +18,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 
-#this file handles is nothing more then a basic template
+#custom curses library specifically for telnet connections
 
 class Tcurses:
     def __init__(self):
         logging.debug("")
 
 
-    def clr(client):
+    def clr(client): #clears the screen
         logging.debug("")
-        client.send("\033[0;0Htest")
+        for x in range(0, 80):
+            for y in range(0, 24):
+                client.send("\033[{};{}H ".format(x, y))
+
+
