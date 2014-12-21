@@ -20,6 +20,7 @@ import sys
 import logging
 import time
 from server.miniboa import TelnetServer
+from .tcurses import Tcurses as tcurses
 from .moontools import Tools as tools
 from . import moonnet
 from . import player
@@ -31,7 +32,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.032 # server version number
+        version = 0.033 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -109,9 +110,6 @@ class Main: #the main server class
         self.clientlist = [] # a list of all connected clients
         netcommand = moonnet.NetCommands(self.clientlist, self.settings, self.player)
 
-        if self.settings.useweb == True:
-            test = True #need code to activate websockify
-
 
         def process_clients(): #handles commands client has sent to server
             for client in self.clientlist:
@@ -148,7 +146,8 @@ class Main: #the main server class
                         client.send("error unknown command: {}" .format(cmd))
 
         def client_connects(client): #called when a client first connects
-            self.clientlist.append(client) 
+            self.clientlist.append(client)
+            tcurses.clr(client)
             client.send("hello")
             logging.info("{} connected to server" .format(client.address))
             netcommand.version(client)

@@ -20,6 +20,11 @@ import logging
 
 #this file handles is nothing more then a basic template
 
-class ClassName:
-    def __init__():
+class Tcurses:
+    def __init__(self):
         logging.debug("")
+
+
+    def clr(client):
+        logging.debug("")
+        client.send("\033[0;0Htest")

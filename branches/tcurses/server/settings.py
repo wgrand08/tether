@@ -26,13 +26,11 @@ class Settings():
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.029 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.settingsversion = 0.033 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
         self.debug = True
         self.runserver = True
         self.shutdown_command = False
         self.serverport = 6112
-        self.webport = 6113
-        self.useweb = False
         self.loglevel = 4
         self.boottime = -1 #time in seconds to allow a user to reconnect before they get booted completely, -1 means player is never automatically booted
 
@@ -61,11 +59,6 @@ class Settings():
                     self.loglevel = int(input_array[1].strip())
                 elif input_array[0].strip() == "serverport":
                     self.serverport = int(input_array[1].strip())
-                elif input_array[0].strip() == "webport":
-                    self.webport = int(input_array[1].strip())
-                elif input_array[0].strip() == "useweb":
-                    if input_array[1].strip() == "True":
-                        self.useweb = True
                 elif input_array[0].strip() == "boottime":
                     self.boottime = int(input_array[1].strip())
             settingsfile.close()
@@ -83,8 +76,6 @@ class Settings():
         settingsfile.write("debug="+str(self.debug)+"\n")
         settingsfile.write("loglevel="+str(self.loglevel)+"\n")
         settingsfile.write("serverport="+str(self.serverport)+"\n")
-        settingsfile.write("webport="+str(self.webport)+"\n")
-        settingsfile.write("useweb="+str(self.useweb)+"\n")
         settingsfile.write("droptime="+str(self.boottime)+"\n")
         settingsfile.close()
         logging.critical("Default settings successfully saved")
