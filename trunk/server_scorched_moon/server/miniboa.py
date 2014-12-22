@@ -417,6 +417,7 @@ class TelnetClient(object):
         ## Look for newline characters to get whole lines from the buffer
         while True:
             mark = self.recv_buffer.find('\n')
+            #mark = self.recv_buffer.find('l')
             if mark == -1:
                 break
             cmd = self.recv_buffer[:mark].strip()
