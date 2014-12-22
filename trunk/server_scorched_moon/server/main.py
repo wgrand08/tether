@@ -156,6 +156,7 @@ class Main: #the main server class
             logging.debug("initial terminal type: {}" .format(client.terminal_type))
             logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows))
             #need to log type and screensize again after login
+            tcurses.test(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))
