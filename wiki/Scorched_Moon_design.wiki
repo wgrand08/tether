@@ -1,0 +1,15 @@
+#summary Design plans for Scorched Moon
+#labels Phase-Design
+
+= Reason for Scorched Moon =
+
+MoonPy was created somewhat haphazardly by modifying openRTS into an ATS game similar to OMBC. Scorched Moon is going to be built from the ground up to make a game that is designed with the exact capabilities that we need.
+
+
+= Design Plans =
+
+Scorched Moon is going to be an online server only with no current plans to develop a client. While a compatible client would be nice, our only active coder can't program in a GUI to save his life and months have been wasted tying to develop a basic client. Because no progress was being made it is decided that we will make Scorched Moon fully playable without a client and consider creating an official client after Scorched Moon is considered stable. Communication will be through a standard 'telnet' style connection. The default interface will use the telnet curses or 'tcurses' library to allow players to play in an ascii environment with no other software besides a telnet client to play. Options will exist to allow the server to provide raw data as well for future compatibility with conventional clients.
+
+== Server Design ==
+
+Server will handle all game logic in Scorched Moon, this includes map data. The user will submit commands directly to the server. The server will process this data then send complete map data back to the user as either raw data or with tcurses. This includes FoW and SoW. By setting up the server this will it will not only allow people to play without a client but it will limit player cheating as only information that the player is supposed to know instead of all map data. 
