@@ -34,13 +34,19 @@ We don't support MoonPy anymore so basically no.
 Scorched Moon is essentially our sequel to MoonPy. MoonPy has some serious design flaws in it that results in delays and glitches, most of this relates to the GUI library used, however since these problems are related to the original design and would require so much work to change it was decided it would simply be easier to redesign and rewrite MoonPy from the ground up. With such a major change planned we decided we'd actually give it a proper name since MoonPy isn't what any of us wanted for a name but is what we got stuck with.
 
 ====I can't find a download for Scorched Moon, where is it?====
-Scorched Moon is still in early development and not playable yet. The code for it is available on SVN if you want to help with testing or just take a look. Be aware we are building a standalone server first before we even look at a graphical client so even when it is "playable" it will require telnet to use and so casual testers should wait for the client.  
+Scorched Moon is still in early development and has no release packages yet. The code for it is available on SVN if you want to help with testing or just take a look.
+
+===I downloaded Scorched Moon from SVN but can't figure out how to play it===
+Scorched Moon is not playable yet. Also even when it is done it is going to be a standalone server with no graphical interface. Players will be able to connect in and play with a standard telnet client using tcurses. Options will be available for standard graphical clients to be developed in the future but there are no plans to make one now.
+
+===Why aren't you making a client?===
+Because our only active coder can't write a GUI program to save his life. If someone with more expertise is willing to help code a client for us we'd be thrilled.
 
 ====Why are you using python, why not a real programming language like C++?====
 There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
 
 ====What OS are you developing for?====
-We are intentionally making all software developed by project tether to be fully compatible with Linux, osX, and Windows. Theoretically they should work on any OS that has python installed however we are not planning on doing compatibility testing for any other systems. 
+Primary development is on Linux and since Scorched Moon is being designed to run as a long-term server application Linux compatibility is our highest priority. It should theoretically run on any OS that has python3 installed, and having at least Windows/osX compatibility is a long-term goal, however we are not doing any testing with OS's besides Linux at this time.
 
 ====Will any project tether game be compatible with Moonbase Commander?====
 No.
@@ -49,10 +55,10 @@ No.
 Mostly because Moonbase Commander is essentially dead, practically no one plays it anymore and the networking is pretty unstable to begin with. What we're trying to do is hard enough already and we don't want to go through the hassle of reverse engineering everything for no real benefit. We also made some changes that make MoonPy and Scorched Moon incompatible with the original even if we did manage to reverse engineer everything.
 
 ====What changes were made?====
-The biggest change we made is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we found inconvenient. Scorched Moon is being built as a standalone server allowing someone to host multiple games with however many users their system can support. Also we're leaving the communication format open to allow for custom clients.
+With MoonPy the biggest change we made is the number of players. The original Moonbase Commander can not have more then 4 players in a single game which we found inconvenient. Scorched Moon however is being built as a non-graphical standalone server allowing someone to host up to 1000 users at the same time with multiple games on the same server. It will be playable with just a standard telnet client though we are also we're leaving the communication format open to allow for more conventional clients.
 
 ====Changing Moonbase Commander is heresy! Why did you change things?====
-Most of the changes we have listed are things that we felt were flaws in Moonbase Commander. The 4 player limit for example was always a major problem for most of us. Same goes true for most of the other changes listed. 
+Most of the changes we have listed are things that we felt were flaws in Moonbase Commander. The 4 player limit for example was always a major problem for most of us. Same goes true for most of the other changes listed. We have tried to keep the actual gameplay itself as accurate to the original as we can make it.
 
 ====I think Scorched Moon should do X, why don't you do it?====
 We take suggestions but remember we're all unpaid volunteers doing this out love for Moonbase Commander. If you *really* want something implemented everything we have is open source so feel free to implement it yourself. 
@@ -61,7 +67,7 @@ We take suggestions but remember we're all unpaid volunteers doing this out love
 Great, identifying them is (usually) the hardest part. Remember though that we've stopped development on MoonPy so we will ignore bug reports for it. If you have found a problem with Scorched Moon it's still in very early development so chances are we're alreay aware of it even if it's not listed on the [http://code.google.com/p/tether/issues/list issue tracker]. 
 
 ====How can I help out with the project?=====
-We can always use some help to keep this going. Currently the biggest help we need is people to help us code it. In addition to help with the code we also could use graphics, sounds, music, documentation, etc. You can always check out the [http://code.google.com/p/tether/issues/list issue tracker], or post onto our [http://groups.google.com/group/project-tether mailing list]. Also just spreading the word about project tether is a big benefit to us as well. The more people intereseted, the more likely someone else will be able to help.
+We can always use some help to keep this going. Currently the biggest help we need is people to help us code it. In addition to help with the code we also could use graphics, sounds, music, documentation, etc. You can always check out the [http://code.google.com/p/tether/issues/list issue tracker], or post onto our [http://groups.google.com/group/project-tether mailing list]. Also just spreading the word about project tether is a big benefit to us as well. The more people interested, the more likely someone with skills we need will be able to help.
 
 ====I've been looking through the MoonPy source code archives and keep seeing mention of openRTS, is project tether a part of openRTS?====
 openRTS is a completely seperate project from project tether. We have however integrated code from various other open source projects to help speed up development of project tether. The MoonPy engine is a heavily modified version of the openRTS engine and as such elements of openRTS occasionally show up, especially in older versions of MoonPy. Currently very little of the original openRTS engine remains unchanged within MoonPy, we do however have the original unedited openRTS source files deprecated on our [http://code.google.com/p/tether/downloads/list downloads page] for reference and historical purposes. Scorched Moon shares no code at all with openRTS. 
