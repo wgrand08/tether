@@ -10,6 +10,8 @@ OMBC map editor uses a grid system for placing objects such as buildings, water,
   * AA's = exactly 3 grids
   * mine = exactly 1 grid
 
+Also note that the number of 'dots' in a tether are not related to the distance traveled and can not be used to measure distance.. Placing a unit at minimum distance will consistently have 4 dots but at indirect angles will have 5. 
+
 = Tether spacing stats =
 Tethers can not overlap each other. In OMBC if a player attempts to launch a tethered projectile to close to another tether a warning circle appears and the game will not allow the hub to fire. Using a blank map and firing tethers in a circle we have attempted to measure the minimum angle between tethers. As can be seen in the 2 images below:
 
