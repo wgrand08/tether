@@ -153,9 +153,14 @@ class Main: #the main server class
             tcurses.clr(client)
             logging.info("{} connected to server" .format(client.address))
             self.server.poll()
-            logging.debug("initial terminal type: {}" .format(client.terminal_type))
-            logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows))
-            #need to log type and screensize again after login
+            logging.debug("initial terminal type: {}" .format(client.terminal_type)) #may not be accurate due to delays
+            logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows)) #may not be accurate due to delays
+            """need to add an ascii splash screen then have players press "enter" to continue. 
+            At this point system will relog terminal type and screensize since requests should have
+            have synced up due to getting user input. After splash screen will have option for a client to 
+            enter "notcurses" to provide output without using tcurses library for better compatibility with
+            client programs.
+            """
             tcurses.test(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
@@ -185,16 +190,16 @@ class Main: #the main server class
                         logging.info("Booting username {} due to disconnect timeout" .format(player.username))
                         del self.player[ID]
             if self.settings.shutdown_command == True:
-                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users")
+                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users\n")
                 self.server.poll()
                 for client in self.clientlist: # disconnecting clients before shutdown
                     logging.debug("goodbye {}" .format(client.address))
-                    client.send("disconnecting")
+                    client.send("disconnecting\n")
                     self.server.poll()
                     client.active = False
                 self.settings.runserver = False
 
-        logging.critical("Scorched Moon server successfully shutdown")
+        logging.critical("Scorched Moon server successfully shutdown\n")
         logging.shutdown()
         print("Scorched Moon server has been successfully shutdown") 
         sys.exit(0) # final shutdown confirmation
