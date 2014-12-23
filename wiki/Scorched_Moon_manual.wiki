@@ -1,5 +1,8 @@
 #summary Scorched Moon Server Manual
-#labels Phase-Implementation
+#labels Phase-Implementation,Deprecated
+
+= Do not use this manual!! =
+This particular manual has been deprecated due to design changes to Scorched Moon. It is being left on the wiki for reference purposes for the time being but will be rewritten once things have stabilized. 
 
 = Dependencies =
 Scorched Moon requires python 3, it is not backwards compatible with python 2.
