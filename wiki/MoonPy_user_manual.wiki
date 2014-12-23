@@ -1,5 +1,5 @@
 #summary MoonPy User Manual
-#labels Phase-Support
+#labels Phase-Support,Deprecated
 
 = Object of Game =
 
