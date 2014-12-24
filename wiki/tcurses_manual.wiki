@@ -1,0 +1,12 @@
+#summary Using the tcurses library
+#labels Phase-Support
+
+= Introduction to tcurses=
+
+Tcurses is a python3 library file designed to allow a 'curses' style interface over telnet client. It is being developed by Project Tether as part of Scorched Moon however since it might be useful independent of Scorched Moon we are documenting it's development separately. If it's capabilities become useful enough and advanced enough we may spin it off as it's own project in the future. Since Scorched Moon is being developed for python3, tcurses will also be developed primarily for python3 with no plans to maintain backwards compatibility with previous versions of python. 
+
+
+= Usage =
+
+== tcurses.splashscreen(client, image) ==
+clears entire screen and then displays text file image to client. Image file is output without any formatting on a line by line basis and so this can result in line wrap and screen scrolling if unable to fit on clients screen. 
