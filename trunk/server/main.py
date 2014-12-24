@@ -161,7 +161,8 @@ class Main: #the main server class
             enter "notcurses" to provide output without using tcurses library for better compatibility with
             client programs.
             """
-            tcurses.test(client)
+            tcurses.splashscreen(client, "images/test.txt")
+            #tcurses.test(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))

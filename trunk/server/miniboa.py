@@ -22,6 +22,7 @@
 # changes made by Kevin Clement on 12/20/2014
 # -corrected logging error
 # -corrected dict error
+# -added tcurses flag
 
 #------------------------------------------------------------------------------
 

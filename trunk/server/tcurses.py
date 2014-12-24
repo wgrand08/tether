@@ -17,6 +17,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
+import os, sys
 
 #custom curses library specifically for telnet connections
 
@@ -36,7 +37,20 @@ class Tcurses:
         logging.debug("")
         client.send("\033[{};{}H".format(y, x))
 
-    def test(client): #clears the screen
+    def splashscreen(client, image): #splashscreen displays a pregenerated ascii image that fills the entire screen
+        logging.debug("")
+        client.send("\033[0m")
+        client.send("\033[2J\033[;H")
+        logging.debug("Attempting to open image {}".format(image))
+        if os.path.exists(image):
+            imagefile=open(image, mode="r", encoding="utf-8")
+            for line in imagefile:
+                client.send(line)
+
+
+
+
+    def test(client): 
         logging.debug("")
         for x in range(1, 48, 2):
             for y in range(2, 24):
