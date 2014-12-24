@@ -26,13 +26,14 @@ class Settings():
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.033 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
-        self.debug = True
+        self.settingsversion = 0.034 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.debug = True #need to remember to change this default to false and modify load settings accordingly
         self.runserver = True
         self.shutdown_command = False
         self.serverport = 6112
         self.loglevel = 4
-        self.boottime = -1 #time in seconds to allow a user to reconnect before they get booted completely, -1 means player is never automatically booted
+        self.droptime = -1 #time in seconds to allow a user to reconnect before they get booted completely, -1 means player is never automatically booted
+        self.allowguest = True
 
 
     def load_settings(self):
@@ -51,19 +52,24 @@ class Settings():
                         logging.critical("Please create new file with -c option")
                         print("Obsolete settings file detected! Aborting startup")
                         print("Please create new file with -c option")
-                        sys.exit("Invalid settings") #system ends immediately if it detects file with possibly incompatible settings
+                        sys.exit("Exiting: Invalid settings") #system ends immediately if it detects file with possibly incompatible settings
                 elif input_array[0].strip() == "debug":
-                    if input_array[1].strip() == "True":
-                        self.debug = True
+                    if input_array[1].strip() == "False":
+                        self.debug = False
                 elif input_array[0].strip() == "loglevel":
                     self.loglevel = int(input_array[1].strip())
                 elif input_array[0].strip() == "serverport":
                     self.serverport = int(input_array[1].strip())
-                elif input_array[0].strip() == "boottime":
-                    self.boottime = int(input_array[1].strip())
+                elif input_array[0].strip() == "droptime":
+                    self.droptime = int(input_array[1].strip())
+                elif input_array[0].strip() == "allowguest":
+                    if input_array[1].strip() == "False":
+                        self.allowguest = False
             settingsfile.close()
         else:
-            logging.warning("settings.conf file not found, recommend running Scorched Moon with -c option")
+            logging.critical("settings.conf file not found, recommend running Scorched Moon with -c option")
+            print("settings.conf file not found, recommend running Scorched Moon with -c option")
+            sys.exit("Exiting: No settings file")
 
 
 
@@ -76,7 +82,8 @@ class Settings():
         settingsfile.write("debug="+str(self.debug)+"\n")
         settingsfile.write("loglevel="+str(self.loglevel)+"\n")
         settingsfile.write("serverport="+str(self.serverport)+"\n")
-        settingsfile.write("droptime="+str(self.boottime)+"\n")
+        settingsfile.write("droptime="+str(self.droptime)+"\n")
+        settingsfile.write("allowguest="+str(self.allowguest)+"\n")
         settingsfile.close()
         logging.critical("Default settings successfully saved")
 

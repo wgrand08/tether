@@ -32,7 +32,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.033 # server version number
+        version = 0.034 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -122,19 +122,43 @@ class Main: #the main server class
                         cmd = total_cmd
                         cmd_var = ""
                     ID = tools.client2ID(self.player, client)
-                    if self.player[ID].status == "splash": #determining if tcurses will be used or raw data
-                        logging.info("{} post-splashed" .format(client.address))
-                        logging.debug("post-splash terminal type: {}" .format(client.terminal_type))
-                        logging.debug("post-splash screensize: {}, {}" .format(client.columns, client.rows))
-                        if cmd == "notcurses":
-                            self.player[ID].raw = True
-                            self.player[ID].status = "login"
-                            client.send("Raw data not yet implemented\n")
-                        else:
-                            self.player[ID].raw = False
-                            self.player[ID].status = "login"
-                            self.player[ID].tcurses.test() #will need to take user to login screen
-                    elif self.player[ID].status == "login":
+
+                    #this section is for system wide commands
+                    if cmd == "shutdown": #shuts down server
+                        logging.info("Shutdown command recieved by {}" .format(client.address))
+                        self.settings.shutdown_command = True
+                    elif cmd == "exit": #command to disconnect client
+                        logging.info("{} disconnected intentionally" .format(client.address))
+                        client.send("goodbye\n")
+                        self.server.poll()
+                        client.active = False
+                        self.server.poll()
+
+
+                    else: #this section is for contextual commands
+                        if self.player[ID].status == "splash": #determining if tcurses will be used or raw data
+                            logging.info("{} post-splashed" .format(client.address))
+                            logging.debug("post-splash terminal type: {}" .format(client.terminal_type))
+                            logging.debug("post-splash screensize: {}, {}" .format(client.columns, client.rows))
+                            if cmd == "notcurses":
+                                self.player[ID].raw = True
+                                self.player[ID].status = "login"
+                                client.send("Raw data not yet implemented\n")
+                            else:
+                                self.player[ID].raw = False
+                                self.player[ID].status = "login"
+                                self.player[ID].tcurses.test() #will need to take user to login screen
+                        elif self.player[ID].status == "login":
+                            if cmd[:5] == "guest":
+                                if self.settings.allowguest == True:
+                                    client.send("you are a guest\n")
+                                else:
+                                    client.send("guest connections not allowed\n")
+                            else:
+                                client.send("you are signing in as {}\n".format(cmd))
+
+
+                        """
                         if cmd == "exit": #command to disconnect client
                             logging.info("{} disconnected intentionally" .format(client.address))
                             client.send("goodbye")
@@ -143,7 +167,6 @@ class Main: #the main server class
                         elif cmd == "shutdown": #command to shutdown entire server
                             logging.info("Shutdown command recieved by {}" .format(client.address))
                             self.settings.shutdown_command = True
-                            """
                         elif cmd == "broadcast": #command to send message to all clients
                             netcommand.broadcast(cmd_var)
                         elif cmd == "version": # command to provide the server version
@@ -156,10 +179,10 @@ class Main: #the main server class
                             netcommand.whoall(client)
                         elif cmd == "chat": # standard chat message
                             netcommand.chat(client, cmd_var)
-                            """
                         else:
                             logging.debug("recieved unidentified command: {}" .format(cmd))
                             client.send("error unknown command: {}" .format(cmd))
+                        """
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client)
@@ -175,7 +198,8 @@ class Main: #the main server class
             logging.debug("initial terminal type: {}" .format(client.terminal_type)) #may not be accurate due to delays
             logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows)) #may not be accurate due to delays
             self.player[ID].tcurses.splashscreen("images/test.txt")
-            #self.player[ID].tcurses.test()
+            client.send("Version: {}\n".format(self.settings.version))
+            client.send("Press Enter to continue")
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))
@@ -183,9 +207,9 @@ class Main: #the main server class
             for checkplayer in self.player:
                 if checkplayer.client == client:
                     checkplayer.dropped = True
-                    if self.settings.boottime > -1: #checking to see if player gets booted or not 
-                        checkplayer.boottime = time.time() + self.settings.boottime
-                        logging.debug("Marking {} as dropped, booting at: {}" .format(checkplayer.username, checkplayer.boottime))
+                    if self.settings.droptime > -1: #checking to see if player gets booted or not 
+                        checkplayer.droptime = time.time() + self.settings.droptime
+                        logging.debug("Marking {} as dropped, booting at: {}" .format(checkplayer.username, checkplayer.droptime))
                     else:
                         logging.debug("System set to never boot dropped player")
 
@@ -197,9 +221,9 @@ class Main: #the main server class
         while self.settings.runserver:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
-            if self.settings.boottime > -1: #never boot if boottime is < 0
+            if self.settings.droptime > -1: #never boot if droptime is < 0
                 for player in self.player:
-                    if player.dropped == True and player.boottime < time.time(): #check if dropped players need to be booted
+                    if player.dropped == True and player.droptime < time.time(): #check if dropped players need to be booted
                         ID = tools.arrayID(self.player, player.username)
                         logging.info("Booting username {} due to disconnect timeout" .format(player.username))
                         del self.player[ID]
