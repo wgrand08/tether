@@ -15,4 +15,13 @@ Scorched Moon is going to be an online server only with no current plans to deve
 Server will handle all game logic in Scorched Moon, this includes map data. The user will submit commands directly to the server. The server will process this data then send complete map data back to the user as either raw data or with tcurses. This includes FoW and SoW. By setting up the server this will it will not only allow people to play without a client but it will limit player cheating as only information that the player is supposed to know instead of all map data. 
 
 == Map Ideas ==
-To better fit OMBC the map will be a grid format. Each building will take a 2x2 section of the grid which each tether will take one. Each hub will be able to launch up to 12 tethers as shown in [http://code.google.com/p/tether/wiki/OMBCfacts OMBC facts]. I am thinking to simplify matters I will have the system calculate the shot when a command to fire is given and if the first tether spot is taken up with a tether from a previous shot then it will be denied. 
+To better fit OMBC the map will be a grid format. Each building will take a 2x2 section of the grid which each tether will take one. Each hub will be able to launch up to 12 tethers as shown in [http://code.google.com/p/tether/wiki/OMBCfacts OMBC facts]. I am thinking to simplify matters I will have the system calculate the shot when a command to fire is given and if the first tether spot is taken up with a tether from a previous shot then it will be denied. Because of how most terminal display text the width will be twice as wide as the height. So the display will skip every other character in a row which actually looks much better then having them all togther. Since the map will have to use ASCII I think that using upper case letters for buildings and lower case letters for disabled buildings is best option. Letter for each unit will match the first letter of the name of the unit. Since they are all unique this works well. Tethers however will be represented by a period since that will look less cluttered and more similar to OMBC.
+
+* Hubs = H
+* Tether = .
+* Anti-Air = A
+* Tower = T
+* Energy Collector = E
+* Offense = O
+* Shield = S
+* Crawler = Cc note: To help players better determine direction of crawlers this will be a two character long unit with an upper case C in the actual location where it is and a lower case C in the location directly after it to help indicate the direction it is going. 
