@@ -22,16 +22,17 @@ import os, sys
 #custom curses library specifically for telnet connections
 
 class Tcurses:
-    def __init__(self):
+    def __init__(self, client):
         logging.debug("")
+        self.client = client
 
     def init_client(client):
         logging.debug("")
 
-    def clr(client): #clears the screen
+    def clr(self): #clears the screen
         logging.debug("")
-        client.send("\033[0m")
-        client.send("\033[2J\033[;H")
+        self.client.send("\033[0m")
+        self.client.send("\033[2J\033[;H")
 
     def pos(client, x, y):
         logging.debug("")

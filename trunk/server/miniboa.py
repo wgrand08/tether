@@ -248,7 +248,6 @@ class TelnetClient(object):
         self.command_list = []
         self.connect_time = time.time()
         self.last_input_time = time.time()
-        self.tcurses = False #for use with tcurses library
 
         ## State variables for interpreting incoming telnet commands
         self.telnet_got_iac = False # Are we inside an IAC sequence?

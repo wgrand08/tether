@@ -18,8 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 from .moontools import Tools as tools
-from . import player
-
 
 # this class handles network commands for the server
 
@@ -29,7 +27,7 @@ class NetCommands():
         self.client = selfclient
         self.settings = settings
         self.player = selfplayer
-
+    """
     def login(self, client, checkname):
         logging.debug("")
         badlogin = False
@@ -145,3 +143,4 @@ class NetCommands():
             else: # someone tried to pretend to be someone else
                 client.send("error chatting as invalid user")
                 logging.warning("{} attempted to send message as unknown user {}" .format(client.address, sender))
+    """

@@ -20,10 +20,10 @@ import sys
 import logging
 import time
 from server.miniboa import TelnetServer
-from .tcurses import Tcurses as tcurses
+from .tcurses import Tcurses
 from .moontools import Tools as tools
 from . import moonnet
-from . import player
+from . import player as moonplayer
 from . import settings
 
 
@@ -129,6 +129,7 @@ class Main: #the main server class
                     elif cmd == "shutdown": #command to shutdown entire server
                         logging.info("Shutdown command recieved by {}" .format(client.address))
                         self.settings.shutdown_command = True
+                        """
                     elif cmd == "broadcast": #command to send message to all clients
                         netcommand.broadcast(cmd_var)
                     elif cmd == "version": # command to provide the server version
@@ -141,6 +142,7 @@ class Main: #the main server class
                         netcommand.whoall(client)
                     elif cmd == "chat": # standard chat message
                         netcommand.chat(client, cmd_var)
+                        """
                     else:
                         logging.debug("recieved unidentified command: {}" .format(cmd))
                         client.send("error unknown command: {}" .format(cmd))
@@ -150,7 +152,12 @@ class Main: #the main server class
             client.request_terminal_type()
             client.request_naws()
             self.server.poll()
-            tcurses.clr(client)
+            tempname = "guest123"
+            self.player.append(player2.Player(client, tempname))
+            ID = tools.arrayID(self.player, tempname)
+            self.player[ID].tcurses = Tcurses(client)
+            self.player[ID].tcurses.clr()
+            #tcurses.clr(client)
             logging.info("{} connected to server" .format(client.address))
             self.server.poll()
             logging.debug("initial terminal type: {}" .format(client.terminal_type)) #may not be accurate due to delays
@@ -158,10 +165,10 @@ class Main: #the main server class
             """need to add an ascii splash screen then have players press "enter" to continue. 
             At this point system will relog terminal type and screensize since requests should have
             have synced up due to getting user input. After splash screen will have option for a client to 
-            enter "notcurses" to provide output without using tcurses library for better compatibility with
+            enter "notcurses" to provide raw output without using tcurses library for better compatibility with
             client programs.
             """
-            tcurses.splashscreen(client, "images/test.txt")
+            #tcurses.splashscreen(client, "images/test.txt")
             #tcurses.test(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
