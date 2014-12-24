@@ -26,7 +26,7 @@ class Settings():
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.034 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.settingsversion = 0.035 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
         self.debug = True #need to remember to change this default to false and modify load settings accordingly
         self.runserver = True
         self.shutdown_command = False
@@ -34,6 +34,7 @@ class Settings():
         self.loglevel = 4
         self.droptime = -1 #time in seconds to allow a user to reconnect before they get booted completely, -1 means player is never automatically booted
         self.allowguest = True
+        self.allowedclients = "both" #tcurses allows only tcurses connections, notcurses only allows raw connections, both allows both
 
 
     def load_settings(self):
@@ -65,6 +66,8 @@ class Settings():
                 elif input_array[0].strip() == "allowguest":
                     if input_array[1].strip() == "False":
                         self.allowguest = False
+                elif input_array[0].strip() == "allowedclients":
+                    self.allowedclients = input_array[1].strip()
             settingsfile.close()
         else:
             logging.critical("settings.conf file not found, recommend running Scorched Moon with -c option")
@@ -84,6 +87,7 @@ class Settings():
         settingsfile.write("serverport="+str(self.serverport)+"\n")
         settingsfile.write("droptime="+str(self.droptime)+"\n")
         settingsfile.write("allowguest="+str(self.allowguest)+"\n")
+        settingsfile.write("allowedclients="+str(self.allowedclients)+"\n")
         settingsfile.close()
         logging.critical("Default settings successfully saved")
 

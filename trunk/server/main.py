@@ -32,7 +32,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.034 # server version number
+        version = 0.035 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -140,14 +140,40 @@ class Main: #the main server class
                             logging.info("{} post-splashed" .format(client.address))
                             logging.debug("post-splash terminal type: {}" .format(client.terminal_type))
                             logging.debug("post-splash screensize: {}, {}" .format(client.columns, client.rows))
-                            if cmd == "notcurses":
-                                self.player[ID].raw = True
-                                self.player[ID].status = "login"
-                                client.send("Raw data not yet implemented\n")
+
+
+                            if self.settings.allowedclients == "tcurses": #no raw connections allowed
+                                if cmd == "notcurses":
+                                    client.send("raw connections not allowed - disconnecting")
+                                    self.server.poll()
+                                    client.active = False
+                                else:
+                                    self.player[ID].raw = False
+                                    self.player[ID].status = "login"
+                                    self.player[ID].tcurses.test() #will need to take user to login screen
+                            elif self.settings.allowedclients == "notcurses": #tcurses disabled
+                                if cmd == "notcurses":
+                                    self.player[ID].raw = True
+                                    self.player[ID].status = "login"
+                                else:
+                                    client.send("message: tcurses disabled - disconnecting\n")
+                                    self.server.poll()
+                                    client.active = False
+                            elif self.settings.allowedclients == "both": #all connection types allowed
+                                if cmd == "notcurses":
+                                    self.player[ID].raw = True
+                                    self.player[ID].status = "login"
+                                else:
+                                    self.player[ID].raw = False
+                                    self.player[ID].status = "login"
+                                    self.player[ID].tcurses.test() #will need to take user to login screen
                             else:
-                                self.player[ID].raw = False
-                                self.player[ID].status = "login"
-                                self.player[ID].tcurses.test() #will need to take user to login screen
+                                client.send("invalid allowedclients settings detected, exiting")
+                                logging.error("invalid allowedclients setting")
+                                print("invalid allowedclients setting")
+                                sys.exit("exiting: invalid settings")
+
+
                         elif self.player[ID].status == "login":
                             if cmd[:5] == "guest":
                                 if self.settings.allowguest == True:
