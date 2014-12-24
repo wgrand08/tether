@@ -152,24 +152,17 @@ class Main: #the main server class
             client.request_terminal_type()
             client.request_naws()
             self.server.poll()
-            tempname = "guest123"
-            self.player.append(player2.Player(client, tempname))
+            tempname = "guest123" #need to set up better guest system
+            self.player.append(moonplayer.Player(client, tempname))
             ID = tools.arrayID(self.player, tempname)
             self.player[ID].tcurses = Tcurses(client)
             self.player[ID].tcurses.clr()
-            #tcurses.clr(client)
             logging.info("{} connected to server" .format(client.address))
             self.server.poll()
             logging.debug("initial terminal type: {}" .format(client.terminal_type)) #may not be accurate due to delays
             logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows)) #may not be accurate due to delays
-            """need to add an ascii splash screen then have players press "enter" to continue. 
-            At this point system will relog terminal type and screensize since requests should have
-            have synced up due to getting user input. After splash screen will have option for a client to 
-            enter "notcurses" to provide raw output without using tcurses library for better compatibility with
-            client programs.
-            """
-            #tcurses.splashscreen(client, "images/test.txt")
-            #tcurses.test(client)
+            self.player[ID].tcurses.splashscreen("images/test.txt")
+            self.player[ID].tcurses.test()
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))

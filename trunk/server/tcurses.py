@@ -26,41 +26,38 @@ class Tcurses:
         logging.debug("")
         self.client = client
 
-    def init_client(client):
-        logging.debug("")
-
     def clr(self): #clears the screen
         logging.debug("")
         self.client.send("\033[0m")
         self.client.send("\033[2J\033[;H")
 
-    def pos(client, x, y):
+    def pos(self, x, y):
         logging.debug("")
-        client.send("\033[{};{}H".format(y, x))
+        self.client.send("\033[{};{}H".format(y, x))
 
-    def splashscreen(client, image): #splashscreen displays a pregenerated ascii image that fills the entire screen
+    def splashscreen(self, image): #splashscreen displays a pregenerated ascii image that fills the entire screen
         logging.debug("")
-        client.send("\033[0m")
-        client.send("\033[2J\033[;H")
+        self.client.send("\033[0m")
+        self.client.send("\033[2J\033[;H")
         logging.debug("Attempting to open image {}".format(image))
         if os.path.exists(image):
             imagefile=open(image, mode="r", encoding="utf-8")
             for line in imagefile:
-                client.send(line)
+                self.client.send(line)
 
 
 
 
-    def test(client): 
+    def test(self): 
         logging.debug("")
         for x in range(1, 48, 2):
             for y in range(2, 24):
                 if y == 1:
-                    client.send("\033[{};{}H#".format(y, x))
+                    self.client.send("\033[{};{}H#".format(y, x))
                 elif x == 1:
-                    client.send("\033[{};{}H#".format(y, x))
+                    self.client.send("\033[{};{}H#".format(y, x))
                 else:
-                    client.send("\033[{};{}H.".format(y, x))
-        client.send("\033[1;3HA B C D E F G H I J K L M N O P Q R S T U V W")
-        client.send("\033[25;1H")
+                    self.client.send("\033[{};{}H.".format(y, x))
+        self.client.send("\033[1;3HA B C D E F G H I J K L M N O P Q R S T U V W")
+        self.client.send("\033[25;1H")
                 
