@@ -50,6 +50,8 @@ class Tcurses:
 
     def test(self): 
         logging.debug("")
+        self.client.send("\033[0m")
+        self.client.send("\033[2J\033[;H")
         for x in range(1, 48, 2):
             for y in range(2, 24):
                 if y == 1:

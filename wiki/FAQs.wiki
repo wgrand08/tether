@@ -36,10 +36,10 @@ Scorched Moon is essentially our sequel to MoonPy. MoonPy has some serious desig
 ====I can't find a download for Scorched Moon, where is it?====
 Scorched Moon is still in early development and has no release packages yet. The code for it is available on SVN if you want to help with testing or just take a look.
 
-===I downloaded Scorched Moon from SVN but can't figure out how to play it===
+====I downloaded Scorched Moon from SVN but can't figure out how to play it====
 Scorched Moon is not playable yet. Also even when it is done it is going to be a standalone server with no graphical interface. Players will be able to connect in and play with a standard telnet client using tcurses. Options will be available for standard graphical clients to be developed in the future but there are no plans to make one now.
 
-===Why aren't you making a client?===
+====Why aren't you making a client?====
 Because our only active coder can't write a GUI program to save his life. If someone with more expertise is willing to help code a client for us we'd be thrilled.
 
 ====Why are you using python, why not a real programming language like C++?====

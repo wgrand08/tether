@@ -121,40 +121,53 @@ class Main: #the main server class
                     else:
                         cmd = total_cmd
                         cmd_var = ""
-                    if cmd == "exit": #command to disconnect client
-                        logging.info("{} disconnected intentionally" .format(client.address))
-                        client.send("goodbye")
-                        self.server.poll()
-                        client.active = False
-                    elif cmd == "shutdown": #command to shutdown entire server
-                        logging.info("Shutdown command recieved by {}" .format(client.address))
-                        self.settings.shutdown_command = True
-                        """
-                    elif cmd == "broadcast": #command to send message to all clients
-                        netcommand.broadcast(cmd_var)
-                    elif cmd == "version": # command to provide the server version
-                        netcommand.version(client)
-                    elif cmd == "login": # command to log in username and recognize them as an actual player
-                        netcommand.login(client, cmd_var)
-                    elif cmd == "logout": # command to logout username
-                        netcommand.logout(client)
-                    elif cmd == "whoall": # command to list all connected users
-                        netcommand.whoall(client)
-                    elif cmd == "chat": # standard chat message
-                        netcommand.chat(client, cmd_var)
-                        """
-                    else:
-                        logging.debug("recieved unidentified command: {}" .format(cmd))
-                        client.send("error unknown command: {}" .format(cmd))
+                    ID = tools.client2ID(self.player, client)
+                    if self.player[ID].status == "splash": #determining if tcurses will be used or raw data
+                        logging.info("{} post-splashed" .format(client.address))
+                        logging.debug("post-splash terminal type: {}" .format(client.terminal_type))
+                        logging.debug("post-splash screensize: {}, {}" .format(client.columns, client.rows))
+                        if cmd == "notcurses":
+                            self.player[ID].raw = True
+                            self.player[ID].status = "login"
+                            client.send("Raw data not yet implemented\n")
+                        else:
+                            self.player[ID].raw = False
+                            self.player[ID].status = "login"
+                            self.player[ID].tcurses.test() #will need to take user to login screen
+                    elif self.player[ID].status == "login":
+                        if cmd == "exit": #command to disconnect client
+                            logging.info("{} disconnected intentionally" .format(client.address))
+                            client.send("goodbye")
+                            self.server.poll()
+                            client.active = False
+                        elif cmd == "shutdown": #command to shutdown entire server
+                            logging.info("Shutdown command recieved by {}" .format(client.address))
+                            self.settings.shutdown_command = True
+                            """
+                        elif cmd == "broadcast": #command to send message to all clients
+                            netcommand.broadcast(cmd_var)
+                        elif cmd == "version": # command to provide the server version
+                            netcommand.version(client)
+                        elif cmd == "login": # command to log in username and recognize them as an actual player
+                            netcommand.login(client, cmd_var)
+                        elif cmd == "logout": # command to logout username
+                            netcommand.logout(client)
+                        elif cmd == "whoall": # command to list all connected users
+                            netcommand.whoall(client)
+                        elif cmd == "chat": # standard chat message
+                            netcommand.chat(client, cmd_var)
+                            """
+                        else:
+                            logging.debug("recieved unidentified command: {}" .format(cmd))
+                            client.send("error unknown command: {}" .format(cmd))
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client)
             client.request_terminal_type()
             client.request_naws()
             self.server.poll()
-            tempname = "guest123" #need to set up better guest system
-            self.player.append(moonplayer.Player(client, tempname))
-            ID = tools.arrayID(self.player, tempname)
+            self.player.append(moonplayer.Player(client))
+            ID = tools.client2ID(self.player, client)
             self.player[ID].tcurses = Tcurses(client)
             self.player[ID].tcurses.clr()
             logging.info("{} connected to server" .format(client.address))
@@ -162,7 +175,7 @@ class Main: #the main server class
             logging.debug("initial terminal type: {}" .format(client.terminal_type)) #may not be accurate due to delays
             logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows)) #may not be accurate due to delays
             self.player[ID].tcurses.splashscreen("images/test.txt")
-            self.player[ID].tcurses.test()
+            #self.player[ID].tcurses.test()
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))
@@ -191,7 +204,7 @@ class Main: #the main server class
                         logging.info("Booting username {} due to disconnect timeout" .format(player.username))
                         del self.player[ID]
             if self.settings.shutdown_command == True:
-                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users\n")
+                #netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users\n")
                 self.server.poll()
                 for client in self.clientlist: # disconnecting clients before shutdown
                     logging.debug("goodbye {}" .format(client.address))

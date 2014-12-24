@@ -404,7 +404,7 @@ class TelnetClient(object):
         ## Did they close the connection?
         size = len(data)
         if size == 0:
-            logging.debug ("No data recieved, client closed connection")
+            #logging.debug ("No data recieved, client closed connection")
             raise ConnectionLost()
 
         ## Update some trackers
@@ -522,7 +522,7 @@ class TelnetClient(object):
         """
         Handle incoming Telnet commands that are two bytes long.
         """
-        logging.debug("Got two byte cmd '{}'".format(ord(cmd)))
+        #logging.debug("Got two byte cmd '{}'".format(ord(cmd)))
 
         if cmd == SB:
             ## Begin capturing a sub-negotiation string
@@ -569,7 +569,7 @@ class TelnetClient(object):
         Handle incoming Telnet commmands that are three bytes long.
         """
         cmd = self.telnet_got_cmd
-        logging.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
+        #logging.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
 
         ## Incoming DO's and DONT's refer to the status of this end
         if cmd == DO:
@@ -684,7 +684,7 @@ class TelnetClient(object):
 
             if bloc[0] == TTYPE and bloc[1] == IS:
                 self.terminal_type = bloc[2:]
-                logging.debug("Terminal type = '{}'".format(self.terminal_type))
+                #logging.debug("Terminal type = '{}'".format(self.terminal_type))
 
             if bloc[0] == NAWS:
                 if len(bloc) != 5:

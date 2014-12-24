@@ -21,11 +21,13 @@ import logging
 # this class handles information for each player
 
 class Player():
-    def __init__(self, client, username):
+    def __init__(self, client):
         logging.debug("")
-        self.username = username
+        self.username = "guest"
         self.client = client
         self.tcurses = []
+        self.raw = True
+        self.status = "splash" #key status that keeps track of what player is doing to give commands context
         self.guest = True
         self.energy = 0
         self.channel = "looking_for_game"
