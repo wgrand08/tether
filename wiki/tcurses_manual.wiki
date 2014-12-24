@@ -9,4 +9,4 @@ Tcurses is a python3 library file designed to allow a 'curses' style interface o
 = Usage =
 
 == tcurses.splashscreen(client, image) ==
-clears entire screen and then displays text file image to client. Image file is output without any formatting on a line by line basis and so this can result in line wrap and screen scrolling if unable to fit on clients screen. 
+clears entire screen and then displays text file image to client. Image file is output without any formatting on a line by line basis. This is intentional and can result in line wrap and screen scrolling if image is unable to fit on client screen.
