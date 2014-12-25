@@ -32,7 +32,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.035 # server version number
+        version = 0.036 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -132,8 +132,6 @@ class Main: #the main server class
                         client.send("goodbye\n")
                         self.server.poll()
                         client.active = False
-                        self.server.poll()
-
 
                     else: #this section is for contextual commands
                         if self.player[ID].status == "splash": #determining if tcurses will be used or raw data
@@ -183,7 +181,6 @@ class Main: #the main server class
                             else:
                                 client.send("you are signing in as {}\n".format(cmd))
 
-
                         """
                         if cmd == "exit": #command to disconnect client
                             logging.info("{} disconnected intentionally" .format(client.address))
@@ -230,14 +227,9 @@ class Main: #the main server class
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))
             self.clientlist.remove(client)
-            for checkplayer in self.player:
-                if checkplayer.client == client:
-                    checkplayer.dropped = True
-                    if self.settings.droptime > -1: #checking to see if player gets booted or not 
-                        checkplayer.droptime = time.time() + self.settings.droptime
-                        logging.debug("Marking {} as dropped, booting at: {}" .format(checkplayer.username, checkplayer.droptime))
-                    else:
-                        logging.debug("System set to never boot dropped player")
+            ID = tools.client2ID(self.player, client)
+            #need code here to save player information
+            del self.player[ID]
 
 
         self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects) #starts server
@@ -247,12 +239,15 @@ class Main: #the main server class
         while self.settings.runserver:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
+            """
             if self.settings.droptime > -1: #never boot if droptime is < 0
                 for player in self.player:
                     if player.dropped == True and player.droptime < time.time(): #check if dropped players need to be booted
                         ID = tools.arrayID(self.player, player.username)
                         logging.info("Booting username {} due to disconnect timeout" .format(player.username))
                         del self.player[ID]
+            """
+
             if self.settings.shutdown_command == True:
                 #netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users\n")
                 self.server.poll()
