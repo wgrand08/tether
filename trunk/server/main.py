@@ -180,6 +180,7 @@ class Main: #the main server class
                                     client.send("guest connections not allowed\n")
                             else:
                                 client.send("you are signing in as {}\n".format(cmd))
+                                netcommand.login(client, cmd_var)
 
                         """
                         if cmd == "exit": #command to disconnect client

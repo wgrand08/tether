@@ -27,7 +27,7 @@ class NetCommands():
         self.client = selfclient
         self.settings = settings
         self.player = selfplayer
-    """
+
     def login(self, client, checkname):
         logging.debug("")
         badlogin = False
@@ -143,4 +143,3 @@ class NetCommands():
             else: # someone tried to pretend to be someone else
                 client.send("error chatting as invalid user")
                 logging.warning("{} attempted to send message as unknown user {}" .format(client.address, sender))
-    """
