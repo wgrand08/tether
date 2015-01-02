@@ -42,10 +42,10 @@ Scorched Moon is not playable yet. Also even when it is done it is going to be a
 ====Why aren't you making a client?====
 Because our only active coder can't write a GUI program to save his life. If someone with more expertise is willing to help code a client for us we'd be thrilled.
 
-===Why is it sometimes months between updates?===
-Because we're all unpaid volunteers, so when we get busy with real life work on Scorched Moon gets put on the back burner. Also work on Scorched Moon is paused while the tcurses library is written.
+====Why is it sometimes months between updates?====
+Because we're all unpaid volunteers, so when we get busy with real life work on Scorched Moon gets put on the back burner. Also work on Scorched Moon is paused while the tcurses library is being worked on.
 
-===What is tcurses?===
+====What is tcurses?====
 [http://code.google.com/p/tcurses Tcurses] is a library that provides curses style output for line only telnet server programs, the same kind of program Scorched Moon is. We decided to develop it as it's own separate project and then roll it back into Scorched Moon when done to help make it more easy to use with other programs.
 
 ====Why are you using python, why not a real programming language like C++?====
