@@ -37,10 +37,16 @@ Scorched Moon is essentially our sequel to MoonPy. MoonPy has some serious desig
 Scorched Moon is still in early development and has no release packages yet. The code for it is available on SVN if you want to help with testing or just take a look.
 
 ====I downloaded Scorched Moon from SVN but can't figure out how to play it====
-Scorched Moon is not playable yet. Also even when it is done it is going to be a standalone server with no graphical interface. Players will be able to connect in and play with a standard telnet client using tcurses. Options will be available for standard graphical clients to be developed in the future but there are no plans to make one now.
+Scorched Moon is not playable yet. Also even when it is done it is going to be a standalone server with no graphical interface. Players will be able to connect in and play with a standard telnet client using [http://code.google.com/p/tcurses tcurses]. We will have non-tcurses output available so standard graphical clients can be developed in the future but there are no plans to make one now.
 
 ====Why aren't you making a client?====
 Because our only active coder can't write a GUI program to save his life. If someone with more expertise is willing to help code a client for us we'd be thrilled.
+
+===Why is it sometimes months between updates?===
+Because we're all unpaid volunteers, so when we get busy with real life work on Scorched Moon gets put on the back burner. Also work on Scorched Moon is paused while the tcurses library is written.
+
+===What is tcurses?===
+[http://code.google.com/p/tcurses Tcurses] is a library that provides curses style output for line only telnet server programs, the same kind of program Scorched Moon is. We decided to develop it as it's own separate project and then roll it back into Scorched Moon when done to help make it more easy to use with other programs.
 
 ====Why are you using python, why not a real programming language like C++?====
 There are many reasons we're using python but the top 3 reasons are: it's simple to code, it's easily portable to different OS's, and it does what we need.
@@ -64,7 +70,7 @@ Most of the changes we have listed are things that we felt were flaws in Moonbas
 We take suggestions but remember we're all unpaid volunteers doing this out love for Moonbase Commander. If you *really* want something implemented everything we have is open source so feel free to implement it yourself. 
 
 ====I found a bug, what do I do?====
-Great, identifying them is (usually) the hardest part. Remember though that we've stopped development on MoonPy so we will ignore bug reports for it. If you have found a problem with Scorched Moon it's still in very early development so chances are we're alreay aware of it even if it's not listed on the [http://code.google.com/p/tether/issues/list issue tracker]. 
+Great, identifying them is (usually) the hardest part. Remember though that we've stopped development on MoonPy so we will ignore bug reports for it. If you have found a problem with Scorched Moon it's still in very early development so chances are we're already aware of it even if it's not listed on the [http://code.google.com/p/tether/issues/list issue tracker]. 
 
 ====How can I help out with the project?=====
 We can always use some help to keep this going. Currently the biggest help we need is people to help us code it. In addition to help with the code we also could use graphics, sounds, music, documentation, etc. You can always check out the [http://code.google.com/p/tether/issues/list issue tracker], or post onto our [http://groups.google.com/group/project-tether mailing list]. Also just spreading the word about project tether is a big benefit to us as well. The more people interested, the more likely someone with skills we need will be able to help.
