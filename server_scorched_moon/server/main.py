@@ -1,4 +1,4 @@
-"""Copyright 2015:
+"""Copyright 2014:
     Kevin Clement
 
 This program is free software; you can redistribute it and/or modify
@@ -20,10 +20,9 @@ import sys
 import logging
 import time
 from server.miniboa import TelnetServer
-from .tcurses import Tcurses
 from .moontools import Tools as tools
 from . import moonnet
-from . import player as moonplayer
+from . import player
 from . import settings
 
 
@@ -32,7 +31,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.036 # server version number
+        version = 0.032 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
@@ -110,6 +109,9 @@ class Main: #the main server class
         self.clientlist = [] # a list of all connected clients
         netcommand = moonnet.NetCommands(self.clientlist, self.settings, self.player)
 
+        if self.settings.useweb == True:
+            test = True #need code to activate websockify
+
 
         def process_clients(): #handles commands client has sent to server
             for client in self.clientlist:
@@ -121,8 +123,6 @@ class Main: #the main server class
                     else:
                         cmd = total_cmd
                         cmd_var = ""
-                    ID = tools.client2ID(self.player, client)
-
                     if cmd == "exit": #command to disconnect client
                         logging.info("{} disconnected intentionally" .format(client.address))
                         client.send("goodbye")
@@ -147,30 +147,23 @@ class Main: #the main server class
                         logging.debug("recieved unidentified command: {}" .format(cmd))
                         client.send("error unknown command: {}" .format(cmd))
 
-
         def client_connects(client): #called when a client first connects
-            self.clientlist.append(client)
-            client.request_terminal_type()
-            client.request_naws()
-            self.server.poll()
-            self.player.append(moonplayer.Player(client))
-            ID = tools.client2ID(self.player, client)
-            self.player[ID].tcurses = Tcurses(client)
-            self.player[ID].tcurses.clr()
+            self.clientlist.append(client) 
+            client.send("hello")
             logging.info("{} connected to server" .format(client.address))
-            self.server.poll()
-            logging.debug("initial terminal type: {}" .format(client.terminal_type)) #may not be accurate due to delays
-            logging.debug("initial screensize: {}, {}" .format(client.columns, client.rows)) #may not be accurate due to delays
-            self.player[ID].tcurses.splashscreen("images/test.txt")
-            client.send("Version: {}\n".format(self.settings.version))
-            client.send("Press Enter to continue")
+            netcommand.version(client)
 
         def client_disconnects(client): #called when a client drops on it's own without exit command
             logging.info("{} dropped" .format(client.address))
             self.clientlist.remove(client)
-            ID = tools.client2ID(self.player, client)
-            #need code here to save player information
-            del self.player[ID]
+            for checkplayer in self.player:
+                if checkplayer.client == client:
+                    checkplayer.dropped = True
+                    if self.settings.boottime > -1: #checking to see if player gets booted or not 
+                        checkplayer.boottime = time.time() + self.settings.boottime
+                        logging.debug("Marking {} as dropped, booting at: {}" .format(checkplayer.username, checkplayer.boottime))
+                    else:
+                        logging.debug("System set to never boot dropped player")
 
 
         self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects) #starts server
@@ -180,26 +173,23 @@ class Main: #the main server class
         while self.settings.runserver:
             self.server.poll()        # Send, Recv, and look for new connections
             process_clients()           # Check for client input
-            """
-            if self.settings.droptime > -1: #never boot if droptime is < 0
+            if self.settings.boottime > -1: #never boot if boottime is < 0
                 for player in self.player:
-                    if player.dropped == True and player.droptime < time.time(): #check if dropped players need to be booted
+                    if player.dropped == True and player.boottime < time.time(): #check if dropped players need to be booted
                         ID = tools.arrayID(self.player, player.username)
                         logging.info("Booting username {} due to disconnect timeout" .format(player.username))
                         del self.player[ID]
-            """
-
             if self.settings.shutdown_command == True:
-                #netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users\n")
+                netcommand.broadcast("Server is being intentionally shutdown, Disconnecting all users")
                 self.server.poll()
                 for client in self.clientlist: # disconnecting clients before shutdown
                     logging.debug("goodbye {}" .format(client.address))
-                    client.send("disconnecting\n")
+                    client.send("disconnecting")
                     self.server.poll()
                     client.active = False
                 self.settings.runserver = False
 
-        logging.critical("Scorched Moon server successfully shutdown\n")
+        logging.critical("Scorched Moon server successfully shutdown")
         logging.shutdown()
         print("Scorched Moon server has been successfully shutdown") 
         sys.exit(0) # final shutdown confirmation

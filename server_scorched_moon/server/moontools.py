@@ -24,26 +24,14 @@ class Tools:
     def __init__(self):
         logging.debug("")
 
-    def name2ID(players, username): #this function is to find a players location in the player list and return it
+    def arrayID(players, username): #this function is to find a players location in the player list and return it
         logging.debug("")
         counter = 0
-        logging.debug("searching for ID with username: {}" .format(username))
+        logging.debug("searching arrayID for username: {}" .format(username))
         for checkplayer in players:
             if checkplayer.username == username:
-                logging.debug("found ID {}" .format(counter))
+                logging.debug("arrayID found {}" .format(counter))
                 return counter
             else:
                 counter += 1
-        logging.info("unable to find ID with username ", username)
-
-    def client2ID(players, client):
-        logging.debug("")
-        counter = 0
-        logging.debug("searching for ID with client")
-        for checkplayer in players:
-            if checkplayer.client == client:
-                logging.debug("found ID {}".format(counter))
-                return counter
-            else:
-                counter += 1
-        logging.info("unable to find ID with client")
+        logging.info("arrayID unable to find username ", username)

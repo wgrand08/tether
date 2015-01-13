@@ -21,15 +21,12 @@ import logging
 # this class handles information for each player
 
 class Player():
-    def __init__(self, client):
+    def __init__(self, client, username):
         logging.debug("")
-        self.username = "guest"
+        self.username = username
         self.client = client
-        self.tcurses = []
-        self.raw = True
-        self.status = "splash" #key status that keeps track of what player is doing to give commands context
-        self.guest = True
         self.energy = 0
         self.channel = "looking_for_game"
         self.team = 0 # team 0 is specifically reserved for players not on a team
         self.dropped = False #whether players client has dropped or not
+        self.boottime = 0 #how much time in minutes before dropped player is booted
