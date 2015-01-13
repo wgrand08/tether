@@ -16,14 +16,13 @@
 # Changes made by pR0Ps.CM[at]gmail[dot]com on 18/07/2012
 # -Updated for use with Python 3.x
 # -Repackaged into a single file to simplify distribution
-#
 # Report any bugs in this implementation to me (email above)
+#------------------------------------------------------------------------------
 #
-# changes made by Kevin Clement on 12/20/2014
-# -corrected logging error
-# -corrected dict error
-# -added tcurses flag
-
+#------------------------------------------------------------------------------
+# changes made by Kevin Clement on 06/17/2014
+# -forced server to add \n to the end of all output
+# 
 #------------------------------------------------------------------------------
 
 import logging
@@ -278,6 +277,7 @@ class TelnetClient(object):
         Send raw text to the distant end.
         """
         if text:
+            text = text + "\n"
             self.send_buffer += text.replace('\n', '\r\n')
             self.send_pending = True
 
@@ -404,7 +404,7 @@ class TelnetClient(object):
         ## Did they close the connection?
         size = len(data)
         if size == 0:
-            #logging.debug ("No data recieved, client closed connection")
+            logging.debug ("No data recieved, client closed connection")
             raise ConnectionLost()
 
         ## Update some trackers
@@ -418,7 +418,6 @@ class TelnetClient(object):
         ## Look for newline characters to get whole lines from the buffer
         while True:
             mark = self.recv_buffer.find('\n')
-            #mark = self.recv_buffer.find('l')
             if mark == -1:
                 break
             cmd = self.recv_buffer[:mark].strip()
@@ -522,7 +521,7 @@ class TelnetClient(object):
         """
         Handle incoming Telnet commands that are two bytes long.
         """
-        #logging.debug("Got two byte cmd '{}'".format(ord(cmd)))
+        logging.debug("Got two byte cmd '{}'".format(ord(cmd)))
 
         if cmd == SB:
             ## Begin capturing a sub-negotiation string
@@ -569,7 +568,7 @@ class TelnetClient(object):
         Handle incoming Telnet commmands that are three bytes long.
         """
         cmd = self.telnet_got_cmd
-        #logging.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
+        logging.debug("Got three byte cmd {}:{}".format(ord(cmd), ord(option)))
 
         ## Incoming DO's and DONT's refer to the status of this end
         if cmd == DO:
@@ -684,7 +683,7 @@ class TelnetClient(object):
 
             if bloc[0] == TTYPE and bloc[1] == IS:
                 self.terminal_type = bloc[2:]
-                #logging.debug("Terminal type = '{}'".format(self.terminal_type))
+                logging.debug("Terminal type = '{}'".format(self.terminal_type))
 
             if bloc[0] == NAWS:
                 if len(bloc) != 5:
@@ -705,37 +704,37 @@ class TelnetClient(object):
 
     def _check_local_option(self, option):
         """Test the status of local negotiated Telnet options."""
-        if not option in self.telnet_opt_dict:
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         return self.telnet_opt_dict[option].local_option
 
     def _note_local_option(self, option, state):
         """Record the status of local negotiated Telnet options."""
-        if not option in self.telnet_opt_dict:
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         self.telnet_opt_dict[option].local_option = state
 
     def _check_remote_option(self, option):
         """Test the status of remote negotiated Telnet options."""
-        if not option in self.telnet_opt_dict:
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         return self.telnet_opt_dict[option].remote_option
 
     def _note_remote_option(self, option, state):
         """Record the status of local negotiated Telnet options."""
-        if not option in self.telnet_opt_dict:
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         self.telnet_opt_dict[option].remote_option = state
 
     def _check_reply_pending(self, option):
         """Test the status of requested Telnet options."""
-        if not option in self.telnet_opt_dict:
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         return self.telnet_opt_dict[option].reply_pending
 
     def _note_reply_pending(self, option, state):
         """Record the status of requested Telnet options."""
-        if not option in self.telnet_opt_dict:
+        if option not in self.telnet_opt_dict.keys():
             self.telnet_opt_dict[option] = TelnetOption()
         self.telnet_opt_dict[option].reply_pending = state
 
@@ -774,7 +773,7 @@ def _on_disconnect(client):
     """
     Placeholder lost connection handler.
     """
-    logging.info ("-- Lost connection to %s".format(client.addrport()))
+    logging.info ("-- Lost connection to {}".format(client.addrport()))
         
 class TelnetServer(object):
     """
@@ -913,5 +912,3 @@ class TelnetServer(object):
         for sock_fileno in slist:
             ## Call the connection's send method
             self.clients[sock_fileno].socket_send()
-
-

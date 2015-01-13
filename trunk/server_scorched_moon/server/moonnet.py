@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 from .moontools import Tools as tools
+from . import player
+
 
 # this class handles network commands for the server
 
