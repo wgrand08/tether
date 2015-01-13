@@ -123,90 +123,30 @@ class Main: #the main server class
                         cmd_var = ""
                     ID = tools.client2ID(self.player, client)
 
-                    #this section is for system wide commands
-                    if cmd == "shutdown": #shuts down server
-                        logging.info("Shutdown command recieved by {}" .format(client.address))
-                        self.settings.shutdown_command = True
-                    elif cmd == "exit": #command to disconnect client
+                    if cmd == "exit": #command to disconnect client
                         logging.info("{} disconnected intentionally" .format(client.address))
-                        client.send("goodbye\n")
+                        client.send("goodbye")
                         self.server.poll()
                         client.active = False
+                    elif cmd == "shutdown": #command to shutdown entire server
+                        logging.info("Shutdown command recieved by {}" .format(client.address))
+                        self.settings.shutdown_command = True
+                    elif cmd == "broadcast": #command to send message to all clients
+                        netcommand.broadcast(cmd_var)
+                    elif cmd == "version": # command to provide the server version
+                        netcommand.version(client)
+                    elif cmd == "login": # command to log in username and recognize them as an actual player
+                        netcommand.login(client, cmd_var)
+                    elif cmd == "logout": # command to logout username
+                        netcommand.logout(client)
+                    elif cmd == "whoall": # command to list all connected users
+                        netcommand.whoall(client)
+                    elif cmd == "chat": # standard chat message
+                        netcommand.chat(client, cmd_var)
+                    else:
+                        logging.debug("recieved unidentified command: {}" .format(cmd))
+                        client.send("error unknown command: {}" .format(cmd))
 
-                    else: #this section is for contextual commands
-                        if self.player[ID].status == "splash": #determining if tcurses will be used or raw data
-                            logging.info("{} post-splashed" .format(client.address))
-                            logging.debug("post-splash terminal type: {}" .format(client.terminal_type))
-                            logging.debug("post-splash screensize: {}, {}" .format(client.columns, client.rows))
-
-
-                            if self.settings.allowedclients == "tcurses": #no raw connections allowed
-                                if cmd == "notcurses":
-                                    client.send("raw connections not allowed - disconnecting")
-                                    self.server.poll()
-                                    client.active = False
-                                else:
-                                    self.player[ID].raw = False
-                                    self.player[ID].status = "login"
-                                    self.player[ID].tcurses.test() #will need to take user to login screen
-                            elif self.settings.allowedclients == "notcurses": #tcurses disabled
-                                if cmd == "notcurses":
-                                    self.player[ID].raw = True
-                                    self.player[ID].status = "login"
-                                else:
-                                    client.send("message: tcurses disabled - disconnecting\n")
-                                    self.server.poll()
-                                    client.active = False
-                            elif self.settings.allowedclients == "both": #all connection types allowed
-                                if cmd == "notcurses":
-                                    self.player[ID].raw = True
-                                    self.player[ID].status = "login"
-                                else:
-                                    self.player[ID].raw = False
-                                    self.player[ID].status = "login"
-                                    self.player[ID].tcurses.test() #will need to take user to login screen
-                            else:
-                                client.send("invalid allowedclients settings detected, exiting")
-                                logging.error("invalid allowedclients setting")
-                                print("invalid allowedclients setting")
-                                sys.exit("exiting: invalid settings")
-
-
-                        elif self.player[ID].status == "login":
-                            if cmd[:5] == "guest":
-                                if self.settings.allowguest == True:
-                                    client.send("you are a guest\n")
-                                else:
-                                    client.send("guest connections not allowed\n")
-                            else:
-                                client.send("you are signing in as {}\n".format(cmd))
-                                netcommand.login(client, cmd_var)
-
-                        """
-                        if cmd == "exit": #command to disconnect client
-                            logging.info("{} disconnected intentionally" .format(client.address))
-                            client.send("goodbye")
-                            self.server.poll()
-                            client.active = False
-                        elif cmd == "shutdown": #command to shutdown entire server
-                            logging.info("Shutdown command recieved by {}" .format(client.address))
-                            self.settings.shutdown_command = True
-                        elif cmd == "broadcast": #command to send message to all clients
-                            netcommand.broadcast(cmd_var)
-                        elif cmd == "version": # command to provide the server version
-                            netcommand.version(client)
-                        elif cmd == "login": # command to log in username and recognize them as an actual player
-                            netcommand.login(client, cmd_var)
-                        elif cmd == "logout": # command to logout username
-                            netcommand.logout(client)
-                        elif cmd == "whoall": # command to list all connected users
-                            netcommand.whoall(client)
-                        elif cmd == "chat": # standard chat message
-                            netcommand.chat(client, cmd_var)
-                        else:
-                            logging.debug("recieved unidentified command: {}" .format(cmd))
-                            client.send("error unknown command: {}" .format(cmd))
-                        """
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client)
