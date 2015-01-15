@@ -1,4 +1,4 @@
-"""Copyright 2014:
+"""Copyright 2015:
     Kevin Clement
 
 This program is free software; you can redistribute it and/or modify
@@ -17,27 +17,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
-import os, sys
+import os, os.path
 import string
+import sys
 
-# this file handles all settings
-
-class Settings():
+class Settings:
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.034 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.settingsversion = 0.01 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.serverversion = 0.034 #oldest version of scorched moon server the client is compatible with
         self.debug = True
-        self.runserver = True
-        self.shutdown_command = False
-        self.serverport = 6112
+        self.tetherdir = None
         self.loglevel = 4
-        self.boottime = -1 #time in seconds to allow a user to reconnect before they get booted completely, -1 means player is never automatically booted
-
 
     def load_settings(self):
         logging.debug("")
         logging.info("loading settings from settings.conf")
+        badsettings = False
         if os.path.exists("settings.conf"):
             settingsfile=open("settings.conf", mode="r", encoding="utf-8")
             for line in settingsfile:
@@ -47,36 +44,29 @@ class Settings():
                 input_array = line.split("=", 1)
                 if input_array[0].strip() == "version":
                     if float(input_array[1].strip()) < self.settingsversion: #checking file version to avoid incompatibilities
-                        logging.critical("Obsolete settings file detected! aborting startup")
-                        logging.critical("Please create new file with -c option")
-                        print("Obsolete settings file detected! Aborting startup")
-                        print("Please create new file with -c option")
-                        sys.exit("Invalid settings") #system ends immediately if it detects file with possibly incompatible settings
+                        logging.info("Obsolete settings file detected Using defaults")
+                        badsettings = True
+
                 elif input_array[0].strip() == "debug":
                     if input_array[1].strip() == "True":
                         self.debug = True
                 elif input_array[0].strip() == "loglevel":
                     self.loglevel = int(input_array[1].strip())
-                elif input_array[0].strip() == "serverport":
-                    self.serverport = int(input_array[1].strip())
-                elif input_array[0].strip() == "boottime":
-                    self.boottime = int(input_array[1].strip())
-            settingsfile.close()
+                else:
+                    logging.warning("unidentified input in settings file")
+                    badsettings = True
+            
         else:
-            logging.warning("settings.conf file not found, recommend running Scorched Moon with -c option")
+            badsettings = True
+        if badsettings == True:
+            pass #add code to reset back to default settings
 
 
-
-    def create_settings(self, version):
+    def save_settings(self):
         logging.debug("")
-        logging.critical("Creating default settings file")
-        logging.critical("saving defaults to settings.conf")
+        logging.info("saving settings to settings.conf")
         settingsfile=open("settings.conf", mode="w", encoding="utf-8")
         settingsfile.write("version="+str(version)+"\n")
         settingsfile.write("debug="+str(self.debug)+"\n")
         settingsfile.write("loglevel="+str(self.loglevel)+"\n")
-        settingsfile.write("serverport="+str(self.serverport)+"\n")
-        settingsfile.write("droptime="+str(self.boottime)+"\n")
-        settingsfile.close()
-        logging.critical("Default settings successfully saved")
 
