@@ -31,17 +31,17 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.032 # server version number
+        version = 0.034 # server version number
 
         # breaking up sessions in logfile
-        logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(message)s')
+        logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.DEBUG,format='%(message)s')
         logging.critical("----------------------------------------------------------------------------------------------------------------------------")
         logging.critical("----------------------------------------------------------------------------------------------------------------------------")
 
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler) # clears out handler to prepare for next logging session
 
-        logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s') #default logging configuration until we can load custom settings
+        logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s') #default logging configuration until we can load custom settings
 
         if makesettings == True:
             logging.critical("Scorched Moon server creating default settings.conf file")

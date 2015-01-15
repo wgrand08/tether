@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+ 
 """Copyright 2015:
     Kevin Clement
 
@@ -18,24 +18,32 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
+
 import sys
 import subprocess
 import os
 
-# checks compatibility and handles arguments before passing them to the true main class
-
 def main():
+    #this is to verify compatible python version is in use
     if sys.version_info < (3, 0):
         print("Scorched Moon requires python3 or higher")
         sys.exit(1)
+    try:
+        import pygame
+    except:
+        print("Unable to find pygame, please install pygame for python3")
+        sys.exit(1)
 
-    debug = False
-    loglevel = 0
     logready = False
+    loglevel = 0
+    debug = False
+    skip = False
     check = 0
-    makesettings = False
+
     for argument in sys.argv:
-        if argument == "--debug" or argument == "-d":
+        if argument == "--no-intro":
+            skip = True
+        elif argument == "--debug" or argument == "-d":
             debug = True
         elif argument == "--help" or argument == "-h":
             usage()
@@ -67,32 +75,33 @@ def main():
                 logready = False
                 loglevel = 4
             else:
-                print("Unknown argument: {}" .format( argument))
+                print("Unknown argument: {}" .format(argument))
                 usage()
         elif argument == "--create" or argument == "-c":
             makesettings = True
         elif check > 0:
-            print("Unknown argument: {}" .format(argument)
+            print("Unknown argument: {}" .format(argument))
+            usage()
+        elif check > 0:
+            print("Unknown argument: {}" .format(argument))
             usage()
         check += 1
 
-    import server.main
-    settingspath = ""
-    server = server.main.Main(debug, loglevel, makesettings, settingspath)
+    import client.main
+    client = client.main.Main(debug, loglevel, skip)
 
 def usage():
     print(" ")
-    print("scorched_moon_server [options]")
+    print("scorched_moon_client [options]")
     print(" ")
     print("Options are:")
     print(" ")
-    print("-d               --debug             Run server in debug mode, this also forces log to level 1")
+    print("-d               --debug             Run client in debug mode, this also forces log to level 1")
     print(" ")
     print("-l <number>      --log <number>      Set log level from 1 - 4")
     print(" ")
     print("-h               --help              Display this help screen")
-    print(" ")
-    print("-c               --create            Create fresh settings file")
     sys.exit(0)
 
 main()
+
