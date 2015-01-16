@@ -21,7 +21,7 @@ import logging
 import string
 import os
 from . import settings
-
+from .pgu import gui
 
 class Main:
     def __init__(self, debug, loglevel, skip):
@@ -95,8 +95,14 @@ class Main:
             logging.critical("Scorched Moon client ver. {}" .format(version))
             logging.critical("Log level is set to {}" .format(loglevel))
 
+        splashscreen = gui.Desktop(theme=gui.Theme("data/themes/default/"))
+        splashscreen.connect(gui.QUIT,splashscreen.quit,None)
 
-        
+        splashtable = gui.Table(width=550,height=550)
+        splashtable.add(gui.Image("data/graphics/misc/intro_splash.png"))
+
+        splashscreen.run(splashtable)
+
         logging.critical("Scorched Moon client successfully shutdown")
         logging.shutdown()
         sys.exit(0) # final shutdown confirmation
