@@ -72,7 +72,7 @@ def main():
         elif argument == "--create" or argument == "-c":
             makesettings = True
         elif check > 0:
-            print("Unknown argument: {}" .format(argument)
+            print("Unknown argument: {}" .format(argument))
             usage()
         check += 1
 

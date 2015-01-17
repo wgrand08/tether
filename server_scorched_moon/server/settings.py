@@ -66,7 +66,6 @@ class Settings():
             logging.warning("settings.conf file not found, recommend running Scorched Moon with -c option")
 
 
-
     def create_settings(self, version):
         logging.debug("")
         logging.critical("Creating default settings file")
