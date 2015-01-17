@@ -19,7 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import sys
 import logging
 import time
-from server.miniboa import TelnetServer
+import platform
+from .miniboa import TelnetServer
 from .moontools import Tools as tools
 from . import moonnet
 from . import player
@@ -73,15 +74,15 @@ class Main: #the main server class
             logging.root.removeHandler(handler) # clears out handler again so we can use custom logging settings
         
         if loglevel == 1:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.DEBUG,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s:%(lineno)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.DEBUG,format='%(levelname)s - %(asctime)s - %(module)s:%(funcName)s:%(lineno)s -- %(message)s')
         elif loglevel == 2:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.INFO,format='%(levelname)s - %(asctime)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.INFO,format='%(levelname)s - %(asctime)s -- %(message)s')
         elif loglevel == 3:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.WARNING,format='%(levelname)s - %(asctime)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.WARNING,format='%(levelname)s - %(asctime)s -- %(message)s')
         elif loglevel == 4:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.ERROR,format='%(levelname)s - %(asctime)s -- %(message)s')
         elif loglevel == 5:
-            logging.basicConfig(filename='logs/scorched_moon.log',level=logging.CRITICAL,format='%(levelname)s - %(asctime)s -- %(message)s')
+            logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.CRITICAL,format='%(levelname)s - %(asctime)s -- %(message)s')
         else: #invalid loglevel
             print("Invalid loglevel {}" .format(loglevel))
             print("Unable to start logging")
@@ -101,16 +102,14 @@ class Main: #the main server class
             logging.critical("Scorched Moon server ver. {} successfully started" .format(version))
             logging.critical("Log level is set to {}" .format(loglevel))
 
-        self.settings.check_settings() # confirm settings are not likely to break server
+        logging.critical("Platform: {}" .format(platform.platform()))
+        logging.critical("Python version: {}" .format(sys.version))
 
         # setting globals
         self.player = [] # a list of player classes
         self.game = [] # a list of game classes
         self.clientlist = [] # a list of all connected clients
         netcommand = moonnet.NetCommands(self.clientlist, self.settings, self.player)
-
-        if self.settings.useweb == True:
-            test = True #need code to activate websockify
 
 
         def process_clients(): #handles commands client has sent to server
@@ -165,9 +164,9 @@ class Main: #the main server class
                     else:
                         logging.debug("System set to never boot dropped player")
 
-
+        logging.debug("Starting Telnet server")
         self.server = TelnetServer(port=self.settings.serverport, on_connect=client_connects, on_disconnect=client_disconnects) #starts server
-        logging.debug("Telnet Server starting on port {}" .format(self.settings.serverport))
+        logging.debug("Telnet Server started on port {}" .format(self.settings.serverport))
 
         ## Server Loop
         while self.settings.runserver:
