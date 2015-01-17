@@ -20,6 +20,7 @@ import sys
 import logging
 import string
 import os
+import platform
 from . import settings
 from .pgu import gui
 
@@ -94,15 +95,19 @@ class Main:
         else:
             logging.critical("Scorched Moon client ver. {}" .format(version))
             logging.critical("Log level is set to {}" .format(loglevel))
+        logging.critical("Platform: {}" .format(platform.platform()))
+        logging.critical("Python version: {}" .format(sys.version))
+        logging.critical("Pygame version: {}" .format(pygame.version.ver))
 
-        splashscreen = gui.Desktop(theme=gui.Theme("data/themes/default/"))
-        splashscreen.connect(gui.QUIT,splashscreen.quit,None)
 
-        splashtable = gui.Table(width=550,height=550)
-        splashtable.add(gui.Image("data/graphics/misc/intro_splash.png"))
+
+        moondesk = gui.Desktop(theme=gui.Theme("data/themes/default/"))
+        moondesk.connect(gui.QUIT,splashscreen.quit,None)
 
         splashscreen.run(splashtable)
 
         logging.critical("Scorched Moon client successfully shutdown")
         logging.shutdown()
         sys.exit(0) # final shutdown confirmation
+
+        def introscree():
