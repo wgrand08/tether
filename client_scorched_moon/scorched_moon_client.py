@@ -24,15 +24,6 @@ import subprocess
 import os
 
 def main():
-    #this is to verify compatible python version is in use
-    if sys.version_info < (3, 0):
-        print("Scorched Moon requires python3 or higher")
-        sys.exit(1)
-    try:
-        import pygame
-    except:
-        print("Unable to find pygame, please install pygame for python3")
-        sys.exit(1)
 
     logready = False
     loglevel = 0
