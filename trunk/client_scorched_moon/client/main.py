@@ -18,15 +18,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import sys
 import logging
-import string
 import os
 import platform
 from time import sleep
 from . import settings
+from .import mainmenu
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.002
+        version = 0.003
 
         # breaking up sessions in logfile
         tetherdir = os.getenv("HOME")
@@ -109,25 +109,24 @@ class Main:
         logging.critical("Python version: {}" .format(sys.version))
         logging.critical("Pygame version: {}" .format(pygame.version.ver))
 
+        #splashscreen
         image = "data/graphics/misc/intro_splash.png"
         screen = pygame.display.set_mode((550,550))
         try:
             splashScreen = pygame.image.load(image)
         except pygame.error as message:
-            logging.error("unable to open splash image")
-            sys.exit(1)
-        splashScreen = splashScreen.convert()
-        screen.blit(splashScreen, (0,0))
-        pygame.display.flip()
-        sleep(2)
-        screen = pygame.display.set_mode((1024,768))
+            logging.warning("unable to open splash image")
+            skip = True
+        if skip == False:
+            splashScreen = splashScreen.convert()
+            screen.blit(splashScreen, (0,0))
+            pygame.display.flip()
+            sleep(2)
+            pygame.display.quit()
 
-        """
-        moondesk = gui.Desktop(theme=gui.Theme("data/themes/default/"))
-        moondesk.connect(gui.QUIT,splashscreen.quit,None)
+        menuscreen = mainmenu.MainMenu()
 
-        splashscreen.run(splashtable)
-        """
+
         logging.critical("Scorched Moon client successfully shutdown")
         logging.shutdown()
         sys.exit(0) # final shutdown confirmation
