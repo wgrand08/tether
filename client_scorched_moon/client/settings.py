@@ -25,11 +25,15 @@ class Settings:
     def __init__(self):
         logging.debug("")
         self.version = 0.00
-        self.settingsversion = 0.01 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.settingsversion = 0.03 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
         self.serverversion = 0.034 #oldest version of scorched moon server the client is compatible with
         self.debug = True
         self.tetherdir = None
         self.loglevel = 4
+        self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
+        self.playername = "Commander"
+        self.serveraddress = "127.0.0.1"
+        self.serverport = 6112
 
     def load_settings(self):
         logging.debug("")

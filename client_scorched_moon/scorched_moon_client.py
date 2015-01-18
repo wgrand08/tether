@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import sys
 import subprocess
-import os
 
 def main():
 
@@ -38,6 +37,8 @@ def main():
             debug = True
         elif argument == "--help" or argument == "-h":
             usage()
+        elif argument == "--skip" or argument == "-s":
+            skip = True
         elif argument == "--log" or argument == "-l":
             logready = True
         elif argument == "1":
@@ -92,6 +93,8 @@ def usage():
     print("-l <number>      --log <number>      Set log level from 1 - 4")
     print(" ")
     print("-h               --help              Display this help screen")
+    print(" ")
+    print("-s               --skip              Skip intro scree")
     sys.exit(0)
 
 main()
