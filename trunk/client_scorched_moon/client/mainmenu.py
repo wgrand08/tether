@@ -20,26 +20,40 @@ import logging
 import pygame
 from .pgu import gui
 
-#this file handles is nothing more then a basic template
-
 class MainMenu:
 
     def __init__(self):
         logging.debug("")
-        self.testloop = True
-        test_menu = gui.Desktop(theme=gui.Theme("data/themes/default/"))
-        test_table = gui.Table(width=800,height=600)
-        gui_button = gui.Button("Quit")
-        gui_button.connect(gui.CLICK,self.test1,)
-        test_table.tr()
-        test_table.td(gui_button)
+        self.menuloop = True
+        self.main_menu = gui.Desktop(theme=gui.Theme("data/themes/default/"))
+        self.main_menu.connect(gui.QUIT, self.clickquit)
+        self.menu_table = gui.Table(width=800,height=600)
+        self.server_label = gui.Label("Address:")
+        self.server_input = gui.Input(value="127.0.0.1", size=15)
+        self.connect_button = gui.Button("Connect to Server")
+        self.connect_button.connect(gui.CLICK, self.clickconnect)
+        self.settings_button = gui.Button("Settings")
+        self.settings_button.connect(gui.CLICK,self.clicksettings)
+        self.quit_button = gui.Button("Quit") #could use app.quit but this allows us to have a custom loop
+        self.quit_button.connect(gui.CLICK,self.clickquit)
+        self.menu_table.tr()
+        self.menu_table.td(self.server_label,row=1,col=1)
+        self.menu_table.td(self.server_input,row=1,col=2)
+        self.menu_table.td(self.connect_button,row = 2)
+        self.menu_table.td(self.settings_button,row = 3)
+        self.menu_table.td(self.quit_button,row = 4)
 
-        counting = 0
-        test_menu.init(test_table)
-        while self.testloop:
-            print("we are counting {}" .format(counting))
-            counting += 1
-            test_menu.loop()
+        self.main_menu.init(self.menu_table)
+        while self.menuloop:
+            self.main_menu.loop()
 
-    def test1(self):
-        self.testloop = False
+    def clickconnect(self):
+        logging.debug("")
+        logging.info("Tried connecting to: {}" .format(self.server_input.value))
+
+    def clicksettings(self):
+        logging.debug("")
+
+    def clickquit(self):
+        logging.debug("")
+        self.menuloop = False
