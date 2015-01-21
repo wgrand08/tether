@@ -35,4 +35,4 @@ class ClientState:
 
     def load_settings_screen(self):
         logging.debug("")
-        self.display = settingsscreen.SettingsScreen
+        self.display = settingsscreen.SettingsScreen(self)

@@ -17,7 +17,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
-import pygame
 from .pgu import gui
 
 class MainMenu:
@@ -51,6 +50,7 @@ class MainMenu:
 
     def clicksettings(self):
         logging.debug("")
+        self.client.load_settings_screen()
 
     def clickquit(self):
         logging.debug("")

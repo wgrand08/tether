@@ -17,7 +17,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 import logging
+from .pgu import gui
 
 class SettingsScreen:
-    def __init__():
+    def __init__(self, client):
         logging.debug("")
+        self.client = client
+        self.desktop = gui.Desktop(theme=gui.Theme("data/themes/default/"))
+        self.desktop.connect(gui.QUIT, self.clickquit)
+        self.menu_table = gui.Table(width=800,height=600)
+        self.settings_label = gui.Label("NO SETTINGS YET!")
+        self.back_button = gui.Button("Return to Main Menu")
+        self.back_button.connect(gui.CLICK,self.clickback)
+        self.menu_table.tr()
+        self.menu_table.td(self.settings_label,row=1,col=1)
+        self.menu_table.td(self.back_button,row=2,col=1)
+        self.desktop.init(self.menu_table)
+
+    def clickback(self):
+        logging.debug("")
+        self.client.load_main_menu()
+
+    def clickquit(self):
+        logging.debug("")
+        self.client.runclient = False
