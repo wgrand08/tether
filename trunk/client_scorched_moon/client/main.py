@@ -21,12 +21,11 @@ import logging
 import os
 import platform
 from time import sleep
-from . import settings
-from .import mainmenu
+from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.003
+        version = 0.004
 
         # breaking up sessions in logfile
         tetherdir = os.getenv("HOME")
@@ -63,21 +62,19 @@ class Main:
             logging.critical("Unable to find pygame, please install pygame for python3")
             sys.exit(1)
 
-
-        self.settings = settings.Settings() #initalizaing settings
-        self.settings.version = version
-        self.settings.tetherdir = tetherdir
-        self.settings.load_settings() #loading custom settings from file
+        self.client = gameclient.ClientState()
+        self.client.settings.version = version
+        self.client.settings.tetherdir = tetherdir
 
         if loglevel != 0: #arguments override settings file for logging
-            self.settings.loglevel = loglevel
+            self.client.settings.loglevel = loglevel
         else: # loglevel 0 means no argument used so we go with settings file
-            loglevel = self.settings.loglevel
+            loglevel = self.client.settings.loglevel
 
         if debug == True: # arguments override settings file for debug
-            self.settings.debug = True
+            self.client.settings.debug = True
 
-        if self.settings.debug == True: #debug overrides loglevels
+        if self.client.settings.debug == True: #debug overrides loglevels
             loglevel = 1
 
         for handler in logging.root.handlers[:]:
@@ -99,7 +96,7 @@ class Main:
             sys.exit()
 
         # confirming startup status and logging
-        if self.settings.debug:
+        if self.client.settings.debug:
             logging.critical("Scorched Moon client ver. {} running in debug mode" .format(version))
             logging.critical("Log level forced to {}" .format(loglevel))
         else:
@@ -124,7 +121,12 @@ class Main:
             sleep(2)
             pygame.display.quit()
 
-        menuscreen = mainmenu.MainMenu()
+        #self.mainmenu = mainmenu.MainMenu()
+
+        self.client.load_main_menu()
+
+        while self.client.runclient: # main client loop
+            self.client.display.desktop.loop()
 
 
         logging.critical("Scorched Moon client successfully shutdown")

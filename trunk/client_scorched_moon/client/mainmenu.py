@@ -22,11 +22,11 @@ from .pgu import gui
 
 class MainMenu:
 
-    def __init__(self):
+    def __init__(self, client):
         logging.debug("")
-        self.menuloop = True
-        self.main_menu = gui.Desktop(theme=gui.Theme("data/themes/default/"))
-        self.main_menu.connect(gui.QUIT, self.clickquit)
+        self.client = client
+        self.desktop = gui.Desktop(theme=gui.Theme("data/themes/default/"))
+        self.desktop.connect(gui.QUIT, self.clickquit)
         self.menu_table = gui.Table(width=800,height=600)
         self.server_label = gui.Label("Address:")
         self.server_input = gui.Input(value="127.0.0.1", size=15)
@@ -43,9 +43,7 @@ class MainMenu:
         self.menu_table.td(self.settings_button,row = 3)
         self.menu_table.td(self.quit_button,row = 4)
 
-        self.main_menu.init(self.menu_table)
-        while self.menuloop:
-            self.main_menu.loop()
+        self.desktop.init(self.menu_table)
 
     def clickconnect(self):
         logging.debug("")
@@ -56,4 +54,4 @@ class MainMenu:
 
     def clickquit(self):
         logging.debug("")
-        self.menuloop = False
+        self.client.runclient = False
