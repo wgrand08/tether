@@ -2,10 +2,10 @@
 #labels Phase-Implementation
 
 = Dependencies =
-Scorched Moon requires python 3, it is not backwards compatible with python 2.
+Scorched Moon server requires python3, it is not backwards compatible with python 2.
 
 = Launching Scorched Moon server = 
-Scorched Moon server is designed to run as a standalone application independent of any clients. Simply running scorched_moon_server.py will start the server directly. Once started the server is non-interactive and can only be controlled by logging in remotely.
+Scorched Moon server is designed to run as a standalone application independent of any clients. Simply running scorched_moon_server.py will start the server directly. Once started the server is non-interactive and can only be controlled by logging in remotely with a client or telnet.
 
 = Scorched Moon server arguments =
 Scorched Moon accepts the following arguments on launch
