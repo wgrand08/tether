@@ -1,5 +1,5 @@
 #summary planned mileposts and versioning
-#labels Phase-Requirements,Phase-Design
+#labels Phase-Requirements,Phase-Design,Featured
 
 = Introduction to Scorched Moon versions =
 
