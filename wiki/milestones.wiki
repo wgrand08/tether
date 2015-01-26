@@ -8,9 +8,9 @@ The client and server each have their own version numbers that is not going to b
 
 = Versions =
 
-Currently we are working towards milestone 0.1
+Currently we are working towards milestone version 0.1
 
-== Version 0.0 - complete ==
+== Version 0.0 - reached ==
 
 Up to version 0.1 we are working on the basic framework for both the server and the client. When done we should essentially have a "chat" system.
 
