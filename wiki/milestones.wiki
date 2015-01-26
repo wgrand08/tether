@@ -10,7 +10,7 @@ The client and server each have their own version numbers that is not going to b
 
 Currently we are working towards milestone 0.1
 
-== Version 0.0 - in progress ==
+== Version 0.0 - complete ==
 
 Up to version 0.1 we are working on the basic framework for both the server and the client. When done we should essentially have a "chat" system.
 
@@ -25,7 +25,7 @@ Up to version 0.1 we are working on the basic framework for both the server and 
   * client is capable of displaying chat information so players can chat with each other
 
 
-== Version 0.1 - pending ==
+== Version 0.1 - in progress ==
 
 Version 0.1 to version 0.2 will focus on the map system. When done the server will be able to send map data to the client and the client will be able to display it properly and allow players to view it.
 
