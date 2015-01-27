@@ -151,7 +151,7 @@ class Main: #the main server class
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
-            client.send("hello\n")
+            client.send("hello")
             logging.info("{} connected to server" .format(client.address))
             netcommand.version(client)
 

@@ -20,13 +20,14 @@ import sys
 import logging
 import os
 import platform
+import threading
 from time import sleep
 from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.007
-        stringversion = "0.00.7"
+        version = 0.009
+        stringversion = "0.00.9"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
@@ -127,14 +128,29 @@ class Main:
             pygame.display.quit()
 
 
+        netthread = threading.Thread(target=self.checknet)
+        netthread.daemon = True
+        netthread.start()
+
         self.client.load_main_menu() #load main menu
         pygame.display.set_caption("Scorched Moon ver. {}" .format(self.client.settings.stringversion))
         while self.client.runclient: # main client loop
             self.client.display.desktop.loop()
-            if self.client.network.connected:
-                cmd = self.client.network.receive()
-                print("cmd = {}" .format(cmd))
+            if self.client.network.buffer != "":
+                print(self.client.network.buffer)
+                self.client.network.buffer = ""
+
+
+        logging.info("Quit command received")
+        self.client.network.send("exit")
 
         logging.critical("Scorched Moon client successfully shutdown")
         logging.shutdown()
         sys.exit(0) # final shutdown confirmation
+
+    def checknet(self):
+        while self.client.runclient:
+            if self.client.network.connected:
+                self.client.network.receive()
+            else:
+                pass

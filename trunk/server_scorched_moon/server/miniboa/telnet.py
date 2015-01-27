@@ -159,6 +159,7 @@ class TelnetClient(object):
         """
         if text:
             self.send_buffer += text.replace('\n', '\r\n')
+            self.send_buffer = ''.join([self.send_buffer, "\n"]) #remove this line to remove carriage return to each line
             self.send_pending = True
 
     def send_cc(self, text):

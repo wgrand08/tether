@@ -82,7 +82,7 @@ class NetCommands():
 
     def version(self, client):
         logging.debug("")
-        client.send("version {}\n" .format(self.settings.version))
+        client.send("version {}" .format(self.settings.version))
 
     def whoall(self, client):
         logging.debug("")
