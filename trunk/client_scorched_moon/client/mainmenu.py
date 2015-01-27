@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import logging
 from .pgu import gui
+from . import network
 
 class MainMenu:
 
@@ -47,6 +48,7 @@ class MainMenu:
     def clickconnect(self):
         logging.debug("")
         logging.info("Tried connecting to: {}" .format(self.server_input.value))
+        network.Network().connectserver()
 
     def clicksettings(self):
         logging.debug("")
