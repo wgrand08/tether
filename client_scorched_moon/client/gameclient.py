@@ -42,4 +42,4 @@ class ClientState:
     def load_connected_screen(self):
         logging.debug("")
         self.network.connectserver(self.settings.serveraddress, self.settings.serverport)
-        self.network.send("test")
+        

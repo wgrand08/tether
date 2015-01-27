@@ -24,6 +24,7 @@ class Network:
         logging.debug("")
         self.server = []
         self.connected = False
+        self.buffer = ""
 
     def connectserver(self, address, port):
         logging.debug("")
@@ -42,5 +43,10 @@ class Network:
 
     def receive(self):
         logging.debug("")
-        cmd = self.server.read_until(b"\n", .1)
-        return cmd
+        if self.buffer == "":
+            cmd = self.server.read_until(b"\n")
+            cmd = cmd.decode("ascii")
+            self.buffer = cmd[:-1] #removes carriage return from string
+        else:
+            pass
+        
