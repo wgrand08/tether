@@ -142,6 +142,9 @@ class Main: #the main server class
                         netcommand.whoall(client)
                     elif cmd == "chat": # standard chat message
                         netcommand.chat(client, cmd_var)
+                    elif cmd == "test":
+                        logging.critical("test command received")
+                        print("test!")
                     else:
                         logging.debug("recieved unidentified command: {}" .format(cmd))
                         client.send("error unknown command: {}" .format(cmd))
