@@ -22,13 +22,25 @@ import telnetlib
 class Network:
     def __init__(self):
         logging.debug("")
+        self.server = []
+        self.connected = False
 
-    def connectserver(self):
-        
-        testdata = "test\n"
-        testdata = testdata.encode('ascii')
+    def connectserver(self, address, port):
+        logging.debug("")
+        self.server = telnetlib.Telnet(address, port)
+        self.connected = True
 
-        mytest = telnetlib.Telnet("127.0.0.1", 6112)
-        #mytest.write(testdata)
-        mytest.write(str("test\n").encode('ascii'))
-        mytest.close()
+    def disconnectserver(self):
+        logging.debug("")
+        self.server.close()
+
+    def send(self, data):
+        logging.debug("")
+        data = ''.join([data, "\n"])
+        data = data.encode("ascii")
+        self.server.write(data)
+
+    def receive(self):
+        logging.debug("")
+        cmd = self.server.read_until(b"\n", .1)
+        return cmd

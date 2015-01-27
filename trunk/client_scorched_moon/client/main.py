@@ -25,8 +25,8 @@ from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.006
-        stringversion = "0.00.6"
+        version = 0.007
+        stringversion = "0.00.7"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
@@ -131,7 +131,9 @@ class Main:
         pygame.display.set_caption("Scorched Moon ver. {}" .format(self.client.settings.stringversion))
         while self.client.runclient: # main client loop
             self.client.display.desktop.loop()
-
+            if self.client.network.connected:
+                cmd = self.client.network.receive()
+                print("cmd = {}" .format(cmd))
 
         logging.critical("Scorched Moon client successfully shutdown")
         logging.shutdown()
