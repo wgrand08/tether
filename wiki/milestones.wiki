@@ -20,7 +20,7 @@ Up to version 0.1 we are working on the basic framework for both the server and 
   * server is capable of loading and parsing settings file - complete
   * client is capable of launching with GUI interface - complete
   * client is capable of switching between screens - complete
-  * client is capable of connecting to server
+  * client is capable of connecting to server - complete
   * client is capable of sending and receiving basic chat commands
   * client is capable of displaying chat information so players can chat with each other
 

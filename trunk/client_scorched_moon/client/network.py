@@ -26,10 +26,43 @@ class Network:
         self.connected = False
         self.buffer = ""
 
-    def connectserver(self, address, port):
+    def connectserver(self, address, port, minserverversion):
         logging.debug("")
-        self.server = telnetlib.Telnet(address, port)
-        self.connected = True
+        logging.info("Attempting to connect to {} {}" .format(address, port))
+        try: 
+            self.server = telnetlib.Telnet(address, port, 30)
+        except:
+            logging.info("unable to connect to server")
+        else:
+            logging.debug("Connected to server")
+            cmd = self.server.read_until(b"\n", 30)
+            cmd = cmd.decode("ascii")
+            cmd = cmd[:-1]
+            if cmd == "hello":
+                logging.debug("server said hello")
+                cmd = self.server.read_until(b"\n", 30)
+                cmd = cmd.decode("ascii")
+                cmd = cmd[:-1]
+                cmd, version = cmd.split(" ", 1)
+                if cmd == "version":
+                    try:
+                        version = float(version)
+                    except ValueError as message:
+                        logging.warning("unable to identify server version: {} - disconnecting" .format(version))
+                        self.server.close()
+                    else:
+                        if version < minserverversion:
+                            logging.warning("Server is at version {} but client requires version {} or higher - disconnecting" .format(version, minserverversion))
+                            self.server.close()
+                        else:
+                            logging.info("successfully connected to server version {}" .format(version))
+                            self.connected = True
+                else:
+                    logging.warning("Server did not identify version after hello - disconnecting")
+                    self.server.close()
+            else:
+                logging.warning("Server did not give expected hello message - disconnecting")
+                self.server.close()
 
     def disconnectserver(self):
         logging.debug("")
