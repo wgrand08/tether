@@ -20,6 +20,7 @@ import logging
 from . import settings
 from . import mainmenu
 from . import settingsscreen
+from . import network
 
 class ClientState:
     def __init__(self):
@@ -27,6 +28,7 @@ class ClientState:
         self.runclient = True
         self.settings = settings.Settings()
         self.settings.load_settings()
+        self.network = network.Network()
         self.display = []
 
     def load_main_menu(self):
@@ -36,3 +38,8 @@ class ClientState:
     def load_settings_screen(self):
         logging.debug("")
         self.display = settingsscreen.SettingsScreen(self)
+
+    def load_connected_screen(self):
+        logging.debug("")
+        self.network.connectserver(self.settings.serveraddress, self.settings.serverport)
+        self.network.send("test")

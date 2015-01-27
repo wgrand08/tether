@@ -32,7 +32,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.034 # server version number
+        version = 0.035 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.DEBUG,format='%(message)s')
@@ -151,7 +151,7 @@ class Main: #the main server class
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 
-            client.send("hello")
+            client.send("hello\n")
             logging.info("{} connected to server" .format(client.address))
             netcommand.version(client)
 
