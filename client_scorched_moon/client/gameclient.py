@@ -31,6 +31,20 @@ class ClientState:
         self.network = network.Network()
         self.display = []
 
+    def popup(self, message):
+        logging.debug("")
+        from .pgu import gui
+        poptitle = gui.Label("")
+        poptable = gui.Table(width=100, height=100)
+        popwindow = gui.Dialog(poptitle, poptable)
+        okaybutton = gui.Button("Okay")
+        okaybutton.connect(gui.CLICK, popwindow.close)
+        popupmessage = gui.Label(message)
+        poptable.tr()
+        poptable.td(popupmessage,row=1)
+        poptable.td(okaybutton,row=2)
+        popwindow.open()
+
     def load_main_menu(self):
         logging.debug("")
         self.display = mainmenu.MainMenu(self)
@@ -42,4 +56,8 @@ class ClientState:
     def load_connected_screen(self):
         logging.debug("")
         self.network.connectserver(self.settings.serveraddress, self.settings.serverport, self.settings.minserverversion)
+        if self.network.connected == False:
+            self.popup("Unable to connect to server")
+        else:
+            self.popup("Connected!")
         

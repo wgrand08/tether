@@ -26,13 +26,15 @@ class SettingsScreen:
         self.desktop = gui.Desktop(theme=gui.Theme("data/themes/default/"))
         self.desktop.connect(gui.QUIT, self.clickquit)
         self.menu_table = gui.Table(width=800,height=600)
-        self.settings_label = gui.Label("NO SETTINGS YET!")
         self.back_button = gui.Button("Return to Main Menu")
         self.back_button.connect(gui.CLICK,self.clickback)
+        self.test_button = gui.Button("Test the popup!")
+        self.test_button.connect(gui.CLICK, self.clicktest)
         self.menu_table.tr()
-        self.menu_table.td(self.settings_label,row=1,col=1)
-        self.menu_table.td(self.back_button,row=2,col=1)
+        self.menu_table.td(self.test_button, row=2,col=1)
+        self.menu_table.td(self.back_button,row=3,col=1)
         self.desktop.init(self.menu_table)
+        self.client.popup("There are currently no settings yet to change")
 
     def clickback(self):
         logging.debug("")
@@ -41,3 +43,6 @@ class SettingsScreen:
     def clickquit(self):
         logging.debug("")
         self.client.runclient = False
+
+    def clicktest(self):
+        self.client.popup("The popups work!")
