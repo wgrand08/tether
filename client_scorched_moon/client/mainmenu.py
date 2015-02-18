@@ -26,7 +26,8 @@ class MainMenu:
         self.client = client
         self.desktop = gui.Desktop(theme=gui.Theme("data/themes/default/"))
         self.desktop.connect(gui.QUIT, self.clickquit)
-        self.menu_table = gui.Table(width=800,height=600)
+        self.menu_container = gui.Container(width=800,height=600)
+        self.button_table = gui.Table(width=800,height=300)
         self.server_label = gui.Label("Address:")
         self.server_input = gui.Input(value="127.0.0.1", size=15)
         self.connect_button = gui.Button("Connect to Server")
@@ -35,14 +36,17 @@ class MainMenu:
         self.settings_button.connect(gui.CLICK,self.clicksettings)
         self.quit_button = gui.Button("Quit") #could use app.quit but this allows us to have a custom loop
         self.quit_button.connect(gui.CLICK,self.clickquit)
-        self.menu_table.tr()
-        self.menu_table.td(self.server_label,row=1,col=1)
-        self.menu_table.td(self.server_input,row=1,col=2)
-        self.menu_table.td(self.connect_button,row = 2)
-        self.menu_table.td(self.settings_button,row = 3)
-        self.menu_table.td(self.quit_button,row = 4)
 
-        self.desktop.init(self.menu_table)
+        self.button_table.tr()
+        self.button_table.td(self.server_input,row=1)
+        self.button_table.td(self.connect_button,row = 2)
+        self.button_table.td(self.settings_button,row = 3)
+        self.button_table.td(self.quit_button,row = 4)
+
+
+        self.menu_container.add(self.button_table, 0, 200)
+        self.menu_container.add(self.server_label, 245, 230)        
+        self.desktop.init(self.menu_container)
 
     def clickconnect(self):
         logging.debug("")

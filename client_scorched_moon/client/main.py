@@ -26,8 +26,8 @@ from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.011
-        stringversion = "0.01.1"
+        version = 0.012
+        stringversion = "0.01.2"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
