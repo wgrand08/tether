@@ -29,6 +29,7 @@ class Network:
     def connectserver(self, address, port, minserverversion):
         logging.debug("")
         logging.info("Attempting to connect to {} {}" .format(address, port))
+        self.connected = False
         try: 
             self.server = telnetlib.Telnet(address, port, 30)
         except:
@@ -67,6 +68,7 @@ class Network:
     def disconnectserver(self):
         logging.debug("")
         self.server.close()
+        self.connected = False
 
     def send(self, data):
         logging.debug("")
