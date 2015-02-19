@@ -51,7 +51,7 @@ These are the currently implemented server commands Scorched Moon accepts. All c
   * whoall - request list of all connected users and clients
   * login %s - Logs player in with specified username, multiple players can log in from the same client connection to allow for hotseat play
   * logout %s - Logs player out, this does not disconnect client from the server
-  * chat %s1 %s2 %s3 - Chat message from %s1 to %s2 with message %s3, %s2 can be either "channel" which is a general chat to everyone in the current channel or "team" which is a message to everyone that is on the same team (not fully implemented), or a specific username of another player which is a private message or whisper
+  * chat %s1 %s2 %s3 - Chat message from %s1 to %s2 with message %s3, %s2 can be either "channel" which is a general chat to everyone in the current channel or "team" which is a message to everyone that is on the same team (not fully implemented), or a specific username of another player which is a private message or whisper. It is vital that all clients send the username this is coming from otherwise it will discard it as an improperly formatted command. The server will confirm that the username is associated with the client but will accept multiple logins from the same client to allow for the potential for clients with multiple users logged in at once (i.e. webclient proxy)
 
 === Currently planned commands ===
   * fire %s1 %s2 %i1 %i2 - fires from building %s1 object %s2 at degree %i1 at power %i2 
