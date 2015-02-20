@@ -21,6 +21,7 @@ from . import settings
 from . import mainmenu
 from . import settingsscreen
 from . import network
+from . import findgamescreen
 
 class ClientState:
     def __init__(self):
@@ -31,7 +32,7 @@ class ClientState:
         self.network = network.Network()
         self.display = []
 
-    def popup(self, message):
+    def popup(self, message): #used for alerts and similar popups at any time
         logging.debug("")
         from .pgu import gui
         poptitle = gui.Label("")
@@ -45,19 +46,21 @@ class ClientState:
         poptable.td(okaybutton,row=2)
         popwindow.open()
 
-    def load_main_menu(self):
+    def load_main_menu(self): #loads main mneu
         logging.debug("")
         self.display = mainmenu.MainMenu(self)
 
-    def load_settings_screen(self):
+    def load_settings_screen(self): #loads settings screen
         logging.debug("")
-        self.display = settingsscreen.SettingsScreen(self)
+        self.display = findgamescreen.FindGameScreen(self)
 
-    def load_connected_screen(self):
+    def load_connected_screen(self): #connecting to server
         logging.debug("")
         self.network.connectserver(self.settings.serveraddress, self.settings.serverport, self.settings.minserverversion)
-        if self.network.connected == False:
-            self.popup("Unable to connect to server")
+        if self.network.connected == "True":
+            self.network.send("login {}" .format(self.settings.playername))
+            self.display = findgamescreen.FindGameScreen(self)
         else:
-            self.popup("Connected!")
+            self.popup(self.network.connected)
+
         

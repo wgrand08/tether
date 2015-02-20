@@ -26,8 +26,8 @@ from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.013
-        stringversion = "0.01.3"
+        version = 0.015
+        stringversion = "0.01.5"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
@@ -142,7 +142,7 @@ class Main:
 
 
         logging.info("Quit command received")
-        if self.client.network.connected:
+        if self.client.network.connected == "True":
             self.client.network.send("exit")
 
         logging.critical("Scorched Moon client successfully shutdown")
@@ -150,7 +150,7 @@ class Main:
         sys.exit(0) # final shutdown confirmation
 
     def checknet(self):
-        while self.client.runclient:
+        while self.client.runclient == "True":
             if self.client.network.connected:
                 self.client.network.receive()
             else:

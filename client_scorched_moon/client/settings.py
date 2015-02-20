@@ -32,9 +32,11 @@ class Settings:
         self.tetherdir = None
         self.loglevel = 4
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
-        self.playername = "Commander"
+        self.playername = "testclient"
         self.serveraddress = "127.0.0.1"
         self.serverport = 6112
+        self.screenwidth = 800
+        self.screenheight = 600
 
     def load_settings(self):
         logging.debug("")
