@@ -19,30 +19,28 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 import logging
 from .pgu import gui
 
-class SettingsScreen:
+class FindGameScreen:
     def __init__(self, client):
         logging.debug("")
         self.client = client
         self.desktop = gui.Desktop(theme=gui.Theme("data/themes/default/"))
         self.desktop.connect(gui.QUIT, self.clickquit)
-        self.menu_table = gui.Table(width=self.client.settings.screenwidth,height=self.client.settings.screenheight)
-        self.back_button = gui.Button("Return to Main Menu")
-        self.back_button.connect(gui.CLICK,self.clickback)
-        self.test_button = gui.Button("Test the popup!")
-        self.test_button.connect(gui.CLICK, self.clicktest)
-        self.menu_table.tr()
-        self.menu_table.td(self.test_button, row=2,col=1)
-        self.menu_table.td(self.back_button,row=3,col=1)
-        self.desktop.init(self.menu_table)
-        self.client.popup("There are currently no settings yet to change")
-
-    def clickback(self):
-        logging.debug("")
-        self.client.load_main_menu()
+        self.container = gui.Container(width=self.client.settings.screenwidth,height=self.client.settings.screenheight)
+        self.chatinput = gui.Input(size=75)
+        self.chatinput.connect("activate", self.chatentered)
+        self.container.add(self.chatinput, 10, 550)
+        self.desktop.init(self.container)
 
     def clickquit(self):
         logging.debug("")
         self.client.runclient = False
 
-    def clicktest(self):
-        self.client.popup("The popups work!")
+    def chatentered(self): #processes chat commands
+        logging.debug("")
+        cmd = self.chatinput.value
+        logging.debug("Raw chat input: {}" .format(cmd))
+        if cmd[:1] == "/": #determine if this is chat or server command
+            print("command recognized")
+        else: #not a command so send as chat to channel
+            self.client.network.send("chat {} channel {}" .format(self.client.settings.playername, cmd))
+        self.chatinput.value = "" #clearing text input for next chat

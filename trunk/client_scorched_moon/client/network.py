@@ -23,17 +23,18 @@ class Network:
     def __init__(self):
         logging.debug("")
         self.server = []
-        self.connected = False
+        self.connected = "False"
         self.buffer = ""
 
     def connectserver(self, address, port, minserverversion):
         logging.debug("")
         logging.info("Attempting to connect to {} {}" .format(address, port))
-        self.connected = False
+        self.connected = "False"
         try: 
             self.server = telnetlib.Telnet(address, port, 30)
         except:
             logging.info("unable to connect to server")
+            self.connected = "Unable to connect at {}" .format(address)
         else:
             logging.debug("Connected to server")
             cmd = self.server.read_until(b"\n", 30)
@@ -50,19 +51,23 @@ class Network:
                         version = float(version)
                     except ValueError as message:
                         logging.warning("unable to identify server version: {} - disconnecting" .format(version))
+                        self.connected = "Unable to confirm server version"
                         self.server.close()
                     else:
                         if version < minserverversion:
                             logging.warning("Server is at version {} but client requires version {} or higher - disconnecting" .format(version, minserverversion))
+                            self.connected = "Server is at version {} but client requires version {} or higher" .format(version, minserverversion)
                             self.server.close()
                         else:
                             logging.info("successfully connected to server version {}" .format(version))
-                            self.connected = True
+                            self.connected = "True"
                 else:
                     logging.warning("Server did not identify version after hello - disconnecting")
+                    self.connected = "Unable to confirm server version"
                     self.server.close()
             else:
                 logging.warning("Server did not give expected hello message - disconnecting")
+                self.connected = "Server connected but does not\n appear to be running Scorched Moon"
                 self.server.close()
 
     def disconnectserver(self):
