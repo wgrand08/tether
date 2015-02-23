@@ -14,14 +14,15 @@ Currently we are working towards milestone version 0.1
 
 Up to version 0.1 we are working on the basic framework for both the server and the client. When done we should essentially have a "chat" system.
 
-  * server is capable of accepting incoming network connections - complete
-  * server is capable of responding back - complete
-  * server is capable of parsing basic chat commands - complete
-  * server is capable of loading and parsing settings file - complete
-  * client is capable of launching with GUI interface - complete
-  * client is capable of switching between screens - complete
-  * client is capable of connecting to server - complete
-  * client is capable of sending and receiving basic chat commands
+  * ~~server is capable of accepting incoming network connections~~
+  * ~~server is capable of responding back~~
+  * ~~server is capable of parsing basic chat commands~~
+  * ~~server is capable of loading and parsing settings file~~
+  * ~~client is capable of launching with GUI interface~~
+  * ~~client is capable of switching between screens~~
+  * ~~client is capable of connecting to server~~
+  * client is capable of logging into server
+  * ~~client is capable of sending and receiving basic chat commands~~
   * client is capable of displaying chat information so players can chat with each other
 
 
@@ -53,7 +54,7 @@ Version 0.2 to 0.3 will focus on actual gameplay. By the end the game should be 
 
 Version 0.3 to 0.4 will focus on adding in features that are wanted but generally don't directly affect gameplay so can wait until gameplay is done. When done all the primary features we want in Scorched Moon should be done.
 
-  * server is capable of having user accounts
+  * server is capable of having persistent user accounts
   * server is capable of limiting certain tasks to admin accounts only
   * server is capable of handling FoW and SoW
   * client is capable of playing sounds
@@ -67,7 +68,7 @@ Version 0.4 to 0.5 will focus on bugfixes and compatibility with windows and osX
 
 == Version 0.5 - pending ==
 
-Version 0.5 to 1.0 will be beta testing and resolving any further bugs found. At this point promotion of Scorched Moon will be a priority as we will need lots of beta testers. Setting up an 'official' server will be necessary at this point so that people can connect to a game and play without having to host their own server.
+Version 0.5 to 1.0 will be beta testing and resolving any further bugs found. At this point promotion of Scorched Moon will be a priority as we will need lots of beta testers. Setting up an official server will be necessary at this point so that people can connect to a game and play without having to host their own server.
 
 == Version 1.0 - pending ==
 
