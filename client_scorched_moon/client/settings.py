@@ -27,7 +27,7 @@ class Settings:
         self.version = 0.00
         self.stringversion = "0.00.0"
         self.settingsversion = 0.03 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
-        self.minserverversion = 0.036 #oldest version of scorched moon server the client is compatible with
+        self.minserverversion = 0.037 #oldest version of scorched moon server the client is compatible with
         self.debug = True
         self.tetherdir = None
         self.loglevel = 4
