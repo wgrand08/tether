@@ -29,7 +29,7 @@ class MainMenu:
         self.container = gui.Container(width=self.client.settings.screenwidth,height=self.client.settings.screenheight)
         self.button_table = gui.Table(width=self.client.settings.screenwidth,height=(self.client.settings.screenheight / 2))
         self.server_label = gui.Label("Address:")
-        self.server_input = gui.Input(value="127.0.0.1", size=15)
+        self.server_input = gui.Input(value=self.client.settings.serveraddress, size=25)
         self.connect_button = gui.Button("Connect to Server")
         self.connect_button.connect(gui.CLICK, self.clickconnect)
         self.settings_button = gui.Button("Settings")
@@ -44,12 +44,13 @@ class MainMenu:
         self.button_table.td(self.quit_button,row = 4)
 
         self.container.add(self.button_table, 0, 200)
-        self.container.add(self.server_label, 245, 230)
+        self.container.add(self.server_label, 205, 230)
         self.desktop.init(self.container)
 
     def clickconnect(self):
         logging.debug("")
         logging.info("Tried connecting to: {}" .format(self.server_input.value))
+        self.client.settings.serveraddress = self.server_input.value
         self.client.load_connected_screen()
 
     def clicksettings(self):
