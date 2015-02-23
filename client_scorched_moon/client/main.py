@@ -26,8 +26,8 @@ from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.015
-        stringversion = "0.01.5"
+        version = 0.016
+        stringversion = "0.01.6"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
@@ -137,8 +137,17 @@ class Main:
         while self.client.runclient: # main client loop
             self.client.display.desktop.loop()
             if self.client.network.buffer != "":
-                print(self.client.network.buffer)
+                total_cmd = self.client.network.buffer
                 self.client.network.buffer = ""
+                logging.debug("received in buffer: {}" .format(self.client.network.buffer))
+                if total_cmd.find(" ") != -1: # seperating any variables from the actual command
+                    cmd, cmd_var = total_cmd.split(" ", 1)
+                else:
+                    cmd = total_cmd
+                    cmd_var = ""
+                if cmd == "error":
+                    logging.warning("Server gave error: {}" .format(cmd_var))
+                    self.client.popup("Server Error: {}" .format(cmd_var))
 
 
         logging.info("Quit command received")
@@ -150,8 +159,8 @@ class Main:
         sys.exit(0) # final shutdown confirmation
 
     def checknet(self):
-        while self.client.runclient == "True":
-            if self.client.network.connected:
+        while self.client.runclient:
+            if self.client.network.connected == "True":
                 self.client.network.receive()
             else:
                 pass

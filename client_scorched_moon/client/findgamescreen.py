@@ -40,7 +40,7 @@ class FindGameScreen:
         cmd = self.chatinput.value
         logging.debug("Raw chat input: {}" .format(cmd))
         if cmd[:1] == "/": #determine if this is chat or server command
-            print("command recognized")
+            pass #need code to handle commands
         else: #not a command so send as chat to channel
             self.client.network.send("chat {} channel {}" .format(self.client.settings.playername, cmd))
         self.chatinput.value = "" #clearing text input for next chat
