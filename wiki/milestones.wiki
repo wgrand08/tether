@@ -3,7 +3,7 @@
 
 = Introduction to Scorched Moon versions =
 
-The client and server each have their own version numbers that is not going to be synced except at project milestones. When both the client and the server meet all planned requirements for a milestone release then they will both be moved from their current version number to the milestone version number. 
+The client and server each have their own version numbers that are not going to be synced except at project milestones. As planned features are implemented they will be crossed off the list. When both the client and the server meet all planned requirements for a milestone release then they will both be moved from their current version number to the milestone version number.
 
 
 = Versions =
