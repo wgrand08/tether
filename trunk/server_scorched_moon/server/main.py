@@ -32,7 +32,7 @@ from . import settings
 class Main: #the main server class
     def __init__(self, debug, loglevel, makesettings, settingpath):
 
-        version = 0.037 # server version number
+        version = 0.038 # server version number
 
         # breaking up sessions in logfile
         logging.basicConfig(filename='logs/scorched_moon_server.log',level=logging.DEBUG,format='%(message)s')
@@ -147,7 +147,7 @@ class Main: #the main server class
                         print("test!")
                     else:
                         logging.debug("recieved unidentified command: {}" .format(cmd))
-                        client.send("error unknown command: {}" .format(cmd))
+                        client.send("error unknown command \"{}\"" .format(cmd))
 
         def client_connects(client): #called when a client first connects
             self.clientlist.append(client) 

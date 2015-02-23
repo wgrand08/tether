@@ -77,12 +77,12 @@ class Network:
 
     def send(self, data):
         logging.debug("")
+        logging.debug("sending {}" .format(data))
         data = ''.join([data, "\n"])
         data = data.encode("ascii")
         self.server.write(data)
 
     def receive(self):
-        logging.debug("")
         if self.buffer == "":
             cmd = self.server.read_until(b"\n")
             cmd = cmd.decode("ascii")
