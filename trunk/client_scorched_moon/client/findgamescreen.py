@@ -26,9 +26,13 @@ class FindGameScreen:
         self.desktop = gui.Desktop(theme=gui.Theme("data/themes/default/"))
         self.desktop.connect(gui.QUIT, self.clickquit)
         self.container = gui.Container(width=self.client.settings.screenwidth,height=self.client.settings.screenheight)
-        self.chatinput = gui.Input(size=75)
+        self.chatinput = gui.Input(size=65)
+        self.chatdoc = gui.Document(width=1, height=10)
+        self.chatscroll = gui.ScrollArea(self.chatdoc,width=600,height=100)
+
         self.chatinput.connect("activate", self.chatentered)
         self.container.add(self.chatinput, 10, 550)
+        self.container.add(self.chatscroll, 10, 440)
         self.desktop.init(self.container)
 
     def clickquit(self):
@@ -40,7 +44,11 @@ class FindGameScreen:
         cmd = self.chatinput.value
         logging.debug("Raw chat input: {}" .format(cmd))
         if cmd[:1] == "/": #determine if this is chat or server command
-            pass #need code to handle commands
+            cmd = cmd[1:]
+            testline = "You typed in: " + cmd
+            self.chatdoc.block(align=-1)
+            self.chatdoc.add(gui.Label(testline))
+            self.chatdoc.br(1)
         else: #not a command so send as chat to channel
             self.client.network.send("chat {} channel {}" .format(self.client.settings.playername, cmd))
         self.chatinput.value = "" #clearing text input for next chat
