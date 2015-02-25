@@ -27,6 +27,7 @@ class ClientState:
     def __init__(self):
         logging.debug("")
         self.runclient = True
+        self.playinggame = False
         self.settings = settings.Settings()
         self.settings.load_settings()
         self.network = network.Network()

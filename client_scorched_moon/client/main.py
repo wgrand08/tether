@@ -26,8 +26,8 @@ from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.018
-        stringversion = "0.01.8"
+        version = 0.019
+        stringversion = "0.01.9"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
@@ -149,7 +149,9 @@ class Main:
                     logging.warning("Server gave error: {}" .format(cmd_var))
                     self.client.popup("Server Error: {}" .format(cmd_var))
                 elif cmd == "chat":
-                    logging.debug("Chat recieved")
+                    if self.client.playinggame == False:
+                        fromuser, touser, chatline = cmd_var.split(" ", 2)
+                        self.client.display.getchat(fromuser, touser, chatline)
                 else:
                     logging.warning("Server gave unknown command: {}" .format(total_cmd))
 
