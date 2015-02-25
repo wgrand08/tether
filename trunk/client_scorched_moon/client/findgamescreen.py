@@ -45,10 +45,15 @@ class FindGameScreen:
         logging.debug("Raw chat input: {}" .format(cmd))
         if cmd[:1] == "/": #determine if this is chat or server command
             cmd = cmd[1:]
-            testline = "You typed in: " + cmd
-            self.chatdoc.block(align=-1)
-            self.chatdoc.add(gui.Label(testline))
-            self.chatdoc.br(1)
+            self.client.network.send(cmd)
+            notice = "Sent server command: " + cmd
+            self.chatdoc.add(gui.Label(notice))
         else: #not a command so send as chat to channel
             self.client.network.send("chat {} channel {}" .format(self.client.settings.playername, cmd))
         self.chatinput.value = "" #clearing text input for next chat
+
+    def getchat(self, fromuser, touser, chatline):
+        logging.debug("")
+        finalchat = fromuser + ": " + chatline
+        self.chatdoc.add(gui.Label(finalchat))
+        self.chatdoc.br(1)
