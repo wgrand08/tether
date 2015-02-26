@@ -28,7 +28,7 @@ class FindGameScreen:
         self.container = gui.Container(width=self.client.settings.screenwidth,height=self.client.settings.screenheight)
         self.chatinput = gui.Input(size=65)
         self.chatdoc = gui.Document(width=1, height=10)
-        self.chatscroll = gui.ScrollArea(self.chatdoc,width=600,height=100)
+        self.chatscroll = gui.ScrollArea(self.chatdoc,width=600,height=100,hscrollbar=False)
 
         self.chatinput.connect("activate", self.chatentered)
         self.container.add(self.chatinput, 10, 550)
@@ -47,13 +47,12 @@ class FindGameScreen:
             cmd = cmd[1:]
             self.client.network.send(cmd)
             notice = "Sent server command: " + cmd
-            self.chatdoc.add(gui.Label(notice))
+            self.chatmessage(notice)
         else: #not a command so send as chat to channel
             self.client.network.send("chat {} channel {}" .format(self.client.settings.playername, cmd))
         self.chatinput.value = "" #clearing text input for next chat
 
-    def getchat(self, fromuser, touser, chatline):
+    def chatmessage(self, message):
         logging.debug("")
-        finalchat = fromuser + ": " + chatline
-        self.chatdoc.add(gui.Label(finalchat))
+        self.chatdoc.add(gui.Label(message))
         self.chatdoc.br(1)
