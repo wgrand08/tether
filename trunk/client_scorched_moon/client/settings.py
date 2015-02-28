@@ -26,13 +26,13 @@ class Settings:
         logging.debug("")
         self.version = 0.00
         self.stringversion = "0.00.0"
-        self.settingsversion = 0.03 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.minsettingsversion = 0.21 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
         self.minserverversion = 0.037 #oldest version of scorched moon server the client is compatible with
         self.debug = True
         self.tetherdir = None
         self.loglevel = 4
         self.WINDOW_SIZE = self.screen_width,self.screen_height = 1024,768
-        self.playername = "testclient"
+        self.username = ""
         self.serveraddress = "127.0.0.1"
         self.serverport = 6112
         self.screenwidth = 800
@@ -42,15 +42,16 @@ class Settings:
         logging.debug("")
         logging.info("loading settings from settings.conf")
         badsettings = False
-        if os.path.exists("settings.conf"):
-            settingsfile=open("settings.conf", mode="r", encoding="utf-8")
+        settingsfile = os.path.join(self.tetherdir, "settings.cfg")
+        if os.path.exists(settingsfile):
+            settingsfile=open(settingsfile, mode="r", encoding="utf-8")
             for line in settingsfile:
                 line=line.strip()
                 if line == "" or line[0] == "#":
                     continue
                 input_array = line.split("=", 1)
                 if input_array[0].strip() == "version":
-                    if float(input_array[1].strip()) < self.settingsversion: #checking file version to avoid incompatibilities
+                    if float(input_array[1].strip()) < self.minsettingsversion: #checking file version to avoid incompatibilities
                         logging.info("Obsolete settings file detected Using defaults")
                         badsettings = True
 
@@ -59,6 +60,8 @@ class Settings:
                         self.debug = True
                 elif input_array[0].strip() == "loglevel":
                     self.loglevel = int(input_array[1].strip())
+                elif input_array[0].strip()=="username":
+                    self.username = input_array[1].strip()
                 else:
                     logging.warning("unidentified input in settings file")
                     badsettings = True
@@ -72,8 +75,10 @@ class Settings:
     def save_settings(self):
         logging.debug("")
         logging.info("saving settings to settings.conf")
-        settingsfile=open("settings.conf", mode="w", encoding="utf-8")
-        settingsfile.write("version="+str(version)+"\n")
+        settingsfile = os.path.join(self.tetherdir, "settings.cfg")
+        settingsfile=open(settingsfile, mode="w", encoding="utf-8")
+        settingsfile.write("version="+str(self.version)+"\n")
         settingsfile.write("debug="+str(self.debug)+"\n")
         settingsfile.write("loglevel="+str(self.loglevel)+"\n")
+        settingsfile.write("username="+str(self.username)+"\n")
 

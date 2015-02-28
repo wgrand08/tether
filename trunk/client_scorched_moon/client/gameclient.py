@@ -29,7 +29,6 @@ class ClientState:
         self.runclient = True
         self.playinggame = False
         self.settings = settings.Settings()
-        self.settings.load_settings()
         self.network = network.Network()
         self.display = []
 
@@ -61,7 +60,7 @@ class ClientState:
         if self.network.connected == "True":
             logincmd = "login " + self.settings.playername
             logging.debug("Logging in as: {}" .format(self.settings.playername))
-            self.network.send("login " + self.settings.playername)
+            self.network.send("login " + self.settings.username)
             self.display = findgamescreen.FindGameScreen(self)
         else:
             self.popup(self.network.connected)
