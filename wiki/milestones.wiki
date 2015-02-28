@@ -34,7 +34,7 @@ Version 0.1 to version 0.2 will focus on the map system. When done the server wi
   * server is capable of creating simple random maps
   * server is capable of loading custom premade maps
   * server is capable of sending custom map data to client
-  * client is capable of loading, parsing, and saving settings file
+  * ~~client is capable of loading, parsing, and saving settings file~~
   * client is capable of specifying custom game settings
   * client is capable of displaying map data
   * client is capable of dragging the map around so that the entire map can be seen
