@@ -26,8 +26,8 @@ from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.020
-        stringversion = "0.02.0"
+        version = 0.021
+        stringversion = "0.02.1"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
@@ -70,6 +70,7 @@ class Main:
         self.client.settings.version = version
         self.client.settings.stringversion = stringversion
         self.client.settings.tetherdir = tetherdir
+        self.client.settings.load_settings()
 
         if loglevel != 0: #arguments override settings file for logging
             self.client.settings.loglevel = loglevel
@@ -133,6 +134,10 @@ class Main:
         netthread.start()
 
         self.client.load_main_menu() #load main menu
+
+        if self.client.settings.username == "" or self.client.settings.username[:1] == " ": #user account popup
+            self.getname()
+
         pygame.display.set_caption("Scorched Moon ver. {}" .format(self.client.settings.stringversion))
         while self.client.runclient: # main client loop
             self.client.display.desktop.loop()
@@ -171,3 +176,29 @@ class Main:
                 self.client.network.receive()
             else:
                 pass
+
+    def getname(self): #no valid username so prompts for one
+        from .pgu import gui
+        poptitle = gui.Label("")
+        poptable = gui.Table(width=150, height=150)
+        self.popwindow = gui.Dialog(poptitle, poptable)
+        okaybutton = gui.Button("Okay")
+        self.inputname = gui.Input(size=25)
+        okaybutton.connect(gui.CLICK, self.adduser)
+        popupmessage = gui.Label("Please enter a username")
+        poptable.tr()
+        poptable.td(popupmessage,row=1)
+        poptable.td(self.inputname,row=2)
+        poptable.td(okaybutton,row=3)
+        self.popwindow.open()
+
+    def adduser(self): #applying new username
+        logging.debug("")
+        username = self.inputname.value
+        if username == "" or username[:1] == " ":
+            logging.warning("invalid username entered: {}" .format(self.inputname.value))
+            self.client.popup("Invalid username")
+        else:
+            self.client.settings.username = username
+            self.client.settings.save_settings()
+            self.popwindow.close()
