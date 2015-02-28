@@ -21,7 +21,7 @@ Up to version 0.1 we are working on the basic framework for both the server and 
   * ~~client is capable of launching with GUI interface~~
   * ~~client is capable of switching between screens~~
   * ~~client is capable of connecting to server~~
-  * client is capable of logging into server with username
+  * ~~client is capable of logging into server with username~~
   * ~~client is capable of sending and receiving basic chat commands~~
   * client is capable of displaying chat information so players can chat with each other
 
