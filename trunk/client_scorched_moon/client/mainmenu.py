@@ -28,7 +28,7 @@ class MainMenu:
         self.desktop.connect(gui.QUIT, self.clickquit)
         self.container = gui.Container(width=self.client.settings.screenwidth,height=self.client.settings.screenheight)
         self.button_table = gui.Table(width=self.client.settings.screenwidth,height=(self.client.settings.screenheight / 2))
-        self.server_label = gui.Label("Address:")
+        self.server_label = gui.Label("Address:",align=-1)
         self.server_input = gui.Input(value=self.client.settings.serveraddress, size=25)
         self.connect_button = gui.Button("Connect to Server")
         self.connect_button.connect(gui.CLICK, self.clickconnect)

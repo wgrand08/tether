@@ -52,7 +52,7 @@ class ClientState:
 
     def load_settings_screen(self): #loads settings screen
         logging.debug("")
-        self.display = findgamescreen.FindGameScreen(self)
+        self.display = settingsscreen.SettingsScreen(self)
 
     def load_connected_screen(self): #connecting to server
         logging.debug("")
