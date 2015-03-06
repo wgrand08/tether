@@ -26,8 +26,8 @@ from . import gameclient
 
 class Main:
     def __init__(self, debug, loglevel, skip):
-        version = 0.022
-        stringversion = "0.02.2"
+        version = 0.023
+        stringversion = "0.02.3"
 
         #figuring out directory for logs, settings, and save files
         tetherdir = os.getenv("HOME")
@@ -113,20 +113,21 @@ class Main:
         logging.critical("Pygame version: {}" .format(pygame.version.ver))
 
         #splashscreen
-        image = "data/graphics/misc/intro_splash.png"
-        screen = pygame.display.set_mode((550,550))
-        try:
-            splashScreen = pygame.image.load(image)
-        except pygame.error as message:
-            logging.warning("unable to open splash image")
-            skip = True
-        if skip == False:
-            pygame.display.set_caption("Scorched Moon {}" .format(self.client.settings.stringversion))
-            splashScreen = splashScreen.convert()
-            screen.blit(splashScreen, (0,0))
-            pygame.display.flip()
-            sleep(2)
-            pygame.display.quit()
+        if not self.client.settings.debug:
+            image = "data/graphics/misc/intro_splash.png"
+            screen = pygame.display.set_mode((550,550))
+            try:
+                splashScreen = pygame.image.load(image)
+            except pygame.error as message:
+                logging.warning("unable to open splash image")
+                skip = True
+            if skip == False:
+                pygame.display.set_caption("Scorched Moon {}" .format(self.client.settings.stringversion))
+                splashScreen = splashScreen.convert()
+                screen.blit(splashScreen, (0,0))
+                pygame.display.flip()
+                sleep(2)
+                pygame.display.quit()
 
 
         netthread = threading.Thread(target=self.checknet)
