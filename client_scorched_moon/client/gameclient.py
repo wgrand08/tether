@@ -62,6 +62,7 @@ class ClientState:
             logging.debug("Logging in as: {}" .format(self.settings.username))
             self.network.send("login " + self.settings.username)
             self.display = findgamescreen.FindGameScreen(self)
+            self.settings.savesettings()
         else:
             self.popup(self.network.connected)
 
