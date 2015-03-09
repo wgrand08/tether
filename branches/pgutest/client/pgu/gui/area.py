@@ -337,7 +337,7 @@ class ChatArea(table.Table):
 
     _widget = None
 
-    def __init__(self, widget, width=0, height=0, hscrollbar=True, vscrollbar=True,step=24, **params):
+    def __init__(self, width=0, height=0, hscrollbar=True, vscrollbar=True,step=24, **params):
         """ScrollArea constructor.
 
         Arguments:
@@ -348,6 +348,7 @@ class ChatArea(table.Table):
             step -- set to how far clicks on the icons will step 
 
         """
+        widget = gui.Document(width=1, height=10)
         w= widget
         params.setdefault('cls', 'scrollarea')
         table.Table.__init__(self, width=width,height=height,**params)
@@ -480,6 +481,11 @@ class ChatArea(table.Table):
         self._hscrollbar_changed(None)
 
     def downchat(self):
+        self.vscrollbar._click(1)
+        return True
+
+    def message(self, message):
+        
         self.vscrollbar._click(1)
         return True
 

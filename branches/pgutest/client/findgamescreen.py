@@ -27,13 +27,14 @@ class FindGameScreen:
         self.desktop.connect(gui.QUIT, self.clickquit)
         self.container = gui.Container(width=self.client.settings.screenwidth,height=self.client.settings.screenheight)
         self.chatinput = gui.Input(size=65)
-        self.chatdoc = gui.Document(width=1, height=10)
-        self.chatscroll = gui.ChatArea(self.chatdoc, width=600,height=100,hscrollbar=False)
+        self.chatdoc = gui.Document()
+        self.chatscroll = gui.ScrollArea(self.chatdoc, width=600,height=100,hscrollbar=False)
 
         self.chatinput.connect("activate", self.chatentered)
         self.container.add(self.chatinput, 10, 550)
         self.container.add(self.chatscroll, 10, 440)
         self.desktop.init(self.container)
+        self.chathistory = []
 
     def clickquit(self):
         logging.debug("")
@@ -54,7 +55,11 @@ class FindGameScreen:
 
     def chatmessage(self, message):
         logging.debug("")
-        self.chatdoc.add(gui.Label(message))
+        if len(self.chathistory) > 50: #system wipes old messages to save on memory
+            oldmessage = self.chathistory.pop(0)
+            self.chatdoc.remove(oldmessage)
+        self.chathistory.append(gui.Label(message))
+        self.chatdoc.add(self.chathistory[len(self.chathistory)-1])
         self.chatdoc.br(1)
         self.client.display.desktop.loop()
-        self.chatscroll.downchat()
+        self.chatscroll.set_vertical_scroll(5000)
