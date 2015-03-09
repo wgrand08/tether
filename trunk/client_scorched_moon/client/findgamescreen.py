@@ -34,6 +34,7 @@ class FindGameScreen:
         self.container.add(self.chatinput, 10, 550)
         self.container.add(self.chatscroll, 10, 440)
         self.desktop.init(self.container)
+        self.chathistory = []
 
     def clickquit(self):
         logging.debug("")
@@ -54,5 +55,12 @@ class FindGameScreen:
 
     def chatmessage(self, message):
         logging.debug("")
-        self.chatdoc.add(gui.Label(message))
+        if len(self.chathistory) > 50: #determines how far back to keep old chat messages
+            oldmessage = self.chathistory.pop(0)
+            self.chatdoc.remove(oldmessage) #removing old messages to save on memory
+        self.chathistory.append(gui.Label(message))
+        self.chatdoc.add(self.chathistory[len(self.chathistory)-1])
         self.chatdoc.br(1)
+        if self.chatscroll.hasfocus() != True: #do not scroll chat when window has focus
+            self.client.display.desktop.loop()
+            self.chatscroll.set_vertical_scroll(5000) #hack to force chat window to the bottom
