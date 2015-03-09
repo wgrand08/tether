@@ -26,7 +26,7 @@ class Settings:
         logging.debug("")
         self.version = 0.00
         self.stringversion = "0.00.0"
-        self.minsettingsversion = 0.21 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
+        self.minsettingsversion = 1.01 #oldest version of scorched moon settings file is compatible with remember to update this number when any changes are made to the way settings.conf is read or written to
         self.minserverversion = 0.037 #oldest version of scorched moon server the client is compatible with
         self.debug = True
         self.tetherdir = None
@@ -62,6 +62,8 @@ class Settings:
                     self.loglevel = int(input_array[1].strip())
                 elif input_array[0].strip()=="username":
                     self.username = input_array[1].strip()
+                elif input_array[0].strip()=="lastIP":
+                    self.serveraddress = input_array[1].strip()
                 else:
                     logging.warning("unidentified input in settings file")
                     badsettings = True
@@ -81,4 +83,4 @@ class Settings:
         settingsfile.write("debug="+str(self.debug)+"\n")
         settingsfile.write("loglevel="+str(self.loglevel)+"\n")
         settingsfile.write("username="+str(self.username)+"\n")
-
+        settingsfile.write("lastIP="+str(self.serveraddress)+"\n")
