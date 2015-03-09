@@ -58,8 +58,8 @@ class ClientState:
         logging.debug("")
         self.network.connectserver(self.settings.serveraddress, self.settings.serverport, self.settings.minserverversion)
         if self.network.connected == "True":
-            logincmd = "login " + self.settings.playername
-            logging.debug("Logging in as: {}" .format(self.settings.playername))
+            logincmd = "login " + self.settings.username
+            logging.debug("Logging in as: {}" .format(self.settings.username))
             self.network.send("login " + self.settings.username)
             self.display = findgamescreen.FindGameScreen(self)
         else:

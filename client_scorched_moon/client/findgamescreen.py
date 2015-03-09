@@ -49,7 +49,7 @@ class FindGameScreen:
             notice = "Sent server command: " + cmd
             self.chatmessage(notice)
         else: #not a command so send as chat to channel
-            self.client.network.send("chat {} channel {}" .format(self.client.settings.playername, cmd))
+            self.client.network.send("chat {} channel {}" .format(self.client.settings.username, cmd))
         self.chatinput.value = "" #clearing text input for next chat
 
     def chatmessage(self, message):
