@@ -127,6 +127,14 @@ class Widget(object):
         """Blur this Widget."""
         if self.container: self.container.blur(self)
 
+    def hasfocus(self):
+        """determine if specific widget has focus"""
+        if self.container:
+            if self.container.myfocus == self:
+                return True
+            else:
+                return False
+
     def open(self):
         """Open this widget as a modal dialog."""
         #if getattr(self,'container',None) != None: self.container.open(self)
