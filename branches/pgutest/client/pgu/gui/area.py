@@ -332,6 +332,175 @@ class ScrollArea(table.Table):
                      return True
          return False
 
+class ChatArea(table.Table):
+    """A scrollable area that scrolls down automatically."""
+
+    _widget = None
+
+    def __init__(self, widget, width=0, height=0, hscrollbar=True, vscrollbar=True,step=24, **params):
+        """ScrollArea constructor.
+
+        Arguments:
+            widget -- widget to be able to scroll around
+            width, height -- size of scrollable area.  Set either to 0 to default to size of widget.
+            hscrollbar -- set to False if you do not wish to have a horizontal scrollbar
+            vscrollbar -- set to False if you do not wish to have a vertical scrollbar
+            step -- set to how far clicks on the icons will step 
+
+        """
+        w= widget
+        params.setdefault('cls', 'scrollarea')
+        table.Table.__init__(self, width=width,height=height,**params)
+        
+        self.sbox = SlideBox(w, width=width, height=height, cls=self.cls+".content")
+        self.widget = w
+        self.vscrollbar = vscrollbar
+        self.hscrollbar = hscrollbar
+        
+        self.step = step
+
+    @property
+    def widget(self):
+        return self._widget
+
+    @widget.setter
+    def widget(self, val):
+        self._widget = val
+        self.sbox.widget = val
+
+    def resize(self,width=None,height=None):
+        widget = self.widget
+        box = self.sbox
+        
+        #self.clear()
+        table.Table.clear(self)
+        #print 'resize',self,self._rows
+        
+        self.tr()
+        self.td(box)
+        
+        widget.rect.w, widget.rect.h = widget.resize()
+        my_width,my_height = self.style.width,self.style.height
+        if not my_width:
+            my_width = widget.rect.w
+            self.hscrollbar = False
+        if not my_height:
+            my_height = widget.rect.h
+            self.vscrollbar = False
+        
+        box.style.width,box.style.height = my_width,my_height 
+        
+        box.rect.w,box.rect.h = box.resize()
+        
+        xt,xr,xb,xl  = pguglobals.app.theme.getspacing(box)
+        
+
+        if self.vscrollbar:
+            self.vscrollbar = slider.VScrollBar(box.offset[1],0, 65535, 0,step=self.step) 
+            self.td(self.vscrollbar)
+            self.vscrollbar.connect(CHANGE, self._vscrollbar_changed, None)
+            
+            vs = self.vscrollbar
+            vs.rect.w,vs.rect.h = vs.resize()
+            if self.style.width:
+                box.style.width = self.style.width - (vs.rect.w + xl+xr)
+
+        if self.hscrollbar:
+            self.hscrollbar = slider.HScrollBar(box.offset[0], 0,65535, 0,step=self.step)
+            self.hscrollbar.connect(CHANGE, self._hscrollbar_changed, None)
+            self.tr()
+            self.td(self.hscrollbar)
+            
+            hs = self.hscrollbar
+            hs.rect.w,hs.rect.h = hs.resize()
+            if self.style.height:
+                box.style.height = self.style.height - (hs.rect.h + xt + xb)
+            
+        if self.hscrollbar:
+            hs = self.hscrollbar
+            hs.min = 0
+            hs.max = widget.rect.w - box.style.width
+            hs.style.width = box.style.width
+            hs.size = hs.style.width * box.style.width / max(1,widget.rect.w)
+        else:
+            box.offset[0] = 0
+            
+        if self.vscrollbar:
+            vs = self.vscrollbar
+            vs.min = 0
+            vs.max = widget.rect.h - box.style.height
+            vs.style.height = box.style.height
+            vs.size = vs.style.height * box.style.height / max(1,widget.rect.h)
+        else:
+            box.offset[1] = 0
+            
+        #print self.style.width,box.style.width, hs.style.width
+            
+        r = table.Table.resize(self,width,height)
+        return r
+    
+    def x_resize(self, width=None, height=None):
+        w,h = table.Table.resize(self, width, height)
+        if self.hscrollbar:
+            if self.widget.rect.w <= self.sbox.rect.w:
+                self.hscrollbar.size = self.hscrollbar.style.width
+            else:
+                self.hscrollbar.size = max(20,self.hscrollbar.style.width * self.sbox.rect.w / self.widget.rect.w)
+            self._hscrollbar_changed(None)
+        if self.widget.rect.h <= self.sbox.rect.h: 
+            self.vscrollbar.size = self.vscrollbar.style.height
+        else:
+            self.vscrollbar.size = max(20,self.vscrollbar.style.height * self.sbox.rect.h / self.widget.rect.h)
+        self._vscrollbar_changed(None)
+        return w,h
+
+    def _vscrollbar_changed(self, xxx):
+        #y = (self.widget.rect.h - self.sbox.rect.h) * self.vscrollbar.value / 1000
+        #if y >= 0: self.sbox.offset[1] = -y
+        self.sbox.offset[1] = self.vscrollbar.value
+        self.sbox.reupdate()
+
+    def _hscrollbar_changed(self, xxx):
+        #x = (self.widget.rect.w - self.sbox.rect.w) * self.hscrollbar.value / 1000
+        #if x >= 0: self.sbox.offset[0] = -x
+        self.sbox.offset[0] = self.hscrollbar.value
+        self.sbox.reupdate()
+
+
+    def set_vertical_scroll(self, percents): 
+        #if not self.vscrollbar: return
+        if not hasattr(self.vscrollbar,'value'): return
+        self.vscrollbar.value = percents #min(max(percents*10, 0), 1000)
+        self._vscrollbar_changed(None)
+
+    def set_horizontal_scroll(self, percents): 
+        #if not self.hscrollbar: return
+        if not hasattr(self.hscrollbar,'value'): return
+        self.hscrollbar.value = percents #min(max(percents*10, 0), 1000)
+        self._hscrollbar_changed(None)
+
+    def downchat(self):
+        self.vscrollbar._click(1)
+        return True
+
+    def event(self, e):
+         #checking for event recipient
+         if (table.Table.event(self, e)):
+            return True
+
+         #mouse wheel scrolling
+         if self.vscrollbar:
+             if not hasattr(self.vscrollbar,'value'): 
+                 return False
+ 
+             if e.type == pygame.locals.MOUSEBUTTONDOWN:
+                 if e.button == 4: #wheel up
+                     self.vscrollbar._click(-1)
+                     return True
+                 elif e.button == 5: #wheel down
+                     self.vscrollbar._click(1)
+                     return True
+         return False
         
 
 
