@@ -61,6 +61,6 @@ class FindGameScreen:
         self.chathistory.append(gui.Label(message))
         self.chatdoc.add(self.chathistory[len(self.chathistory)-1])
         self.chatdoc.br(1)
-        if self.chatscroll.hasfocus() != True: #do not scroll chat when window has focus
+        if self.chatscroll.hasfocus() != True: #do not scroll chat when chat window has focus so players can scroll through old messages
             self.client.display.desktop.loop()
-            self.chatscroll.set_vertical_scroll(5000) #hack to force chat window to the bottom
+            self.chatscroll.set_vertical_scroll(5000) #force chat window to most recent message
